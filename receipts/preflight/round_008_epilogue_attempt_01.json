@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "status": "harness_failed_before_cuda",
+  "candidate_executed": false,
+  "ranking_eligible": false,
+  "plateau_hypothesis": false,
+  "reason": "The standalone microgate command initially omitted the immutable kernel staging path that the formal launcher always adds to PYTHONPATH.",
+  "error": "ModuleNotFoundError: No module named 'sgl_kernel'",
+  "exit_code": 1,
+  "correction": "Rerun with the exact formal launcher PYTHONPATH: runtime source, dependency overlay, and pinned kernel staging."
+}

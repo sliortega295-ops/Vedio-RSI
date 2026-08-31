@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "status": "passed",
+  "hypothesis": "Fuse the exact GLUMB SiLU-times-value epilogue with the pinned SGL AOT kernel and fuse both exact gated residual multiply-adds with torch.addcmul.",
+  "retained_frontier": {
+    "linear_attention_bf16": true,
+    "self_attention_qkv_merge": true,
+    "cross_attention_kv_cache": false
+  },
+  "lossless_contract": {
+    "checkpoint_glumb_order": "[value, gate]",
+    "aot_glumb_order": "[gate, value]",
+    "mapping": "After checkpoint load and the model-wide BF16 cast, swap the two output-channel halves of conv_inverted weights and bias and apply the same swap to the independent depthwise conv weights and bias. This yields [gate, value] while leaving each original channel's convolution unchanged.",
+    "formula_before": "value * SiLU(gate)",
+    "formula_after": "silu_and_mul([gate, value])",
+    "residual_before": "hidden + gate * branch",
+    "residual_after": "torch.addcmul(hidden, gate, branch)",
+    "dtype": "torch.bfloat16 throughout the DiT path",
+    "rounding": "The fused kernels preserve the formula but can round once instead of between primitive BF16 operators; this is allowed kernel-level BF16 ordering, not an approximation or work skip.",
+    "off_path": "When SGLANG_SANA_BLOCK_EPILOGUE_FUSION is not enabled, the checkpoint parameters are not permuted and both original Python expressions execute verbatim.",
+    "lifecycle": "The channel permutation runs exactly once from post_load_weights after checkpoint load and BF16 conversion. A second call fails closed. The transformer remains resident for the run.",
+    "layout": "The formal Conv2d output is channels-last NCHW; permuting it to NHWC is a contiguous view accepted by the AOT kernel, with no materializing copy.",
+    "logical_work": "No convolution, SiLU formula, residual formula, attention, token, block, model-call, CFG branch, or denoising step is removed."
+  },
+  "formal_counts": {
+    "denoising_steps": 50,
+    "cfg_branches_per_step": 2,
+    "dit_calls": 100,
+    "transformer_blocks_per_call": 20,
+    "block_calls": 2000,
+    "glumb_calls": 2000,
+    "gated_residual_calls": 4000,
+    "attention_calls": 2000,
+    "removed_cuda_launches": 6000
+  },
+  "pinned_source": {
+    "candidate_sana_video_sha256": "b39104fbce1292d88a9c6f70c9ce98ab3d0e51308205c6292656c1e7804f907d",
+    "config_sha256": "07dd21f8d044e982b4ef113b2ed641feb6691c97f9abd9222e0dfe4900b6d599",
+    "probe_source_sha256": "77bedc4d40bcbd7ff1f49d02a0938835c151835e9d0dfea39e9386893e3285a0",
+    "probe_result_sha256": "10c06b4ef4a64c7b629b84388c77afab56a0a5655e9ce69d905b0df2b5bbdd74",
+    "kernel_staging": "/home/jiangzhikun/yongyan_liu/Experiments/SolAgent/20260827-official-repro/baseline/staging/sglang-build001-clean-v2",
+    "sgl_kernel_init_sha256": "ef5a61246f701f57ec5a95f57c86f8c00121ccf7905e713897e9b43f386c53fc",
+    "sgl_kernel_elementwise_sha256": "7f34d1ad6a24efd7d707794fea63779f42e944911748210e1e1bd69f78d90e87"
+  },
+  "microgate": {
+    "gpu_uuid": "GPU-847305ce-670b-91ee-e0a9-aa3b7833df23",
+    "bounded_full_module_max_abs_bf16": 0.00048828125,
+    "formal_glumb_native_ms": 1.2769536018371581,
+    "formal_glumb_fused_ms": 0.43098878860473633,
+    "formal_glumb_speedup": 2.9628464489090542,
+    "formal_residual_native_ms": 0.3396735906600952,
+    "formal_residual_addcmul_ms": 0.2283328056335449,
+    "formal_residual_speedup": 1.4876250029758886,
+    "deepgemm_traceback": "Optional DeepGEMM import failed and was disabled; it is unrelated to these pinned AOT/common PyTorch operators."
+  }
+}

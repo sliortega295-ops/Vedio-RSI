@@ -386,6 +386,48 @@ class GLUMBTempConv(nn.Module):
         self.conv_temp = nn.Conv2d(
             out_channels, out_channels, kernel_size=(3, 1), stride=1, padding=(1, 0), bias=False
         )
+        self._fused_gate = os.environ.get(
+            "SGLANG_SANA_BLOCK_EPILOGUE_FUSION", "0"
+        ) in ("1", "true", "True")
+        self._fused_gate_ready = False
+
+    def build_fused_gate(self):
+        """Put gate channels first for the AOT SiLU-and-mul epilogue.
+
+        conv_depth is depthwise, so applying the same half-swap to the output
+        channels of conv_inverted and to conv_depth's independent channel
+        weights/biases preserves every channel value. The fused kernel expects
+        [gate, value] while the checkpoint stores [value, gate].
+        """
+        if not self._fused_gate:
+            return
+        if self._fused_gate_ready:
+            raise RuntimeError("SANA GLUMB fused gate was initialized twice")
+        channels = self.conv_inverted.out_channels
+        if (
+            channels % 2
+            or self.conv_depth.in_channels != channels
+            or self.conv_depth.out_channels != channels
+            or self.conv_depth.groups != channels
+            or self.conv_inverted.bias is None
+            or self.conv_depth.bias is None
+        ):
+            raise RuntimeError("SANA GLUMB fused gate requires two equal bias-bearing depthwise halves")
+        half = channels // 2
+        order = torch.cat(
+            (
+                torch.arange(half, channels, device=self.conv_inverted.weight.device),
+                torch.arange(0, half, device=self.conv_inverted.weight.device),
+            )
+        )
+        with torch.no_grad():
+            self.conv_inverted.weight.copy_(
+                self.conv_inverted.weight.index_select(0, order)
+            )
+            self.conv_inverted.bias.copy_(self.conv_inverted.bias.index_select(0, order))
+            self.conv_depth.weight.copy_(self.conv_depth.weight.index_select(0, order))
+            self.conv_depth.bias.copy_(self.conv_depth.bias.index_select(0, order))
+        self._fused_gate_ready = True
 
     def forward(self, hidden_states):
         # hidden_states: [B, F, H, W, C]
@@ -397,8 +439,19 @@ class GLUMBTempConv(nn.Module):
         hidden_states = self.conv_inverted(hidden_states)
         hidden_states = self.nonlinearity(hidden_states)
         hidden_states = self.conv_depth(hidden_states)
-        hidden_states, gate = torch.chunk(hidden_states, 2, dim=1)
-        hidden_states = hidden_states * self.nonlinearity(gate)
+        if self._fused_gate_ready:
+            # Conv2d preserves the channels-last layout of the NHWC-origin input;
+            # this permute is therefore a contiguous view, not a tensor copy.
+            hidden_states = hidden_states.permute(0, 2, 3, 1)
+            if not hidden_states.is_contiguous():
+                raise RuntimeError("SANA fused GLUMB gate requires channels-last Conv2d output")
+            from sgl_kernel import silu_and_mul
+
+            hidden_states = silu_and_mul(hidden_states)
+            hidden_states = hidden_states.permute(0, 3, 1, 2)
+        else:
+            hidden_states, gate = torch.chunk(hidden_states, 2, dim=1)
+            hidden_states = hidden_states * self.nonlinearity(gate)
         hidden_states = self.conv_point(hidden_states)
 
         # Temporal aggregation
@@ -462,6 +515,9 @@ class SanaVideoTransformerBlock(nn.Module):
 
         self.ff = GLUMBTempConv(dim, dim, expand_ratio=mlp_ratio)
         self.scale_shift_table = nn.Parameter(torch.randn(6, dim) / dim**0.5)
+        self._fused_epilogues = os.environ.get(
+            "SGLANG_SANA_BLOCK_EPILOGUE_FUSION", "0"
+        ) in ("1", "true", "True")
 
     def forward(
         self,
@@ -486,7 +542,10 @@ class SanaVideoTransformerBlock(nn.Module):
         norm_hidden_states = norm_hidden_states * (1 + scale_msa) + shift_msa
         norm_hidden_states = norm_hidden_states.to(hidden_states.dtype)
         attn_output = self.attn1(norm_hidden_states, rotary_emb=rotary_emb)
-        hidden_states = hidden_states + gate_msa * attn_output
+        if self._fused_epilogues:
+            hidden_states = torch.addcmul(hidden_states, gate_msa, attn_output)
+        else:
+            hidden_states = hidden_states + gate_msa * attn_output
 
         # 2. Cross attention (softmax)
         attn_output = self.attn2(
@@ -502,7 +561,10 @@ class SanaVideoTransformerBlock(nn.Module):
         norm_hidden_states = norm_hidden_states.unflatten(1, (frames, height, width))
         ff_output = self.ff(norm_hidden_states)
         ff_output = ff_output.flatten(1, 3)
-        hidden_states = hidden_states + gate_mlp * ff_output
+        if self._fused_epilogues:
+            hidden_states = torch.addcmul(hidden_states, gate_mlp, ff_output)
+        else:
+            hidden_states = hidden_states + gate_mlp * ff_output
 
         return hidden_states
 
@@ -744,6 +806,9 @@ class SanaVideoTransformer3DModel(CachableDiT, LayerwiseOffloadableModuleMixin):
             attn1 = getattr(blk, "attn1", None)
             if attn1 is not None and hasattr(attn1, "build_qkv_merge"):
                 attn1.build_qkv_merge()
+            ff = getattr(blk, "ff", None)
+            if ff is not None and hasattr(ff, "build_fused_gate"):
+                ff.build_fused_gate()
 
     def forward(
         self,

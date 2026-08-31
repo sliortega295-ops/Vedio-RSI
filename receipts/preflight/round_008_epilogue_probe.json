@@ -1,0 +1,74 @@
+{
+  "bounded_full_module": {
+    "assert_close": {
+      "atol": 0.001,
+      "rtol": 0.02
+    },
+    "input_shape": [
+      1,
+      3,
+      4,
+      5,
+      32
+    ],
+    "max_abs_diff_bf16": 0.00048828125,
+    "weight_half_swap_and_depthwise_mapping_passed": true
+  },
+  "formal_gate_shape": {
+    "aot_fused_ms": 0.43098878860473633,
+    "assert_close": {
+      "atol": 0.0625,
+      "rtol": 0.02
+    },
+    "exact_equal": false,
+    "max_abs_diff_bf16": 0.0625,
+    "native_ms": 1.2769536018371581,
+    "nchw": [
+      21,
+      13440,
+      30,
+      52
+    ],
+    "nhwc_view_contiguous": true,
+    "speedup": 2.9628464489090542
+  },
+  "formal_residual_shape": {
+    "addcmul_ms": 0.2283328056335449,
+    "assert_close": {
+      "atol": 0.125,
+      "rtol": 0.02
+    },
+    "exact_equal": false,
+    "gate": [
+      1,
+      1,
+      2240
+    ],
+    "max_abs_diff_bf16": 0.125,
+    "native_ms": 0.3396735906600952,
+    "speedup": 1.4876250029758886,
+    "value": [
+      1,
+      32760,
+      2240
+    ]
+  },
+  "gpu": {
+    "index": 7,
+    "memory_total_mib": 81559,
+    "memory_used_mib": 0,
+    "name": "NVIDIA H100 80GB HBM3",
+    "utilization_gpu_percent": 0,
+    "uuid": "GPU-847305ce-670b-91ee-e0a9-aa3b7833df23"
+  },
+  "lease_uuid": "GPU-847305ce-670b-91ee-e0a9-aa3b7833df23",
+  "logical_counts": {
+    "aot_gate_calls": 2000,
+    "block_calls": 2000,
+    "gated_residual_calls": 4000,
+    "removed_cuda_launches": 6000
+  },
+  "schema_version": 1,
+  "status": "passed",
+  "torch": "2.11.0+cu128"
+}
