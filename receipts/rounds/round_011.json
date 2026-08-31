@@ -1,0 +1,161 @@
+{
+  "schema_version": 1,
+  "component": "kernel",
+  "round": 11,
+  "hypothesis": "Retain the confirmed Round 10 BF16, QKV, block-epilogue, and modulation frontier, then fuse each affine-free LayerNorm with its resolved scale-shift modulation by compile-time specializing the repository Triton select01 kernel without selection or gate output.",
+  "session": {
+    "agent_id": "/root/sol_video_reproducer/kernel_executor",
+    "prompt_sha256": "b406128240c2e097550aa62333aa8ef2a85d5e45540c9c65b49aefa260a08072"
+  },
+  "provenance": {
+    "baseline_sha256": "3fdafdf00554ae4bafc91bc7729c3ba3e96af4edebac809782e6d6122ed23954",
+    "parent_sha": "f5cb5a3e5df09dc970ef48357519f87d988b4a43",
+    "candidate_commit": "584df8ff00359d0c8e59e68f33d1fa678cd61996",
+    "config_path": "config/sana_video_2b_h100/kernel_r11_bf16_qkv_epilogue_norm_modulation_fusion.toml",
+    "config_sha256": "2564dbe0a3b593344b64c34b8ecb4ca9e714e82fc81dcc51d05785ba575234bf",
+    "implementation_path": "external/sol_runtime/python/sglang/multimodal_gen/runtime/models/dits/sana_video.py",
+    "implementation_sha256": "e27a49411da344c8120696ad152909535870bb80d869ed8a51e490606fc58448",
+    "kernel_source_path": "external/sol_runtime/python/sglang/jit_kernel/diffusion/triton/scale_shift.py",
+    "kernel_source_sha256": "66ec10708998aed08bd8e3b07570a74bdf14e3999b3c75e592864e3276988773",
+    "semantics_receipt_path": "receipts/preflight/round_011_norm_modulation_semantics.json",
+    "semantics_receipt_sha256": "70a4b6f57c68fc495d1766dbbf47fb7b4f3b89677b69f6c410c43344a2815517",
+    "probe_source_path": "receipts/preflight/round_011_norm_modulation_probe.py",
+    "probe_source_sha256": "b49087f0f17dde998260c2e2114517ec6689f716ae912198f4b592ae0ef00ead",
+    "probe_result_path": "receipts/preflight/round_011_norm_modulation_probe.json",
+    "probe_result_sha256": "3ca9aa3f037b145ffddcd3ce9d21c595aeae8bd4c6613463aa25632bf3c4d933",
+    "cutedsl_rejection_path": "receipts/preflight/round_011_cutedsl_rejection.json",
+    "cutedsl_rejection_sha256": "b8e5247fc91bca88023ff004bec077839f1a12208e2708357fef6a44579f78c1",
+    "authenticity_receipt_path": "receipts/rounds/round_011_authenticity.json",
+    "authenticity_receipt_sha256": "a71412af9612a6bc814e02c154a4f06b696376f84d4b325a11c9bee4f3200eb8",
+    "genuinely_different_hypothesis": true
+  },
+  "build": {
+    "status": "passed",
+    "marker": "BUILD_OK (compile=False, warmup=True)",
+    "transformer_load_dtype": "torch.bfloat16",
+    "resident_transformer_size_gb": 3.83,
+    "consumed_gpu_memory_after_transformer_load_gb": 4.57,
+    "preflight": {
+      "status": "passed",
+      "formal_shape": [1, 32760, 2240],
+      "formal_stride": [73382400, 2240, 1],
+      "max_abs_bf16": 0.125,
+      "msa_current_r10_ms": 0.24558000266551971,
+      "msa_candidate_ms": 0.11700800061225891,
+      "msa_speedup": 2.098830860970975,
+      "mlp_current_r10_ms": 0.24460400640964508,
+      "mlp_candidate_ms": 0.11596400290727615,
+      "mlp_speedup": 2.1093097881868426,
+      "first_block_strided_current_ms": 0.8273400068283081,
+      "first_block_strided_candidate_ms": 0.6933079957962036,
+      "first_block_strided_speedup": 1.193322465404687,
+      "removed_cuda_launches_per_formal_run": 4000,
+      "materialized_gate_output": false
+    },
+    "note": "The exact specialized Triton kernel, first-block strided boundary, unchanged broadcast gate/addcmul path, and existing select01 regression all passed on the leased H100. The full model build passed. The known optional DeepGEMM diagnostic remained non-fatal."
+  },
+  "run": {
+    "status": "validated",
+    "command": "/home/jiangzhikun/yongyan_liu/Experiments/SolAgent/20260827-official-repro/envs/sana-cu128-phase0/bin/python scripts/launch_config.py config/sana_video_2b_h100/kernel_r11_bf16_qkv_epilogue_norm_modulation_fusion.toml --mode local --run-root runs --name-suffix r11-norm-modulation-fusion",
+    "cwd": "/home/jiangzhikun/yongyan_liu/Experiments/SolAgent/20260831-sana-video-2b-full-exploration/artifacts/executors/sana2b-kernel_aw-0001/worktree",
+    "run_dir": "runs/20260831-145617-sana_video_2b_h100_kernel_r11_bf16_qkv_epilogue_norm_modulation_fusion-r11-norm-modulation-fusion",
+    "gpu_uuid": "GPU-847305ce-670b-91ee-e0a9-aa3b7833df23",
+    "returncode": 0,
+    "baseline_total_s": 61.7,
+    "total_s": 47.0,
+    "log_total_s": 47.01,
+    "single_run_speedup": 1.3127659574468085,
+    "process_wall_s": 94.43815523013473,
+    "warmup_request_s": 6.55,
+    "warmed_request_s": 39.46,
+    "denoising_s": 36.0336,
+    "denoising_average_per_step_s": 0.7206,
+    "text_encoding_s": 0.3705,
+    "decoding_s": 3.0532,
+    "peak_memory_mib": 17514,
+    "nvidia_smi_sampled_peak_mib": 23065,
+    "baseline_peak_memory_mib": 17770,
+    "round3_memory_frontier_mib": 16814,
+    "round9_round10_frontier_median_total_s": 46.85,
+    "round9_round10_frontier_median_warmup_s": 5.97,
+    "round9_round10_frontier_median_warmed_request_s": 39.925,
+    "round9_round10_frontier_median_denoising_s": 36.50215,
+    "comparison_to_confirmed_frontier": {
+      "total_regression_percent": 0.32017075773745696,
+      "warmup_delta_s": 0.58,
+      "warmed_request_improvement_percent": 1.1646837820914124,
+      "denoising_improvement_percent": 1.283623019465978,
+      "runtime_peak_delta_mib": 0,
+      "interpretation": "The controlling frozen total is a noise-scale 0.15 seconds slower than the confirmed R9/R10 median, while warmed request and denoising improve by about 0.47 seconds. The new Triton specialization adds first-process warmup, so one exact hot-cache confirmation is warranted; R11 is not yet promoted."
+    },
+    "timing_scope": "warm_single_prompt_gen.generate_including_text_encoder_denoise_vae_decode_and_video_write_excluding_model_load_and_one_step_warmup",
+    "timing_scope_caveat": "The legacy label says warmup excluded, but the controlling total_s follows the outer GENERATE_OK/Pixel-data interval and empirically includes the one-step warmup. Selection uses total_s exactly as frozen; internal stages are supporting evidence only.",
+    "benchmark_sha256": "edc78a81fc73a9bd362b91aa92a80ab0ae6823728f1c5bfe1341b174e629584e",
+    "collection_sha256": "ab815a8a33a9fe8fa7fccf1494336af5152d363a29d2e55262fdebbe9e0d6a27",
+    "quality_sha256": "9449e4b19c031d6790b7a6b2c3e4b1b2f42daec5f6b0fd9766f75f3e6510f4ce",
+    "run_config_sha256": "a6c8508fb728e912bc269cdce86a87883c30c2aecab91963414871bcefced4d6",
+    "log_sha256": "fa409eaf60c01496a92fc4f4b17fffb629518fba632ecd68c3e856df4091e071",
+    "launch_sha256": "e019729f8fedee76d765acc2f937b8bebd3face391482108e268e89d5d086eb5",
+    "manifest_sha256": "6232cf3d4fc99b20c626e57f1d13fd4d6b141b07fd5734434841810a70af9198",
+    "assessment": {
+      "collector_status": "VALIDATED",
+      "independent_validator_status": "not_invoked_by_overlay",
+      "tool_limitation": "The overlay wrapper, frozen source/workload, ffprobe, and authenticity gates control. No lossy quality or independent validator gate was run."
+    }
+  },
+  "validity": {
+    "status": "validated",
+    "method_semantics": "At both original sites the enabled path computes the same affine-free FP32 LayerNorm statistics with eps=1e-6 and then x*(1+scale)+shift in one specialized Triton program. Compile-time flags remove only unused binary selection and gate output; the original broadcast gate and addcmul remain unchanged.",
+    "structural_invariants": {
+      "denoising_steps": 50,
+      "cfg_branches_per_step": 2,
+      "logical_dit_calls": 100,
+      "transformer_blocks_per_call": 20,
+      "linear_attention_invocations": 2000,
+      "cross_attention_invocations": 2000,
+      "glumb_invocations": 2000,
+      "norm_modulation_invocations": 4000,
+      "gated_residual_invocations": 4000,
+      "video_tokens_per_invocation": 32760,
+      "skipped_or_reused_model_work": 0,
+      "world_size": 1
+    },
+    "rounding_evidence": {
+      "bit_identity_claimed": false,
+      "formal_max_abs_bf16": 0.125,
+      "interpretation": "The formula, FP32 normalization computation, eps, and BF16 model contract are unchanged. Fusion removes a BF16 store/reload boundary, so output hashes may differ under admitted kernel-ordering rounding."
+    },
+    "video": {
+      "path": "runs/20260831-145617-sana_video_2b_h100_kernel_r11_bf16_qkv_epilogue_norm_modulation_fusion-r11-norm-modulation-fusion/outputs/out.mp4",
+      "sha256": "faff021639f107d588c02a28d0f318454f944b3273cbbd9ddffe173d1b12cc83",
+      "bytes": 517853,
+      "width": 832,
+      "height": 480,
+      "frames": 81,
+      "fps": 16,
+      "duration_s": 5.0625
+    },
+    "frames": [
+      {
+        "path": "runs/20260831-145617-sana_video_2b_h100_kernel_r11_bf16_qkv_epilogue_norm_modulation_fusion-r11-norm-modulation-fusion/outputs/frames/frame_01.png",
+        "sha256": "dbf07721a7dd274b670b3a6423d14ad7f7b386eb66678d7c9484094494b43043"
+      },
+      {
+        "path": "runs/20260831-145617-sana_video_2b_h100_kernel_r11_bf16_qkv_epilogue_norm_modulation_fusion-r11-norm-modulation-fusion/outputs/frames/frame_02.png",
+        "sha256": "7505c0e4bad38d85201c0875e30e48774c96f6874b4cdc402d8f16d4f87a48b6"
+      },
+      {
+        "path": "runs/20260831-145617-sana_video_2b_h100_kernel_r11_bf16_qkv_epilogue_norm_modulation_fusion-r11-norm-modulation-fusion/outputs/frames/frame_03.png",
+        "sha256": "64da32fd7524f1bdc8fb94d670346787ac0f7ec1db90b23f8cf5f36cb2ed6cee"
+      }
+    ],
+    "visual_note": "Authenticity-only inspection passed: first/middle/last frames are coherent fixed-prompt forest portraits with consistent subject and plausible pose/light/flare progression; no blank, corrupt, or mismatched artifact and no quality/output-difference gate."
+  },
+  "decision": {
+    "outcome": "retry",
+    "frontier_status": "valid_distinct_frozen_total_miss_pending_hot_confirmation",
+    "plateau_eligible": true,
+    "post_best_distinct_no_improvement_count": 1,
+    "reason": "R11 is a valid genuinely distinct frozen-total miss at 47.0 seconds versus the confirmed R9/R10 median of 46.85, so it is post-frontier no-improvement #1 provisionally. Its warmed request and denoising path improve by about 0.47 seconds while new-specialization warmup rises by 0.58 seconds. Preserve the miss, keep R9/R10 as the current frontier, and run one identical hot-cache confirmation as R12; the confirmation is non-distinct and will not increment plateau accounting."
+  }
+}
