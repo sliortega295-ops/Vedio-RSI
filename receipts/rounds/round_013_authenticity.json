@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "component": "kernel",
+  "round": 13,
+  "status": "passed",
+  "scope": "authenticity_only",
+  "run_dir": "runs/20260831-155235-sana_video_2b_h100_kernel_r13_bf16_qkv_epilogue_norm_modulation_paired_rope-r13-paired-rope",
+  "video": {
+    "path": "runs/20260831-155235-sana_video_2b_h100_kernel_r13_bf16_qkv_epilogue_norm_modulation_paired_rope-r13-paired-rope/outputs/out.mp4",
+    "sha256": "fb8f3dfe37823a2d96fccaa4d6d0e56037dc5256ef3d770231414c3846cd17e3",
+    "bytes": 518337,
+    "width": 832,
+    "height": 480,
+    "frames": 81,
+    "fps": 16.0,
+    "duration_s": 5.0625
+  },
+  "frames": [
+    {
+      "position": "first",
+      "path": "runs/20260831-155235-sana_video_2b_h100_kernel_r13_bf16_qkv_epilogue_norm_modulation_paired_rope-r13-paired-rope/outputs/frames/frame_01.png",
+      "sha256": "fa5c8422f74f4fb16aa823eb6e08bfac74adc2d8eddb054e2012ae933ee89573",
+      "bytes": 644046
+    },
+    {
+      "position": "middle",
+      "path": "runs/20260831-155235-sana_video_2b_h100_kernel_r13_bf16_qkv_epilogue_norm_modulation_paired_rope-r13-paired-rope/outputs/frames/frame_02.png",
+      "sha256": "311c1777b4adb200b3ce65c62e62b053e978949aecf2490d4674ae3e007058ed",
+      "bytes": 710392
+    },
+    {
+      "position": "last",
+      "path": "runs/20260831-155235-sana_video_2b_h100_kernel_r13_bf16_qkv_epilogue_norm_modulation_paired_rope-r13-paired-rope/outputs/frames/frame_03.png",
+      "sha256": "0272d95bc0ef36621ea5e86d6a7fbb6cd97c2f5dc29d733ea74317a89ba6eeef",
+      "bytes": 646130
+    }
+  ],
+  "inspection": {
+    "observed": "The beginning, middle, and final sampled frames show a coherent sunlit forest portrait with stable human geometry, consistent subject/background, and no obvious blank output, corruption, tearing, or catastrophic temporal discontinuity. The modest head/lighting evolution is plausible across the three samples.",
+    "excluded": "This is a lightweight validity/authenticity inspection only. No VBench, LPIPS, blind comparison, independent validator, or quality-improvement claim was run."
+  },
+  "hash_interpretation": "The changed hashes versus Round 12 are expected from admitted BF16 fusion-boundary rounding. Hash difference is not itself a quality signal."
+}
