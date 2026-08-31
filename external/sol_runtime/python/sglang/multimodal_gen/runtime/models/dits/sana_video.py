@@ -32,6 +32,7 @@ from sglang.jit_kernel.diffusion.triton.scale_shift import (
     fuse_scale_shift_kernel,
 )
 from sglang.jit_kernel.diffusion.triton.sana_rope import (
+    apply_sana_fused_qk_norm_relu_rotary_emb,
     apply_sana_paired_rotary_emb,
 )
 from sglang.multimodal_gen.configs.models.dits.sana_video import SanaVideoConfig
@@ -231,6 +232,9 @@ class SanaVideoLinearAttention(nn.Module):
             "true",
             "True",
         )
+        self._fused_qknorm_relu_rope = os.environ.get(
+            "SGLANG_SANA_FUSED_QKNORM_RELU_ROPE", "0"
+        ) in ("1", "true", "True")
 
     def build_qkv_merge(self):
         if not self._qkv_merge:
@@ -250,26 +254,45 @@ class SanaVideoLinearAttention(nn.Module):
             key = self.to_k(hidden_states)
             value = self.to_v(hidden_states)
 
-        if self.norm_q is not None:
-            query = self.norm_q(query)
-        if self.norm_k is not None:
-            key = self.norm_k(key)
-
-        # B, N, H, C
-        query = query.unflatten(2, (self.num_heads, -1))
-        key = key.unflatten(2, (self.num_heads, -1))
-        value = value.unflatten(2, (self.num_heads, -1))
-
-        query = F.relu(query)
-        key = F.relu(key)
-
-        if self._paired_rope:
-            query_rotate, key_rotate = apply_sana_paired_rotary_emb(
-                query, key, *rotary_emb
+        if self._fused_qknorm_relu_rope:
+            if self._qkv_w is None or self.norm_q is None or self.norm_k is None:
+                raise RuntimeError(
+                    "fused SANA Q/K norm-RoPE requires merged QKV and both Q/K norms"
+                )
+            if self.norm_q.variance_epsilon != self.norm_k.variance_epsilon:
+                raise RuntimeError("fused SANA Q/K norm-RoPE requires matching eps")
+            query, key, query_rotate, key_rotate = (
+                apply_sana_fused_qk_norm_relu_rotary_emb(
+                    query,
+                    key,
+                    self.norm_q.weight,
+                    self.norm_k.weight,
+                    *rotary_emb,
+                    eps=float(self.norm_q.variance_epsilon),
+                )
             )
         else:
-            query_rotate = _apply_rotary_emb(query, *rotary_emb)
-            key_rotate = _apply_rotary_emb(key, *rotary_emb)
+            if self.norm_q is not None:
+                query = self.norm_q(query)
+            if self.norm_k is not None:
+                key = self.norm_k(key)
+
+            # B, N, H, C
+            query = query.unflatten(2, (self.num_heads, -1))
+            key = key.unflatten(2, (self.num_heads, -1))
+            query = F.relu(query)
+            key = F.relu(key)
+
+            if self._paired_rope:
+                query_rotate, key_rotate = apply_sana_paired_rotary_emb(
+                    query, key, *rotary_emb
+                )
+            else:
+                query_rotate = _apply_rotary_emb(query, *rotary_emb)
+                key_rotate = _apply_rotary_emb(key, *rotary_emb)
+
+        # B, N, H, C
+        value = value.unflatten(2, (self.num_heads, -1))
 
         # B, H, C, N
         query = query.permute(0, 2, 3, 1)

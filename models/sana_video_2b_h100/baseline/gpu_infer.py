@@ -115,6 +115,9 @@ def _optimization_knobs() -> dict[str, object]:
         "linear_attention_bf16": _bool_env("SANA_ENABLE_LINATTN_BF16"),
         "qkv_merge": _bool_env("SANA_ENABLE_QKV_MERGE"),
         "paired_rope": _bool_env("SGLANG_SANA_PAIRED_ROPE"),
+        "fused_qknorm_relu_rope": _bool_env(
+            "SGLANG_SANA_FUSED_QKNORM_RELU_ROPE"
+        ),
         "easycache_threshold": easycache,
         "warmup_disabled": _bool_env("SANA_DISABLE_WARMUP"),
     }
