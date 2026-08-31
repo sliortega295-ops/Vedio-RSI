@@ -80,6 +80,17 @@ class SanaVideo2BH100ContractTest(unittest.TestCase):
                         with guard.locked_idle_lease(lease_file):
                             pass
 
+    def test_uuid_lease_resolves_to_verified_index_for_archived_runtime(self) -> None:
+        infer = _load_module("sana_gpu_infer_visibility", BASELINE / "gpu_infer.py")
+        gpu = {"uuid": "GPU-test-uuid", "index": 7}
+        self.assertEqual(infer._runtime_visible_device("GPU-test-uuid", gpu), "7")
+        with self.assertRaisesRegex(RuntimeError, "does not match"):
+            infer._runtime_visible_device("GPU-other", gpu)
+        with self.assertRaisesRegex(RuntimeError, "invalid host index"):
+            infer._runtime_visible_device(
+                "GPU-test-uuid", {"uuid": "GPU-test-uuid", "index": "7"}
+            )
+
     def test_dense_control_rejects_every_exposed_optimization(self) -> None:
         infer = _load_module("sana_gpu_infer", BASELINE / "gpu_infer.py")
         dense_env = {

@@ -68,6 +68,18 @@ def _required_env(name: str) -> str:
     return value
 
 
+def _runtime_visible_device(gpu_uuid: str, gpu: dict[str, object]) -> str:
+    """Resolve a UUID lease to the verified host index expected by old SGLang."""
+    if gpu.get("uuid") != gpu_uuid:
+        raise RuntimeError(
+            f"leased GPU UUID {gpu_uuid} does not match live GPU receipt {gpu.get('uuid')}"
+        )
+    index = gpu.get("index")
+    if isinstance(index, bool) or not isinstance(index, int) or index < 0:
+        raise RuntimeError(f"live GPU receipt has invalid host index: {index!r}")
+    return str(index)
+
+
 def _bool_env(name: str, default: bool = False) -> bool:
     raw = os.environ.get(name)
     if raw is None:
@@ -379,7 +391,13 @@ def main() -> int:
     )
 
     with locked_idle_lease(lease_file) as (lease, gpu_before):
-        child_env["CUDA_VISIBLE_DEVICES"] = lease.gpu_uuid
+        # CUDA itself accepts a UUID here, but the archived SGLang CUDA platform
+        # parses CUDA_VISIBLE_DEVICES with int().  Keep the lease and every
+        # ownership check UUID-scoped, then expose only that verified host index
+        # to the child process for compatibility with the archived runtime.
+        child_env["CUDA_VISIBLE_DEVICES"] = _runtime_visible_device(
+            lease.gpu_uuid, gpu_before
+        )
         run_config: dict[str, object] = {
             "schema_version": 1,
             "config_id": config_id,
@@ -396,6 +414,8 @@ def main() -> int:
                 "host": lease.host,
                 "owner": lease.owner,
                 "leased_at_utc": lease.leased_at_utc,
+                "cuda_visible_devices": child_env["CUDA_VISIBLE_DEVICES"],
+                "visibility_resolution": "uuid_lease_to_verified_host_index",
             },
             "gpu_before": gpu_before,
             "workload": workload_receipt,
