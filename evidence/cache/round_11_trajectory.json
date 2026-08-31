@@ -1,0 +1,75 @@
+{
+  "schema_version": 1,
+  "component": "cache",
+  "round": 11,
+  "hypothesis": "At TeaCache round 10's exact 0.020 threshold and one-hit cap, faithful branch-specific first-order TaylorSeer will yield a measured total inside the balanced two-percent band, with its actual adaptive schedule retained even if it differs.",
+  "session": {
+    "agent_id": "cache_executor",
+    "prompt_sha256": "c81c7d4f04ed602d0ac9171aaf9f170589e491bb4b42441c557008fc15466658",
+    "overlay_sha256": "95c0d4fb9226174cafb79f3764c35783aa4138554d6ae4e680cca8ce2393a98e"
+  },
+  "provenance": {
+    "baseline_sha256": "3fdafdf00554ae4bafc91bc7729c3ba3e96af4edebac809782e6d6122ed23954",
+    "parent_sha": "24252f1af62347083823d15e7e0a0252360bf3cb",
+    "candidate_commit": "49ea21a1df421eb41e27677bf54d1cad9729f74d",
+    "config_commit": "e9aa6d5f8095123d84d494468b683995722af391",
+    "config_sha256": "cefad0f5904db4215163de61e8bef23f5064467e8fffb7cd774f504e391a42b3",
+    "baseline_total_s": 61.7,
+    "baseline_peak_memory_mib": 17770,
+    "fixed_prompt_sha256": "870a3daedac57a0654d62de074a480daa3d7bee82b26988ec17b75496fb2643c",
+    "timing_scope": "warm_single_prompt_gen.generate_including_text_encoder_denoise_vae_decode_and_video_write_excluding_model_load_and_one_step_warmup"
+  },
+  "build": {
+    "status": "passed",
+    "command": "PYTHONPATH=external/sol_runtime/python:/home/jiangzhikun/yongyan_liu/Experiments/SolAgent/20260827-official-repro/baseline/targets/sana-runtime-deps-v1:/home/jiangzhikun/yongyan_liu/Experiments/SolAgent/20260827-official-repro/baseline/staging/sglang-build001-clean-v2 /home/jiangzhikun/yongyan_liu/Experiments/SolAgent/20260827-official-repro/envs/sana-cu128-phase0/bin/python -m unittest tests.test_sana_video_cache",
+    "tests": "9/9 CPU tests passed; branch-specific Taylor history/forecast, ledger validation, dry-run, git diff, exact lease UUID, GPU-idle, and shared-lock availability preflights passed. The optional DeepGEMM warning remained benign."
+  },
+  "run": {
+    "status": "validated",
+    "command": "/home/jiangzhikun/yongyan_liu/Experiments/SolAgent/20260827-official-repro/envs/sana-cu128-phase0/bin/python scripts/launch_config.py config/sana_video_2b_h100/cache/taylor_r11_t0020_w3_s8_h1_o1_d100_balanced.toml --mode local --run-root runs --name-suffix cache-r11",
+    "run_dir": "runs/20260831-134827-sana2b_cache_r11_taylor_t0020_w3_s8_h1_o1_d100_balanced-cache-r11",
+    "total_s": 38.8,
+    "raw_speedup": 1.5902061855670102,
+    "raw_time_ratio": 0.6288492706645057,
+    "warmed_request_s": 32.63,
+    "peak_memory_mib": 17910,
+    "signal_definition": "relative mean-L1 change of token-subsampled first-block AdaLN-modulated hidden input, accumulated with identity rescaling",
+    "reuse_payload": "separate conditional and unconditional first-order forecasts from independent residual histories",
+    "cache_summary": {
+      "total_decisions": 50,
+      "computes": 33,
+      "hits": 17,
+      "hit_rate": 0.34,
+      "continuous_hit_cap_recomputes": 17,
+      "threshold_recomputes": 12,
+      "skipped_steps": [3, 5, 7, 9, 11, 13, 15, 17, 19, 21, 23, 25, 27, 29, 31, 33, 35],
+      "residual_history_steps": {
+        "0": [47, 48, 49],
+        "1": [47, 48, 49]
+      },
+      "taylor_order": 1,
+      "taylor_damping": 1.0
+    },
+    "matched_target": {
+      "tea_round": 10,
+      "tea_total_s": 39.0,
+      "relative_difference": 0.005128205128205201,
+      "same_schedule": true,
+      "within_two_percent": true,
+      "status": "matched"
+    },
+    "residual_compute_apps": []
+  },
+  "validity": {
+    "status": "validated",
+    "artifact_status": "validated",
+    "method_provenance": "validated",
+    "ffprobe": "832x480, 81 frames, 16 fps, 5.0625 s",
+    "video_sha256": "e10a1c1569674ce3fb84348697891279f3d5d91df68bd5962f32d79868bca4ae",
+    "visual_note": "The first/middle/last frames are coherent and preserve identity, anatomy, forest structure, and flare progression without a gross artifact. Visible pose, framing, background, and flare shifts are low-to-moderate; on the executor screen TaylorSeer shows somewhat more reframing than matched TeaCache round 10, so no quality advantage is claimed."
+  },
+  "decision": {
+    "outcome": "retain",
+    "reason": "Retain as the matched balanced TaylorSeer comparator: its exact 17-hit schedule and 38.8 s total are within 0.513% of TeaCache round 10, method and artifact checks pass, and the lightweight visual screen is valid with visible drift but no claimed quality win."
+  }
+}
