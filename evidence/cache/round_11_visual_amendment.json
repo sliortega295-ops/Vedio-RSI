@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "component": "cache",
+  "round": 11,
+  "amends": [
+    "evidence/cache/round_11.json",
+    "evidence/cache/round_11_trajectory.json",
+    "runs/20260831-134827-sana2b_cache_r11_taylor_t0020_w3_s8_h1_o1_d100_balanced-cache-r11/outputs/visual_verdict.json",
+    "runs/20260831-134827-sana2b_cache_r11_taylor_t0020_w3_s8_h1_o1_d100_balanced-cache-r11/outputs/assess_verdict.json"
+  ],
+  "reason": "The independent coordinator screen found a materially larger matched-family difference than the executor's initial wording; this additive amendment governs final ranking without rewriting the append-only trajectory.",
+  "independent_visual_note": "TaylorSeer round 11 is valid and coherent with no gross artifact, but at the identical 17-hit schedule it is decisively worse than TeaCache round 10 on these three frames: it has substantially more crop, head, neck, and collar reframing, background-tree displacement, and changed flare/lighting progression.",
+  "decision_impact": "Retain as required matched balanced evidence with medium visible drift. TeaCache is the current balanced quality leader until matched EasyCache is measured."
+}
