@@ -96,6 +96,18 @@ def main():
     ap.add_argument("--ec-warmup", type=int, default=3, help="EasyCache warmup steps (always computed)")
     ap.add_argument("--ec-subsample", type=int, default=8,
                     help="EasyCache spatial subsample stride for the rel-change estimate")
+    ap.add_argument("--cache-family", choices=("off", "easycache", "teacache", "taylorseer"),
+                    default="off", help="SANA cache family for the Cache executor")
+    ap.add_argument("--cache-threshold", type=float, default=0.0)
+    ap.add_argument("--cache-warmup", type=int, default=3)
+    ap.add_argument("--cache-start", type=int, default=0)
+    ap.add_argument("--cache-end", type=int, default=49,
+                    help="first 0-based denoising step forced to recompute through the end")
+    ap.add_argument("--cache-subsample", type=int, default=8)
+    ap.add_argument("--cache-max-hits", type=int, default=2)
+    ap.add_argument("--taylor-order", type=int, choices=(1, 2), default=1)
+    ap.add_argument("--taylor-damping", type=float, default=1.0)
+    ap.add_argument("--cache-debug", action="store_true")
     args = ap.parse_args()
     if args.prompt is None:
         import os as _osp
@@ -135,6 +147,25 @@ def main():
         _os.environ["SGLANG_SANA_EASYCACHE_THRESH"] = str(args.easycache)
         _os.environ["SGLANG_SANA_EASYCACHE_WARMUP"] = str(args.ec_warmup)
         _os.environ["SGLANG_SANA_EASYCACHE_SUBSAMPLE"] = str(args.ec_subsample)
+    cache_family = args.cache_family
+    cache_threshold = args.cache_threshold
+    if args.easycache and cache_family == "off":
+        cache_family = "easycache"
+        cache_threshold = args.easycache
+    if cache_family != "off":
+        if cache_threshold <= 0:
+            raise SystemExit("--cache-threshold must be positive when a cache family is enabled")
+        _os.environ["SGLANG_SANA_CACHE_FAMILY"] = cache_family
+        _os.environ["SGLANG_SANA_CACHE_THRESHOLD"] = str(cache_threshold)
+        _os.environ["SGLANG_SANA_CACHE_WARMUP"] = str(args.cache_warmup)
+        _os.environ["SGLANG_SANA_CACHE_START"] = str(args.cache_start)
+        _os.environ["SGLANG_SANA_CACHE_END"] = str(args.cache_end)
+        _os.environ["SGLANG_SANA_CACHE_SUBSAMPLE"] = str(args.cache_subsample)
+        _os.environ["SGLANG_SANA_CACHE_MAX_HITS"] = str(args.cache_max_hits)
+        _os.environ["SGLANG_SANA_TAYLOR_ORDER"] = str(args.taylor_order)
+        _os.environ["SGLANG_SANA_TAYLOR_DAMPING"] = str(args.taylor_damping)
+        if args.cache_debug:
+            _os.environ["SGLANG_SANA_CACHE_DEBUG"] = "1"
 
     _install_sana_minimal_package_shims()
 

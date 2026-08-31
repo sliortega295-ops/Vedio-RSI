@@ -1,0 +1,75 @@
+{
+  "schema_version": 1,
+  "model_id": "sana_video_2b_h100",
+  "status": "preflight_passed_pending_gpu_sanity",
+  "branch": "repro/sana2b-kernel-cache-integrated",
+  "composition": {
+    "kernel": {
+      "delivery_commit": "e8684f3fa9077d1387de44bbb0521a38ac6b7097",
+      "candidate_source_commit": "7be2d6b0282f0230b9d888b2412d073ec9964250",
+      "confirmation_config_commit": "27912ac50009a96dba7a773d56a0d191f1eea477",
+      "point": "exact_fastest",
+      "confirmed_pair_median_s": 40.8
+    },
+    "cache": {
+      "delivery_commit": "e7cf11c877a91220af2f2ea2cc5e38000c0765f8",
+      "implementation_commits": [
+        "8bd01c6898f920c140a9c74197676debbcaff1fe",
+        "2dfc4640b04452e1f539f3391001545836e83899"
+      ],
+      "tier": "balanced",
+      "config_id": "sana2b_cache_r12_easy_t010_w3_s8_h2_balanced",
+      "threshold": 0.1,
+      "warmup_steps": 3,
+      "subsample": 8,
+      "max_continuous_hits": 2,
+      "measured_total_s": 38.8,
+      "selection_reason": "R12 is the verified clear fixed-prompt matched-band winner with low artifact severity; aggressive remains tentative with medium severity and conservative leaves avoidable latency."
+    }
+  },
+  "merge": {
+    "common_source_blobs_verified": true,
+    "cache_patch_range": "2c6bdf06db4dd3be507720b25512217e1f3ae5e9..2dfc4640b04452e1f539f3391001545836e83899",
+    "applied_files": [
+      "external/sol_runtime/python/sglang/multimodal_gen/runtime/cache/sana_video_cache.py",
+      "external/sol_runtime/python/sglang/multimodal_gen/runtime/models/dits/sana_video.py",
+      "external/sol_runtime/scripts/sana/sana_video_sglang_run.py",
+      "models/sana_video_2b_h100/baseline/gpu_infer.py",
+      "tests/test_sana_video_cache.py"
+    ],
+    "conflicts": [
+      {
+        "path": "models/sana_video_2b_h100/baseline/gpu_infer.py",
+        "resolution": "Retain both critical runtime fingerprint entries: the Kernel sana_rope source and Cache sana_video_cache source."
+      }
+    ],
+    "semantic_guards": {
+      "kernel_flags_are_independent_of_cache": true,
+      "cache_off_path_preserved": true,
+      "kernel_only_closeout_has_cache_off": true,
+      "cache_only_closeout_has_all_kernel_flags_off": true,
+      "integrated_config_enables_only_confirmed_kernel_and_balanced_cache": true,
+      "model_weights_scheduler_resolution_frames_fps_seed_unchanged": true
+    }
+  },
+  "cpu_validation": {
+    "py_compile": "passed",
+    "cache_controller_unittest": {
+      "status": "passed",
+      "tests": 9,
+      "failures": 0
+    },
+    "pytest": "NOT_RUN: validated runtime environment does not install pytest; the same unittest file was executed directly and all 9 tests passed."
+  },
+  "multi_prompt_plan": {
+    "prompt_1": "models/sana_video_2b_h100/prompts/model_card_long_motion30.txt",
+    "prompt_2": "external/sol_runtime/prompts/sana/default.txt",
+    "serialized_order": [
+      "dense prompt_2 control",
+      "Kernel R20 prompt_2",
+      "Cache balanced R12 prompt_2",
+      "integrated Kernel R20 plus Cache R12 prompt_1 final smoke"
+    ],
+    "quality_protocol": "Lightweight ffprobe validity plus first/middle/last frame inspection only; no VBench, LPIPS, or independent validator."
+  }
+}

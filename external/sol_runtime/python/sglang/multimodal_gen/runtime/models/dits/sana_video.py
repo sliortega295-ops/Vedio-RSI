@@ -37,7 +37,12 @@ from sglang.jit_kernel.diffusion.triton.sana_rope import (
     apply_sana_paired_rotary_emb,
 )
 from sglang.multimodal_gen.configs.models.dits.sana_video import SanaVideoConfig
+from sglang.multimodal_gen.runtime.cache.sana_video_cache import (
+    SanaVideoCacheCall,
+    SanaVideoCacheController,
+)
 from sglang.multimodal_gen.runtime.layers.layernorm import RMSNorm
+from sglang.multimodal_gen.runtime.managers.forward_context import get_forward_context
 from sglang.multimodal_gen.runtime.managers.memory_managers.layerwise_offload import (
     LayerwiseOffloadableModuleMixin,
 )
@@ -733,87 +738,17 @@ class SanaVideoTransformer3DModel(CachableDiT, LayerwiseOffloadableModuleMixin):
 
         self.layer_names = ["transformer_blocks"]
 
-        # --- EasyCache step-skip (the only SANA acceleration). Per-step cache
-        # state is keyed by CFG branch (0=first call of a step, 1=second) because
-        # sglang runs CFG unbatched (2 forward calls/step); cond and uncond must
-        # not contaminate each other's cached residual. ---
-        # Shared (common-mode) residual reused on skipped steps. CFG is unbatched
-        # and both branches get the SAME latent x_t, so reusing one shared residual
-        # makes the guidance term s*(R-R)=0 vanish on skipped steps -- riding the
-        # established composition. A per-branch residual would instead re-inject a
-        # 6x-amplified STALE guidance term -> high-freq artifacts. Shared is correct.
-        self._tc_reuse_residual = None
-        self._tc_step = {}
-        self._tc_prev_t = None
-        self._cache_prev_t = None  # CFG-branch detection (shared-timestep)
-        # EasyCache: calibration-free adaptive skip (ported from the LTX-2 stage1
-        # cache core). Measures the online input->output transformation rate K, then
-        # estimates per-step relative output change ~= K * input_change / out_norm,
-        # accumulates it, and skips while the accumulator stays below threshold.
-        # CFG is unbatched and both branches get the SAME latent x_t -> the decision
-        # is identical, so decide once on branch 0 and reuse the shared residual.
-        self._ec_thresh = float(os.environ.get("SGLANG_SANA_EASYCACHE_THRESH", "0") or 0.0)
-        self._ec_warmup = int(os.environ.get("SGLANG_SANA_EASYCACHE_WARMUP", "3") or 3)
-        self._ec_sub = int(os.environ.get("SGLANG_SANA_EASYCACHE_SUBSAMPLE", "8") or 8)
-        self._ec_x_prev = None
-        self._ec_out_prev = None
-        self._ec_out_prev_norm = None
-        self._ec_rate = None
-        self._ec_cumulative = 0.0
-        self._ec_run = True
-        self._ec_debug = bool(os.environ.get("SGLANG_SANA_EASYCACHE_DEBUG", ""))
+        # Family-neutral Cache search controller.  OFF leaves the pre-existing
+        # dense hot path untouched.  Serial CFG shares the branch-0 recompute
+        # decision, while each branch retains its own conditioning-dependent
+        # residual/forecast payload.
+        self._cache = SanaVideoCacheController.from_env()
+        self._cache_run = True
+        self._cache_last_decision = None
         # One-shot component profiler (eager): SGLANG_SANA_PROFILE=1 -> torch.profiler
         # the block stack on the first call and print the per-op CUDA-time breakdown.
         self._profile = bool(os.environ.get("SGLANG_SANA_PROFILE", ""))
         self._profiled = False
-
-    def _tc_reset_if_new_gen(self, t_scalar):
-        # New generation when the timestep jumps back up (e.g. warmup -> real run).
-        if self._tc_prev_t is None or t_scalar > self._tc_prev_t + 1e-4:
-            self._tc_reuse_residual = None
-            self._tc_step = {}
-            self._ec_x_prev = None
-            self._ec_out_prev = None
-            self._ec_out_prev_norm = None
-            self._ec_rate = None
-            self._ec_cumulative = 0.0
-            self._ec_run = True
-            self._cache_prev_t = None
-        self._tc_prev_t = t_scalar
-
-    def _ec_decide(self, step, x):
-        """EasyCache skip decision (shared per step). Returns run_blocks: compute
-        until warmup/rate is established, then accumulate the estimated relative
-        output change (K * input_change / out_norm) and compute once it crosses the
-        threshold; otherwise skip and reuse the shared residual."""
-        if (
-            step < self._ec_warmup
-            or self._ec_x_prev is None
-            or self._ec_rate is None
-            or self._ec_out_prev_norm is None
-        ):
-            return True
-        cur = x[:, :: self._ec_sub].float()
-        input_change = (cur - self._ec_x_prev).abs().mean()
-        approx = float((self._ec_rate * input_change / max(self._ec_out_prev_norm, 1e-6)).item())
-        self._ec_cumulative += approx
-        return self._ec_cumulative >= self._ec_thresh
-
-    def _ec_update(self, x, out):
-        """EasyCache state update on a computed step (branch-0/cond signal): refresh
-        the online transformation rate K = out_change / input_change, the previous
-        subsampled tensors, the output norm, and reset the accumulator."""
-        cur_x = x[:, :: self._ec_sub].float()
-        cur_o = out[:, :: self._ec_sub].float()
-        if self._ec_x_prev is not None and self._ec_out_prev is not None:
-            inc = (cur_x - self._ec_x_prev).abs().mean()
-            outc = (cur_o - self._ec_out_prev).abs().mean()
-            if float(inc.item()) > 1e-12:
-                self._ec_rate = float((outc / inc).item())
-        self._ec_x_prev = cur_x.detach()
-        self._ec_out_prev = cur_o.detach()
-        self._ec_out_prev_norm = float(out.float().abs().mean().item())
-        self._ec_cumulative = 0.0
 
     # --- compiled hot path vs. eager cache control ----------------------------
     # sglang compiles the WHOLE DiT forward (denoising.py: module.compile()). To
@@ -859,36 +794,77 @@ class SanaVideoTransformer3DModel(CachableDiT, LayerwiseOffloadableModuleMixin):
 
     @torch.compiler.disable
     def _cache_decide(self, timestep, hidden_states, timestep_mod, batch_size):
-        """Eager (dynamo-opaque) per-step EasyCache skip decision + bookkeeping."""
-        t_now = float(timestep.flatten()[0].item())
-        self._tc_reset_if_new_gen(t_now)
-        # CFG is unbatched: cond & uncond of a step share the timestep.
-        branch = 1 if (self._cache_prev_t is not None and abs(t_now - self._cache_prev_t) < 1e-4) else 0
-        self._cache_prev_t = t_now
-        step = self._tc_step.get(branch, 0)
-        self._tc_step[branch] = step + 1
+        """Eager (dynamo-opaque) family decision and exact CFG bookkeeping."""
+        del timestep, batch_size
+        forward_context = get_forward_context()
+        forward_batch = forward_context.forward_batch
+        call = SanaVideoCacheCall.from_runtime(
+            step=int(forward_context.current_timestep or 0),
+            is_cfg_negative=bool(
+                getattr(forward_batch, "is_cfg_negative", False)
+            ),
+            do_classifier_free_guidance=bool(
+                getattr(forward_batch, "do_classifier_free_guidance", False)
+            ),
+        )
+        step, branch = call.step, call.branch
 
-        if branch == 0:
-            run_blocks = self._ec_decide(step, hidden_states)
-            self._ec_run = run_blocks
-            if self._ec_debug:
-                print(f"EC step={step} run={int(run_blocks)} "
-                      f"cum={self._ec_cumulative:.4f} K={self._ec_rate}", flush=True)
+        # Both the one-step warmup request and the measured request start at
+        # step 0 (and can have the same scalar scheduler timestep).  Reset from
+        # the explicit request-local step/branch identity, not from timestep
+        # monotonicity, so measured state can never inherit warmup residuals.
+        if self._cache.begin_call(call):
+            self._cache_run = True
+            self._cache_last_decision = None
+
+        if call.owns_decision:
+            cache_decision = self._cache.decide(
+                step,
+                hidden_states,
+                timestep_mod,
+                self.transformer_blocks[0].scale_shift_table,
+            )
+            run_blocks = cache_decision.run_blocks
+            self._cache_run = run_blocks
+            self._cache_last_decision = cache_decision
+            if self._cache.config.debug:
+                print(self._cache.format_decision(cache_decision), flush=True)
         else:
-            run_blocks = self._ec_run
-        return {"run_blocks": run_blocks, "branch": branch}
+            if (
+                self._cache_last_decision is None
+                or self._cache_last_decision.step != step
+            ):
+                raise RuntimeError(
+                    "SANA cache CFG branch arrived without a matching conditional decision"
+                )
+            run_blocks = self._cache_run
+            cache_decision = self._cache_last_decision
+        return {
+            "run_blocks": run_blocks,
+            "branch": branch,
+            "step": step,
+            "cache_decision": cache_decision,
+            "last_branch": call.is_last_branch,
+        }
 
     @torch.compiler.disable
     def _cache_after_compute(self, decision, hidden_before, hidden_states):
-        """Eager: update EasyCache state after a computed step (rate + residual)."""
-        if decision["branch"] == 0:
-            self._ec_update(hidden_before, hidden_states)
-        self._tc_reuse_residual = (hidden_states - hidden_before).detach()  # shared common-mode residual
+        """Eager: update family signal and the exact CFG-branch residual."""
+        self._cache.after_compute(
+            branch=decision["branch"],
+            step=decision["step"],
+            hidden_before=hidden_before,
+            hidden_after=hidden_states,
+        )
+        if decision["last_branch"] and decision["step"] >= self._cache.config.end_step:
+            print(self._cache.format_summary(), flush=True)
 
     @torch.compiler.disable
     def _cache_reuse(self, decision, hidden_before, hidden_states):
-        """Eager: skipped step -> reuse cached transformation (CFG common-mode)."""
-        return hidden_states + self._tc_reuse_residual
+        """Eager: skipped step -> residual replay or TaylorSeer forecast."""
+        return self._cache.reuse(
+            decision["step"], hidden_states, branch=decision["branch"]
+        )
 
     def post_load_weights(self) -> None:
         # SANA-Video runs the whole transformer in bf16 (matching diffusers).
@@ -970,7 +946,7 @@ class SanaVideoTransformer3DModel(CachableDiT, LayerwiseOffloadableModuleMixin):
             else:
                 encoder_hidden_states = cached
 
-        any_cache = self._ec_thresh > 0.0
+        any_cache = self._cache.enabled
         if not any_cache:
             # Dense / fusion-only: the block stack is the whole compiled hot path,
             # with no cache machinery in the graph.

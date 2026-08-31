@@ -46,6 +46,16 @@ TECHNIQUE_ENV = (
     "SGLANG_SANA_EASYCACHE_WARMUP",
     "SGLANG_SANA_EASYCACHE_SUBSAMPLE",
     "SGLANG_SANA_EASYCACHE_DEBUG",
+    "SGLANG_SANA_CACHE_FAMILY",
+    "SGLANG_SANA_CACHE_THRESHOLD",
+    "SGLANG_SANA_CACHE_WARMUP",
+    "SGLANG_SANA_CACHE_START",
+    "SGLANG_SANA_CACHE_END",
+    "SGLANG_SANA_CACHE_SUBSAMPLE",
+    "SGLANG_SANA_CACHE_MAX_HITS",
+    "SGLANG_SANA_TAYLOR_ORDER",
+    "SGLANG_SANA_TAYLOR_DAMPING",
+    "SGLANG_SANA_CACHE_DEBUG",
     "SGLANG_SANA_PROFILE",
     "SGLANG_TORCH_COMPILE_MODE",
     "TORCHINDUCTOR_AUTOTUNE_IN_SUBPROC",
@@ -58,6 +68,7 @@ CRITICAL_RUNTIME_FILES = (
     "python/sglang/multimodal_gen/configs/sample/sana_video.py",
     "python/sglang/multimodal_gen/runtime/models/dits/sana_video.py",
     "python/sglang/jit_kernel/diffusion/triton/sana_rope.py",
+    "python/sglang/multimodal_gen/runtime/cache/sana_video_cache.py",
     "python/sglang/multimodal_gen/runtime/pipelines/sana_video.py",
 )
 
@@ -109,6 +120,14 @@ def _optimization_knobs() -> dict[str, object]:
     easycache = float(os.environ.get("SANA_EASYCACHE_THRESH", "0"))
     if easycache < 0:
         raise RuntimeError("SANA_EASYCACHE_THRESH must be non-negative")
+    cache_family = os.environ.get("SANA_CACHE_FAMILY", "off").strip().lower()
+    cache_threshold = float(os.environ.get("SANA_CACHE_THRESHOLD", str(easycache)))
+    if cache_family == "off" and easycache > 0:
+        cache_family = "easycache"
+    if cache_family not in {"off", "easycache", "teacache", "taylorseer"}:
+        raise RuntimeError(f"unsupported SANA_CACHE_FAMILY={cache_family!r}")
+    if cache_threshold < 0:
+        raise RuntimeError("SANA_CACHE_THRESHOLD must be non-negative")
     return {
         "torch_compile": _bool_env("SANA_ENABLE_COMPILE"),
         "max_autotune": _bool_env("SANA_ENABLE_MAX_AUTOTUNE"),
@@ -122,6 +141,16 @@ def _optimization_knobs() -> dict[str, object]:
             "SGLANG_SANA_FUSED_RECIPROCAL_SCALE"
         ),
         "easycache_threshold": easycache,
+        "cache_family": cache_family,
+        "cache_threshold": cache_threshold,
+        "cache_warmup": int(os.environ.get("SANA_CACHE_WARMUP", os.environ.get("SANA_EC_WARMUP", "3"))),
+        "cache_start": int(os.environ.get("SANA_CACHE_START", "0")),
+        "cache_end": int(os.environ.get("SANA_CACHE_END", "49")),
+        "cache_subsample": int(os.environ.get("SANA_CACHE_SUBSAMPLE", os.environ.get("SANA_EC_SUBSAMPLE", "8"))),
+        "cache_max_hits": int(os.environ.get("SANA_CACHE_MAX_HITS", "2")),
+        "taylor_order": int(os.environ.get("SANA_TAYLOR_ORDER", "1")),
+        "taylor_damping": float(os.environ.get("SANA_TAYLOR_DAMPING", "1.0")),
+        "cache_debug": _bool_env("SANA_CACHE_DEBUG"),
         "warmup_disabled": _bool_env("SANA_DISABLE_WARMUP"),
     }
 
@@ -134,6 +163,8 @@ def _assert_dense_control(config_id: str, knobs: dict[str, object]) -> None:
         for key, value in knobs.items()
         if (isinstance(value, bool) and value)
         or (key == "easycache_threshold" and float(value) != 0.0)
+        or (key == "cache_family" and value != "off")
+        or (key == "cache_threshold" and float(value) != 0.0)
     }
     if enabled:
         raise RuntimeError(f"dense baseline has optimization knobs enabled: {enabled}")
@@ -190,6 +221,24 @@ def _command(
                 os.environ.get("SANA_EC_SUBSAMPLE", "8"),
             ]
         )
+    if str(knobs["cache_family"]) != "off":
+        if float(knobs["cache_threshold"]) <= 0:
+            raise RuntimeError("enabled cache family requires a positive threshold")
+        command.extend(
+            [
+                "--cache-family", str(knobs["cache_family"]),
+                "--cache-threshold", str(knobs["cache_threshold"]),
+                "--cache-warmup", str(knobs["cache_warmup"]),
+                "--cache-start", str(knobs["cache_start"]),
+                "--cache-end", str(knobs["cache_end"]),
+                "--cache-subsample", str(knobs["cache_subsample"]),
+                "--cache-max-hits", str(knobs["cache_max_hits"]),
+                "--taylor-order", str(knobs["taylor_order"]),
+                "--taylor-damping", str(knobs["taylor_damping"]),
+            ]
+        )
+        if bool(knobs["cache_debug"]):
+            command.append("--cache-debug")
     if knobs["warmup_disabled"]:
         command.append("--no-warmup")
     return command
@@ -463,6 +512,7 @@ def main() -> int:
         residual = _wait_for_no_compute_apps(lease.gpu_uuid)
         generation_match = re.search(r"GENERATE_OK in ([0-9.]+)s", transcript)
         runtime_peak_match = re.search(r"Max peak: ([0-9.]+) MB", transcript)
+        cache_summary_matches = re.findall(r"SANA_CACHE_SUMMARY (\{.*\})", transcript)
         telemetry_peak = max(
             (
                 int(sample["memory_used_mib"])
@@ -476,6 +526,9 @@ def main() -> int:
             float(runtime_peak_match.group(1)) if runtime_peak_match else None
         )
         authoritative_peak_mib = runtime_peak_memory_mb or float(telemetry_peak)
+        cache_summary = (
+            json.loads(cache_summary_matches[-1]) if cache_summary_matches else None
+        )
         benchmark: dict[str, object] = {
             "schema_version": 1,
             "status": "FAILED" if returncode else "PARTIAL",
@@ -503,6 +556,7 @@ def main() -> int:
             "gpu_before": gpu_before,
             "gpu_after": query_gpu(lease.gpu_uuid),
             "residual_compute_apps": residual,
+            "cache": cache_summary,
         }
         atomic_write_json(out_dir / "benchmark.json", benchmark)
         if returncode != 0:
@@ -511,6 +565,8 @@ def main() -> int:
             raise RuntimeError(f"runtime left compute apps on leased GPU: {residual}")
         if generation_s is None:
             raise RuntimeError("runtime succeeded without a parseable GENERATE_OK latency")
+        if str(knobs["cache_family"]) != "off" and cache_summary is None:
+            raise RuntimeError("cache run succeeded without a parseable SANA_CACHE_SUMMARY")
         if not runtime_video.exists():
             raise RuntimeError(f"runtime reported success but video is missing: {runtime_video}")
         shutil.move(runtime_video, final_video)
