@@ -1,0 +1,75 @@
+{
+  "schema_version": 1,
+  "component": "cache",
+  "round": 7,
+  "hypothesis": "At the exact conservative TeaCache round-6 threshold and one-hit cap, a faithful branch-specific first-order TaylorSeer forecast can be compared on an equal schedule and measured time to determine whether it improves the lightweight visual screen without losing the conservative speed point.",
+  "session": {
+    "agent_id": "cache_executor",
+    "prompt_sha256": "c81c7d4f04ed602d0ac9171aaf9f170589e491bb4b42441c557008fc15466658",
+    "overlay_sha256": "95c0d4fb9226174cafb79f3764c35783aa4138554d6ae4e680cca8ce2393a98e"
+  },
+  "provenance": {
+    "baseline_sha256": "3fdafdf00554ae4bafc91bc7729c3ba3e96af4edebac809782e6d6122ed23954",
+    "parent_sha": "ebff7663af49002a5ec5a8c93c37ca432f94e9e9",
+    "candidate_commit": "4944ae68971c613e3216af916a4421d10500f0b6",
+    "config_sha256": "2f4cf15d66ccb93a607cbf229d0bb34316879be50b6d170c785444eedb9e904d",
+    "baseline_total_s": 61.7,
+    "baseline_peak_memory_mib": 17770,
+    "fixed_prompt_sha256": "870a3daedac57a0654d62de074a480daa3d7bee82b26988ec17b75496fb2643c",
+    "timing_scope": "warm_single_prompt_gen.generate_including_text_encoder_denoise_vae_decode_and_video_write_excluding_model_load_and_one_step_warmup"
+  },
+  "build": {
+    "status": "passed",
+    "command": "PYTHONPATH=external/sol_runtime/python:/home/jiangzhikun/yongyan_liu/Experiments/SolAgent/20260827-official-repro/baseline/targets/sana-runtime-deps-v1:/home/jiangzhikun/yongyan_liu/Experiments/SolAgent/20260827-official-repro/baseline/staging/sglang-build001-clean-v2 /home/jiangzhikun/yongyan_liu/Experiments/SolAgent/20260827-official-repro/envs/sana-cu128-phase0/bin/python -m unittest tests.test_sana_video_cache",
+    "tests": "9/9 CPU tests passed; branch-specific Taylor history/forecast, ledger validation, dry-run, git diff, exact lease UUID, GPU-idle, and shared-lock availability preflights passed. The optional DeepGEMM warning remained benign."
+  },
+  "run": {
+    "status": "validated",
+    "command": "/home/jiangzhikun/yongyan_liu/Experiments/SolAgent/20260827-official-repro/envs/sana-cu128-phase0/bin/python scripts/launch_config.py config/sana_video_2b_h100/cache/taylor_r07_t001125_w3_s8_h1_o1_d100_matched.toml --mode local --run-root runs --name-suffix cache-r07",
+    "run_dir": "runs/20260831-130748-sana2b_cache_r07_taylor_t001125_w3_s8_h1_o1_d100_matched-cache-r07",
+    "total_s": 46.9,
+    "raw_speedup": 1.3155650319829426,
+    "raw_time_ratio": 0.7601296596434359,
+    "warmed_request_s": 40.59,
+    "peak_memory_mib": 17910,
+    "signal_definition": "relative mean-L1 change of token-subsampled first-block AdaLN-modulated hidden input, accumulated with identity rescaling",
+    "reuse_payload": "separate conditional and unconditional first-order forecasts from independent residual histories",
+    "cache_summary": {
+      "total_decisions": 50,
+      "computes": 42,
+      "hits": 8,
+      "hit_rate": 0.16,
+      "continuous_hit_cap_recomputes": 8,
+      "threshold_recomputes": 30,
+      "skipped_steps": [8, 11, 13, 16, 18, 20, 22, 25],
+      "residual_history_steps": {
+        "0": [47, 48, 49],
+        "1": [47, 48, 49]
+      },
+      "taylor_order": 1,
+      "taylor_damping": 1.0
+    },
+    "matched_target": {
+      "easy_round": 2,
+      "easy_relative_difference": 0.0151515151515151,
+      "tea_round": 6,
+      "tea_relative_difference": 0.0042826552462526,
+      "same_tea_schedule": true,
+      "within_two_percent": true,
+      "status": "matched"
+    },
+    "residual_compute_apps": []
+  },
+  "validity": {
+    "status": "validated",
+    "artifact_status": "validated",
+    "method_provenance": "validated",
+    "ffprobe": "832x480, 81 frames, 16 fps, 5.0625 s",
+    "video_sha256": "31b7b612124b9a4394d293e505e03103acab058b079c5d640e110e22d4d32f09",
+    "visual_note": "The first/middle/last frames preserve identity, anatomy, forest composition, and flare progression without gross artifacts. TaylorSeer may be subtly closer to dense in framing/pose than TeaCache round 6, but the approved one-prompt screen does not support a decisive quality-superiority claim; the two are effectively tied at this conservative schedule."
+  },
+  "decision": {
+    "outcome": "retain",
+    "reason": "Retain as the conservative matched-time TaylorSeer comparator: the exact eight-hit schedule matches TeaCache round 6, 46.9 s is within 0.428% of Tea and 1.515% of EasyCache round 2, and the lightweight visual screen passes. No decisive quality win over Tea is claimed."
+  }
+}
