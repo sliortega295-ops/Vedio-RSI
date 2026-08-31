@@ -111,6 +111,8 @@ class SanaVideo2BH100ContractTest(unittest.TestCase):
         official = profile["official_config"]
         self.assertEqual(config["id"], "sana_video_2b_h100_dense_baseline")
         self.assertEqual(contract["id"], "sana_video_2b_h100")
+        self.assertEqual(profile["orchestration"]["default_techniques"], ["kernel", "cache"])
+        self.assertEqual(profile["orchestration"]["inference_world_size"], 1)
         self.assertEqual(
             official,
             {

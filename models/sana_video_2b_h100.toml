@@ -33,6 +33,10 @@ peak_memory_mib = 0.0
 measured = false
 status = "NOT_RUN"
 
+[orchestration]
+default_techniques = ["kernel", "cache"]
+inference_world_size = 1
+
 [env]
 SANA_PYTHON_BIN = "/home/jiangzhikun/yongyan_liu/Experiments/SolAgent/20260827-official-repro/envs/sana-cu128-phase0/bin/python"
 SANA_DEPENDENCY_OVERLAY = "/home/jiangzhikun/yongyan_liu/Experiments/SolAgent/20260827-official-repro/baseline/targets/sana-runtime-deps-v1"
