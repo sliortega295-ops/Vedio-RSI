@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "component": "cache",
+  "round": 1,
+  "config_id": "sana2b_cache_r01_easy_t005_w3_s8_h2",
+  "family": "easycache",
+  "parameters": {
+    "threshold": 0.05,
+    "warmup_steps": 3,
+    "start_step": 0,
+    "end_step": 49,
+    "subsample": 8,
+    "max_continuous_hits": 2
+  },
+  "candidate_commit": "e48eed8e6878fedc0319a94e1ad349759023f03d",
+  "run_dir": "runs/20260831-095706-sana2b_cache_r01_easy_t005_w3_s8_h2-cache-r01",
+  "run_status": "VALIDATED",
+  "total_s": 52.8,
+  "peak_memory_mib": 17770,
+  "reported_cache_hits": 9,
+  "video_sha256": "71bdc8eeb79b005334e88e44de6d304c4808780b3b40b063b6d7c21fbfff8960",
+  "artifact_validity": "validated",
+  "method_provenance": "failed",
+  "decision": "retry",
+  "failure_signature": "The one-step warmup and formal run shared the initial scalar timestep, so timestep-only CFG inference classified the first formal conditional call as an unconditional repeat, failed to reset state, offset branch counters, and retained one replay residual instead of branch-specific conditional/unconditional histories.",
+  "next_action": "Use forward-context timestep indices and explicit CFG branch identity, reset on formal step 0 conditional, retain branch-specific residual histories, then rerun the same EasyCache parameters as a corrected-method confirmation."
+}

@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "component": "cache",
+  "round": 1,
+  "hypothesis": "EasyCache threshold 0.05 with three warmup steps, token subsampling 8, and at most two consecutive hits can skip slowly changing late denoising steps without a material first/middle/last-frame regression.",
+  "session": {
+    "agent_id": "cache_executor",
+    "prompt_sha256": "c81c7d4f04ed602d0ac9171aaf9f170589e491bb4b42441c557008fc15466658",
+    "overlay_sha256": "95c0d4fb9226174cafb79f3764c35783aa4138554d6ae4e680cca8ce2393a98e"
+  },
+  "provenance": {
+    "baseline_sha256": "3fdafdf00554ae4bafc91bc7729c3ba3e96af4edebac809782e6d6122ed23954",
+    "parent_sha": "8bd01c6898f920c140a9c74197676debbcaff1fe",
+    "candidate_commit": "e48eed8e6878fedc0319a94e1ad349759023f03d",
+    "baseline_total_s": 61.7,
+    "baseline_peak_memory_mib": 17770,
+    "fixed_prompt_sha256": "870a3daedac57a0654d62de074a480daa3d7bee82b26988ec17b75496fb2643c",
+    "timing_scope": "warm_single_prompt_gen.generate_including_text_encoder_denoise_vae_decode_and_video_write_excluding_model_load_and_one_step_warmup"
+  },
+  "build": {
+    "status": "passed",
+    "command": "PYTHONPATH=external/sol_runtime/python:/home/jiangzhikun/yongyan_liu/Experiments/SolAgent/20260827-official-repro/baseline/targets/sana-runtime-deps-v1:/home/jiangzhikun/yongyan_liu/Experiments/SolAgent/20260827-official-repro/baseline/staging/sglang-build001-clean-v2 /home/jiangzhikun/yongyan_liu/Experiments/SolAgent/20260827-official-repro/envs/sana-cu128-phase0/bin/python -m unittest tests.test_sana_video_cache",
+    "tests": "5/5 CPU unit tests passed; Python compilation and git diff checks passed before launch."
+  },
+  "run": {
+    "status": "validated",
+    "command": "/home/jiangzhikun/yongyan_liu/Experiments/SolAgent/20260827-official-repro/envs/sana-cu128-phase0/bin/python scripts/launch_config.py config/sana_video_2b_h100/cache/easy_r01_t005_w3_s8_h2.toml --mode local --run-root runs --name-suffix cache-r01",
+    "run_dir": "runs/20260831-095706-sana2b_cache_r01_easy_t005_w3_s8_h2-cache-r01",
+    "total_s": 52.8,
+    "raw_speedup": 1.168560606060606,
+    "raw_time_ratio": 0.8557536466774717,
+    "peak_memory_mib": 17770,
+    "reported_cache_summary": {
+      "total_decisions": 50,
+      "computes": 41,
+      "hits": 9,
+      "hit_rate": 0.18,
+      "skipped_steps": [26, 28, 30, 32, 34, 36, 38, 40, 42]
+    },
+    "residual_compute_apps": []
+  },
+  "validity": {
+    "status": "failed",
+    "artifact_status": "validated",
+    "method_provenance": "failed",
+    "ffprobe": "832x480, 81 frames, 16 fps, 5.0625 s",
+    "video_sha256": "71bdc8eeb79b005334e88e44de6d304c4808780b3b40b063b6d7c21fbfff8960",
+    "visual_note": "First/middle/last frames are coherent and closely match the baseline, but visual validity cannot override invalid cache provenance.",
+    "failure_signature": "Warmup and formal generation began at the same scalar timestep. Timestep-only CFG inference therefore did not reset at the formal boundary, offset the CFG branch counters, and used a single replay residual across conditional and unconditional branches. The 9 reported skips are preserved but are not faithful EasyCache hits."
+  },
+  "decision": {
+    "outcome": "retry",
+    "reason": "Reject the apparent 52.8 s point from ranking and rerun the identical parameters after explicit forward-context step/CFG-branch tracking, formal-step reset, and branch-specific replay histories."
+  }
+}
