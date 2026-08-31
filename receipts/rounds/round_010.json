@@ -1,0 +1,160 @@
+{
+  "schema_version": 1,
+  "component": "kernel",
+  "round": 10,
+  "hypothesis": "Repeat the exact Round 9 BF16, QKV, block-epilogue, and Triton modulation-fusion candidate under the same frozen workload to distinguish first-process Triton warmup variance from steady candidate latency.",
+  "session": {
+    "agent_id": "/root/sol_video_reproducer/kernel_executor",
+    "prompt_sha256": "b406128240c2e097550aa62333aa8ef2a85d5e45540c9c65b49aefa260a08072"
+  },
+  "provenance": {
+    "baseline_sha256": "3fdafdf00554ae4bafc91bc7729c3ba3e96af4edebac809782e6d6122ed23954",
+    "parent_sha": "9d12d8d2aab63e427eb46bd5d263eebc4474b41a",
+    "candidate_commit": "70033725118d3e12c0feefd865606ddd66fb47d6",
+    "confirmation_config_commit": "383da2fd4f04e9d6782851f8dcde74c3ddada669",
+    "config_path": "config/sana_video_2b_h100/kernel_r10_bf16_qkv_epilogue_modulation_confirm.toml",
+    "config_sha256": "bbb1aa186d7af759569930b5fd8b997056022e51782c545ade33ff26e61539b0",
+    "implementation_path": "external/sol_runtime/python/sglang/multimodal_gen/runtime/models/dits/sana_video.py",
+    "implementation_sha256": "f50daac077ff8b92b429411a9a28e3d14c53b6aea6597f363fc350523ab90fa5",
+    "kernel_source_path": "external/sol_runtime/python/sglang/jit_kernel/diffusion/triton/scale_shift.py",
+    "kernel_source_sha256": "b51d0a25cc296b4dc1bb6e7c3c91c8c3f5f42d599b20a2a3d40d76cf96682838",
+    "semantics_receipt_path": "receipts/preflight/round_009_modulation_semantics.json",
+    "semantics_receipt_sha256": "9852944387a15f782782de2244fc7ed1bb81c30b05f3885b1ab57b76ffde43a3",
+    "probe_source_path": "receipts/preflight/round_009_modulation_probe.py",
+    "probe_source_sha256": "fd5f718e4604d33d89b96b1fbbf711221e6a7cf18c05da7ad064aab29e483a86",
+    "probe_result_path": "receipts/preflight/round_009_modulation_probe.json",
+    "probe_result_sha256": "268579cb2bdb6b8adb603e7e1002210339ba36be6e2b11bdcd72d9e6724535b7",
+    "authenticity_receipt_path": "receipts/rounds/round_010_authenticity.json",
+    "authenticity_receipt_sha256": "fa87d2c185111949fa4eebbad7472dfaf656e3b2ee36991f8d8be6e56ea7c952",
+    "repeat_of_round": 9,
+    "genuinely_different_hypothesis": false
+  },
+  "build": {
+    "status": "passed",
+    "marker": "BUILD_OK (compile=False, warmup=True)",
+    "transformer_load_dtype": "torch.bfloat16",
+    "resident_transformer_size_gb": 3.83,
+    "consumed_gpu_memory_after_transformer_load_gb": 4.57,
+    "preflight": {
+      "status": "reused_from_round_9_exact_candidate_confirmation",
+      "formal_shape": [1, 32760, 2240],
+      "formal_view_shape": [1, 1, 2240],
+      "max_abs_bf16": 0.125,
+      "removed_cuda_launches_per_formal_run": 8000
+    },
+    "note": "The exact Round 9 candidate, runtime source, environment knobs, workload, model snapshot, and GPU lease were repeated unchanged. The full GPU build passed and the optional DeepGEMM diagnostic remained non-fatal."
+  },
+  "run": {
+    "status": "validated",
+    "command": "/home/jiangzhikun/yongyan_liu/Experiments/SolAgent/20260827-official-repro/envs/sana-cu128-phase0/bin/python scripts/launch_config.py config/sana_video_2b_h100/kernel_r10_bf16_qkv_epilogue_modulation_confirm.toml --mode local --run-root runs --name-suffix r10-modulation-confirm",
+    "cwd": "/home/jiangzhikun/yongyan_liu/Experiments/SolAgent/20260831-sana-video-2b-full-exploration/artifacts/executors/sana2b-kernel_aw-0001/worktree",
+    "run_dir": "runs/20260831-142000-sana_video_2b_h100_kernel_r10_bf16_qkv_epilogue_modulation_confirm-r10-modulation-confirm",
+    "gpu_uuid": "GPU-847305ce-670b-91ee-e0a9-aa3b7833df23",
+    "returncode": 0,
+    "baseline_total_s": 61.7,
+    "total_s": 46.4,
+    "log_total_s": 46.41,
+    "single_run_speedup": 1.329741379310345,
+    "process_wall_s": 94.75824453495443,
+    "warmup_request_s": 5.53,
+    "warmed_request_s": 39.92,
+    "denoising_s": 36.4992,
+    "denoising_average_per_step_s": 0.7299,
+    "text_encoding_s": 0.3705,
+    "decoding_s": 3.0494,
+    "peak_memory_mib": 17514,
+    "nvidia_smi_sampled_peak_mib": 23065,
+    "baseline_peak_memory_mib": 17770,
+    "round8_total_s": 47.1,
+    "round8_warmed_request_s": 40.99,
+    "round8_denoising_s": 37.5712,
+    "round8_peak_memory_mib": 17514,
+    "round3_memory_frontier_mib": 16814,
+    "round9_round10_confirmation": {
+      "total_samples_s": [47.3, 46.4],
+      "total_median_s": 46.85,
+      "total_median_speedup_vs_baseline": 1.3169690501600855,
+      "total_median_improvement_vs_round8_percent": 0.5307855626326964,
+      "warmup_samples_s": [6.41, 5.53],
+      "warmup_median_s": 5.97,
+      "warmed_request_samples_s": [39.93, 39.92],
+      "warmed_request_median_s": 39.925,
+      "warmed_request_median_improvement_vs_round8_percent": 2.5981946816296775,
+      "denoising_samples_s": [36.5051, 36.4992],
+      "denoising_median_s": 36.50215,
+      "denoising_median_improvement_vs_round8_percent": 2.8453975385401513,
+      "decoding_samples_s": [3.0539, 3.0494],
+      "decoding_median_s": 3.05165,
+      "peak_memory_samples_mib": [17514, 17514],
+      "interpretation": "The 0.53% median frozen-total edge over R8 is small and must not be overstated, but it is supported by nearly identical repeated warmed-request and denoising timings with 2.60% and 2.85% gains. Only first-process warmup varies materially. Retain modulation as a confirmed small latency frontier while preserving R3 as the memory frontier."
+    },
+    "timing_scope": "warm_single_prompt_gen.generate_including_text_encoder_denoise_vae_decode_and_video_write_excluding_model_load_and_one_step_warmup",
+    "timing_scope_caveat": "The legacy label says warmup excluded, but the controlling total_s follows the outer GENERATE_OK/Pixel-data interval and empirically includes the one-step warmup. Selection uses total_s exactly as frozen; the internal stages are supporting evidence only.",
+    "benchmark_sha256": "3b139d86a43af96a276a9f2e100802edb7fb105fc5fb3ad19cff73271c939e69",
+    "collection_sha256": "211d013b8bb114b19c930591b0ca9b1c88c85af397d22be7bb8057d32194c570",
+    "quality_sha256": "8b3f9e5747767d264ea04c84357ea0e33a767e4f95d9c90b6cc8a59cd9e36219",
+    "run_config_sha256": "5d6a2014db3143a75f65232b3a9ee96ac82f1e0cbba7c889df152adb9083f8b4",
+    "log_sha256": "1f85c6881d8e74c1357dd0733a5b8335c240eca125cff1de87510339a1ebbef4",
+    "launch_sha256": "6e2c565a08c9c4f220c5865302d393281c385d98d990a336fb04f3fe03001e3f",
+    "manifest_sha256": "4be23af6b705ad38fad1e0fe33ef1642c07c1334dbcc79bc6c1bfd77497dd23d",
+    "assessment": {
+      "collector_status": "VALIDATED",
+      "independent_validator_status": "not_invoked_by_overlay",
+      "tool_limitation": "The overlay wrapper, frozen source/workload, ffprobe, and authenticity gates control. No lossy quality or independent validator gate was run."
+    }
+  },
+  "validity": {
+    "status": "validated",
+    "method_semantics": "This is an exact repeat of Round 9: both LayerNorms execute and the repository Triton kernel evaluates the same x-times-one-plus-scale-plus-shift formula at each original site. No model work is skipped or reused.",
+    "structural_invariants": {
+      "denoising_steps": 50,
+      "cfg_branches_per_step": 2,
+      "logical_dit_calls": 100,
+      "transformer_blocks_per_call": 20,
+      "linear_attention_invocations": 2000,
+      "cross_attention_invocations": 2000,
+      "glumb_invocations": 2000,
+      "modulation_invocations": 4000,
+      "video_tokens_per_invocation": 32760,
+      "skipped_or_reused_model_work": 0,
+      "world_size": 1
+    },
+    "rounding_evidence": {
+      "bit_identity_claimed": false,
+      "formal_max_abs_bf16": 0.125,
+      "interpretation": "The formula and BF16 model contract are unchanged. R10 is byte-identical to R9, confirming deterministic output for the identical fused candidate and frozen workload."
+    },
+    "video": {
+      "path": "runs/20260831-142000-sana_video_2b_h100_kernel_r10_bf16_qkv_epilogue_modulation_confirm-r10-modulation-confirm/outputs/out.mp4",
+      "sha256": "85f2643a9c4d08b6028bcf85aaeff5a69aea369e53e0c7c216d56e0a0a9bc7aa",
+      "bytes": 519043,
+      "width": 832,
+      "height": 480,
+      "frames": 81,
+      "fps": 16,
+      "duration_s": 5.0625
+    },
+    "frames": [
+      {
+        "path": "runs/20260831-142000-sana_video_2b_h100_kernel_r10_bf16_qkv_epilogue_modulation_confirm-r10-modulation-confirm/outputs/frames/frame_01.png",
+        "sha256": "afe4b9c628ec19fb74c2435a8fbe4b9069ee19df7cdda3f4c0caed122e258881"
+      },
+      {
+        "path": "runs/20260831-142000-sana_video_2b_h100_kernel_r10_bf16_qkv_epilogue_modulation_confirm-r10-modulation-confirm/outputs/frames/frame_02.png",
+        "sha256": "2c5fcaf473be2e0d8e6dd6808014b3e19161a7fe1e91b580ac418a53a3d75626"
+      },
+      {
+        "path": "runs/20260831-142000-sana_video_2b_h100_kernel_r10_bf16_qkv_epilogue_modulation_confirm-r10-modulation-confirm/outputs/frames/frame_03.png",
+        "sha256": "6cab8b087e8fb24051a9f0779c636dd726923b8331eb495116d59704353d59fd"
+      }
+    ],
+    "visual_note": "The MP4 and all three sampled frames are byte-identical to R9, whose authenticity-only executor and parent inspection passed. No quality comparison or output-difference gate was imposed."
+  },
+  "decision": {
+    "outcome": "retain",
+    "frontier_status": "confirmed_small_latency_frontier",
+    "plateau_eligible": false,
+    "post_best_distinct_no_improvement_count": 0,
+    "reason": "R10 confirms the exact R9 candidate at 46.4 seconds. The R9/R10 frozen-total median is 46.85 seconds, a small 0.53% improvement over R8, while repeated warmed-request and denoising medians improve by 2.60% and 2.85% with unchanged runtime peak. Retain the modulation fusion as the latency frontier, keep R3 as the memory frontier, and reset the post-best distinct-miss counter. R10 itself is a non-distinct confirmation."
+  }
+}
