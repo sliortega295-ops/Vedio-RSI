@@ -1,0 +1,72 @@
+{
+  "schema_version": 1,
+  "component": "kernel",
+  "round": 21,
+  "hypothesis": "Merge the two cross-attention K/V projections that consume the same 300-token Gemma2 tensor, then restore the dense layouts required by learned key RMSNorm and downstream SDPA.",
+  "session": {
+    "agent_id": "/root/sol_video_reproducer",
+    "prompt_sha256": "b406128240c2e097550aa62333aa8ef2a85d5e45540c9c65b49aefa260a08072",
+    "handoff": "Primary continued the recovered Kernel Executor contract after the bounded child handoff."
+  },
+  "provenance": {
+    "baseline_sha256": "3fdafdf00554ae4bafc91bc7729c3ba3e96af4edebac809782e6d6122ed23954",
+    "parent_sha": "fd15e35fe3a983fc840a03ad55bf8ad7edb34c9e",
+    "candidate_commit": "not_created_preflight_rejection",
+    "retained_frontier_commit": "7be2d6b0282f0230b9d888b2412d073ec9964250",
+    "probe_source_path": "receipts/preflight/round_021_cross_kv_merge_probe.py",
+    "probe_source_sha256": "46a4e8d5ce44a201fb43c3b64cb2cfe8753c2b42dfed193c0a6bef3d990ead1f",
+    "probe_result_path": "receipts/preflight/round_021_cross_kv_merge_probe.json",
+    "probe_result_sha256": "8f08efccc705aa8f78fca66968a6d6470ea90bf3fed6cce8896ad41a7f7d7835",
+    "genuinely_different_hypothesis": true
+  },
+  "build": {
+    "status": "passed",
+    "marker": "exact-shape H100 projection-plus-layout microgate executed",
+    "preflight": {
+      "status": "rejected_on_performance_gate",
+      "formal_encoder_shape": [1, 300, 2240],
+      "key_value_weight_shape": [2240, 2240],
+      "packed_weight_shape": [4480, 2240],
+      "key_max_abs_bf16": 0.0,
+      "value_max_abs_bf16": 0.0,
+      "dense_output_layouts": true,
+      "current_chain_ms": 0.0525162657101949,
+      "candidate_ms": 0.05838826497395833,
+      "speedup": 0.8994318590151225,
+      "predicted_full_run_s_saved": -0.011743998527526861
+    },
+    "note": "The packed projection was bit-exact after required dense-layout restoration, but packing plus two layout copies made the complete K/V projection and key-norm chain 11.2% slower. It was rejected before touching model source or launching a formal generation."
+  },
+  "run": {
+    "status": "not_run",
+    "formal_generation": "NOT_RUN",
+    "command": "PYTHONNOUSERSITE=1 PYTHONPATH=<kernel-runtime>:<validated-dependency-overlay>:<validated-kernel-staging> /home/jiangzhikun/yongyan_liu/Experiments/SolAgent/20260827-official-repro/envs/sana-cu128-phase0/bin/python receipts/preflight/round_021_cross_kv_merge_probe.py --lease-file /home/jiangzhikun/yongyan_liu/Experiments/SolAgent/20260831-sana-video-2b-full-exploration/state/gpu/GPU_LEASE.json --guard-dir models/sana_video_2b_h100/baseline --out receipts/preflight/round_021_cross_kv_merge_probe.json",
+    "cwd": "/home/jiangzhikun/yongyan_liu/Experiments/SolAgent/20260831-sana-video-2b-full-exploration/artifacts/executors/sana2b-kernel_aw-0001/worktree",
+    "gpu_uuid": "GPU-847305ce-670b-91ee-e0a9-aa3b7833df23",
+    "reason": "The exact-shape complete chain regressed from 0.052516 ms to 0.058388 ms, predicting an 0.011744-second full-run loss across 2000 cross-attention invocations.",
+    "residual_compute_apps": [],
+    "status_after_probe": "GPU at 3 MiB, lock free"
+  },
+  "validity": {
+    "status": "validated",
+    "method_semantics": "The probe concatenated only K/V weights and biases sharing one input, restored dense per-tensor layouts, and applied the same learned key RMSNorm. K and V were bit-exact versus separate projections.",
+    "structural_invariants": {
+      "query_projection_if_launched": "unchanged",
+      "sdpa_if_launched": "unchanged",
+      "output_projection_if_launched": "unchanged",
+      "denoising_steps_if_launched": 50,
+      "cfg_branches_per_step_if_launched": 2,
+      "logical_dit_calls_if_launched": 100,
+      "cross_attention_invocations_if_launched": 2000,
+      "skipped_or_reused_model_work": 0
+    },
+    "artifact": "NOT_RUN: no video or sampled frames were created because the candidate failed its exact-shape performance gate."
+  },
+  "decision": {
+    "outcome": "reject",
+    "frontier_status": "retained_round19_round20_reciprocal_scale_frontier",
+    "plateau_eligible": true,
+    "post_best_distinct_no_improvement_count": 1,
+    "reason": "R21 is genuinely distinct and bit-exact, but required dense-layout restoration makes the complete chain slower. Reject before full generation, retain the confirmed 40.8-second R19/R20 median frontier, and increment the distinct post-best miss counter to one."
+  }
+}
