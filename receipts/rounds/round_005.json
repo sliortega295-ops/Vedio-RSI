@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "component": "kernel",
+  "round": 5,
+  "hypothesis": "Identically repeat Round 4's retained BF16 aggregation plus exact bias-free QKV merge to determine whether its noise-scale 0.44% total_s improvement is consistent. This is a confirmation, not a genuinely different hypothesis.",
+  "session": {
+    "agent_id": "/root/sol_video_reproducer/kernel_executor",
+    "prompt_sha256": "b406128240c2e097550aa62333aa8ef2a85d5e45540c9c65b49aefa260a08072"
+  },
+  "provenance": {
+    "baseline_sha256": "3fdafdf00554ae4bafc91bc7729c3ba3e96af4edebac809782e6d6122ed23954",
+    "parent_sha": "d1893535184c0dc5f8dd57729f40be8e82d6ef83",
+    "candidate_commit": "4d14ea98e93015a1d0d51eb576daaff389d116b1",
+    "config_path": "config/sana_video_2b_h100/kernel_r05_bf16_qkv_confirm.toml",
+    "config_sha256": "0099f05107e4da467ed090853a949409a0307647595813c2c309d464894cf467",
+    "implementation": "Same knobs as Round 4: BF16 linear-attention aggregation and QKV merge enabled; compile/cache disabled.",
+    "repeat_of_round": 4,
+    "genuinely_different_hypothesis": false
+  },
+  "build": {
+    "status": "failed",
+    "failure_class": "external_capacity_interrupted_before_marker",
+    "marker": null,
+    "log_bytes": 374,
+    "note": "The process reached Stage 1 import and printed the beginning of the known optional DeepGEMM diagnostic, but the parent execution capacity interruption terminated the SSH-owned process before IMPORT_OK or BUILD_OK. This is not evidence of a model or configuration build failure."
+  },
+  "run": {
+    "status": "failed",
+    "failure_class": "external_capacity_interrupted_incomplete",
+    "command": "/home/jiangzhikun/yongyan_liu/Experiments/SolAgent/20260827-official-repro/envs/sana-cu128-phase0/bin/python scripts/launch_config.py config/sana_video_2b_h100/kernel_r05_bf16_qkv_confirm.toml --mode local --run-root runs --name-suffix r05-bf16-qkv-confirm",
+    "cwd": "/home/jiangzhikun/yongyan_liu/Experiments/SolAgent/20260831-sana-video-2b-full-exploration/artifacts/executors/sana2b-kernel_aw-0001/worktree",
+    "run_dir": "runs/20260831-102907-sana_video_2b_h100_kernel_r05_bf16_qkv_confirm-r05-bf16-qkv-confirm",
+    "gpu_uuid": "GPU-847305ce-670b-91ee-e0a9-aa3b7833df23",
+    "returncode": null,
+    "baseline_total_s": 61.7,
+    "total_s": null,
+    "peak_memory_mib": null,
+    "timing_scope": "warm_single_prompt_gen.generate_including_text_encoder_denoise_vae_decode_and_video_write_excluding_model_load_and_one_step_warmup",
+    "log_sha256": "06c7ea7da30fcdbb848ab5bbe5b8b271e4d920e9a1682ba3669bf937b96e10de",
+    "run_config_sha256": "912cef77b9470ea758fe72017bf971304866626dce85534767e3ae071bff68b9",
+    "launch_sha256": "4f22d124f22082575e3f33e8dd6b55d69dbb73c3ea81448fb42a347c1394ec12",
+    "residual_processes_after_resume": [],
+    "ranking_eligible": false
+  },
+  "validity": {
+    "status": "not_run",
+    "method_semantics": "The already-approved Round 4 exact QKV-fusion semantics would apply, but this interrupted attempt did not reach build or generation.",
+    "video": null,
+    "frames": [],
+    "visual_note": "NOT_RUN: no MP4 or frames were produced before the external capacity interruption."
+  },
+  "decision": {
+    "outcome": "retry",
+    "plateau_eligible": false,
+    "reason": "External execution capacity interrupted the process during import before BUILD_OK, benchmark, MP4, or frames. Exclude this incomplete confirmation from ranking and plateau accounting, preserve its partial log, and retry the identical confirmation as Round 6 under the shared GPU lock."
+  }
+}
