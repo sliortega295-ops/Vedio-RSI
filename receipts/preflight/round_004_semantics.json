@@ -1,0 +1,83 @@
+{
+  "schema_version": 1,
+  "component": "kernel",
+  "round": 4,
+  "status": "ADMISSIBLE_SOURCE_CHECK",
+  "hypothesis": "Retain the Round 3 BF16 aggregation frontier and replace three bias-free self-attention F.linear launches with one F.linear using [Wq;Wk;Wv], then split the result in the same q,k,v order.",
+  "source_evidence": {
+    "attention_path": "external/sol_runtime/python/sglang/multimodal_gen/runtime/models/dits/sana_video.py",
+    "attention_sha256": "6a4c853e8f443734db72befdca0910b4cbf2ccf4a83792c7be03427a36522332",
+    "attention_lines": {
+      "original_bias_aware_modules": "123-136",
+      "off_flag_and_empty_cache": "141-144",
+      "post_load_weight_concat": "146-152",
+      "merged_and_original_forward_paths": "154-162",
+      "post_load_lifecycle": "621-630"
+    },
+    "architecture_path": "external/sol_runtime/python/sglang/multimodal_gen/configs/models/dits/sana_video.py",
+    "architecture_sha256": "3254c19a0fb742aae82102f71dfaea1b5843e3b5408a00dce33d79d4a1812f52",
+    "architecture_lines": "14-31",
+    "loader_path": "external/sol_runtime/python/sglang/multimodal_gen/runtime/loader/fsdp_load.py",
+    "loader_lines": "247-282"
+  },
+  "projection_equivalence": {
+    "hidden_shape": ["B", 32760, 2240],
+    "original_weights": {
+      "Wq": [2240, 2240],
+      "Wk": [2240, 2240],
+      "Wv": [2240, 2240],
+      "dtype": "bfloat16",
+      "bias": false
+    },
+    "concat": {
+      "axis": 0,
+      "order": ["Wq", "Wk", "Wv"],
+      "shape": [6720, 2240],
+      "dtype": "bfloat16"
+    },
+    "merged_output": {
+      "shape": ["B", 32760, 6720],
+      "split_axis": -1,
+      "equal_chunks": 3,
+      "chunk_order": ["q", "k", "v"],
+      "chunk_shape": ["B", 32760, 2240]
+    },
+    "identity": "For x, F.linear(x,[Wq;Wk;Wv]) = [xWq^T,xWk^T,xWv^T]. chunk(3,-1) restores q,k,v in exactly the original order. A larger GEMM may round/schedule differently, which is permitted implementation-level floating-point ordering.",
+    "bias_proof": "SanaVideoArchConfig.attention_bias is false and is passed into SanaVideoLinearAttention, so to_q/to_k/to_v all have bias=None; concatenating weights loses no bias term."
+  },
+  "weight_lifecycle": {
+    "load_order": "fsdp_load loads the complete checkpoint state at lines 247-260, runs quant post-processing, then calls model.post_load_weights at line 274.",
+    "construction": "SanaVideo post_load_weights first casts the loaded transformer to BF16, then invokes build_qkv_merge on every one of 20 self-attention blocks. torch.cat therefore captures final loaded BF16 weights on their current device, not meta or initialization values.",
+    "device_residency": "Pinned run has dit_cpu_offload=false, dit_layerwise_offload=false, and layerwise_offload_components excludes transformer; the transformer and detached merged tensors remain resident on leased GPU for the request.",
+    "mutation": "No LoRA, quantization, training, optimizer, or later weight mutation is enabled; original q/k/v Parameters remain intact and the merged tensor is a detached read-only inference copy.",
+    "off_identity": "With SGLANG_SANA_QKV_MERGE unset/0, _qkv_merge is false, build_qkv_merge returns without assigning, _qkv_w stays None, and forward executes the original three to_q/to_k/to_v modules verbatim."
+  },
+  "structural_invariants": {
+    "scheduler_steps": 50,
+    "cfg_branches_per_step": 2,
+    "dit_calls": 100,
+    "transformer_blocks_per_call": 20,
+    "linear_attention_invocations": 2000,
+    "tokens_per_invocation": 32760,
+    "logical_q_projections_per_invocation": 1,
+    "logical_k_projections_per_invocation": 1,
+    "logical_v_projections_per_invocation": 1,
+    "original_projection_launches_per_invocation": 3,
+    "merged_projection_launches_per_invocation": 1,
+    "logical_dot_products_removed": 0,
+    "skipped_or_reused_model_work": 0,
+    "cache_or_step_skip": false,
+    "rank_reduction": false,
+    "sparsity": false,
+    "sub_16_bit_quantization": false
+  },
+  "stacked_frontier": {
+    "retained_round": 3,
+    "linear_attention_aggregation": "bf16",
+    "compile": false,
+    "cache": false,
+    "topology_change": false
+  },
+  "admissibility_argument": "This is exact horizontal GEMM fusion. It changes launch layout only: all q/k/v rows, tokens, heads, blocks, CFG branches, DiT calls, and scheduler steps are preserved; downstream norm/ReLU/RoPE/attention/FFN code is identical. It is admissible method-level lossless kernel work.",
+  "launch_allowed": true
+}
