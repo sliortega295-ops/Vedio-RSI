@@ -1,0 +1,72 @@
+{
+  "schema_version": 1,
+  "component": "cache",
+  "model_id": "sana_video_2b_h100",
+  "screening_scope": "one fixed 832x480, 81-frame, 16-fps, 50-step, guidance-6, seed-42 model-card prompt; first/middle/last built-in visual screen",
+  "baseline": {
+    "total_s": 61.7,
+    "peak_memory_mib": 17770,
+    "sha256": "3fdafdf00554ae4bafc91bc7729c3ba3e96af4edebac809782e6d6122ed23954",
+    "timing_scope": "warm_single_prompt_gen.generate_including_text_encoder_denoise_vae_decode_and_video_write_excluding_model_load_and_one_step_warmup"
+  },
+  "convergence": {
+    "status": "genuine_convergence",
+    "stop_round": 12,
+    "hard_cap": 20,
+    "reason": "Exactly three distinct matched tiers cover all three faithful families, every family's speedup increases from conservative to balanced to aggressive, all nine artifacts and methods are valid, and the final missing balanced EasyCache point was measured exactly on target."
+  },
+  "matched_tiers": [
+    {
+      "name": "conservative",
+      "time_range_s": [46.2, 46.9],
+      "max_relative_time_spread": 0.0151515151515151,
+      "within_two_percent": true,
+      "family_points": [
+        {"family": "easycache", "round": 2, "total_s": 46.2, "time_ratio": 0.7487844408427877, "speedup": 1.3354978354978355, "hits": 9, "visual_relation": "fixed-prompt quality leader or tie"},
+        {"family": "teacache", "round": 6, "total_s": 46.7, "time_ratio": 0.7568881685575365, "speedup": 1.3211991434689507, "hits": 8, "visual_relation": "fixed-prompt quality leader or tie"},
+        {"family": "taylorseer", "round": 7, "total_s": 46.9, "time_ratio": 0.7601296596434359, "speedup": 1.3155650319829426, "hits": 8, "visual_relation": "valid but slightly more framing, pose, and collar drift"}
+      ],
+      "fixed_prompt_winner": "easycache_or_teacache_tie",
+      "winner_status": "bounded_tie"
+    },
+    {
+      "name": "balanced",
+      "time_range_s": [38.8, 39.0],
+      "max_relative_time_spread": 0.005154639175257769,
+      "within_two_percent": true,
+      "family_points": [
+        {"family": "easycache", "round": 12, "total_s": 38.8, "time_ratio": 0.6288492706645057, "speedup": 1.5902061855670102, "hits": 17, "visual_relation": "clear fixed-prompt winner with very low drift"},
+        {"family": "teacache", "round": 10, "total_s": 39.0, "time_ratio": 0.6320907617504052, "speedup": 1.582051282051282, "hits": 17, "visual_relation": "valid with low-to-moderate pose, framing, gaze, and flare drift"},
+        {"family": "taylorseer", "round": 11, "total_s": 38.8, "time_ratio": 0.6288492706645057, "speedup": 1.5902061855670102, "hits": 17, "visual_relation": "valid with medium drift; decisively worse than TeaCache on three matched frames"}
+      ],
+      "fixed_prompt_winner": "easycache",
+      "winner_status": "clear_on_fixed_prompt"
+    },
+    {
+      "name": "aggressive",
+      "time_range_s": [28.0, 28.5],
+      "max_relative_time_spread": 0.017857142857142856,
+      "within_two_percent": true,
+      "family_points": [
+        {"family": "easycache", "round": 9, "total_s": 28.4, "time_ratio": 0.46029173419773095, "speedup": 2.172535211267606, "hits": 29, "visual_relation": "valid; tentative edge or tie with TeaCache on fixed prompt"},
+        {"family": "teacache", "round": 3, "total_s": 28.5, "time_ratio": 0.4619124797406807, "speedup": 2.1649122807017545, "hits": 29, "visual_relation": "valid with material pose, framing, forest, and flare drift"},
+        {"family": "taylorseer", "round": 4, "total_s": 28.0, "time_ratio": 0.4538087520259319, "speedup": 2.2035714285714287, "hits": 29, "visual_relation": "valid but dominated in quality with the strongest reframing and late flare drift"}
+      ],
+      "fixed_prompt_winner": "easycache",
+      "winner_status": "tentative_edge_or_tie_with_teacache"
+    }
+  ],
+  "family_speedup_monotonicity": {
+    "easycache": [1.3354978354978355, 1.5902061855670102, 2.172535211267606],
+    "teacache": [1.3211991434689507, 1.582051282051282, 2.1649122807017545],
+    "taylorseer": [1.3155650319829426, 1.5902061855670102, 2.2035714285714287],
+    "all_strictly_increasing": true
+  },
+  "excluded_rounds": [
+    {"round": 1, "reason": "invalid stale warmup/CFG residual provenance; excluded from ranking"},
+    {"round": 5, "reason": "valid TeaCache conservative calibration but 2.81 percent outside the shared target"},
+    {"round": 8, "reason": "valid EasyCache aggressive calibration but 2.456 percent outside the shared target"}
+  ],
+  "overall_assessment": "EasyCache supplies the clear balanced fixed-prompt winner and the tentative aggressive winner, while EasyCache and TeaCache are effectively tied conservatively. TaylorSeer is valid at every tier but has more visible drift at matched budgets. This ranking is intentionally bounded to the approved fixed-prompt screen; the master-owned small near-final multi-prompt sanity check is not run by this executor.",
+  "multi_prompt_sanity": "master_owned_not_run_by_executor"
+}
