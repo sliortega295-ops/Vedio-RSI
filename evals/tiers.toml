@@ -1,0 +1,61 @@
+# Delivery tiers — the project delivers THREE configs selected by SPEED TARGET,
+# then chooses the best quality profile available within each target bucket.
+#
+# EACH dimension's search loop emits retained frontier config. The integration
+# stage then stacks compatible config and selects final low/medium/high
+# delivery profiles by target speed:
+#
+#   low    >= 1.5x
+#   medium >= 2.0x
+#   high   >= 3.0x
+#
+# Within each speed bucket, choose the config/profile with the best quality
+# evidence, ordered by aligned pairwise Gemini severity/status, aligned LPIPS,
+# and then higher speed as a tie-breaker. LPIPS is telemetry and ranking signal,
+# not an absolute delivery threshold for lossy generative dimensions.
+#
+# This fan-in integration stage is mandatory for global completion: a run with
+# only per-dimension winners is unfinished unless each tier has an explicit
+# integration blocker.
+#
+# Exceptions: exact/numeric dimensions such as kernel/operator fusion and
+# low-precision numeric transforms may enforce OFF identity, numeric tolerance,
+# silent-fallback checks, or precision-specific non-regression as hard gates.
+# Config artifacts still record LPIPS and Gemini for comparison.
+
+[low]
+label = "1.5x quality-best"
+speedup_target = 1.50
+selection = "best_quality_at_or_above_speed_target"
+
+[medium]
+label = "2.0x quality-best"
+speedup_target = 2.00
+selection = "best_quality_at_or_above_speed_target"
+
+[high]
+label = "3.0x quality-best"
+speedup_target = 3.00
+selection = "best_quality_at_or_above_speed_target"
+
+[targets]
+low_speedup = 1.50
+medium_speedup = 2.00
+high_speedup = 3.00
+
+[quality_ranking]
+primary = "aligned_pairwise_gemini_max_artifact_severity"
+secondary = "aligned_lpips_max"
+tie_breaker = "higher_speedup"
+lpips_absolute_threshold = "disabled_for_lossy_generative_dimensions"
+gemini_absolute_threshold = "disabled_for_lossy_generative_dimensions"
+
+# Gemini judge verified live on HSG (NVIDIA_API_KEY + inference-api.nvidia.com,
+# gcp/google/gemini-3.5-flash): self-vs-self baseline frames -> overall=pass,
+# new_artifacts=[], recommendation=promote.
+[provider]
+visual_judge = "tools/vision/nvidia_gemini_judge.py"
+rubric = "evals/rubrics/gemini_visual_artifact_gate.md"
+model = "gcp/google/gemini-3.5-flash"
+api_key_env = "NVIDIA_API_KEY"
+status = "verified_live"

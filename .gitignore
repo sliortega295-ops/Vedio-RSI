@@ -1,0 +1,7 @@
+__pycache__/
+*.py[cod]
+*.mp4
+*.safetensors
+runs/
+logs/
+outputs/

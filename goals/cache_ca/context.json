@@ -1,0 +1,20 @@
+{
+  "aspect": "cache",
+  "baseline": {
+    "copied_path_count": 20,
+    "copy_mode": "allowlist_minimal_runnable_closure",
+    "eval_profile": "evals/profiles/official_video_t2v_sana_video_2b_h100.toml",
+    "external_copy_count": 4239,
+    "manifest": "config/sana_video_2b_h100/baseline.toml",
+    "overlay_copy_count": 0,
+    "runtime_root": "models/sana_video_2b_h100/baseline"
+  },
+  "correctness_mode": "quality_gated",
+  "experiment_uid": "sana2b-cache_ca-0001",
+  "model_contract": "models/sana_video_2b_h100/model.toml",
+  "model_uid": "sana_video_2b_h100",
+  "schema_version": 1,
+  "technique": "cache",
+  "technique_scope": "workflow/cache_ca/nodes/codex_executor/cache_scope.md",
+  "workflow_uid": "cache_ca"
+}

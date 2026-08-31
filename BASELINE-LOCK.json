@@ -1,0 +1,21 @@
+{
+  "model_id": "sana_video_2b_h100",
+  "total_s": 61.7,
+  "denoise_s": null,
+  "timing_scope": "warm_single_prompt_gen.generate_including_text_encoder_denoise_vae_decode_and_video_write_excluding_model_load_and_one_step_warmup",
+  "peak_memory_mib": 17770.0,
+  "run_dir": "/home/jiangzhikun/yongyan_liu/Experiments/SolAgent/20260831-sana-video-2b-full-exploration/artifacts/baseline/sana2b-baseline_bl-0001/worktree/runs/20260831-091727-sana_video_2b_h100_dense_baseline-formal-dense-retry3",
+  "baseline_frames": "/home/jiangzhikun/yongyan_liu/Experiments/SolAgent/20260831-sana-video-2b-full-exploration/artifacts/baseline/sana2b-baseline_bl-0001/worktree/runs/20260831-091727-sana_video_2b_h100_dense_baseline-formal-dense-retry3/outputs/frames",
+  "baseline_video": "/home/jiangzhikun/yongyan_liu/Experiments/SolAgent/20260831-sana-video-2b-full-exploration/artifacts/baseline/sana2b-baseline_bl-0001/worktree/runs/20260831-091727-sana_video_2b_h100_dense_baseline-formal-dense-retry3/outputs/out.mp4",
+  "world_size": 1,
+  "world_size_source": "run_artifact:run_config.json:world_size",
+  "resource_envelope": {
+    "nodes": 1,
+    "gpus_per_node": 1,
+    "world_size": 1,
+    "allocated_gpus": 1,
+    "hardware": null
+  },
+  "frozen_at": "2026-08-31T09:22:38Z",
+  "source": "override_run_dir"
+}
