@@ -1,0 +1,72 @@
+{
+  "schema_version": 1,
+  "component": "cache",
+  "round": 10,
+  "hypothesis": "TeaCache threshold 0.020 with a one-hit cap, selected before launch from round-5 signal distances, will produce roughly 17-18 cache hits and define a genuine 37-39 second balanced tier between the measured conservative and aggressive bands.",
+  "session": {
+    "agent_id": "cache_executor",
+    "prompt_sha256": "c81c7d4f04ed602d0ac9171aaf9f170589e491bb4b42441c557008fc15466658",
+    "overlay_sha256": "95c0d4fb9226174cafb79f3764c35783aa4138554d6ae4e680cca8ce2393a98e"
+  },
+  "provenance": {
+    "baseline_sha256": "3fdafdf00554ae4bafc91bc7729c3ba3e96af4edebac809782e6d6122ed23954",
+    "parent_sha": "256cfdf803d4562c027768be2bc5dc24edf5c278",
+    "candidate_commit": "b781c4c1828aee5358852f326de9fcf341cca30a",
+    "config_sha256": "100c3c9c644a241b69dac5611b74a1eaac2b99e33a136a243c396b724ebe7f66",
+    "baseline_total_s": 61.7,
+    "baseline_peak_memory_mib": 17770,
+    "fixed_prompt_sha256": "870a3daedac57a0654d62de074a480daa3d7bee82b26988ec17b75496fb2643c",
+    "timing_scope": "warm_single_prompt_gen.generate_including_text_encoder_denoise_vae_decode_and_video_write_excluding_model_load_and_one_step_warmup"
+  },
+  "build": {
+    "status": "passed",
+    "command": "PYTHONPATH=external/sol_runtime/python:/home/jiangzhikun/yongyan_liu/Experiments/SolAgent/20260827-official-repro/baseline/targets/sana-runtime-deps-v1:/home/jiangzhikun/yongyan_liu/Experiments/SolAgent/20260827-official-repro/baseline/staging/sglang-build001-clean-v2 /home/jiangzhikun/yongyan_liu/Experiments/SolAgent/20260827-official-repro/envs/sana-cu128-phase0/bin/python -m unittest tests.test_sana_video_cache",
+    "tests": "9/9 CPU tests passed; TeaCache signal/replay behavior, ledger validation, dry-run, git diff, exact lease UUID, GPU-idle, and shared-lock availability preflights passed. The optional DeepGEMM warning remained benign."
+  },
+  "run": {
+    "status": "validated",
+    "command": "/home/jiangzhikun/yongyan_liu/Experiments/SolAgent/20260827-official-repro/envs/sana-cu128-phase0/bin/python scripts/launch_config.py config/sana_video_2b_h100/cache/tea_r10_t0020_w3_s8_h1_balanced.toml --mode local --run-root runs --name-suffix cache-r10",
+    "run_dir": "runs/20260831-134036-sana2b_cache_r10_tea_t0020_w3_s8_h1_balanced-cache-r10",
+    "total_s": 39.0,
+    "raw_speedup": 1.582051282051282,
+    "raw_time_ratio": 0.6320907617504052,
+    "warmed_request_s": 32.59,
+    "peak_memory_mib": 17910,
+    "signal_definition": "relative mean-L1 change of token-subsampled first-block AdaLN-modulated hidden input, accumulated with identity rescaling",
+    "reuse_payload": "separate conditional and unconditional full-block-stack residual histories",
+    "cache_summary": {
+      "total_decisions": 50,
+      "computes": 33,
+      "hits": 17,
+      "hit_rate": 0.34,
+      "continuous_hit_cap_recomputes": 17,
+      "threshold_recomputes": 12,
+      "skipped_steps": [3, 5, 7, 9, 11, 13, 15, 17, 19, 21, 23, 25, 27, 29, 31, 33, 35],
+      "residual_history_steps": {
+        "0": [49],
+        "1": [49]
+      }
+    },
+    "tier_position": {
+      "status": "balanced_anchor",
+      "conservative_reference_s": 46.2,
+      "aggressive_reference_s": 28.5,
+      "distinct_from_conservative_relative": 0.1558441558441558,
+      "distinct_from_aggressive_relative": 0.3684210526315789
+    },
+    "hypothesis_result": "The run produced exactly 17 hits and 39.0 seconds, satisfying the predeclared balanced target.",
+    "residual_compute_apps": []
+  },
+  "validity": {
+    "status": "validated",
+    "artifact_status": "validated",
+    "method_provenance": "validated",
+    "ffprobe": "832x480, 81 frames, 16 fps, 5.0625 s",
+    "video_sha256": "32de735b32e0547e3dfb5a1c18502307004c123661fc7490213d016142e58caa",
+    "visual_note": "The first/middle/last frames preserve identity, anatomy, forest composition, and the increasing backlight trajectory without a gross artifact. Relative to dense and conservative TeaCache, only small pose, framing, and background shifts are visible; drift is clearly below the aggressive TeaCache point."
+  },
+  "decision": {
+    "outcome": "retain",
+    "reason": "Retain as the balanced TeaCache anchor: the preselected configuration produced exactly 17 hits and 39.0 s, a 1.582x speedup genuinely between the conservative and aggressive tiers, with valid method/artifact evidence and a passing lightweight visual screen."
+  }
+}
