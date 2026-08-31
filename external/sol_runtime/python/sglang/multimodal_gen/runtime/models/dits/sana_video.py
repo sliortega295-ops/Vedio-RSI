@@ -32,6 +32,7 @@ from sglang.jit_kernel.diffusion.triton.scale_shift import (
     fuse_scale_shift_kernel,
 )
 from sglang.jit_kernel.diffusion.triton.sana_rope import (
+    apply_sana_cross_attention_output_layout,
     apply_sana_fused_qk_norm_relu_rotary_emb,
     apply_sana_fused_reciprocal_scale,
     apply_sana_paired_rotary_emb,
@@ -358,6 +359,9 @@ class SanaVideoCrossAttention(nn.Module):
             in ("1", "true", "True")
             else None
         )
+        self._fused_output_layout = os.environ.get(
+            "SGLANG_SANA_XATTN_OUTPUT_LAYOUT", "0"
+        ) in ("1", "true", "True")
 
     def forward(self, hidden_states, encoder_hidden_states, encoder_attention_mask=None):
         B, S, _ = hidden_states.shape
@@ -416,7 +420,10 @@ class SanaVideoCrossAttention(nn.Module):
                 )
 
         hidden_states = F.scaled_dot_product_attention(query, key, value, attn_mask=attn_mask)
-        hidden_states = hidden_states.transpose(1, 2).reshape(B, S, -1)
+        if self._fused_output_layout:
+            hidden_states = apply_sana_cross_attention_output_layout(hidden_states)
+        else:
+            hidden_states = hidden_states.transpose(1, 2).reshape(B, S, -1)
         hidden_states = hidden_states.to(query.dtype)
 
         hidden_states = self.to_out[0](hidden_states)

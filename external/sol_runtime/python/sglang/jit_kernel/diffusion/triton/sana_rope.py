@@ -198,6 +198,31 @@ def _sana_fused_reciprocal_scale_kernel(
     tl.store(output_ptr + offsets, output, mask=mask)
 
 
+@triton.jit
+def _sana_cross_attention_output_layout_kernel(
+    output_ptr,
+    input_ptr,
+    total,
+    num_tokens: tl.constexpr,
+    num_heads: tl.constexpr,
+    head_dim: tl.constexpr,
+    inner_dim: tl.constexpr,
+    BLOCK: tl.constexpr,
+):
+    offsets = tl.program_id(0) * BLOCK + tl.arange(0, BLOCK)
+    mask = offsets < total
+    feature = offsets % inner_dim
+    token = (offsets // inner_dim) % num_tokens
+    batch = offsets // (inner_dim * num_tokens)
+    head = feature // head_dim
+    channel = feature % head_dim
+    source = (
+        ((batch * num_heads + head) * num_tokens + token) * head_dim + channel
+    )
+    value = tl.load(input_ptr + source, mask=mask, other=0.0)
+    tl.store(output_ptr + offsets, value, mask=mask)
+
+
 def apply_sana_paired_rotary_emb(
     query: torch.Tensor,
     key: torch.Tensor,
@@ -397,6 +422,44 @@ def apply_sana_fused_reciprocal_scale(
         num_tokens=num_tokens,
         num_heads=num_heads,
         head_dim=head_dim,
+        BLOCK=1024,
+        num_warps=8,
+    )
+    return output
+
+
+def apply_sana_cross_attention_output_layout(
+    hidden_states: torch.Tensor,
+) -> torch.Tensor:
+    """Materialize SDPA [B,H,S,D] output as dense [B,S,H*D]."""
+
+    if hidden_states.device.type != "cuda":
+        raise ValueError("SANA cross-attention output layout requires CUDA")
+    if hidden_states.dtype is not torch.bfloat16:
+        raise ValueError("SANA cross-attention output layout requires BF16")
+    if hidden_states.ndim != 4:
+        raise ValueError("SANA cross-attention output layout expects [B,H,S,D]")
+    if not hidden_states.is_contiguous():
+        raise ValueError("SANA cross-attention output layout requires contiguous input")
+
+    batch, num_heads, num_tokens, head_dim = hidden_states.shape
+    inner_dim = num_heads * head_dim
+    output = torch.empty(
+        batch,
+        num_tokens,
+        inner_dim,
+        device=hidden_states.device,
+        dtype=hidden_states.dtype,
+    )
+    total = output.numel()
+    _sana_cross_attention_output_layout_kernel[(triton.cdiv(total, 1024),)](
+        output,
+        hidden_states,
+        total,
+        num_tokens=num_tokens,
+        num_heads=num_heads,
+        head_dim=head_dim,
+        inner_dim=inner_dim,
         BLOCK=1024,
         num_warps=8,
     )

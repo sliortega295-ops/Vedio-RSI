@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "component": "kernel",
+  "round": 22,
+  "status": "passed",
+  "hypothesis": "Replace the SDPA output transpose-and-reshape materialization with an exact-shape Triton layout kernel while preserving the dense cross-attention output projection.",
+  "activation": {
+    "environment_variable": "SGLANG_SANA_XATTN_OUTPUT_LAYOUT",
+    "enabled_value": "1",
+    "disabled_path": "The original hidden_states.transpose(1, 2).reshape(B, S, -1) remains the complete OFF path."
+  },
+  "source": {
+    "implementation_path": "external/sol_runtime/python/sglang/multimodal_gen/runtime/models/dits/sana_video.py",
+    "implementation_sha256": "02fbf2afb351ccdc63d93207930fefd2c3578404c809a6376f73394226d46a02",
+    "kernel_path": "external/sol_runtime/python/sglang/jit_kernel/diffusion/triton/sana_rope.py",
+    "kernel_sha256": "7aaee08120f1c22296f2ed785ba6d97ca3af387bb0af0984afb9c7daa753a348",
+    "runner_path": "models/sana_video_2b_h100/baseline/gpu_infer.py",
+    "runner_sha256": "ff71d434677e6ee11e00d2a4b75a8279c676ed974bcbb35b4383e39c5acae888"
+  },
+  "installed_gate": {
+    "receipt_path": "receipts/preflight/round_022_cross_output_layout_impl_probe.json",
+    "receipt_sha256": "2a3e853316b42c4f5d1ce18c5513e88a66e03c44f692481defff6f8ae72eb460",
+    "formal_sdpa_output_shape": [1, 20, 32760, 112],
+    "projection_weight_shape": [2240, 2240],
+    "layout_exact": true,
+    "projection_exact": true,
+    "input_preserved": true,
+    "output_stride_preserved": true,
+    "fail_closed_guards_passed": [
+      "noncontiguous_input",
+      "non_bf16_input"
+    ],
+    "current_ms": 0.6301866769790649,
+    "candidate_ms": 0.5480320056279501,
+    "predicted_full_run_s_saved": 0.16430934270222974
+  },
+  "semantic_contract": {
+    "sdpa": "unchanged",
+    "cross_attention_output_projection": "unchanged",
+    "bf16_values": "bit-exact in the exact-shape installed-wrapper gate",
+    "dense_output_stride": "unchanged",
+    "tokens_blocks_cfg_steps": "unchanged",
+    "skipped_or_reused_model_work": 0,
+    "only_change": "The BF16 SDPA output is copied directly from [B,H,S,D] into dense [B,S,H*D] order by one fail-closed Triton kernel."
+  },
+  "limitations": "The exact-shape microgate establishes local correctness and performance only; the formal fixed-prompt generation remains the controlling candidate gate."
+}

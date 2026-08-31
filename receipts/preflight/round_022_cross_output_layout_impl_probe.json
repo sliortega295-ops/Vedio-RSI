@@ -1,0 +1,65 @@
+{
+  "correctness": {
+    "input_preserved": true,
+    "layout_exact": true,
+    "output_stride_preserved": true,
+    "projection_exact": true
+  },
+  "formal_contract": {
+    "dtype": "torch.bfloat16",
+    "projection_weight_shape": [
+      2240,
+      2240
+    ],
+    "sdpa_output_shape": [
+      1,
+      20,
+      32760,
+      112
+    ],
+    "sdpa_output_stride": [
+      73382400,
+      3669120,
+      112,
+      1
+    ]
+  },
+  "gpu": {
+    "index": 7,
+    "memory_total_mib": 81559,
+    "memory_used_mib": 0,
+    "name": "NVIDIA H100 80GB HBM3",
+    "utilization_gpu_percent": 0,
+    "uuid": "GPU-847305ce-670b-91ee-e0a9-aa3b7833df23"
+  },
+  "implementation": {
+    "fail_closed_guard_checks": {
+      "non_bf16_input": {
+        "error": "SANA cross-attention output layout requires BF16",
+        "passed": true
+      },
+      "noncontiguous_input": {
+        "error": "SANA cross-attention output layout requires contiguous input",
+        "passed": true
+      }
+    },
+    "module": "sglang.jit_kernel.diffusion.triton.sana_rope",
+    "source_path": "/home/jiangzhikun/yongyan_liu/Experiments/SolAgent/20260831-sana-video-2b-full-exploration/artifacts/executors/sana2b-kernel_aw-0001/worktree/external/sol_runtime/python/sglang/jit_kernel/diffusion/triton/sana_rope.py",
+    "source_sha256": "7aaee08120f1c22296f2ed785ba6d97ca3af387bb0af0984afb9c7daa753a348"
+  },
+  "lease_uuid": "GPU-847305ce-670b-91ee-e0a9-aa3b7833df23",
+  "schema_version": 1,
+  "semantics": "Installed wrapper materializes exactly the same dense projection input from SDPA output, preserves the input, and leaves the output projection and every logical model operation unchanged.",
+  "status": "passed",
+  "timing": {
+    "candidate_installed_layout_plus_projection_ms": 0.5480320056279501,
+    "current_native_layout_plus_projection_ms": 0.6301866769790649,
+    "delta_ms_per_cross_attention": 0.08215467135111487,
+    "formal_cross_attention_invocations": 2000,
+    "gate": "candidate < 98% of current and predicted saving >= 0.10 s",
+    "predicted_full_run_s_saved": 0.16430934270222974,
+    "speedup": 1.1499085281652115
+  },
+  "torch": "2.11.0+cu128",
+  "triton": "3.6.0"
+}

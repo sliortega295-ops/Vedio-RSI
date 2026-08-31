@@ -121,6 +121,9 @@ def _optimization_knobs() -> dict[str, object]:
         "fused_reciprocal_scale": _bool_env(
             "SGLANG_SANA_FUSED_RECIPROCAL_SCALE"
         ),
+        "cross_attention_output_layout": _bool_env(
+            "SGLANG_SANA_XATTN_OUTPUT_LAYOUT"
+        ),
         "easycache_threshold": easycache,
         "warmup_disabled": _bool_env("SANA_DISABLE_WARMUP"),
     }

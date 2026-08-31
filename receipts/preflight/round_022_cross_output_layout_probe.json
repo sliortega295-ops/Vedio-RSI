@@ -1,0 +1,63 @@
+{
+  "correctness": {
+    "candidate_layout_stride": [
+      73382400,
+      2240,
+      1
+    ],
+    "expected_layout_stride": [
+      73382400,
+      2240,
+      1
+    ],
+    "layout_exact": true,
+    "projection_exact": true
+  },
+  "formal_contract": {
+    "dtype": "torch.bfloat16",
+    "projection_weight_shape": [
+      2240,
+      2240
+    ],
+    "sdpa_output_shape": [
+      1,
+      20,
+      32760,
+      112
+    ],
+    "sdpa_output_stride": [
+      73382400,
+      3669120,
+      112,
+      1
+    ]
+  },
+  "gpu": {
+    "index": 7,
+    "memory_total_mib": 81559,
+    "memory_used_mib": 0,
+    "name": "NVIDIA H100 80GB HBM3",
+    "utilization_gpu_percent": 0,
+    "uuid": "GPU-847305ce-670b-91ee-e0a9-aa3b7833df23"
+  },
+  "lease_uuid": "GPU-847305ce-670b-91ee-e0a9-aa3b7833df23",
+  "memory": {
+    "candidate_dense_layout_elements": 73382400,
+    "current_dense_layout_elements": 73382400,
+    "extra_full_tensor": false
+  },
+  "schema_version": 1,
+  "semantics": "The candidate performs only the required [B,H,S,D] to [B,S,H*D] dense layout materialization and includes the unchanged output projection in the gate. SDPA, projection weights/bias, tokens, blocks, CFG calls, and denoising steps remain unchanged.",
+  "status": "passed",
+  "timing": {
+    "candidate_triton_layout_plus_projection_ms": 0.5469546715418497,
+    "current_native_layout_plus_projection_ms": 0.6284799973169962,
+    "delta_ms_per_cross_attention": 0.08152532577514648,
+    "formal_cross_attention_invocations": 2000,
+    "gate": "candidate < 98% of current and predicted saving >= 0.10 s",
+    "predicted_full_run_s_saved": 0.16305065155029297,
+    "speedup": 1.149053166591171
+  },
+  "torch": "2.11.0+cu128",
+  "triton": "3.6.0"
+}
