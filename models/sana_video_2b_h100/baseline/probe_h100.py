@@ -12,7 +12,7 @@ import time
 from datetime import datetime, timezone
 from pathlib import Path
 
-from gpu_guard import atomic_write_json, locked_idle_lease, query_compute_apps
+from gpu_guard import atomic_write_json, locked_idle_lease
 
 
 def _required_env(name: str) -> str:
@@ -143,9 +143,8 @@ def main() -> int:
         torch.cuda.empty_cache()
         atomic_write_json(output, report)
 
-    residual = query_compute_apps(lease.gpu_uuid)
-    if residual:
-        raise RuntimeError(f"probe left compute apps on leased GPU: {residual}")
+    # A CUDA context remains visible until this Python process exits. The
+    # controller performs the residual-process query after the probe returns.
     print(json.dumps(report, indent=2, sort_keys=True))
     return 0
 
