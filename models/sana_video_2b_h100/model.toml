@@ -1,0 +1,98 @@
+schema_version = 1
+id = "sana_video_2b_h100"
+display_name = "SANA-Video 2B 480p on one H100/cu128"
+legacy_profile = "models/sana_video_2b_h100.toml"
+contract_kind = "model_baseline_minimal_copy"
+
+[baseline]
+manifest = "config/sana_video_2b_h100/baseline.toml"
+runtime_root = "models/sana_video_2b_h100/baseline"
+eval_profile = "evals/profiles/official_video_t2v_sana_video_2b_h100.toml"
+description = "Frozen dense SANA-Video 2B control plus a copied, editable runtime for Kernel and Cache search."
+
+[baseline.copy]
+paths_are_repo_relative = true
+include = [
+  "models/sana_video_2b_h100.toml",
+  "models/sana_video_2b_h100/model.toml",
+  "models/sana_video_2b_h100/README.md",
+  "models/sana_video_2b_h100/PISA_NOT_APPLICABLE.md",
+  "models/sana_video_2b_h100/prompts/model_card_long_motion30.txt",
+  "models/sana_video_2b_h100/baseline/gpu_guard.py",
+  "models/sana_video_2b_h100/baseline/gpu_infer.py",
+  "models/sana_video_2b_h100/baseline/lease_gpu.py",
+  "models/sana_video_2b_h100/baseline/probe_h100.py",
+  "models/sana_video_2b_h100/baseline/scripts/run_sana_video_2b_gpu.sh",
+  "config/sana_video_2b_h100/baseline.toml",
+  "config/schema.md",
+  "evals/profiles/official_video_t2v_sana_video_2b_h100.toml",
+  "evals/tiers.toml",
+  "scripts/launch_config.py",
+  "scripts/collect_run.py",
+  "search/plan_eval.py",
+  "techniques/config_manifest.py",
+]
+exclude = [
+  ".git",
+  ".git/**",
+  "**/__pycache__/**",
+  "**/*.pyc",
+  "**/.pytest_cache/**",
+  "runs/**",
+  "output/**",
+]
+
+[[baseline.external_copy]]
+name = "sol_video_inference_engine_cu128_compat"
+source = "/home/jiangzhikun/yongyan_liu/Experiments/SolAgent/20260827-official-repro/worktrees/sana-minimal-import-cu128-v1"
+dest = "external/sol_runtime"
+reason = "Editable experiment-local copy of official b0b7eb4d runtime plus the separately committed minimal cu128 import adapter 1deeedd."
+exclude = [
+  ".git",
+  ".git/**",
+  "**/__pycache__/**",
+  "**/*.pyc",
+  "**/.pytest_cache/**",
+  "outputs/**",
+  "docs/**",
+  "test/**",
+  "benchmark/**",
+  "examples/**",
+  "docker/**",
+  "rust/**",
+  "3rdparty/**",
+]
+
+[[baseline.reference_only]]
+name = "sana_video_2b_weights"
+path = "/home/jiangzhikun/yongyan_liu/Experiments/SolAgent/20260827-official-repro/models/hf-cache/hub/models--Efficient-Large-Model--SANA-Video_2B_480p_diffusers/snapshots/db5f398b13ca086d09a50ce156c20527773841b1"
+repo = "Efficient-Large-Model/SANA-Video_2B_480p_diffusers"
+repo_type = "model"
+revision = "db5f398b13ca086d09a50ce156c20527773841b1"
+reason = "Pinned model-card authority; read-only and never copied into experiment worktrees."
+
+[[baseline.reference_only]]
+name = "sana_cu128_environment"
+path = "/home/jiangzhikun/yongyan_liu/Experiments/SolAgent/20260827-official-repro/envs/sana-cu128-phase0"
+repo_type = "environment"
+reason = "Python 3.12.14, torch 2.11.0+cu128, Triton 3.6.0; read-only."
+
+[[baseline.reference_only]]
+name = "sana_runtime_dependencies"
+path = "/home/jiangzhikun/yongyan_liu/Experiments/SolAgent/20260827-official-repro/baseline/targets/sana-runtime-deps-v1"
+repo_type = "dependency_overlay"
+reason = "Validated no-index dependency overlay; read-only."
+
+[[baseline.reference_only]]
+name = "sgl_kernel_sm90"
+path = "/home/jiangzhikun/yongyan_liu/Experiments/SolAgent/20260827-official-repro/baseline/staging/sglang-build001-clean-v2"
+repo_type = "compiled_kernel_staging"
+reason = "Validated H100 SM90 sgl_kernel staging; read-only."
+
+[experiment_defaults]
+worktree_mode = "model_baseline_minimal_copy"
+experiments_root = "output/experiments"
+state_dir = "state"
+runs_dir = "runs"
+logs_dir = "logs"
+caches = ["tmp", "triton", "torch_extensions", "python_deps"]
