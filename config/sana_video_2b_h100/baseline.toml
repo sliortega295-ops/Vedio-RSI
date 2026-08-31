@@ -1,0 +1,19 @@
+id = "sana_video_2b_h100_dense_baseline"
+kind = "baseline"
+purpose = "control"
+description = "Fresh one-H100 dense SANA-Video 2B 480p81 control; every optimization switch is off."
+model_profile = "sana_video_2b_h100"
+
+[runtime]
+root = "models/sana_video_2b_h100/baseline"
+python = "/home/jiangzhikun/yongyan_liu/Experiments/SolAgent/20260827-official-repro/envs/sana-cu128-phase0/bin/python"
+
+[artifacts]
+output_dir = "outputs"
+video = "out.mp4"
+log = "run.log"
+benchmark = "benchmark.json"
+frames_dir = "frames"
+quality = "quality.json"
+collection = "collection.json"
+run_config = "run_config.json"

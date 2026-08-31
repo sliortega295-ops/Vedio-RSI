@@ -1,0 +1,57 @@
+id = "official_video_t2v_sana_video_2b_h100"
+description = "SANA-Video 2B 832x480 81-frame model-card workload on one H100/cu128."
+
+[official_config]
+model = "Efficient-Large-Model/SANA-Video_2B_480p_diffusers"
+revision = "db5f398b13ca086d09a50ce156c20527773841b1"
+pipeline_class_name = "SanaVideoPipeline"
+width = 832
+height = 480
+frames = 81
+fps = 16
+steps = 50
+guidance_scale = 6.0
+seed = 42
+motion_score = 30
+flow_shift = 8.0
+vae_precision = "fp32"
+transformer_precision = "bf16"
+text_encoder_precision = "bf16"
+num_gpus = 1
+
+[artifacts]
+required = [
+  "outputs/run.log",
+  "outputs/out.mp4",
+  "outputs/benchmark.json",
+  "outputs/run_config.json",
+  "outputs/quality.json",
+  "outputs/collection.json",
+]
+optional = ["outputs/frames"]
+
+[performance]
+baseline_config = "sana_video_2b_h100_dense_baseline"
+primary_metric = "generation_s"
+secondary_metric = "process_wall_s"
+min_speedup_for_experimental = 1.03
+min_speedup_for_promotion = 1.05
+warmup_required_for_promotion = true
+record_compile_cache_state = true
+
+[off_identity]
+required_for_kinds = ["patch", "methodology"]
+same_seed_required = true
+same_prompt_required = true
+same_official_config_required = true
+notes = "Dense config ID rejects compile, BF16 linear-attention aggregation, QKV merge, and EasyCache knobs."
+
+[quantitative_quality]
+enabled = true
+metrics = ["frame_count", "duration_s", "resolution", "fps"]
+frame_count_expected = 81
+duration_tolerance_s = 0.25
+
+[visual_artifact]
+enabled = false
+notes = "Only lightweight first/middle/last frame inspection is in scope; no VBench or validator agent."
