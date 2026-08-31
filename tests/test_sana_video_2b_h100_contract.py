@@ -209,6 +209,35 @@ class SanaVideo2BH100ContractTest(unittest.TestCase):
         self.assertIn("head dimension 112", disposition)
         self.assertIn("SanaVideoLinearAttention", disposition)
 
+    def test_trajectory_ledger_enforces_caps_and_contiguous_rounds(self) -> None:
+        trajectory = _load_module(
+            "sana_trajectory", ROOT / "models/sana_video_2b_h100/trajectory.py"
+        )
+        record = {
+            "schema_version": 1,
+            "component": "kernel",
+            "round": 1,
+            "hypothesis": "merge exact QKV projections",
+            "session": {"agent_id": "kernel-agent", "prompt_sha256": "a" * 64},
+            "provenance": {"baseline_sha256": "b" * 64, "parent_sha": "c" * 40},
+            "build": {"status": "passed", "command": "python -m compileall", "log": "runs/r1/build.log"},
+            "run": {"status": "validated", "command": "python scripts/launch_config.py config/r1.toml --mode local", "run_dir": "runs/r1", "latency_s": 1.0, "peak_memory_mib": 2.0},
+            "validity": {"status": "validated", "checks": {}, "visual_note": "authentic"},
+            "decision": {"outcome": "retain", "reason": "new best"},
+        }
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            record_path = root / "record.json"
+            ledger = root / "TRAJECTORY.jsonl"
+            record_path.write_text(json.dumps(record))
+            trajectory.append_record(ledger, record_path)
+            self.assertEqual(len(trajectory.load_records(ledger)), 1)
+            with self.assertRaisesRegex(ValueError, "next round must be 2"):
+                trajectory.append_record(ledger, record_path)
+        over_cap = dict(record, component="cache", round=21)
+        with self.assertRaisesRegex(ValueError, "hard cap 20"):
+            trajectory.validate_record(over_cap)
+
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)

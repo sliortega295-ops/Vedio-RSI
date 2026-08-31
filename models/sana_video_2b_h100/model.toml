@@ -17,6 +17,8 @@ include = [
   "models/sana_video_2b_h100/model.toml",
   "models/sana_video_2b_h100/README.md",
   "models/sana_video_2b_h100/PISA_NOT_APPLICABLE.md",
+  "models/sana_video_2b_h100/EXECUTOR_OVERLAY.md",
+  "models/sana_video_2b_h100/trajectory.py",
   "models/sana_video_2b_h100/prompts/model_card_long_motion30.txt",
   "models/sana_video_2b_h100/baseline/gpu_guard.py",
   "models/sana_video_2b_h100/baseline/gpu_infer.py",
