@@ -1,0 +1,25 @@
+id = "sana2b_cache_r12_easy_t010_w3_s8_h2_balanced"
+kind = "methodology"
+purpose = "frontier"
+description = "Round 12 balanced EasyCache point, source-calibrated between the corrected 0.05 conservative and 0.20 aggressive traces to target roughly 17-18 hits and 38-39 seconds."
+model_profile = "sana_video_2b_h100"
+
+[env]
+SANA_CACHE_FAMILY = "easycache"
+SANA_CACHE_THRESHOLD = "0.10"
+SANA_CACHE_WARMUP = "3"
+SANA_CACHE_START = "0"
+SANA_CACHE_END = "49"
+SANA_CACHE_SUBSAMPLE = "8"
+SANA_CACHE_MAX_HITS = "2"
+SANA_TAYLOR_ORDER = "1"
+SANA_TAYLOR_DAMPING = "1.0"
+SANA_CACHE_DEBUG = "1"
+
+[patch]
+summary = "Use EasyCache's native adaptive transform-distance signal at a preselected midpoint threshold intended to match the measured TeaCache/TaylorSeer balanced band."
+touch_points = [
+  "external/sol_runtime/python/sglang/multimodal_gen/runtime/cache/sana_video_cache.py",
+  "external/sol_runtime/python/sglang/multimodal_gen/runtime/models/dits/sana_video.py",
+]
+off_identity_required = true
