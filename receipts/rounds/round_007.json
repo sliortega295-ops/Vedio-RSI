@@ -1,0 +1,130 @@
+{
+  "schema_version": 1,
+  "component": "kernel",
+  "round": 7,
+  "hypothesis": "Retain BF16 aggregation and exact QKV fusion, then memoize the two immutable formal CFG text contexts after caption projection/norm and each block's deterministic cross-attention K/V projection/norm/head reshape. Q, mask, SDPA, output projection, and all video-dependent work still execute on every call.",
+  "session": {
+    "agent_id": "/root/sol_video_reproducer/kernel_executor",
+    "prompt_sha256": "b406128240c2e097550aa62333aa8ef2a85d5e45540c9c65b49aefa260a08072"
+  },
+  "provenance": {
+    "baseline_sha256": "3fdafdf00554ae4bafc91bc7729c3ba3e96af4edebac809782e6d6122ed23954",
+    "parent_sha": "b81f7aaffd2961c8046decaa73a9f98b3d98728d",
+    "candidate_commit": "9833e2df6755536bc60f47e56ad4a9db122923aa",
+    "config_path": "config/sana_video_2b_h100/kernel_r07_bf16_qkv_xattn_kv_cache.toml",
+    "config_sha256": "f7540165ad85cac8f25a82103d450a6617dc67b02a509eebb9ab3617fe47bd5c",
+    "implementation_path": "external/sol_runtime/python/sglang/multimodal_gen/runtime/models/dits/sana_video.py",
+    "implementation_sha256": "6b544e63c7adc0fc5357d9aa92ad139fcb6355f15a8b09f93975c41790af9860",
+    "semantics_receipt_path": "receipts/preflight/round_007_semantics.json",
+    "semantics_receipt_sha256": "d6b2d77083cc359e9f81795132d9f78d12b93da5f883d2ad013ad7ae03067947",
+    "unit_gate_path": "receipts/preflight/round_007_unit.py",
+    "unit_gate_sha256": "ed646763c41af5e03e86ecdb862259b98fdde0dc836abe6ce8b5e82145703601",
+    "genuinely_different_hypothesis": true
+  },
+  "build": {
+    "status": "passed",
+    "marker": "BUILD_OK (compile=False, warmup=True)",
+    "transformer_load_dtype": "torch.bfloat16",
+    "resident_transformer_size_gb": 3.83,
+    "consumed_gpu_memory_after_transformer_load_gb": 4.56,
+    "unit_gate_observed": {
+      "status": "passed",
+      "off_k_calls": 7,
+      "cached_k_calls": 4,
+      "bounded_entries": 2,
+      "caption_projection_calls": 3,
+      "warmup_evicted": true,
+      "source_mutation_invalidated": true,
+      "weight_mutation_invalidated": true,
+      "cached_and_uncached_outputs_exact_equal": true
+    },
+    "note": "Exact runtime-overlay CPU gate and full GPU build passed. The optional DeepGEMM diagnostic remained non-fatal."
+  },
+  "run": {
+    "status": "validated",
+    "command": "/home/jiangzhikun/yongyan_liu/Experiments/SolAgent/20260827-official-repro/envs/sana-cu128-phase0/bin/python scripts/launch_config.py config/sana_video_2b_h100/kernel_r07_bf16_qkv_xattn_kv_cache.toml --mode local --run-root runs --name-suffix r07-xattn-kv-cache",
+    "cwd": "/home/jiangzhikun/yongyan_liu/Experiments/SolAgent/20260831-sana-video-2b-full-exploration/artifacts/executors/sana2b-kernel_aw-0001/worktree",
+    "run_dir": "runs/20260831-130228-sana_video_2b_h100_kernel_r07_bf16_qkv_xattn_kv_cache-r07-xattn-kv-cache",
+    "gpu_uuid": "GPU-847305ce-670b-91ee-e0a9-aa3b7833df23",
+    "returncode": 0,
+    "baseline_total_s": 61.7,
+    "total_s": 49.1,
+    "log_total_s": 49.11,
+    "single_run_speedup": 1.256619144603,
+    "process_wall_s": 94.49278509616852,
+    "warmed_request_s": 43.13,
+    "denoising_s": 39.6966,
+    "denoising_average_per_step_s": 0.7939,
+    "text_encoding_s": 0.3705,
+    "decoding_s": 3.0572,
+    "peak_memory_mib": 17570,
+    "nvidia_smi_sampled_peak_mib": 23119,
+    "baseline_peak_memory_mib": 17770,
+    "round6_peak_memory_mib": 17540,
+    "measured_extra_peak_vs_round6_mib": 30,
+    "round3_memory_frontier_mib": 16814,
+    "measured_extra_peak_vs_round3_mib": 756,
+    "timing_scope": "warm_single_prompt_gen.generate_including_text_encoder_denoise_vae_decode_and_video_write_excluding_model_load_and_one_step_warmup",
+    "comparison_to_confirmed_qkv": {
+      "round6_total_s": 49.02,
+      "round4_round6_median_total_s": 49.26,
+      "total_delta_vs_round6_percent": 0.16319869441,
+      "total_delta_vs_qkv_median_percent": -0.324807145757,
+      "denoising_delta_vs_round6_percent": -0.069730618287,
+      "interpretation": "All latency deltas are noise-scale and the cache raises measured runtime peak by 30 MiB versus Round 6. It is tied with, not better than, the confirmed QKV frontier."
+    },
+    "benchmark_sha256": "b89b687a8053d6e6c7483b0332fba298166a30e3a77a059eae6ab8f518914a04",
+    "run_config_sha256": "f1977a74699cdfa303e7e82d35ac0a06f1084976de4f61b0c1da8bd1c1a34991",
+    "assessment": {
+      "path": "runs/20260831-130228-sana_video_2b_h100_kernel_r07_bf16_qkv_xattn_kv_cache-r07-xattn-kv-cache/assess_verdict.json",
+      "sha256": "d481a80fc44ad26622c385f562dd7c4d76749e2c143a9751ae2cee3af33d72ee",
+      "collector_returncode": 1,
+      "evaluator_returncode": 0,
+      "tool_limitation": "The archived collector false-fails on the optional DeepGEMM traceback and the evaluator requests disabled lossy LPIPS/Gemini evidence while missing the model-local frozen baseline lookup. Overlay wrapper/source/ffprobe/authenticity gates control."
+    }
+  },
+  "validity": {
+    "status": "validated",
+    "method_semantics": "The cache substitutes only exact deterministic text-derived caption and per-layer K/V values for the same two immutable branch Tensor objects and unchanged module weights. It preserves every video-dependent operation and the exact attention recurrence.",
+    "structural_invariants": {
+      "denoising_steps": 50,
+      "cfg_branches_per_step": 2,
+      "logical_dit_calls": 100,
+      "transformer_blocks_per_call": 20,
+      "cross_attention_invocations": 2000,
+      "video_tokens_per_invocation": 32760,
+      "text_tokens": 300,
+      "q_projections": 2000,
+      "sdpa_calls": 2000,
+      "output_projections": 2000,
+      "formal_caption_projection_calls": 2,
+      "formal_kv_projection_gemms": 80,
+      "original_kv_projection_gemms": 4000,
+      "skipped_video_dependent_work": 0,
+      "world_size": 1
+    },
+    "video": {
+      "path": "runs/20260831-130228-sana_video_2b_h100_kernel_r07_bf16_qkv_xattn_kv_cache-r07-xattn-kv-cache/outputs/out.mp4",
+      "sha256": "c73d9b7c271a7c4fdc0a9fa2f80c17cb7cbc077f41000aee2aa18a0f775fc532",
+      "bytes": 522106,
+      "width": 832,
+      "height": 480,
+      "frames": 81,
+      "fps": 16,
+      "duration_s": 5.0625
+    },
+    "frames": [
+      {"path": "runs/20260831-130228-sana_video_2b_h100_kernel_r07_bf16_qkv_xattn_kv_cache-r07-xattn-kv-cache/outputs/frames/frame_01.png", "sha256": "d58d261080ad7bbdb37d0d929ab5366ff2e258e6b78e9a7c53799451b36b61be"},
+      {"path": "runs/20260831-130228-sana_video_2b_h100_kernel_r07_bf16_qkv_xattn_kv_cache-r07-xattn-kv-cache/outputs/frames/frame_02.png", "sha256": "8485a66cdc36fc9747b6eb6cf88544c8360a4ae6a450610ab4f5b9f314cdf907"},
+      {"path": "runs/20260831-130228-sana_video_2b_h100_kernel_r07_bf16_qkv_xattn_kv_cache-r07-xattn-kv-cache/outputs/frames/frame_03.png", "sha256": "4370e5fe15979d5e87522540d25116c50f1943be8683a453388fd529c210fc1d"}
+    ],
+    "visual_note": "Authenticity-only passed via exact hashes of the already inspected coherent frontier frames plus independent valid ffprobe. No output-difference correctness gate was imposed."
+  },
+  "decision": {
+    "outcome": "reject",
+    "frontier_status": "valid_tie_with_memory_regression",
+    "plateau_eligible": true,
+    "post_best_distinct_no_improvement_count": 1,
+    "reason": "Round 7 validates at 49.10 seconds with exact authentic output, but is 0.16% slower than Round 6 and only 0.32% faster than the two-run QKV median, both noise-scale, while adding 30 MiB runtime peak. Do not retain the cache as a frontier improvement. This is the first genuinely distinct no-new-best hypothesis after the confirmed QKV frontier."
+  }
+}
