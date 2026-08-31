@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "component": "kernel",
+  "candidate_after_round": 7,
+  "status": "REJECTED_BEFORE_FULL_ROUND",
+  "hypothesis": "Special-case the fixed workload's all-valid text masks to None so cross-attention can use a fused H100 SDPA backend without materializing or applying a zero additive bias.",
+  "gpu_probe": {
+    "script": "receipts/preflight/round_008_sdpa_probe.py",
+    "script_sha256": "4e04959d65ef07287af239576e7bb400d08203f13aa4db7e5985b85d21cb6dd4",
+    "result": "receipts/preflight/round_008_sdpa_probe.json",
+    "result_sha256": "83fc25342e3c346189403d7f516329b78bbf2ed4b1002d6966120b83d7ece925",
+    "gpu_uuid": "GPU-847305ce-670b-91ee-e0a9-aa3b7833df23",
+    "torch": "2.11.0+cu128",
+    "shared_lock_and_live_idle_check": true
+  },
+  "exact_workload_tokenizer_audit": {
+    "model_revision": "db5f398b13ca086d09a50ce156c20527773841b1",
+    "kwargs": {
+      "truncation": true,
+      "max_length": 300,
+      "return_tensors": "pt",
+      "padding": true,
+      "return_attention_mask": true
+    },
+    "positive": {
+      "shape": [1, 110],
+      "mask_sum": 110,
+      "all_valid": true
+    },
+    "negative": {
+      "shape": [1, 56],
+      "mask_sum": 56,
+      "all_valid": true
+    },
+    "semantic_note": "For both fixed branches the current additive attention bias is identically zero, so replacing it with None is mathematically exact and preserves every token and attention invocation."
+  },
+  "backend_evidence": {
+    "current_backend": "aten::_scaled_dot_product_cudnn_attention using cudnn_generated_fort_native_sdpa_sm90_flash_fprop_wgmma_f16",
+    "no_mask_backend": "the same cuDNN SM90 WGMMA flash kernel",
+    "positive_current_zero_mask_ms": 0.1784512043,
+    "positive_auto_no_mask_ms": 0.1471935987,
+    "negative_current_zero_mask_ms": 0.174822402,
+    "negative_auto_no_mask_ms": 0.1483904004,
+    "predicted_savings_over_1000_positive_and_1000_negative_calls_ms": 57.6896072,
+    "predicted_fraction_of_round7_denoising_percent": 0.1453276,
+    "forced_flash_is_faster": false,
+    "forced_efficient_is_faster": false,
+    "no_mask_auto_max_abs_diff_to_current_bf16": 0.00390625,
+    "interpretation": "The premise that a non-null zero mask prevents fused SDPA is false in this Torch/cuDNN build. Auto already selects the fused SM90 kernel, and the remaining projected gain is far below run noise."
+  },
+  "decision": {
+    "consume_optimization_round": false,
+    "consume_plateau_hypothesis": false,
+    "launch_full_workload": false,
+    "reason": "The bounded source/shape/GPU gate disproved a material backend switch. A predicted 0.058-second denoising saving is not a genuinely high-impact hypothesis and cannot distinguish itself from the established sub-second run variance."
+  }
+}

@@ -1,0 +1,465 @@
+{
+  "branches": {
+    "negative": {
+      "current_auto_profile_events": [
+        {
+          "count": 1,
+          "cpu_time_total_us": 334.869,
+          "device_time_total_us": 335.1039999999999,
+          "key": "aten::scaled_dot_product_attention"
+        },
+        {
+          "count": 1,
+          "cpu_time_total_us": 318.562,
+          "device_time_total_us": 335.1039999999999,
+          "key": "aten::_scaled_dot_product_cudnn_attention"
+        },
+        {
+          "count": 1,
+          "cpu_time_total_us": 311.846,
+          "device_time_total_us": 335.1039999999999,
+          "key": "aten::_cudnn_attention_forward"
+        },
+        {
+          "count": 1,
+          "cpu_time_total_us": 172.61699999999996,
+          "device_time_total_us": 167.55199999999996,
+          "key": "Activity Buffer Request"
+        },
+        {
+          "count": 1,
+          "cpu_time_total_us": 0.0,
+          "device_time_total_us": 166.75199999999995,
+          "key": "cudnn_generated_fort_native_sdpa_sm90_flash_fprop_wgmma_f16_knob_7_64x128x128_4x1x1_cga1x1x1_kernel0_0"
+        },
+        {
+          "count": 1,
+          "cpu_time_total_us": 0.0,
+          "device_time_total_us": 0.8000000000000114,
+          "key": "Memset (Device)"
+        },
+        {
+          "count": 1,
+          "cpu_time_total_us": 6.852000000000004,
+          "device_time_total_us": 0.0,
+          "key": "aten::expand"
+        },
+        {
+          "count": 1,
+          "cpu_time_total_us": 1.8619999999999806,
+          "device_time_total_us": 0.0,
+          "key": "aten::as_strided"
+        },
+        {
+          "count": 2,
+          "cpu_time_total_us": 9.84899999999999,
+          "device_time_total_us": 0.0,
+          "key": "aten::empty"
+        },
+        {
+          "count": 1,
+          "cpu_time_total_us": 2.7490000000000236,
+          "device_time_total_us": 0.0,
+          "key": "cudaStreamIsCapturing"
+        },
+        {
+          "count": 1,
+          "cpu_time_total_us": 10.622000000000014,
+          "device_time_total_us": 0.0,
+          "key": "aten::empty_like"
+        },
+        {
+          "count": 1,
+          "cpu_time_total_us": 7.235000000000014,
+          "device_time_total_us": 0.0,
+          "key": "aten::empty_strided"
+        },
+        {
+          "count": 1,
+          "cpu_time_total_us": 11.257000000000005,
+          "device_time_total_us": 0.0,
+          "key": "cudaMemsetAsync"
+        },
+        {
+          "count": 2,
+          "cpu_time_total_us": 0.35399999999992815,
+          "device_time_total_us": 0.0,
+          "key": "cudaGetErrorString"
+        },
+        {
+          "count": 1,
+          "cpu_time_total_us": 22.30899999999997,
+          "device_time_total_us": 0.0,
+          "key": "cuLaunchKernelEx"
+        },
+        {
+          "count": 2,
+          "cpu_time_total_us": 130.02199999999993,
+          "device_time_total_us": 0.0,
+          "key": "cudaDeviceSynchronize"
+        }
+      ],
+      "mask_all_valid": true,
+      "no_mask_auto_profile_events": [
+        {
+          "count": 1,
+          "cpu_time_total_us": 1358.932,
+          "device_time_total_us": 277.50199999999995,
+          "key": "aten::scaled_dot_product_attention"
+        },
+        {
+          "count": 1,
+          "cpu_time_total_us": 1341.076,
+          "device_time_total_us": 277.50199999999995,
+          "key": "aten::_scaled_dot_product_cudnn_attention"
+        },
+        {
+          "count": 1,
+          "cpu_time_total_us": 1332.559,
+          "device_time_total_us": 277.50199999999995,
+          "key": "aten::_cudnn_attention_forward"
+        },
+        {
+          "count": 1,
+          "cpu_time_total_us": 986.3270000000001,
+          "device_time_total_us": 138.75099999999998,
+          "key": "Activity Buffer Request"
+        },
+        {
+          "count": 1,
+          "cpu_time_total_us": 0.0,
+          "device_time_total_us": 138.0150000000001,
+          "key": "cudnn_generated_fort_native_sdpa_sm90_flash_fprop_wgmma_f16_knob_7_64x128x128_4x1x1_cga1x1x1_kernel0_0"
+        },
+        {
+          "count": 1,
+          "cpu_time_total_us": 0.0,
+          "device_time_total_us": 0.7359999999998763,
+          "key": "Memset (Device)"
+        },
+        {
+          "count": 2,
+          "cpu_time_total_us": 13.227000000000004,
+          "device_time_total_us": 0.0,
+          "key": "aten::empty"
+        },
+        {
+          "count": 1,
+          "cpu_time_total_us": 3.841999999999871,
+          "device_time_total_us": 0.0,
+          "key": "cudaStreamIsCapturing"
+        },
+        {
+          "count": 1,
+          "cpu_time_total_us": 11.962999999999965,
+          "device_time_total_us": 0.0,
+          "key": "aten::empty_like"
+        },
+        {
+          "count": 1,
+          "cpu_time_total_us": 9.201999999999998,
+          "device_time_total_us": 0.0,
+          "key": "aten::empty_strided"
+        },
+        {
+          "count": 1,
+          "cpu_time_total_us": 247.519,
+          "device_time_total_us": 0.0,
+          "key": "cudaMemsetAsync"
+        },
+        {
+          "count": 2,
+          "cpu_time_total_us": 0.3569999999997435,
+          "device_time_total_us": 0.0,
+          "key": "cudaGetErrorString"
+        },
+        {
+          "count": 1,
+          "cpu_time_total_us": 16.108999999999924,
+          "device_time_total_us": 0.0,
+          "key": "cuLaunchKernelEx"
+        },
+        {
+          "count": 2,
+          "cpu_time_total_us": 96.87099999999987,
+          "device_time_total_us": 0.0,
+          "key": "cudaDeviceSynchronize"
+        }
+      ],
+      "results": {
+        "auto_no_mask": {
+          "exact_equal_to_current": false,
+          "max_abs_diff_to_current": 0.00390625,
+          "mean_cuda_event_ms": 0.14839040040969848,
+          "status": "passed"
+        },
+        "cudnn_no_mask": {
+          "exact_equal_to_current": false,
+          "max_abs_diff_to_current": 0.00390625,
+          "mean_cuda_event_ms": 0.148198401927948,
+          "status": "passed"
+        },
+        "current_auto_zero_mask": {
+          "exact_equal_to_current": true,
+          "max_abs_diff_to_current": 0.0,
+          "mean_cuda_event_ms": 0.17482240200042726,
+          "status": "passed"
+        },
+        "efficient_no_mask": {
+          "exact_equal_to_current": false,
+          "max_abs_diff_to_current": 0.00390625,
+          "mean_cuda_event_ms": 0.29240319728851316,
+          "status": "passed"
+        },
+        "flash_no_mask": {
+          "exact_equal_to_current": false,
+          "max_abs_diff_to_current": 0.00390625,
+          "mean_cuda_event_ms": 0.18398720026016235,
+          "status": "passed"
+        }
+      },
+      "text_tokens": 56
+    },
+    "positive": {
+      "current_auto_profile_events": [
+        {
+          "count": 1,
+          "cpu_time_total_us": 2649.426,
+          "device_time_total_us": 340.41399999999885,
+          "key": "aten::scaled_dot_product_attention"
+        },
+        {
+          "count": 1,
+          "cpu_time_total_us": 2549.528,
+          "device_time_total_us": 340.41399999999885,
+          "key": "aten::_scaled_dot_product_cudnn_attention"
+        },
+        {
+          "count": 1,
+          "cpu_time_total_us": 2470.4049999999997,
+          "device_time_total_us": 340.41399999999885,
+          "key": "aten::_cudnn_attention_forward"
+        },
+        {
+          "count": 1,
+          "cpu_time_total_us": 1968.3659999999998,
+          "device_time_total_us": 170.20699999999943,
+          "key": "Activity Buffer Request"
+        },
+        {
+          "count": 1,
+          "cpu_time_total_us": 0.0,
+          "device_time_total_us": 169.02299999999968,
+          "key": "cudnn_generated_fort_native_sdpa_sm90_flash_fprop_wgmma_f16_knob_7_64x128x128_4x1x1_cga1x1x1_kernel0_0"
+        },
+        {
+          "count": 1,
+          "cpu_time_total_us": 0.0,
+          "device_time_total_us": 1.1839999999997417,
+          "key": "Memset (Device)"
+        },
+        {
+          "count": 1,
+          "cpu_time_total_us": 73.23900000000003,
+          "device_time_total_us": 0.0,
+          "key": "aten::expand"
+        },
+        {
+          "count": 1,
+          "cpu_time_total_us": 4.956999999999994,
+          "device_time_total_us": 0.0,
+          "key": "aten::as_strided"
+        },
+        {
+          "count": 2,
+          "cpu_time_total_us": 21.37900000000002,
+          "device_time_total_us": 0.0,
+          "key": "aten::empty"
+        },
+        {
+          "count": 1,
+          "cpu_time_total_us": 62.527000000000044,
+          "device_time_total_us": 0.0,
+          "key": "cudaStreamIsCapturing"
+        },
+        {
+          "count": 1,
+          "cpu_time_total_us": 42.60699999999997,
+          "device_time_total_us": 0.0,
+          "key": "aten::empty_like"
+        },
+        {
+          "count": 1,
+          "cpu_time_total_us": 10.660999999999603,
+          "device_time_total_us": 0.0,
+          "key": "aten::empty_strided"
+        },
+        {
+          "count": 1,
+          "cpu_time_total_us": 46.358999999999924,
+          "device_time_total_us": 0.0,
+          "key": "cudaMemsetAsync"
+        },
+        {
+          "count": 2,
+          "cpu_time_total_us": 0.6529999999997926,
+          "device_time_total_us": 0.0,
+          "key": "cudaGetErrorString"
+        },
+        {
+          "count": 1,
+          "cpu_time_total_us": 56.01099999999997,
+          "device_time_total_us": 0.0,
+          "key": "cuLaunchKernelEx"
+        },
+        {
+          "count": 2,
+          "cpu_time_total_us": 105.779,
+          "device_time_total_us": 0.0,
+          "key": "cudaDeviceSynchronize"
+        }
+      ],
+      "mask_all_valid": true,
+      "no_mask_auto_profile_events": [
+        {
+          "count": 1,
+          "cpu_time_total_us": 2113.457,
+          "device_time_total_us": 274.688000000001,
+          "key": "aten::scaled_dot_product_attention"
+        },
+        {
+          "count": 1,
+          "cpu_time_total_us": 2094.35,
+          "device_time_total_us": 274.688000000001,
+          "key": "aten::_scaled_dot_product_cudnn_attention"
+        },
+        {
+          "count": 1,
+          "cpu_time_total_us": 2085.382,
+          "device_time_total_us": 274.688000000001,
+          "key": "aten::_cudnn_attention_forward"
+        },
+        {
+          "count": 1,
+          "cpu_time_total_us": 1969.321,
+          "device_time_total_us": 137.3440000000005,
+          "key": "Activity Buffer Request"
+        },
+        {
+          "count": 1,
+          "cpu_time_total_us": 0.0,
+          "device_time_total_us": 136.54400000000032,
+          "key": "cudnn_generated_fort_native_sdpa_sm90_flash_fprop_wgmma_f16_knob_7_64x128x128_4x1x1_cga1x1x1_kernel0_0"
+        },
+        {
+          "count": 1,
+          "cpu_time_total_us": 0.0,
+          "device_time_total_us": 0.8000000000001819,
+          "key": "Memset (Device)"
+        },
+        {
+          "count": 2,
+          "cpu_time_total_us": 14.591999999999999,
+          "device_time_total_us": 0.0,
+          "key": "aten::empty"
+        },
+        {
+          "count": 1,
+          "cpu_time_total_us": 4.328000000000429,
+          "device_time_total_us": 0.0,
+          "key": "cudaStreamIsCapturing"
+        },
+        {
+          "count": 1,
+          "cpu_time_total_us": 13.128000000000156,
+          "device_time_total_us": 0.0,
+          "key": "aten::empty_like"
+        },
+        {
+          "count": 1,
+          "cpu_time_total_us": 9.5,
+          "device_time_total_us": 0.0,
+          "key": "aten::empty_strided"
+        },
+        {
+          "count": 1,
+          "cpu_time_total_us": 11.202000000000226,
+          "device_time_total_us": 0.0,
+          "key": "cudaMemsetAsync"
+        },
+        {
+          "count": 2,
+          "cpu_time_total_us": 0.5860000000002401,
+          "device_time_total_us": 0.0,
+          "key": "cudaGetErrorString"
+        },
+        {
+          "count": 1,
+          "cpu_time_total_us": 18.628999999999905,
+          "device_time_total_us": 0.0,
+          "key": "cuLaunchKernelEx"
+        },
+        {
+          "count": 2,
+          "cpu_time_total_us": 98.55500000000029,
+          "device_time_total_us": 0.0,
+          "key": "cudaDeviceSynchronize"
+        }
+      ],
+      "results": {
+        "auto_no_mask": {
+          "exact_equal_to_current": false,
+          "max_abs_diff_to_current": 0.00390625,
+          "mean_cuda_event_ms": 0.1471935987472534,
+          "status": "passed"
+        },
+        "cudnn_no_mask": {
+          "exact_equal_to_current": false,
+          "max_abs_diff_to_current": 0.00390625,
+          "mean_cuda_event_ms": 0.14510719776153563,
+          "status": "passed"
+        },
+        "current_auto_zero_mask": {
+          "exact_equal_to_current": true,
+          "max_abs_diff_to_current": 0.0,
+          "mean_cuda_event_ms": 0.17845120429992675,
+          "status": "passed"
+        },
+        "efficient_no_mask": {
+          "exact_equal_to_current": false,
+          "max_abs_diff_to_current": 0.00390625,
+          "mean_cuda_event_ms": 0.33654398918151857,
+          "status": "passed"
+        },
+        "flash_no_mask": {
+          "exact_equal_to_current": false,
+          "max_abs_diff_to_current": 0.0078125,
+          "mean_cuda_event_ms": 0.24401280879974366,
+          "status": "passed"
+        }
+      },
+      "text_tokens": 110
+    }
+  },
+  "flash_attention_available": true,
+  "gpu": {
+    "index": 7,
+    "memory_total_mib": 81559,
+    "memory_used_mib": 0,
+    "name": "NVIDIA H100 80GB HBM3",
+    "utilization_gpu_percent": 0,
+    "uuid": "GPU-847305ce-670b-91ee-e0a9-aa3b7833df23"
+  },
+  "lease_uuid": "GPU-847305ce-670b-91ee-e0a9-aa3b7833df23",
+  "schema_version": 1,
+  "shared_shape": {
+    "batch": 1,
+    "dtype": "torch.bfloat16",
+    "head_dim": 112,
+    "heads": 20,
+    "mask_is_expanded_view": true,
+    "query_tokens": 32760
+  },
+  "status": "completed",
+  "torch_version": "2.11.0+cu128"
+}
