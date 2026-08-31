@@ -1,0 +1,72 @@
+{
+  "schema_version": 1,
+  "component": "cache",
+  "round": 6,
+  "hypothesis": "Lowering TeaCache's threshold from 0.012 to 0.01125 with the one-hit cap will recompute round 5's marginal step 27, retain the earlier nine hits, and place the run inside EasyCache round 2's two-percent conservative time band.",
+  "session": {
+    "agent_id": "cache_executor",
+    "prompt_sha256": "c81c7d4f04ed602d0ac9171aaf9f170589e491bb4b42441c557008fc15466658",
+    "overlay_sha256": "95c0d4fb9226174cafb79f3764c35783aa4138554d6ae4e680cca8ce2393a98e"
+  },
+  "provenance": {
+    "baseline_sha256": "3fdafdf00554ae4bafc91bc7729c3ba3e96af4edebac809782e6d6122ed23954",
+    "parent_sha": "7605dd633480a23970ab7213e9d7368196b79d16",
+    "candidate_commit": "81415b48398665d0a7c3213e2ccd20ca46e26dfc",
+    "config_sha256": "e9559144e6a07a728a7957684a5afac70d46eed260a53d08779696a6b4c50738",
+    "baseline_total_s": 61.7,
+    "baseline_peak_memory_mib": 17770,
+    "fixed_prompt_sha256": "870a3daedac57a0654d62de074a480daa3d7bee82b26988ec17b75496fb2643c",
+    "timing_scope": "warm_single_prompt_gen.generate_including_text_encoder_denoise_vae_decode_and_video_write_excluding_model_load_and_one_step_warmup"
+  },
+  "build": {
+    "status": "passed",
+    "command": "PYTHONPATH=external/sol_runtime/python:/home/jiangzhikun/yongyan_liu/Experiments/SolAgent/20260827-official-repro/baseline/targets/sana-runtime-deps-v1:/home/jiangzhikun/yongyan_liu/Experiments/SolAgent/20260827-official-repro/baseline/staging/sglang-build001-clean-v2 /home/jiangzhikun/yongyan_liu/Experiments/SolAgent/20260827-official-repro/envs/sana-cu128-phase0/bin/python -m unittest tests.test_sana_video_cache",
+    "tests": "9/9 CPU tests passed; ledger validation, dry-run, git diff, exact lease UUID, GPU-idle, and shared-lock availability preflights passed. The optional DeepGEMM warning remained benign."
+  },
+  "run": {
+    "status": "validated",
+    "command": "/home/jiangzhikun/yongyan_liu/Experiments/SolAgent/20260827-official-repro/envs/sana-cu128-phase0/bin/python scripts/launch_config.py config/sana_video_2b_h100/cache/tea_r06_t001125_w3_s8_h1_matched.toml --mode local --run-root runs --name-suffix cache-r06",
+    "run_dir": "runs/20260831-130035-sana2b_cache_r06_tea_t001125_w3_s8_h1_matched-cache-r06",
+    "total_s": 46.7,
+    "raw_speedup": 1.3211991434689507,
+    "raw_time_ratio": 0.7568881685575365,
+    "warmed_request_s": 40.57,
+    "peak_memory_mib": 17910,
+    "signal_definition": "relative mean-L1 change of token-subsampled first-block AdaLN-modulated hidden input, accumulated with identity rescaling",
+    "reuse_payload": "separate conditional and unconditional full-block-stack residual histories",
+    "cache_summary": {
+      "total_decisions": 50,
+      "computes": 42,
+      "hits": 8,
+      "hit_rate": 0.16,
+      "continuous_hit_cap_recomputes": 8,
+      "threshold_recomputes": 30,
+      "skipped_steps": [8, 11, 13, 16, 18, 20, 22, 25],
+      "residual_history_steps": {
+        "0": [49],
+        "1": [49]
+      }
+    },
+    "hypothesis_delta": "The target time matched, but the predicted nine-hit schedule did not: threshold 0.01125 recomputed both step 27 (0.011284) and the earlier step 6 (0.011790), leaving eight hits.",
+    "matched_target": {
+      "easy_round": 2,
+      "target_total_s": 46.2,
+      "relative_difference": 0.0108225108225108,
+      "within_two_percent": true,
+      "status": "matched"
+    },
+    "residual_compute_apps": []
+  },
+  "validity": {
+    "status": "validated",
+    "artifact_status": "validated",
+    "method_provenance": "validated",
+    "ffprobe": "832x480, 81 frames, 16 fps, 5.0625 s",
+    "video_sha256": "11e1d9b1f4e8780b5c7b0e6e333793532591ae66e1b8b68ad9e4f15d2cae4d8b",
+    "visual_note": "The first/middle/last frames remain very close to dense and EasyCache round 2: subject identity and anatomy, forest composition, and the increasing backlight trajectory are intact. Only slight pose, face, and background movement is visible, with no gross ghosting, duplication, deformation, or lighting break."
+  },
+  "decision": {
+    "outcome": "retain",
+    "reason": "Retain as the conservative matched-time TeaCache point: 46.7 s is within 1.082% of EasyCache round 2, the method and artifact are valid, and the lightweight visual screen passes. The eight-hit actual schedule supersedes the nine-hit prediction."
+  }
+}
