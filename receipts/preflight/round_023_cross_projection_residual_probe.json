@@ -1,0 +1,92 @@
+{
+  "current": {
+    "median_ms": 0.5763253370920817,
+    "operations": "BF16 linear with bias, followed by BF16 residual add",
+    "timing_samples_ms": [
+      0.5773333311080933,
+      0.5763253370920817,
+      0.5763946771621704,
+      0.5749013423919678,
+      0.5754986604054769
+    ]
+  },
+  "decision": "Reject: no addmm ordering preserved the native BF16 output while meeting the performance gate.",
+  "formal_contract": {
+    "bias_shape": [
+      2240
+    ],
+    "dtype": "torch.bfloat16",
+    "formal_cross_attention_invocations": 2000,
+    "projected_input_shape": [
+      1,
+      32760,
+      2240
+    ],
+    "residual_shape": [
+      1,
+      32760,
+      2240
+    ],
+    "weight_shape": [
+      2240,
+      2240
+    ]
+  },
+  "gate": {
+    "exact_variants": [],
+    "passed_variants": [],
+    "requires": "bit-exact BF16 output, >=2% local gain, and >=0.10 s predicted full-run saving"
+  },
+  "gpu": {
+    "index": 7,
+    "memory_total_mib": 81559,
+    "memory_used_mib": 0,
+    "name": "NVIDIA H100 80GB HBM3",
+    "utilization_gpu_percent": 0,
+    "uuid": "GPU-847305ce-670b-91ee-e0a9-aa3b7833df23"
+  },
+  "lease_uuid": "GPU-847305ce-670b-91ee-e0a9-aa3b7833df23",
+  "schema_version": 1,
+  "status": "rejected",
+  "torch": "2.11.0+cu128",
+  "variants": {
+    "preadd_bias_then_residual_epilogue": {
+      "correctness": {
+        "different_elements": 26879780,
+        "exact": false,
+        "max_abs": 0.0625,
+        "mean_abs": 0.002542998408898711,
+        "total_elements": 73382400
+      },
+      "median_ms": 0.7593119939168295,
+      "predicted_full_run_s_saved": -0.3659733136494956,
+      "speedup": 0.7590099217571544,
+      "timing_samples_ms": [
+        0.7577066421508789,
+        0.7593119939168295,
+        0.7598666350046793,
+        0.7583626906077067,
+        0.7624106407165527
+      ]
+    },
+    "residual_epilogue_then_bias": {
+      "correctness": {
+        "different_elements": 26915387,
+        "exact": false,
+        "max_abs": 0.0625,
+        "mean_abs": 0.0025401285383850336,
+        "total_elements": 73382400
+      },
+      "median_ms": 0.7609653472900391,
+      "predicted_full_run_s_saved": -0.3692800203959148,
+      "speedup": 0.7573608169471842,
+      "timing_samples_ms": [
+        0.7632906436920166,
+        0.7603092988332113,
+        0.7609653472900391,
+        0.7612266540527344,
+        0.759178638458252
+      ]
+    }
+  }
+}

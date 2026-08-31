@@ -1,0 +1,81 @@
+{
+  "schema_version": 1,
+  "component": "kernel",
+  "round": 23,
+  "hypothesis": "Fuse the 2240-to-2240 cross-attention output projection with the following block residual add using addmm epilogues while preserving the native BF16 result.",
+  "session": {
+    "agent_id": "/root/sol_video_reproducer",
+    "prompt_sha256": "b406128240c2e097550aa62333aa8ef2a85d5e45540c9c65b49aefa260a08072",
+    "handoff": "Primary continued the recovered Kernel Executor contract after the bounded child handoff."
+  },
+  "provenance": {
+    "baseline_sha256": "3fdafdf00554ae4bafc91bc7729c3ba3e96af4edebac809782e6d6122ed23954",
+    "parent_sha": "796dfb0a39fbe711803df5795a0cf98547759218",
+    "candidate_commit": "not_created_preflight_rejection",
+    "retained_frontier_commit": "7be2d6b0282f0230b9d888b2412d073ec9964250",
+    "probe_source_path": "receipts/preflight/round_023_cross_projection_residual_probe.py",
+    "probe_source_sha256": "7356919f344edacf3ed41a3b5a93cdca7c566cdfea5807936173c8da7b9200ce",
+    "probe_result_path": "receipts/preflight/round_023_cross_projection_residual_probe.json",
+    "probe_result_sha256": "ccb60655ba904d757716fe61f7c6b07f6ada3e2ecbd0978dca4768daa00ebd21",
+    "genuinely_different_hypothesis": true
+  },
+  "build": {
+    "status": "passed",
+    "marker": "exact-shape H100 output-projection-plus-residual microgate executed",
+    "preflight": {
+      "status": "rejected_on_numerics_and_performance",
+      "projected_input_shape": [1, 32760, 2240],
+      "residual_shape": [1, 32760, 2240],
+      "weight_shape": [2240, 2240],
+      "current_ms": 0.5763253370920817,
+      "residual_epilogue_then_bias_ms": 0.7609653472900391,
+      "preadd_bias_then_epilogue_ms": 0.7593119939168295,
+      "residual_epilogue_predicted_full_run_s_saved": -0.3692800203959148,
+      "preadd_bias_predicted_full_run_s_saved": -0.3659733136494956,
+      "both_variant_max_abs_bf16": 0.0625,
+      "residual_epilogue_different_elements": 26915387,
+      "preadd_bias_different_elements": 26879780,
+      "total_elements": 73382400,
+      "exact_variants": []
+    },
+    "note": "Both addmm orderings were about 32% slower than native linear-with-bias plus residual, and changing the BF16 addition order altered roughly 36.6% of output elements. The candidate failed both exactness and performance gates before any source edit or formal generation."
+  },
+  "run": {
+    "status": "not_run",
+    "formal_generation": "NOT_RUN",
+    "command": "PYTHONNOUSERSITE=1 /home/jiangzhikun/yongyan_liu/Experiments/SolAgent/20260827-official-repro/envs/sana-cu128-phase0/bin/python receipts/preflight/round_023_cross_projection_residual_probe.py --lease-file /home/jiangzhikun/yongyan_liu/Experiments/SolAgent/20260831-sana-video-2b-full-exploration/state/gpu/GPU_LEASE.json --guard-dir models/sana_video_2b_h100/baseline --out receipts/preflight/round_023_cross_projection_residual_probe.json",
+    "cwd": "/home/jiangzhikun/yongyan_liu/Experiments/SolAgent/20260831-sana-video-2b-full-exploration/artifacts/executors/sana2b-kernel_aw-0001/worktree",
+    "gpu_uuid": "GPU-847305ce-670b-91ee-e0a9-aa3b7833df23",
+    "reason": "No addmm ordering preserved native BF16 output, and both complete-chain variants regressed by about 0.184 milliseconds per cross-attention invocation.",
+    "residual_compute_apps": [],
+    "status_after_probe": "GPU at 0 MiB, lock free"
+  },
+  "validity": {
+    "status": "validated",
+    "method_semantics": "The exact-shape probe included the current biased projection and residual add and compared both legal addmm orderings over all 73,382,400 BF16 elements. Neither was bit-exact or faster.",
+    "structural_invariants": {
+      "cross_attention_if_launched": "unchanged",
+      "output_projection_if_launched": "algebraically equivalent but BF16 ordering changed",
+      "denoising_steps_if_launched": 50,
+      "cfg_branches_per_step_if_launched": 2,
+      "logical_dit_calls_if_launched": 100,
+      "cross_attention_invocations_if_launched": 2000,
+      "skipped_or_reused_model_work": 0
+    },
+    "artifact": "NOT_RUN: no video or sampled frames were created because the candidate failed exact-shape numerical and performance gates."
+  },
+  "decision": {
+    "outcome": "stop",
+    "frontier_status": "confirmed_round19_round20_reciprocal_scale_latency_frontier",
+    "plateau_eligible": true,
+    "post_best_distinct_no_improvement_count": 3,
+    "official_plateau": {
+      "last_new_best_confirmation_round": 20,
+      "distinct_miss_rounds": [21, 22, 23],
+      "hard_cap": 40,
+      "stop_round": 23,
+      "rule": "Stop after about three to four genuinely different hypotheses without a new best."
+    },
+    "reason": "R21 packed cross-attention K/V, R22 SDPA output layout, and R23 projection-residual epilogue are three genuinely different post-frontier hypotheses with no new best. R23 also has no exact or faster variant. Stop at the archived plateau lower bound, retain the confirmed 40.8-second R19/R20 median latency frontier and the Round 3 memory frontier, and do not consume the remaining hard-cap rounds on marginal variants."
+  }
+}
