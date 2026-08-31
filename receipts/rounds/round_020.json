@@ -1,0 +1,143 @@
+{
+  "schema_version": 1,
+  "component": "kernel",
+  "round": 20,
+  "hypothesis": "Repeat the exact Round 19 packed Q/K plus BF16 reciprocal-scale candidate under the frozen workload to resolve its small latency gain from the outer warmup envelope.",
+  "session": {
+    "agent_id": "/root/sol_video_reproducer",
+    "prompt_sha256": "b406128240c2e097550aa62333aa8ef2a85d5e45540c9c65b49aefa260a08072",
+    "handoff": "Primary continued the recovered Kernel Executor contract after the bounded child handoff."
+  },
+  "provenance": {
+    "baseline_sha256": "3fdafdf00554ae4bafc91bc7729c3ba3e96af4edebac809782e6d6122ed23954",
+    "parent_sha": "b75271ffe62ac22d8a7836c3f657f59fdcdbda0a",
+    "candidate_commit": "7be2d6b0282f0230b9d888b2412d073ec9964250",
+    "confirmation_config_commit": "27912ac50009a96dba7a773d56a0d191f1eea477",
+    "repeat_of_round": 19,
+    "config_path": "config/sana_video_2b_h100/kernel_r20_fused_reciprocal_scale_confirm.toml",
+    "config_sha256": "aff5b4112c5fe78a13cf417d50061833d7255e8017828a37e8a33cddcf7156a8",
+    "implementation_path": "external/sol_runtime/python/sglang/multimodal_gen/runtime/models/dits/sana_video.py",
+    "implementation_sha256": "413ee9c1a84ae063052b2d9ac4ec57e91b7e081b788850d257ce7d2bb9d9e38a",
+    "kernel_source_path": "external/sol_runtime/python/sglang/jit_kernel/diffusion/triton/sana_rope.py",
+    "kernel_source_sha256": "651b6f7a6efa108a4ed237706b745f5874cca376463a153f6859c9c841fcb9b1",
+    "semantics_receipt_path": "receipts/preflight/round_019_fused_reciprocal_scale_semantics.json",
+    "semantics_receipt_sha256": "e8813c814868e6ca842c9ebdbe3cc6da941b111ac5bfd880397a4f94ff014740",
+    "probe_result_path": "receipts/preflight/round_019_fused_reciprocal_scale_impl_probe.json",
+    "probe_result_sha256": "3a585e3675e028f6acd546e688765aee0fc375443393e86d02e5f15c3cf56ddd",
+    "authenticity_receipt_path": "receipts/rounds/round_020_authenticity.json",
+    "authenticity_receipt_sha256": "bad887ad6b63c3123cdec939052b1e56a038d8159265363d8f9d17fe9b48dd11",
+    "genuinely_different_hypothesis": false
+  },
+  "build": {
+    "status": "passed",
+    "marker": "BUILD_OK (compile=False, warmup=True)",
+    "transformer_load_dtype": "torch.bfloat16",
+    "resident_transformer_size_gb": 3.83,
+    "consumed_gpu_memory_after_transformer_load_gb": 4.57,
+    "preflight": {
+      "status": "reused_from_round_19_exact_candidate_confirmation",
+      "formal_hidden_shape": [1, 20, 112, 32760],
+      "formal_denominator_shape": [1, 20, 1, 32760],
+      "scaled_exact": true,
+      "inputs_preserved": true,
+      "output_stride_preserved": true
+    },
+    "note": "The exact Round 19 source, environment knobs, workload, model snapshot, and GPU lease were repeated unchanged. Formal build passed; optional DeepGEMM remained non-fatal."
+  },
+  "run": {
+    "status": "validated",
+    "command": "/home/jiangzhikun/yongyan_liu/Experiments/SolAgent/20260827-official-repro/envs/sana-cu128-phase0/bin/python scripts/launch_config.py config/sana_video_2b_h100/kernel_r20_fused_reciprocal_scale_confirm.toml --mode local --run-root runs --name-suffix r20-fused-reciprocal-scale-confirm",
+    "cwd": "/home/jiangzhikun/yongyan_liu/Experiments/SolAgent/20260831-sana-video-2b-full-exploration/artifacts/executors/sana2b-kernel_aw-0001/worktree",
+    "run_dir": "runs/20260831-172206-sana_video_2b_h100_kernel_r20_fused_reciprocal_scale_confirm-r20-fused-reciprocal-scale-confirm",
+    "gpu_uuid": "GPU-847305ce-670b-91ee-e0a9-aa3b7833df23",
+    "returncode": 0,
+    "baseline_total_s": 61.7,
+    "total_s": 40.6,
+    "log_total_s": 40.62,
+    "single_run_speedup": 1.519704433497537,
+    "process_wall_s": 88.17464002594352,
+    "warmup_request_s": 5.3,
+    "warmed_request_s": 34.32,
+    "denoising_s": 30.8146,
+    "denoising_average_per_step_s": 0.6162,
+    "text_encoding_s": 0.3692,
+    "decoding_s": 3.1275,
+    "peak_memory_mib": 17504,
+    "nvidia_smi_sampled_peak_mib": 23055,
+    "baseline_peak_memory_mib": 17770,
+    "round3_memory_frontier_mib": 16814,
+    "round19_round20_confirmation": {
+      "total_samples_s": [41.0, 40.6],
+      "total_median_s": 40.8,
+      "total_median_speedup_vs_baseline": 1.5122549019607845,
+      "total_median_improvement_vs_round16_round17_percent": 0.36630036630038015,
+      "warmup_samples_s": [5.74, 5.3],
+      "warmup_median_s": 5.52,
+      "warmed_request_samples_s": [34.31, 34.32],
+      "warmed_request_median_s": 34.315,
+      "warmed_request_improvement_vs_round16_round17_percent": 0.5073934473760634,
+      "denoising_samples_s": [30.8095, 30.8146],
+      "denoising_median_s": 30.81205,
+      "denoising_improvement_vs_round16_round17_percent": 0.6253638414562344,
+      "peak_memory_samples_mib": [17504, 17504],
+      "interpretation": "The confirmation resolves the outer warmup noise: both internal measurements reproduce the microgate-predicted gain, the frozen-total pair median is lower, output bytes match, and peak memory is unchanged."
+    },
+    "timing_scope": "warm_single_prompt_gen.generate_including_text_encoder_denoise_vae_decode_and_video_write_excluding_model_load_and_one_step_warmup",
+    "timing_scope_caveat": "The legacy label says warmup excluded, but controlling total_s empirically includes one-step warmup. Selection uses total_s exactly as frozen; internal stages are supporting evidence only.",
+    "benchmark_sha256": "3c9f64763e4aa227c46e177eea71a25a4893210eb90ef8d4c37d0628b5f3b5a1",
+    "collection_sha256": "8e25b32aa4c8acadb42cea712eb61374a78d9da692b1dadc2de26fc33de27870",
+    "quality_sha256": "c7dcde8b4759b7e36c12c782e8cc38ae09111a18c77cb4e5dea7a6f8f1ec5542",
+    "run_config_sha256": "06ede10a28b71258a30cb0c968a776b38bc73227c1c584e2099b87436861bc40",
+    "log_sha256": "564df4e22d2e8b8a6bf93d22fe94c3548f02a0b5a7d79462775dd9cdbc28e1a3",
+    "launch_sha256": "e74d3e7cf84ca3edc6c2a19cc065049f00ea233999a60cafa4cd8496aa88ade5",
+    "manifest_sha256": "635712ad69b67eafec5901981a74e7f76d901c4f1bfd254d8073ca9f06b4e024",
+    "assessment": {
+      "collector_status": "VALIDATED",
+      "independent_validator_status": "not_invoked_by_approved_protocol",
+      "tool_limitation": "Frozen receipts, ffprobe, byte identity to inspected Round 16, and source gates control. No quality comparison or independent validator was run."
+    }
+  },
+  "validity": {
+    "status": "validated",
+    "method_semantics": "This is an exact repeat of Round 19. The BF16 reciprocal boundary and scaled output, all attention matmuls, output projection, logical calls, tokens, CFG branches, and denoising steps are unchanged.",
+    "structural_invariants": {
+      "denoising_steps": 50,
+      "cfg_branches_per_step": 2,
+      "logical_dit_calls": 100,
+      "transformer_blocks_per_call": 20,
+      "linear_attention_invocations": 2000,
+      "cross_attention_invocations": 2000,
+      "glumb_invocations": 2000,
+      "skipped_or_reused_model_work": 0,
+      "world_size": 1
+    },
+    "rounding_evidence": {
+      "bit_identity_claimed_at_fused_boundary": true,
+      "formal_scaled_max_abs_bf16": 0.0,
+      "interpretation": "R20 is byte-identical to R19 and R16/R17, confirming deterministic output for the bit-exact fusion."
+    },
+    "video": {
+      "path": "runs/20260831-172206-sana_video_2b_h100_kernel_r20_fused_reciprocal_scale_confirm-r20-fused-reciprocal-scale-confirm/outputs/out.mp4",
+      "sha256": "37e4b053e0d083ca537eaeaca066e88aba1e51f5ee6932c567c3afdd044dc78b",
+      "bytes": 522180,
+      "width": 832,
+      "height": 480,
+      "frames": 81,
+      "fps": 16,
+      "duration_s": 5.0625
+    },
+    "frames": [
+      {"path": "runs/20260831-172206-sana_video_2b_h100_kernel_r20_fused_reciprocal_scale_confirm-r20-fused-reciprocal-scale-confirm/outputs/frames/frame_01.png", "sha256": "5cdc687da97cb70cc12359f83e2e78d4fcbf46570b20b671f30b16c4d003544b"},
+      {"path": "runs/20260831-172206-sana_video_2b_h100_kernel_r20_fused_reciprocal_scale_confirm-r20-fused-reciprocal-scale-confirm/outputs/frames/frame_02.png", "sha256": "d8a25a823e66367949da770cd61cb6735cc40529f6ba8734adcdc2742e593b8d"},
+      {"path": "runs/20260831-172206-sana_video_2b_h100_kernel_r20_fused_reciprocal_scale_confirm-r20-fused-reciprocal-scale-confirm/outputs/frames/frame_03.png", "sha256": "e93fd9a08545f85e04bd182d35c1b719422495efd36cccb496ab4b928528339f"}
+    ],
+    "visual_note": "The video and sampled frames are byte-identical to Round 19 and manually inspected Round 16; no additional quality gate is claimed."
+  },
+  "decision": {
+    "outcome": "retain",
+    "frontier_status": "confirmed_small_latency_frontier",
+    "plateau_eligible": false,
+    "post_best_distinct_no_improvement_count": 0,
+    "reason": "R20 confirms the exact R19 candidate. The R19/R20 frozen-total median is 40.8 seconds, 0.366% below the R16/R17 median, with reproducible 34.315-second warmed-request and 30.81205-second denoising medians, bit-identical output, and unchanged peak. Retain reciprocal-scale fusion as the confirmed latency frontier, preserve Round 3 as memory frontier, and reset the distinct post-best miss counter to zero."
+  }
+}
