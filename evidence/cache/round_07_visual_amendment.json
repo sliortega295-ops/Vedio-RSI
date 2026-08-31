@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "component": "cache",
+  "round": 7,
+  "amends": [
+    "runs/20260831-130748-sana2b_cache_r07_taylor_t001125_w3_s8_h1_o1_d100_matched-cache-r07/outputs/visual_verdict.json",
+    "runs/20260831-130748-sana2b_cache_r07_taylor_t001125_w3_s8_h1_o1_d100_matched-cache-r07/outputs/assess_verdict.json"
+  ],
+  "reason": "The independent coordinator screen is more conservative than the executor's initial subtle-framing impression and therefore governs the retained comparison nuance.",
+  "independent_visual_note": "TaylorSeer round 7 is valid and coherent with preserved identity, anatomy, forest, and flare progression and no gross artifact. It has slightly more visible framing, pose, and collar deviation than EasyCache round 2 and TeaCache round 6, especially in the first frame, so it is not quality superior at the matched conservative budget.",
+  "decision_impact": "No gate change: retain as a conservative matched comparator, effectively tied but not quality superior."
+}
