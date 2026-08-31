@@ -383,6 +383,9 @@ def main() -> int:
         run_config: dict[str, object] = {
             "schema_version": 1,
             "config_id": config_id,
+            "world_size": 1,
+            "num_gpus": 1,
+            "nproc": 1,
             "created_at_utc": datetime.now(timezone.utc).isoformat(),
             "command": command,
             "cwd": str(runtime_root),
@@ -440,16 +443,33 @@ def main() -> int:
             ),
             default=0,
         )
+        generation_s = float(generation_match.group(1)) if generation_match else None
+        runtime_peak_memory_mb = (
+            float(runtime_peak_match.group(1)) if runtime_peak_match else None
+        )
+        authoritative_peak_mib = runtime_peak_memory_mb or float(telemetry_peak)
         benchmark: dict[str, object] = {
             "schema_version": 1,
             "status": "FAILED" if returncode else "PARTIAL",
             "returncode": returncode,
-            "generation_s": float(generation_match.group(1)) if generation_match else None,
-            "process_wall_s": wall_s,
-            "runtime_peak_memory_mb": (
-                float(runtime_peak_match.group(1)) if runtime_peak_match else None
+            "generation_s": generation_s,
+            "total_s": generation_s,
+            "denoise_s": None,
+            "timing_scope": (
+                "warm_single_prompt_gen.generate_including_text_encoder_denoise_"
+                "vae_decode_and_video_write_excluding_model_load_and_one_step_warmup"
             ),
+            "process_wall_s": wall_s,
+            "runtime_peak_memory_mb": runtime_peak_memory_mb,
             "nvidia_smi_peak_memory_mib": telemetry_peak,
+            "max_device_memory_used_mib": authoritative_peak_mib,
+            "memory": {"max_device_memory_used_mib": authoritative_peak_mib},
+            "world_size": 1,
+            "num_gpus": 1,
+            "nproc": 1,
+            "prompt_count": 1,
+            "steps_per_prompt": WORKLOAD["steps"],
+            "warmup_policy": "one_step_model_warmup_before_measured_generation",
             "nvidia_smi_sample_count": len(samples),
             "nvidia_smi_samples": samples,
             "gpu_before": gpu_before,
@@ -461,6 +481,8 @@ def main() -> int:
             raise RuntimeError(f"SANA runtime exited with status {returncode}")
         if residual:
             raise RuntimeError(f"runtime left compute apps on leased GPU: {residual}")
+        if generation_s is None:
+            raise RuntimeError("runtime succeeded without a parseable GENERATE_OK latency")
         if not runtime_video.exists():
             raise RuntimeError(f"runtime reported success but video is missing: {runtime_video}")
         shutil.move(runtime_video, final_video)
