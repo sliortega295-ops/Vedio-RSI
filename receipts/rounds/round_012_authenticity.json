@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "component": "kernel",
+  "round": 12,
+  "status": "passed",
+  "scope": "authenticity_only",
+  "run_dir": "runs/20260831-150439-sana_video_2b_h100_kernel_r12_bf16_qkv_epilogue_norm_modulation_confirm-r12-norm-modulation-confirm",
+  "video": {
+    "path": "runs/20260831-150439-sana_video_2b_h100_kernel_r12_bf16_qkv_epilogue_norm_modulation_confirm-r12-norm-modulation-confirm/outputs/out.mp4",
+    "sha256": "faff021639f107d588c02a28d0f318454f944b3273cbbd9ddffe173d1b12cc83",
+    "bytes": 517853,
+    "width": 832,
+    "height": 480,
+    "frames": 81,
+    "fps": 16.0,
+    "duration_s": 5.0625
+  },
+  "frames": [
+    {
+      "position": "first",
+      "path": "runs/20260831-150439-sana_video_2b_h100_kernel_r12_bf16_qkv_epilogue_norm_modulation_confirm-r12-norm-modulation-confirm/outputs/frames/frame_01.png",
+      "sha256": "dbf07721a7dd274b670b3a6423d14ad7f7b386eb66678d7c9484094494b43043",
+      "bytes": 645346
+    },
+    {
+      "position": "middle",
+      "path": "runs/20260831-150439-sana_video_2b_h100_kernel_r12_bf16_qkv_epilogue_norm_modulation_confirm-r12-norm-modulation-confirm/outputs/frames/frame_02.png",
+      "sha256": "7505c0e4bad38d85201c0875e30e48774c96f6874b4cdc402d8f16d4f87a48b6",
+      "bytes": 707640
+    },
+    {
+      "position": "last",
+      "path": "runs/20260831-150439-sana_video_2b_h100_kernel_r12_bf16_qkv_epilogue_norm_modulation_confirm-r12-norm-modulation-confirm/outputs/frames/frame_03.png",
+      "sha256": "64da32fd7524f1bdc8fb94d670346787ac0f7ec1db90b23f8cf5f36cb2ed6cee",
+      "bytes": 650813
+    }
+  ],
+  "inspection": {
+    "observed": "The MP4 and all three collected frames are byte-identical to Round 11, whose authenticity-only inspection passed. The artifact is a real completed run with job-started, benchmark, collection, quality, and terminal RUN_COMPLETE_MARKER receipts.",
+    "excluded": "No quality comparison, output-difference gate, VBench, LPIPS, Gemini, or independent validator was run."
+  },
+  "hash_interpretation": "Byte identity to Round 11 confirms deterministic output for the identical lossless candidate and frozen workload; it is not a quality gate."
+}

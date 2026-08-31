@@ -1,0 +1,149 @@
+{
+  "schema_version": 1,
+  "component": "kernel",
+  "round": 12,
+  "hypothesis": "Repeat the exact Round 11 BF16, QKV, block-epilogue, fused modulation, and fused LayerNorm-modulation candidate under the same frozen workload to separate first-specialization warmup variance from stable latency.",
+  "session": {
+    "agent_id": "/root/sol_video_reproducer/kernel_executor",
+    "prompt_sha256": "b406128240c2e097550aa62333aa8ef2a85d5e45540c9c65b49aefa260a08072"
+  },
+  "provenance": {
+    "baseline_sha256": "3fdafdf00554ae4bafc91bc7729c3ba3e96af4edebac809782e6d6122ed23954",
+    "parent_sha": "d6654fc68a1c3070f34efb828e7e13f64412ad11",
+    "candidate_commit": "584df8ff00359d0c8e59e68f33d1fa678cd61996",
+    "confirmation_config_commit": "073c29b0816a7745d8f1760eb4f0f2fdf7be8cad",
+    "repeat_of_round": 11,
+    "config_path": "config/sana_video_2b_h100/kernel_r12_bf16_qkv_epilogue_norm_modulation_confirm.toml",
+    "config_sha256": "8c6e9dc13b96c3803f1c50a6bc6e767e432ee896a93ef34175af3d45013f0f0f",
+    "implementation_path": "external/sol_runtime/python/sglang/multimodal_gen/runtime/models/dits/sana_video.py",
+    "implementation_sha256": "e27a49411da344c8120696ad152909535870bb80d869ed8a51e490606fc58448",
+    "kernel_source_path": "external/sol_runtime/python/sglang/jit_kernel/diffusion/triton/scale_shift.py",
+    "kernel_source_sha256": "66ec10708998aed08bd8e3b07570a74bdf14e3999b3c75e592864e3276988773",
+    "semantics_receipt_path": "receipts/preflight/round_011_norm_modulation_semantics.json",
+    "semantics_receipt_sha256": "70a4b6f57c68fc495d1766dbbf47fb7b4f3b89677b69f6c410c43344a2815517",
+    "probe_source_path": "receipts/preflight/round_011_norm_modulation_probe.py",
+    "probe_source_sha256": "b49087f0f17dde998260c2e2114517ec6689f716ae912198f4b592ae0ef00ead",
+    "probe_result_path": "receipts/preflight/round_011_norm_modulation_probe.json",
+    "probe_result_sha256": "3ca9aa3f037b145ffddcd3ce9d21c595aeae8bd4c6613463aa25632bf3c4d933",
+    "authenticity_receipt_path": "receipts/rounds/round_012_authenticity.json",
+    "authenticity_receipt_sha256": "083c130094ea1e699d971914b842fa5b8e21ff0b7bb6776ca8a20727ace27032",
+    "genuinely_different_hypothesis": false
+  },
+  "build": {
+    "status": "passed",
+    "marker": "BUILD_OK (compile=False, warmup=True)",
+    "transformer_load_dtype": "torch.bfloat16",
+    "resident_transformer_size_gb": 3.83,
+    "consumed_gpu_memory_after_transformer_load_gb": 4.57,
+    "preflight": {
+      "status": "reused_from_round_11_exact_candidate_confirmation",
+      "formal_shape": [1, 32760, 2240],
+      "formal_stride": [73382400, 2240, 1],
+      "max_abs_bf16": 0.125,
+      "removed_cuda_launches_per_formal_run": 4000,
+      "materialized_gate_output": false
+    },
+    "note": "The exact Round 11 candidate, runtime source, environment knobs, workload, model snapshot, and GPU lease were repeated unchanged. The full GPU build passed; the optional DeepGEMM diagnostic remained non-fatal."
+  },
+  "run": {
+    "status": "validated",
+    "command": "/home/jiangzhikun/yongyan_liu/Experiments/SolAgent/20260827-official-repro/envs/sana-cu128-phase0/bin/python scripts/launch_config.py config/sana_video_2b_h100/kernel_r12_bf16_qkv_epilogue_norm_modulation_confirm.toml --mode local --run-root runs --name-suffix r12-norm-modulation-confirm",
+    "cwd": "/home/jiangzhikun/yongyan_liu/Experiments/SolAgent/20260831-sana-video-2b-full-exploration/artifacts/executors/sana2b-kernel_aw-0001/worktree",
+    "run_dir": "runs/20260831-150439-sana_video_2b_h100_kernel_r12_bf16_qkv_epilogue_norm_modulation_confirm-r12-norm-modulation-confirm",
+    "gpu_uuid": "GPU-847305ce-670b-91ee-e0a9-aa3b7833df23",
+    "returncode": 0,
+    "baseline_total_s": 61.7,
+    "total_s": 46.1,
+    "log_total_s": 46.06,
+    "single_run_speedup": 1.338394793926247,
+    "process_wall_s": 90.18586334912106,
+    "warmup_request_s": 5.63,
+    "warmed_request_s": 39.45,
+    "denoising_s": 36.0194,
+    "denoising_average_per_step_s": 0.7203,
+    "text_encoding_s": 0.369,
+    "decoding_s": 3.0521,
+    "peak_memory_mib": 17514,
+    "nvidia_smi_sampled_peak_mib": 23065,
+    "baseline_peak_memory_mib": 17770,
+    "round3_memory_frontier_mib": 16814,
+    "round11_round12_confirmation": {
+      "total_samples_s": [47.0, 46.1],
+      "total_median_s": 46.55,
+      "total_median_speedup_vs_baseline": 1.3254564983888293,
+      "total_median_improvement_vs_round9_round10_percent": 0.6403415154749258,
+      "warmup_samples_s": [6.55, 5.63],
+      "warmup_median_s": 6.09,
+      "warmed_request_samples_s": [39.46, 39.45],
+      "warmed_request_median_s": 39.455,
+      "warmed_request_median_improvement_vs_round9_round10_percent": 1.1772072636192837,
+      "denoising_samples_s": [36.0336, 36.0194],
+      "denoising_median_s": 36.0265,
+      "denoising_median_improvement_vs_round9_round10_percent": 1.3030739285220232,
+      "decoding_samples_s": [3.0532, 3.0521],
+      "decoding_median_s": 3.05265,
+      "peak_memory_samples_mib": [17514, 17514],
+      "interpretation": "The exact hot confirmation removes the first-specialization penalty. The R11/R12 frozen-total median improves 0.30 seconds (0.64%) over the confirmed R9/R10 median, while warmed-request and denoising medians improve stably by about 1.18% and 1.30%. This is a small but repeated latency frontier; no memory improvement is claimed."
+    },
+    "timing_scope": "warm_single_prompt_gen.generate_including_text_encoder_denoise_vae_decode_and_video_write_excluding_model_load_and_one_step_warmup",
+    "timing_scope_caveat": "The legacy label says warmup excluded, but controlling total_s follows the outer GENERATE_OK/Pixel-data interval and empirically includes the one-step warmup. Selection uses total_s exactly as frozen; internal stages are supporting evidence only.",
+    "benchmark_sha256": "507529b60cf1b0ae2c4c1e78c367d83ef99943d215b2dbe3f76eb55741d5fe73",
+    "collection_sha256": "a67c2df2cb20b48692ca35e9a55620d51a3cf3c67a314f4a401799a149a0571f",
+    "quality_sha256": "30ecd0d3dce4565b43a54a703061d819c9cbcad6c4790a945e8df212d7a4090d",
+    "run_config_sha256": "c31b066bd02344d7b5669e6072526d3beaab6791b3a4f611bc648946bfb6f8b0",
+    "log_sha256": "b93c3deb912d0b3f2470754d7175e0e6f854140fe3569471df5ef4029caf6aa4",
+    "launch_sha256": "d4948e5b17179adfd34c089e2e0991e39cecba1c60487b333ff945274029a0a0",
+    "manifest_sha256": "df19feb0c5d22f469294569d3bb9d97b0c669c93d94a3faccf31dc4210e12693",
+    "assessment": {
+      "collector_status": "VALIDATED",
+      "independent_validator_status": "not_invoked_by_overlay",
+      "tool_limitation": "The overlay wrapper, frozen source/workload, ffprobe, and authenticity gates control. No lossy quality or independent validator gate was run."
+    }
+  },
+  "validity": {
+    "status": "validated",
+    "method_semantics": "This is an exact repeat of Round 11. Both original sites compute the same affine-free FP32 LayerNorm statistics with eps=1e-6 and x*(1+scale)+shift in the specialized Triton program; the original broadcast gate and addcmul remain unchanged.",
+    "structural_invariants": {
+      "denoising_steps": 50,
+      "cfg_branches_per_step": 2,
+      "logical_dit_calls": 100,
+      "transformer_blocks_per_call": 20,
+      "linear_attention_invocations": 2000,
+      "cross_attention_invocations": 2000,
+      "glumb_invocations": 2000,
+      "norm_modulation_invocations": 4000,
+      "gated_residual_invocations": 4000,
+      "video_tokens_per_invocation": 32760,
+      "skipped_or_reused_model_work": 0,
+      "world_size": 1
+    },
+    "rounding_evidence": {
+      "bit_identity_claimed": false,
+      "formal_max_abs_bf16": 0.125,
+      "interpretation": "The formula and BF16 model contract are unchanged. R12 is byte-identical to R11, confirming deterministic output for the identical candidate and frozen workload."
+    },
+    "video": {
+      "path": "runs/20260831-150439-sana_video_2b_h100_kernel_r12_bf16_qkv_epilogue_norm_modulation_confirm-r12-norm-modulation-confirm/outputs/out.mp4",
+      "sha256": "faff021639f107d588c02a28d0f318454f944b3273cbbd9ddffe173d1b12cc83",
+      "bytes": 517853,
+      "width": 832,
+      "height": 480,
+      "frames": 81,
+      "fps": 16,
+      "duration_s": 5.0625
+    },
+    "frames": [
+      {"path": "runs/20260831-150439-sana_video_2b_h100_kernel_r12_bf16_qkv_epilogue_norm_modulation_confirm-r12-norm-modulation-confirm/outputs/frames/frame_01.png", "sha256": "dbf07721a7dd274b670b3a6423d14ad7f7b386eb66678d7c9484094494b43043"},
+      {"path": "runs/20260831-150439-sana_video_2b_h100_kernel_r12_bf16_qkv_epilogue_norm_modulation_confirm-r12-norm-modulation-confirm/outputs/frames/frame_02.png", "sha256": "7505c0e4bad38d85201c0875e30e48774c96f6874b4cdc402d8f16d4f87a48b6"},
+      {"path": "runs/20260831-150439-sana_video_2b_h100_kernel_r12_bf16_qkv_epilogue_norm_modulation_confirm-r12-norm-modulation-confirm/outputs/frames/frame_03.png", "sha256": "64da32fd7524f1bdc8fb94d670346787ac0f7ec1db90b23f8cf5f36cb2ed6cee"}
+    ],
+    "visual_note": "The MP4 and all three sampled frames are byte-identical to R11, whose authenticity-only inspection passed. No quality comparison or output-difference gate was imposed."
+  },
+  "decision": {
+    "outcome": "retain",
+    "frontier_status": "confirmed_small_latency_frontier",
+    "plateau_eligible": false,
+    "post_best_distinct_no_improvement_count": 0,
+    "reason": "R12 confirms the exact R11 candidate at 46.1 seconds. The R11/R12 frozen-total median is 46.55 seconds, a small 0.64% improvement over the confirmed R9/R10 median, supported by stable 1.18% warmed-request and 1.30% denoising gains with unchanged peak. Retain norm-modulation fusion as the latency frontier, preserve Round 3 as the memory frontier, reset the distinct-miss counter, and treat R12 itself as a non-distinct confirmation."
+  }
+}
