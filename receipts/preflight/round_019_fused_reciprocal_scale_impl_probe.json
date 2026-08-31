@@ -1,0 +1,73 @@
+{
+  "correctness": {
+    "inputs_preserved": true,
+    "max_abs_diff": 0.0,
+    "output_stride_preserved": true,
+    "scaled_exact": true
+  },
+  "formal_contract": {
+    "denominator_shape": [
+      1,
+      20,
+      1,
+      32760
+    ],
+    "denominator_stride": [
+      655200,
+      32760,
+      32760,
+      1
+    ],
+    "dtype": "torch.bfloat16",
+    "hidden_shape": [
+      1,
+      20,
+      112,
+      32760
+    ],
+    "hidden_stride": [
+      73382400,
+      3669120,
+      32760,
+      1
+    ]
+  },
+  "gpu": {
+    "index": 7,
+    "memory_total_mib": 81559,
+    "memory_used_mib": 3,
+    "name": "NVIDIA H100 80GB HBM3",
+    "utilization_gpu_percent": 0,
+    "uuid": "GPU-847305ce-670b-91ee-e0a9-aa3b7833df23"
+  },
+  "implementation": {
+    "fail_closed_guard_checks": {
+      "non_bf16_denominator": {
+        "error": "fused SANA reciprocal-scale denominator must be contiguous BF16",
+        "passed": true
+      },
+      "noncontiguous_hidden": {
+        "error": "fused SANA reciprocal-scale requires contiguous hidden",
+        "passed": true
+      }
+    },
+    "module": "sglang.jit_kernel.diffusion.triton.sana_rope",
+    "source_path": "/home/jiangzhikun/yongyan_liu/Experiments/SolAgent/20260831-sana-video-2b-full-exploration/artifacts/executors/sana2b-kernel_aw-0001/worktree/external/sol_runtime/python/sglang/jit_kernel/diffusion/triton/sana_rope.py",
+    "source_sha256": "651b6f7a6efa108a4ed237706b745f5874cca376463a153f6859c9c841fcb9b1"
+  },
+  "lease_uuid": "GPU-847305ce-670b-91ee-e0a9-aa3b7833df23",
+  "schema_version": 1,
+  "semantics": "Installed wrapper preserves the BF16 reciprocal boundary and BF16 scaled output bit exactly, preserves both inputs/layout, and removes only the materialized z tensor and one primitive boundary.",
+  "status": "passed",
+  "timing": {
+    "candidate_fused_ms": 0.10894880294799805,
+    "current_reciprocal_plus_scale_ms": 0.22558400630950928,
+    "delta_ms_per_attention": 0.11663520336151123,
+    "formal_attention_invocations": 2000,
+    "gate": "candidate < 95% of current and predicted saving >= 0.10 s",
+    "predicted_full_run_s_saved": 0.23327040672302246,
+    "speedup": 2.0705505724297124
+  },
+  "torch": "2.11.0+cu128",
+  "triton": "3.6.0"
+}

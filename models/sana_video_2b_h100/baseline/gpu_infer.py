@@ -118,6 +118,9 @@ def _optimization_knobs() -> dict[str, object]:
         "fused_qknorm_relu_rope": _bool_env(
             "SGLANG_SANA_FUSED_QKNORM_RELU_ROPE"
         ),
+        "fused_reciprocal_scale": _bool_env(
+            "SGLANG_SANA_FUSED_RECIPROCAL_SCALE"
+        ),
         "easycache_threshold": easycache,
         "warmup_disabled": _bool_env("SANA_DISABLE_WARMUP"),
     }

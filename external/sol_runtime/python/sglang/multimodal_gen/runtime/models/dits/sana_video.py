@@ -33,6 +33,7 @@ from sglang.jit_kernel.diffusion.triton.scale_shift import (
 )
 from sglang.jit_kernel.diffusion.triton.sana_rope import (
     apply_sana_fused_qk_norm_relu_rotary_emb,
+    apply_sana_fused_reciprocal_scale,
     apply_sana_paired_rotary_emb,
 )
 from sglang.multimodal_gen.configs.models.dits.sana_video import SanaVideoConfig
@@ -235,6 +236,9 @@ class SanaVideoLinearAttention(nn.Module):
         self._fused_qknorm_relu_rope = os.environ.get(
             "SGLANG_SANA_FUSED_QKNORM_RELU_ROPE", "0"
         ) in ("1", "true", "True")
+        self._fused_reciprocal_scale = os.environ.get(
+            "SGLANG_SANA_FUSED_RECIPROCAL_SCALE", "0"
+        ) in ("1", "true", "True")
 
     def build_qkv_merge(self):
         if not self._qkv_merge:
@@ -308,10 +312,20 @@ class SanaVideoLinearAttention(nn.Module):
                 value.float(),
             )
 
-        z = 1 / (key.sum(dim=-1, keepdim=True).transpose(-2, -1) @ query + 1e-15)
+        if self._fused_reciprocal_scale:
+            denominator = key.sum(dim=-1, keepdim=True).transpose(-2, -1) @ query
+        else:
+            z = 1 / (
+                key.sum(dim=-1, keepdim=True).transpose(-2, -1) @ query + 1e-15
+            )
         scores = torch.matmul(value, key_rotate.transpose(-1, -2))
         hidden_states = torch.matmul(scores, query_rotate)
-        hidden_states = hidden_states * z
+        if self._fused_reciprocal_scale:
+            hidden_states = apply_sana_fused_reciprocal_scale(
+                hidden_states, denominator
+            )
+        else:
+            hidden_states = hidden_states * z
 
         hidden_states = hidden_states.flatten(1, 2).transpose(1, 2)
         hidden_states = hidden_states.to(original_dtype)

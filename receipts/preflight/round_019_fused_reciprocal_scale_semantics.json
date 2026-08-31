@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "component": "kernel",
+  "round": 19,
+  "status": "passed",
+  "hypothesis": "Fuse BF16 reciprocal z materialization with post-attention BF16 scaling while preserving the native BF16 rounding boundary.",
+  "activation": {
+    "environment_variable": "SGLANG_SANA_FUSED_RECIPROCAL_SCALE",
+    "enabled_value": "1",
+    "disabled_path": "The original reciprocal expression and hidden_states * z remain the complete OFF path."
+  },
+  "source": {
+    "implementation_path": "external/sol_runtime/python/sglang/multimodal_gen/runtime/models/dits/sana_video.py",
+    "implementation_sha256": "413ee9c1a84ae063052b2d9ac4ec57e91b7e081b788850d257ce7d2bb9d9e38a",
+    "kernel_path": "external/sol_runtime/python/sglang/jit_kernel/diffusion/triton/sana_rope.py",
+    "kernel_sha256": "651b6f7a6efa108a4ed237706b745f5874cca376463a153f6859c9c841fcb9b1",
+    "runner_path": "models/sana_video_2b_h100/baseline/gpu_infer.py",
+    "runner_sha256": "886ecf2ddcc3b48f053b389fc32bd5d1eb1fc3a0eaa4361f50d5ada676928ede"
+  },
+  "installed_gate": {
+    "receipt_path": "receipts/preflight/round_019_fused_reciprocal_scale_impl_probe.json",
+    "receipt_sha256": "3a585e3675e028f6acd546e688765aee0fc375443393e86d02e5f15c3cf56ddd",
+    "formal_hidden_shape": [1, 20, 112, 32760],
+    "formal_denominator_shape": [1, 20, 1, 32760],
+    "scaled_exact": true,
+    "inputs_preserved": true,
+    "output_stride_preserved": true,
+    "fail_closed_guards_passed": [
+      "noncontiguous_hidden",
+      "non_bf16_denominator"
+    ],
+    "current_ms": 0.22558400630950928,
+    "candidate_ms": 0.10894880294799805,
+    "predicted_full_run_s_saved": 0.23327040672302246
+  },
+  "semantic_contract": {
+    "bf16_reciprocal_materialization_boundary": "preserved",
+    "bf16_scaled_output": "bit-exact in exact-shape gate",
+    "attention_matmuls": "unchanged",
+    "output_projection": "unchanged",
+    "tokens_blocks_cfg_steps": "unchanged",
+    "skipped_or_reused_model_work": 0,
+    "only_change": "The BF16 z tensor is not materialized; reciprocal and scaling execute in one fail-closed Triton kernel."
+  },
+  "limitations": "The exact-shape microgate establishes local correctness and performance only; the formal fixed-prompt generation remains the controlling candidate gate."
+}

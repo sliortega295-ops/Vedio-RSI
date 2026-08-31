@@ -170,6 +170,34 @@ def _sana_fused_qknorm_relu_rotary_emb_kernel(
     )
 
 
+@triton.jit
+def _sana_fused_reciprocal_scale_kernel(
+    output_ptr,
+    hidden_ptr,
+    denominator_ptr,
+    total,
+    num_tokens: tl.constexpr,
+    num_heads: tl.constexpr,
+    head_dim: tl.constexpr,
+    BLOCK: tl.constexpr,
+):
+    offsets = tl.program_id(0) * BLOCK + tl.arange(0, BLOCK)
+    mask = offsets < total
+    token = offsets % num_tokens
+    channel_row = offsets // num_tokens
+    head = channel_row % (num_heads * head_dim) // head_dim
+    batch = channel_row // (num_heads * head_dim)
+    denominator_offset = (batch * num_heads + head) * num_tokens + token
+    hidden = tl.load(hidden_ptr + offsets, mask=mask, other=0.0).to(tl.float32)
+    denominator = tl.load(
+        denominator_ptr + denominator_offset, mask=mask, other=1.0
+    ).to(tl.float32)
+    # Preserve the native BF16 z materialization boundary before scaling.
+    z_bf16 = (1.0 / (denominator + 1.0e-15)).to(tl.bfloat16)
+    output = (hidden * z_bf16.to(tl.float32)).to(tl.bfloat16)
+    tl.store(output_ptr + offsets, output, mask=mask)
+
+
 def apply_sana_paired_rotary_emb(
     query: torch.Tensor,
     key: torch.Tensor,
@@ -329,3 +357,47 @@ def apply_sana_fused_qk_norm_relu_rotary_emb(
         num_warps=8,
     )
     return tuple(outputs)
+
+
+def apply_sana_fused_reciprocal_scale(
+    hidden_states: torch.Tensor,
+    denominator: torch.Tensor,
+) -> torch.Tensor:
+    """Fuse BF16 reciprocal materialization and linear-attention z scaling."""
+
+    if hidden_states.device.type != "cuda":
+        raise ValueError("fused SANA reciprocal-scale requires CUDA tensors")
+    if hidden_states.dtype is not torch.bfloat16:
+        raise ValueError("fused SANA reciprocal-scale is specialized for BF16")
+    if hidden_states.ndim != 4:
+        raise ValueError("fused SANA reciprocal-scale expects [B,H,C,N] hidden")
+    if not hidden_states.is_contiguous():
+        raise ValueError("fused SANA reciprocal-scale requires contiguous hidden")
+
+    batch, num_heads, head_dim, num_tokens = hidden_states.shape
+    expected_denominator_shape = (batch, num_heads, 1, num_tokens)
+    if denominator.shape != expected_denominator_shape:
+        raise ValueError(
+            "fused SANA reciprocal-scale denominator must be [B,H,1,N]"
+        )
+    if denominator.device != hidden_states.device:
+        raise ValueError("fused SANA reciprocal-scale tensors must share a device")
+    if denominator.dtype is not torch.bfloat16 or not denominator.is_contiguous():
+        raise ValueError(
+            "fused SANA reciprocal-scale denominator must be contiguous BF16"
+        )
+
+    output = torch.empty_like(hidden_states)
+    total = hidden_states.numel()
+    _sana_fused_reciprocal_scale_kernel[(triton.cdiv(total, 1024),)](
+        output,
+        hidden_states,
+        denominator,
+        total,
+        num_tokens=num_tokens,
+        num_heads=num_heads,
+        head_dim=head_dim,
+        BLOCK=1024,
+        num_warps=8,
+    )
+    return output

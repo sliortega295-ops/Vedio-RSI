@@ -1,0 +1,63 @@
+{
+  "correctness": {
+    "max_abs_diff": 0.0,
+    "output_stride_preserved": true,
+    "scaled_exact": true
+  },
+  "formal_contract": {
+    "denominator_shape": [
+      1,
+      20,
+      1,
+      32760
+    ],
+    "denominator_stride": [
+      655200,
+      32760,
+      32760,
+      1
+    ],
+    "dtype": "torch.bfloat16",
+    "hidden_shape": [
+      1,
+      20,
+      112,
+      32760
+    ],
+    "hidden_stride": [
+      73382400,
+      3669120,
+      32760,
+      1
+    ]
+  },
+  "gpu": {
+    "index": 7,
+    "memory_total_mib": 81559,
+    "memory_used_mib": 3,
+    "name": "NVIDIA H100 80GB HBM3",
+    "utilization_gpu_percent": 0,
+    "uuid": "GPU-847305ce-670b-91ee-e0a9-aa3b7833df23"
+  },
+  "lease_uuid": "GPU-847305ce-670b-91ee-e0a9-aa3b7833df23",
+  "memory": {
+    "candidate_materialized_z_elements": 0,
+    "current_materialized_z_elements": 655200,
+    "extra_full_tensor": false,
+    "scaled_output_elements": 73382400
+  },
+  "schema_version": 1,
+  "semantics": "The candidate retains the native BF16 reciprocal boundary and BF16 scaling exactly while removing only the materialized z tensor and one primitive boundary. No attention matmul, output, token, block, CFG call, or denoising step is skipped.",
+  "status": "passed",
+  "timing": {
+    "candidate_fused_ms": 0.10906239748001098,
+    "current_reciprocal_plus_scale_ms": 0.22588639259338378,
+    "delta_ms_per_attention": 0.1168239951133728,
+    "formal_attention_invocations": 2000,
+    "gate": "candidate < 95% of current and predicted saving >= 0.10 s",
+    "predicted_full_run_s_saved": 0.2336479902267456,
+    "speedup": 2.071166578148847
+  },
+  "torch": "2.11.0+cu128",
+  "triton": "3.6.0"
+}
