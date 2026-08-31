@@ -1,0 +1,86 @@
+{
+  "schema_version": 1,
+  "component": "kernel",
+  "round": 2,
+  "hypothesis": "Repeat Round 1's exact default-Inductor configuration with the persistent compile cache already populated to determine whether the frozen total_s metric benefits after cold compilation is removed. This is a confirmation/retry, not a genuinely different plateau hypothesis.",
+  "session": {
+    "agent_id": "/root/sol_video_reproducer/kernel_executor",
+    "prompt_sha256": "b406128240c2e097550aa62333aa8ef2a85d5e45540c9c65b49aefa260a08072"
+  },
+  "provenance": {
+    "baseline_sha256": "3fdafdf00554ae4bafc91bc7729c3ba3e96af4edebac809782e6d6122ed23954",
+    "parent_sha": "4ab721075ae99fd9654642e6d86b19095d919ecf",
+    "candidate_commit": "068920944d824ea354a43ac32b1f24cce4f8b32f",
+    "config_path": "config/sana_video_2b_h100/kernel_r02_compile_default_hot.toml",
+    "config_sha256": "b0ca436c95739fd824b3cbae9f7f5c48eaf90831a074a10134f2706daa3e1b83",
+    "implementation": "Same isolated SANA_ENABLE_COMPILE=1 setting as Round 1, with the worktree-local persistent Inductor/Triton cache populated by Round 1.",
+    "repeat_of_round": 1,
+    "genuinely_different_hypothesis": false
+  },
+  "build": {
+    "status": "passed",
+    "marker": "BUILD_OK (compile=True, warmup=True)",
+    "compile_mode": "default",
+    "hot_cache_internal_warmup_s": 44.4,
+    "cache_path": "caches/",
+    "cache_committed": false,
+    "note": "Persistent kernels loaded successfully, but the first in-process compiled invocation still cost 44.40 seconds. The optional DeepGEMM import traceback remained non-fatal."
+  },
+  "run": {
+    "status": "validated",
+    "command": "/home/jiangzhikun/yongyan_liu/Experiments/SolAgent/20260827-official-repro/envs/sana-cu128-phase0/bin/python scripts/launch_config.py config/sana_video_2b_h100/kernel_r02_compile_default_hot.toml --mode local --run-root runs --name-suffix r02-compile-hot",
+    "cwd": "/home/jiangzhikun/yongyan_liu/Experiments/SolAgent/20260831-sana-video-2b-full-exploration/artifacts/executors/sana2b-kernel_aw-0001/worktree",
+    "run_dir": "runs/20260831-095617-sana_video_2b_h100_kernel_r02_compile_default_hot-r02-compile-hot",
+    "gpu_uuid": "GPU-847305ce-670b-91ee-e0a9-aa3b7833df23",
+    "returncode": 0,
+    "baseline_total_s": 61.7,
+    "total_s": 81.6,
+    "speedup": 0.756127451,
+    "process_wall_s": 133.400713877,
+    "warmed_request_s": 36.18,
+    "baseline_warmed_request_s": 47.56,
+    "warmed_request_speedup": 1.314538419,
+    "denoising_s": 32.6567,
+    "decoding_s": 3.1541,
+    "peak_memory_mib": 16946.0,
+    "baseline_peak_memory_mib": 17770.0,
+    "timing_scope": "warm_single_prompt_gen.generate_including_text_encoder_denoise_vae_decode_and_video_write_excluding_model_load_and_one_step_warmup",
+    "benchmark_sha256": "4e8730976a81e262ba1dbdea01a30a853fe85b6bfc593a5411bf13fa82394e1c",
+    "run_config_sha256": "b663df15bd3fd2495a5c19afebf2303b6455aa8128c0e8ecd598e91e2f77bc15",
+    "assessment": {
+      "path": "runs/20260831-095617-sana_video_2b_h100_kernel_r02_compile_default_hot-r02-compile-hot/assess_verdict.json",
+      "sha256": "c83878c49fa159bf248e74398703cd41c54b7d01be7cacc86c6c64ef6c8493f7",
+      "tool_limitation": "The archived evaluator did not resolve BASELINE-LOCK.json and incorrectly requested lossy quality evidence; overlay kernel gating was applied instead."
+    }
+  },
+  "validity": {
+    "status": "validated",
+    "method_semantics": "Identical to Round 1: default torch.compile changes only equivalent lowering/fusion/scheduling and retains the complete SANA-Video algorithm and logical work.",
+    "structural_invariants": {
+      "denoising_steps": 50,
+      "cfg_branches_per_step": 2,
+      "logical_dit_calls": 100,
+      "transformer_blocks_per_call": 20,
+      "world_size": 1
+    },
+    "video": {
+      "path": "runs/20260831-095617-sana_video_2b_h100_kernel_r02_compile_default_hot-r02-compile-hot/outputs/out.mp4",
+      "sha256": "5d6a15c06df162f55d30c492db9ffcc64f0b586f9993036a531eb34c01ec1d84",
+      "width": 832,
+      "height": 480,
+      "frames": 81,
+      "fps": 16.0,
+      "duration_s": 5.0625
+    },
+    "frames": [
+      {"path": "runs/20260831-095617-sana_video_2b_h100_kernel_r02_compile_default_hot-r02-compile-hot/outputs/frames/frame_01.png", "sha256": "634113c308945a80c2ad04e3624d12483c27871fce066f9d8b53426f062267ac"},
+      {"path": "runs/20260831-095617-sana_video_2b_h100_kernel_r02_compile_default_hot-r02-compile-hot/outputs/frames/frame_02.png", "sha256": "33e22e5cfc952a74ebd393a76b4468e880104eb6ca39749f0ee8ada00d312ede"},
+      {"path": "runs/20260831-095617-sana_video_2b_h100_kernel_r02_compile_default_hot-r02-compile-hot/outputs/frames/frame_03.png", "sha256": "094c1dee4849f19bd4e37479a2eb6246e729c3b643d0f6e1503bda01edc8cc64"}
+    ],
+    "visual_note": "Authenticity-only check passed. All three decoded frame hashes equal the already inspected valid Round 1 frames from the same fixed seed/workload, and the independent MP4/ffprobe contract is valid. No quality comparison was performed."
+  },
+  "decision": {
+    "outcome": "reject",
+    "reason": "The hot persistent-cache run still measures 81.6 seconds in the frozen total_s scope, only 0.756x the 61.7-second baseline. Although its post-initialization warmed request is 1.315x faster and peak memory is 4.6% lower, the required single-generation objective includes 44.40 seconds of first-process compiled invocation cost. Default compile is therefore not part of the latency frontier; this repeat does not count toward the distinct-hypothesis plateau counter."
+  }
+}
