@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "agent_id": "cache_executor",
+  "component": "cache",
+  "status": "complete",
+  "search_status": "genuine_convergence",
+  "rounds_completed": 12,
+  "hard_cap": 20,
+  "stop_round": 12,
+  "active_jobs": false,
+  "active_assessments": false,
+  "completion_evidence": [
+    "DELIVERY-DRAFT.json",
+    "CACHE-SEARCH-STATE.json",
+    "SEARCH_JOURNAL.md",
+    "SUMMARY.md",
+    "TRAJECTORY.jsonl",
+    "evidence/cache/frontier_summary.json"
+  ],
+  "completion_basis": "All three faithful cache families were measured at conservative, balanced, and aggressive matched full-run budgets; three distinct selected points have strictly increasing speedups and valid fixed-prompt lightweight artifact screens.",
+  "protocol_status": "approved_relaxed_reproduction",
+  "not_run_at_completion": [
+    "archived five-prompt validation set",
+    "independent blind Codex visual-review node",
+    "master-owned near-final small multi-prompt sanity check"
+  ],
+  "delivery_handoff": {
+    "search_executor_result": "durable search and frontier complete at 804491e704636754bbabdc8d4cc06ad684fb9815",
+    "executor_delivery_result": "timeout_after_final_bounded_checkpoint",
+    "recovery": "primary integrator independently constructed and validated the delivery bundle from committed ledger and run artifacts",
+    "child_lifecycle": "interrupted_and_retired"
+  },
+  "updated_at_utc": "2026-08-31T14:52:20Z"
+}

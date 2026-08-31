@@ -1,0 +1,105 @@
+{
+  "schema_version": 1,
+  "component": "cache",
+  "model_id": "sana_video_2b_h100",
+  "status": "genuine_convergence",
+  "hard_cap": 20,
+  "rounds_completed": 12,
+  "stop_round": 12,
+  "baseline_sha256": "3fdafdf00554ae4bafc91bc7729c3ba3e96af4edebac809782e6d6122ed23954",
+  "fixed_prompt_sha256": "870a3daedac57a0654d62de074a480daa3d7bee82b26988ec17b75496fb2643c",
+  "timing_scope": "warm_single_prompt_gen.generate_including_text_encoder_denoise_vae_decode_and_video_write_excluding_model_load_and_one_step_warmup",
+  "families": {
+    "easycache": {
+      "status": "faithful_seed_and_adaptive_refinements_complete",
+      "rounds": [1, 2, 8, 9, 12],
+      "selected_tiers": {
+        "conservative": 2,
+        "balanced": 12,
+        "aggressive": 9
+      },
+      "note": "Round 1 exposed stale warmup/CFG provenance and was excluded. Round 2 corrected formal state and branch-specific replay. Rounds 8/9 calibrated the aggressive band; round 12 closed the balanced band."
+    },
+    "teacache": {
+      "status": "faithful_seed_and_adaptive_refinements_complete",
+      "rounds": [3, 5, 6, 10],
+      "matched_comparators": {
+        "conservative": 6,
+        "balanced": 10,
+        "aggressive": 3
+      },
+      "note": "A faithful accumulated-residual signal was measured at aggressive, conservative calibration, matched conservative, and balanced budgets."
+    },
+    "taylorseer": {
+      "status": "faithful_seed_and_adaptive_refinements_complete",
+      "rounds": [4, 7, 11],
+      "matched_comparators": {
+        "conservative": 7,
+        "balanced": 11,
+        "aggressive": 4
+      },
+      "note": "First-order TaylorSeer was valid at all three tiers but visually dominated at matched budgets."
+    }
+  },
+  "rounds": [
+    {"round": 1, "family": "easycache", "total_s": 52.8, "peak_memory_mib": 17770, "decision": "retry_excluded", "reason": "stale warmup/CFG residual provenance; preserved but ineligible"},
+    {"round": 2, "family": "easycache", "total_s": 46.2, "hits": 9, "computes": 41, "peak_memory_mib": 17770, "decision": "retain_conservative"},
+    {"round": 3, "family": "teacache", "total_s": 28.5, "hits": 29, "computes": 21, "peak_memory_mib": 17910, "decision": "retain_aggressive_comparator"},
+    {"round": 4, "family": "taylorseer", "total_s": 28.0, "hits": 29, "computes": 21, "peak_memory_mib": 17910, "decision": "reject_from_frontier_retain_comparator"},
+    {"round": 5, "family": "teacache", "total_s": 44.9, "hits": 10, "computes": 40, "peak_memory_mib": 17910, "decision": "retain_calibration_excluded_from_matched_band"},
+    {"round": 6, "family": "teacache", "total_s": 46.7, "hits": 8, "computes": 42, "peak_memory_mib": 17910, "decision": "retain_conservative_comparator"},
+    {"round": 7, "family": "taylorseer", "total_s": 46.9, "hits": 8, "computes": 42, "peak_memory_mib": 17910, "decision": "retain_conservative_comparator"},
+    {"round": 8, "family": "easycache", "total_s": 29.2, "hits": 28, "computes": 22, "peak_memory_mib": 17770, "decision": "retain_calibration_excluded_from_matched_band"},
+    {"round": 9, "family": "easycache", "total_s": 28.4, "hits": 29, "computes": 21, "peak_memory_mib": 17770, "decision": "retain_aggressive"},
+    {"round": 10, "family": "teacache", "total_s": 39.0, "hits": 17, "computes": 33, "peak_memory_mib": 17910, "decision": "retain_balanced_comparator"},
+    {"round": 11, "family": "taylorseer", "total_s": 38.8, "hits": 17, "computes": 33, "peak_memory_mib": 17910, "decision": "retain_balanced_comparator"},
+    {"round": 12, "family": "easycache", "total_s": 38.8, "hits": 17, "computes": 33, "peak_memory_mib": 17770, "decision": "stop_retain_balanced"}
+  ],
+  "matched_tiers": {
+    "conservative": {
+      "band_s": [46.2, 46.9],
+      "within_two_percent": true,
+      "easycache_round": 2,
+      "teacache_round": 6,
+      "taylorseer_round": 7,
+      "winner": "easycache_or_teacache_bounded_tie"
+    },
+    "balanced": {
+      "band_s": [38.8, 39.0],
+      "within_two_percent": true,
+      "easycache_round": 12,
+      "teacache_round": 10,
+      "taylorseer_round": 11,
+      "winner": "easycache_clear_on_fixed_prompt"
+    },
+    "aggressive": {
+      "band_s": [28.0, 28.5],
+      "within_two_percent": true,
+      "easycache_round": 9,
+      "teacache_round": 3,
+      "taylorseer_round": 4,
+      "winner": "easycache_tentative_edge_or_tie_with_teacache"
+    }
+  },
+  "convergence": {
+    "rule": "official genuine-convergence rule",
+    "satisfied": true,
+    "reason": "Exactly three distinct matched tiers cover TeaCache, EasyCache, and TaylorSeer; every family has a faithful seed and evidence-driven refinement or calibration; measured speedups increase strictly from conservative to balanced to aggressive; the last missing balanced EasyCache point was measured without post-hoc retuning."
+  },
+  "evidence": {
+    "trajectory": "TRAJECTORY.jsonl",
+    "round_dir": "evidence/cache",
+    "frontier_summary": "evidence/cache/frontier_summary.json",
+    "frontier_summary_sha256": "03786e0c005a58ae68f188be77d8660f08914db0819bbc73ae3d612a42ea6ea6"
+  },
+  "protocol": {
+    "applied": "approved relaxed one-fixed-prompt first/middle/last screening protocol",
+    "archived_strict_gate": "not applied: five-prompt and independent blind-review completion standard",
+    "multi_prompt_sanity": "master_owned_not_run_at_executor_completion"
+  },
+  "executor_handoff": {
+    "status": "primary_completed_after_executor_delivery_timeout",
+    "search_last_commit": "804491e704636754bbabdc8d4cc06ad684fb9815",
+    "child_lifecycle": "interrupted_and_retired_after_final_bounded_checkpoint"
+  }
+}

@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "component": "cache",
+  "status": "passed",
+  "verified_at_utc": "2026-08-31T14:59:40Z",
+  "verifier": "primary_integrator",
+  "source_commit_before_delivery": "804491e704636754bbabdc8d4cc06ad684fb9815",
+  "baseline_lock_sha256": "3fdafdf00554ae4bafc91bc7729c3ba3e96af4edebac809782e6d6122ed23954",
+  "rounds_verified": 12,
+  "selected_points": [
+    {
+      "tier": "conservative",
+      "config_id": "sana2b_cache_r02_easy_t005_w3_s8_h2_confirm",
+      "total_s": 46.2,
+      "speedup": 1.3354978354978355,
+      "video": "832x480, 81 frames, 16 fps"
+    },
+    {
+      "tier": "balanced",
+      "config_id": "sana2b_cache_r12_easy_t010_w3_s8_h2_balanced",
+      "total_s": 38.8,
+      "speedup": 1.5902061855670102,
+      "video": "832x480, 81 frames, 16 fps"
+    },
+    {
+      "tier": "aggressive",
+      "config_id": "sana2b_cache_r09_easy_t025_w3_s8_h2_aggressive_matched",
+      "total_s": 28.4,
+      "speedup": 2.172535211267606,
+      "video": "832x480, 81 frames, 16 fps"
+    }
+  ],
+  "checks": {
+    "json_parse": "passed",
+    "contiguous_rounds_1_to_12": "passed",
+    "three_distinct_tiers_configs_and_runs": "passed",
+    "strict_speedup_order": "passed",
+    "implementation_source_hashes": "passed",
+    "manifest_hashes": "passed",
+    "job_started_and_metadata_provenance": "passed",
+    "config_id_match": "passed",
+    "benchmark_total_and_timing_scope": "passed",
+    "peak_memory_match": "passed",
+    "artifact_existence": "passed",
+    "video_sha256": "passed",
+    "ffprobe": "passed",
+    "cpu_tests": "9_of_9_passed"
+  },
+  "cpu_test_command": "PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=external/sol_runtime/python:<runtime-deps>:<sglang-build> <cu128-env-python> -m unittest -v tests.test_sana_video_cache",
+  "benign_warning": "deep_gemm is not installed; the optional backend was disabled and is unrelated to the cache controller tests or selected H100 runs",
+  "official_verify_delivery": {
+    "status": "not_run_by_design",
+    "reason": "The archived verifier consumes a published schema-2 DELIVERY.json and re-runs an LPIPS gate. This approved reproduction intentionally uses the cache-specific DELIVERY-DRAFT contract plus one-prompt lightweight screening and no independent validator; path, provenance, metric, hash, and artifact checks were instead performed deterministically here."
+  },
+  "executor_handoff": "primary_completed_after_executor_delivery_timeout"
+}

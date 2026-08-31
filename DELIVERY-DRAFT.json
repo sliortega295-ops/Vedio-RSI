@@ -1,0 +1,205 @@
+{
+  "schema_version": 1,
+  "component": "cache",
+  "model_id": "sana_video_2b_h100",
+  "status": "complete_draft",
+  "baseline": {
+    "lock": "BASELINE-LOCK.json",
+    "sha256": "3fdafdf00554ae4bafc91bc7729c3ba3e96af4edebac809782e6d6122ed23954",
+    "total_s": 61.7,
+    "peak_memory_mib": 17770.0,
+    "timing_scope": "warm_single_prompt_gen.generate_including_text_encoder_denoise_vae_decode_and_video_write_excluding_model_load_and_one_step_warmup"
+  },
+  "implementation_package": {
+    "files": [
+      {
+        "path": "external/sol_runtime/python/sglang/multimodal_gen/runtime/cache/sana_video_cache.py",
+        "sha256": "df3a1bd12fcc6674cc0ca59ab383e2d07dba496ee85c469ee42ed2acaf96c000"
+      },
+      {
+        "path": "external/sol_runtime/python/sglang/multimodal_gen/runtime/models/dits/sana_video.py",
+        "sha256": "544c26f28923650ec93f881501d1c096f8c5e9f259492c80fb06e398522c3785"
+      },
+      {
+        "path": "external/sol_runtime/scripts/sana/sana_video_sglang_run.py",
+        "sha256": "58550eeef9d93e0122267312508474dff1dbdb4a1b2c24bdef49b7e498d143e8"
+      },
+      {
+        "path": "models/sana_video_2b_h100/baseline/gpu_infer.py",
+        "sha256": "406e068b7a44fb7c844f64d70b921e08733d1fd05ba7398e1103640fd08420a0"
+      }
+    ],
+    "build_smoke": {
+      "status": "passed",
+      "evidence": "evidence/cache/round_12_trajectory.json",
+      "test_file": "tests/test_sana_video_cache.py",
+      "test_file_sha256": "6862b82a95cebc37c4a4ddc7263bfe4309c393653a334a28253103b3cbefcd2a",
+      "result": "9/9 CPU tests passed; py_compile, ledger, dry-run, source-diff, GPU lease, and lock preflights passed"
+    }
+  },
+  "frontier_points": [
+    {
+      "tier": "conservative",
+      "config_id": "sana2b_cache_r02_easy_t005_w3_s8_h2_confirm",
+      "round": 2,
+      "run_dir": "runs/20260831-102004-sana2b_cache_r02_easy_t005_w3_s8_h2_confirm-cache-r02",
+      "implementation_manifest": {
+        "path": "config/sana_video_2b_h100/cache/easy_r02_t005_w3_s8_h2_confirm.toml",
+        "sha256": "cd460fc1ffa79a0891cf878611086290a1d6745bd5afe28f2047225b39a6ff2d"
+      },
+      "activation": {
+        "env": {
+          "SANA_CACHE_FAMILY": "easycache",
+          "SANA_CACHE_THRESHOLD": "0.05",
+          "SANA_CACHE_WARMUP": "3",
+          "SANA_CACHE_START": "0",
+          "SANA_CACHE_END": "49",
+          "SANA_CACHE_SUBSAMPLE": "8",
+          "SANA_CACHE_MAX_HITS": "2"
+        }
+      },
+      "compute_budget": {
+        "total_s": 46.2,
+        "time_ratio": 0.7487844408427877,
+        "speedup": 1.3354978354978355,
+        "cache_hits": 9,
+        "computed_steps": 41,
+        "target": "matched conservative band 46.2-46.9 s"
+      },
+      "quality": {
+        "config_relation": "fixed-prompt quality leader or bounded tie with matched TeaCache; no gross first/middle/last-frame artifact",
+        "max_artifact_severity": "low",
+        "scope": "approved one-fixed-prompt lightweight screen"
+      },
+      "runtime_evidence": {
+        "assessment_path": "runs/20260831-102004-sana2b_cache_r02_easy_t005_w3_s8_h2_confirm-cache-r02/outputs/assess_verdict.json",
+        "visual_path": "runs/20260831-102004-sana2b_cache_r02_easy_t005_w3_s8_h2_confirm-cache-r02/outputs/visual_verdict.json",
+        "benchmark_path": "runs/20260831-102004-sana2b_cache_r02_easy_t005_w3_s8_h2_confirm-cache-r02/outputs/benchmark.json",
+        "video_sha256": "63c6c3763d9ca89a26a9f3a8275ccbbfbc282dedde427698f987f6b39d3efd83"
+      },
+      "artifacts": [
+        "runs/20260831-102004-sana2b_cache_r02_easy_t005_w3_s8_h2_confirm-cache-r02/outputs/out.mp4",
+        "runs/20260831-102004-sana2b_cache_r02_easy_t005_w3_s8_h2_confirm-cache-r02/outputs/frames",
+        "runs/20260831-102004-sana2b_cache_r02_easy_t005_w3_s8_h2_confirm-cache-r02/outputs/assess_verdict.json",
+        "runs/20260831-102004-sana2b_cache_r02_easy_t005_w3_s8_h2_confirm-cache-r02/outputs/visual_verdict.json",
+        "runs/20260831-102004-sana2b_cache_r02_easy_t005_w3_s8_h2_confirm-cache-r02/outputs/benchmark.json"
+      ]
+    },
+    {
+      "tier": "balanced",
+      "config_id": "sana2b_cache_r12_easy_t010_w3_s8_h2_balanced",
+      "round": 12,
+      "run_dir": "runs/20260831-135723-sana2b_cache_r12_easy_t010_w3_s8_h2_balanced-cache-r12",
+      "implementation_manifest": {
+        "path": "config/sana_video_2b_h100/cache/easy_r12_t010_w3_s8_h2_balanced.toml",
+        "sha256": "bf4a2a71ae0d4f71c65b7ff76cb891809821a1561063c5ba194de926c4d52987"
+      },
+      "activation": {
+        "env": {
+          "SANA_CACHE_FAMILY": "easycache",
+          "SANA_CACHE_THRESHOLD": "0.10",
+          "SANA_CACHE_WARMUP": "3",
+          "SANA_CACHE_START": "0",
+          "SANA_CACHE_END": "49",
+          "SANA_CACHE_SUBSAMPLE": "8",
+          "SANA_CACHE_MAX_HITS": "2"
+        }
+      },
+      "compute_budget": {
+        "total_s": 38.8,
+        "time_ratio": 0.6288492706645057,
+        "speedup": 1.5902061855670102,
+        "cache_hits": 17,
+        "computed_steps": 33,
+        "target": "matched balanced band 38.8-39.0 s"
+      },
+      "quality": {
+        "config_relation": "clear fixed-prompt matched-band winner with very low drift versus TeaCache and TaylorSeer",
+        "max_artifact_severity": "low",
+        "scope": "approved one-fixed-prompt lightweight screen"
+      },
+      "runtime_evidence": {
+        "assessment_path": "runs/20260831-135723-sana2b_cache_r12_easy_t010_w3_s8_h2_balanced-cache-r12/outputs/assess_verdict.json",
+        "visual_path": "runs/20260831-135723-sana2b_cache_r12_easy_t010_w3_s8_h2_balanced-cache-r12/outputs/visual_verdict.json",
+        "benchmark_path": "runs/20260831-135723-sana2b_cache_r12_easy_t010_w3_s8_h2_balanced-cache-r12/outputs/benchmark.json",
+        "video_sha256": "ecc65ef3ed8ed5acb09ab856e54a4cde8962906f64237e56fed2812197245644"
+      },
+      "artifacts": [
+        "runs/20260831-135723-sana2b_cache_r12_easy_t010_w3_s8_h2_balanced-cache-r12/outputs/out.mp4",
+        "runs/20260831-135723-sana2b_cache_r12_easy_t010_w3_s8_h2_balanced-cache-r12/outputs/frames",
+        "runs/20260831-135723-sana2b_cache_r12_easy_t010_w3_s8_h2_balanced-cache-r12/outputs/assess_verdict.json",
+        "runs/20260831-135723-sana2b_cache_r12_easy_t010_w3_s8_h2_balanced-cache-r12/outputs/visual_verdict.json",
+        "runs/20260831-135723-sana2b_cache_r12_easy_t010_w3_s8_h2_balanced-cache-r12/outputs/benchmark.json"
+      ]
+    },
+    {
+      "tier": "aggressive",
+      "config_id": "sana2b_cache_r09_easy_t025_w3_s8_h2_aggressive_matched",
+      "round": 9,
+      "run_dir": "runs/20260831-132823-sana2b_cache_r09_easy_t025_w3_s8_h2_aggressive_matched-cache-r09",
+      "implementation_manifest": {
+        "path": "config/sana_video_2b_h100/cache/easy_r09_t025_w3_s8_h2_aggressive_matched.toml",
+        "sha256": "7eb762bb1c6334b41509e84f10da2c330347153d34ce8926a90fb38a91941219"
+      },
+      "activation": {
+        "env": {
+          "SANA_CACHE_FAMILY": "easycache",
+          "SANA_CACHE_THRESHOLD": "0.25",
+          "SANA_CACHE_WARMUP": "3",
+          "SANA_CACHE_START": "0",
+          "SANA_CACHE_END": "49",
+          "SANA_CACHE_SUBSAMPLE": "8",
+          "SANA_CACHE_MAX_HITS": "2"
+        }
+      },
+      "compute_budget": {
+        "total_s": 28.4,
+        "time_ratio": 0.46029173419773095,
+        "speedup": 2.172535211267606,
+        "cache_hits": 29,
+        "computed_steps": 21,
+        "target": "matched aggressive band 28.0-28.5 s"
+      },
+      "quality": {
+        "config_relation": "valid with pose/framing drift; tentative fixed-prompt edge or tie with TeaCache and clearly better than TaylorSeer",
+        "max_artifact_severity": "medium",
+        "scope": "approved one-fixed-prompt lightweight screen"
+      },
+      "runtime_evidence": {
+        "assessment_path": "runs/20260831-132823-sana2b_cache_r09_easy_t025_w3_s8_h2_aggressive_matched-cache-r09/outputs/assess_verdict.json",
+        "visual_path": "runs/20260831-132823-sana2b_cache_r09_easy_t025_w3_s8_h2_aggressive_matched-cache-r09/outputs/visual_verdict.json",
+        "benchmark_path": "runs/20260831-132823-sana2b_cache_r09_easy_t025_w3_s8_h2_aggressive_matched-cache-r09/outputs/benchmark.json",
+        "video_sha256": "97753b499a543f2f8a110296d99e0c92d749f228ab1c9f9b784db0c8f8c693d6"
+      },
+      "artifacts": [
+        "runs/20260831-132823-sana2b_cache_r09_easy_t025_w3_s8_h2_aggressive_matched-cache-r09/outputs/out.mp4",
+        "runs/20260831-132823-sana2b_cache_r09_easy_t025_w3_s8_h2_aggressive_matched-cache-r09/outputs/frames",
+        "runs/20260831-132823-sana2b_cache_r09_easy_t025_w3_s8_h2_aggressive_matched-cache-r09/outputs/assess_verdict.json",
+        "runs/20260831-132823-sana2b_cache_r09_easy_t025_w3_s8_h2_aggressive_matched-cache-r09/outputs/visual_verdict.json",
+        "runs/20260831-132823-sana2b_cache_r09_easy_t025_w3_s8_h2_aggressive_matched-cache-r09/outputs/benchmark.json"
+      ]
+    }
+  ],
+  "pareto_assessment": {
+    "status": "nondominated_under_approved_screen",
+    "objective": "maximize fixed-prompt screened quality subject to matched measured compute budget",
+    "evidence": [
+      "evidence/cache/frontier_summary.json",
+      "CACHE-SEARCH-STATE.json",
+      "TRAJECTORY.jsonl"
+    ],
+    "note": "The three selected EasyCache runs are distinct and their measured speedups increase strictly: 1.3355x, 1.5902x, 2.1725x. All three families were measured in each matched tier before selection."
+  },
+  "protocol_disclosure": {
+    "status": "approved_relaxed_reproduction",
+    "applied": "single frozen model-card prompt, first/middle/last lightweight validity and visual screen; no independent validator agent",
+    "not_applied": "archived five-prompt plus independent blind-review completion standard",
+    "pending_master_gate": "small multi-prompt sanity check for near-final points"
+  },
+  "executor_handoff": {
+    "search_status": "complete",
+    "delivery_status": "primary_completed_after_executor_delivery_timeout",
+    "last_executor_commit": "804491e704636754bbabdc8d4cc06ad684fb9815",
+    "note": "The Cache executor committed all 12 rounds and the frontier summary but did not materialize the requested delivery bundle by the final bounded checkpoint. The primary integrator independently rebuilt this draft only from committed evidence and retired the child."
+  }
+}
