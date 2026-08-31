@@ -115,6 +115,83 @@ def _apply_rotary_emb(hidden_states, freqs_cos, freqs_sin):
     return out.type_as(hidden_states)
 
 
+def _tensor_cache_signature(tensor):
+    """Identity-adjacent metadata that must remain stable for a cache hit."""
+    try:
+        version = int(tensor._version)
+    except RuntimeError:
+        # Inference tensors may intentionally omit a version counter. The cache
+        # also keeps a strong reference and compares object identity, so their
+        # storage cannot be freed/reused while the entry is live.
+        version = None
+    return (
+        tensor.device.type,
+        tensor.device.index,
+        tensor.dtype,
+        tuple(tensor.shape),
+        tuple(tensor.stride()),
+        tensor.storage_offset(),
+        tensor.data_ptr(),
+        version,
+    )
+
+
+def _module_parameter_signature(*modules):
+    """Cover parameter identity, storage, dtype/device, and mutation version."""
+    signature = []
+    for module in modules:
+        if module is None:
+            continue
+        for parameter in module.parameters():
+            signature.append(
+                (
+                    id(parameter),
+                    parameter.device.type,
+                    parameter.device.index,
+                    parameter.dtype,
+                    tuple(parameter.shape),
+                    parameter.data_ptr(),
+                    int(parameter._version),
+                )
+            )
+    return tuple(signature)
+
+
+class _BoundedTensorIdentityCache:
+    """Tiny strong-reference LRU for the two immutable CFG text contexts.
+
+    Object identity plus a live strong reference rules out allocator/id reuse.
+    Tensor metadata and module-weight signatures additionally fail closed on
+    device/dtype/shape/storage or parameter-lifecycle changes.
+    """
+
+    def __init__(self, capacity=2):
+        self.capacity = capacity
+        self._entries = []
+
+    def lookup(self, source, weight_signature):
+        source_signature = _tensor_cache_signature(source)
+        for index, entry in enumerate(self._entries):
+            if (
+                entry[0] is source
+                and entry[1] == source_signature
+                and entry[2] == weight_signature
+            ):
+                if index != len(self._entries) - 1:
+                    self._entries.append(self._entries.pop(index))
+                return entry[3]
+        return None
+
+    def store(self, source, weight_signature, value):
+        # Replace any older lifecycle/signature for this exact live object.
+        self._entries = [entry for entry in self._entries if entry[0] is not source]
+        self._entries.append(
+            (source, _tensor_cache_signature(source), weight_signature, value)
+        )
+        if len(self._entries) > self.capacity:
+            self._entries.pop(0)
+
+
 class SanaVideoLinearAttention(nn.Module):
     """ReLU-feature-map linear self-attention with 3D RoPE. Ports the math of
     diffusers SanaLinearAttnProcessor3_0 exactly (RoPE on the KV-aggregation
@@ -221,23 +298,56 @@ class SanaVideoCrossAttention(nn.Module):
         )
         self.norm_q = RMSNorm(inner_dim) if qk_norm else None
         self.norm_k = RMSNorm(inner_dim) if qk_norm else None
+        self._kv_cache = (
+            _BoundedTensorIdentityCache(capacity=2)
+            if os.environ.get("SGLANG_SANA_XATTN_KV_CACHE", "0")
+            in ("1", "true", "True")
+            else None
+        )
 
     def forward(self, hidden_states, encoder_hidden_states, encoder_attention_mask=None):
         B, S, _ = hidden_states.shape
         T = encoder_hidden_states.shape[1]
 
         query = self.to_q(hidden_states)
-        key = self.to_k(encoder_hidden_states)
-        value = self.to_v(encoder_hidden_states)
+        if self._kv_cache is None or torch.is_grad_enabled():
+            # OFF path: preserve the original operations verbatim.
+            key = self.to_k(encoder_hidden_states)
+            value = self.to_v(encoder_hidden_states)
 
-        if self.norm_q is not None:
-            query = self.norm_q(query)
-        if self.norm_k is not None:
-            key = self.norm_k(key)
+            if self.norm_q is not None:
+                query = self.norm_q(query)
+            if self.norm_k is not None:
+                key = self.norm_k(key)
 
-        query = query.view(B, S, self.num_heads, self.head_dim).transpose(1, 2)
-        key = key.view(B, T, self.num_heads, self.head_dim).transpose(1, 2)
-        value = value.view(B, T, self.num_heads, self.head_dim).transpose(1, 2)
+            query = query.view(B, S, self.num_heads, self.head_dim).transpose(1, 2)
+            key = key.view(B, T, self.num_heads, self.head_dim).transpose(1, 2)
+            value = value.view(B, T, self.num_heads, self.head_dim).transpose(1, 2)
+        else:
+            # encoder_hidden_states is the immutable per-request caption context.
+            # Q still depends on the current video tokens and is always computed.
+            if self.norm_q is not None:
+                query = self.norm_q(query)
+            query = query.view(B, S, self.num_heads, self.head_dim).transpose(1, 2)
+
+            weight_signature = _module_parameter_signature(
+                self.to_k, self.to_v, self.norm_k
+            )
+            cached = self._kv_cache.lookup(
+                encoder_hidden_states, weight_signature
+            )
+            if cached is None:
+                key = self.to_k(encoder_hidden_states)
+                value = self.to_v(encoder_hidden_states)
+                if self.norm_k is not None:
+                    key = self.norm_k(key)
+                key = key.view(B, T, self.num_heads, self.head_dim).transpose(1, 2)
+                value = value.view(B, T, self.num_heads, self.head_dim).transpose(1, 2)
+                self._kv_cache.store(
+                    encoder_hidden_states, weight_signature, (key, value)
+                )
+            else:
+                key, value = cached
 
         attn_mask = None
         if encoder_attention_mask is not None:
@@ -434,6 +544,12 @@ class SanaVideoTransformer3DModel(CachableDiT, LayerwiseOffloadableModuleMixin):
             in_features=arch.caption_channels, hidden_size=self.inner_dim
         )
         self.caption_norm = RMSNorm(self.inner_dim)
+        self._caption_cache = (
+            _BoundedTensorIdentityCache(capacity=2)
+            if os.environ.get("SGLANG_SANA_XATTN_KV_CACHE", "0")
+            in ("1", "true", "True")
+            else None
+        )
 
         # 3. Transformer blocks
         self.transformer_blocks = nn.ModuleList(
@@ -670,11 +786,30 @@ class SanaVideoTransformer3DModel(CachableDiT, LayerwiseOffloadableModuleMixin):
         timestep_mod = timestep_mod.view(batch_size, -1, timestep_mod.size(-1))
         embedded_timestep = embedded_timestep.view(batch_size, -1, embedded_timestep.size(-1))
 
-        encoder_hidden_states = self.caption_projection(encoder_hidden_states)
-        encoder_hidden_states = encoder_hidden_states.view(
-            batch_size, -1, hidden_states.shape[-1]
-        )
-        encoder_hidden_states = self.caption_norm(encoder_hidden_states)
+        if self._caption_cache is None or torch.is_grad_enabled():
+            # OFF path: preserve the original operations verbatim.
+            encoder_hidden_states = self.caption_projection(encoder_hidden_states)
+            encoder_hidden_states = encoder_hidden_states.view(
+                batch_size, -1, hidden_states.shape[-1]
+            )
+            encoder_hidden_states = self.caption_norm(encoder_hidden_states)
+        else:
+            caption_source = encoder_hidden_states
+            weight_signature = _module_parameter_signature(
+                self.caption_projection, self.caption_norm
+            )
+            cached = self._caption_cache.lookup(caption_source, weight_signature)
+            if cached is None:
+                encoder_hidden_states = self.caption_projection(caption_source)
+                encoder_hidden_states = encoder_hidden_states.view(
+                    batch_size, -1, hidden_states.shape[-1]
+                )
+                encoder_hidden_states = self.caption_norm(encoder_hidden_states)
+                self._caption_cache.store(
+                    caption_source, weight_signature, encoder_hidden_states
+                )
+            else:
+                encoder_hidden_states = cached
 
         any_cache = self._ec_thresh > 0.0
         if not any_cache:

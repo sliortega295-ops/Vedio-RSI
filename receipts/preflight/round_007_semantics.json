@@ -1,0 +1,91 @@
+{
+  "schema_version": 1,
+  "component": "kernel",
+  "round": 7,
+  "status": "ADMISSIBLE_SOURCE_AND_UNIT_CHECK",
+  "hypothesis": "Retain BF16 aggregation and exact QKV fusion, then memoize the two immutable formal CFG text contexts after caption projection/norm and each block's deterministic cross-attention K/V projection/norm/head reshape. Q, mask, SDPA, output projection, and all video-dependent work still execute on every call.",
+  "source_evidence": {
+    "patched_path": "external/sol_runtime/python/sglang/multimodal_gen/runtime/models/dits/sana_video.py",
+    "before_sha256": "6a4c853e8f443734db72befdca0910b4cbf2ccf4a83792c7be03427a36522332",
+    "after_sha256": "6b544e63c7adc0fc5357d9aa92ad139fcb6355f15a8b09f93975c41790af9860",
+    "cache_key_and_lru_lines": "118-192",
+    "cross_attention_cache_lines": "285-370",
+    "caption_cache_construction_lines": "541-552",
+    "caption_cache_forward_lines": "789-812",
+    "denoising_path": "external/sol_runtime/python/sglang/multimodal_gen/runtime/pipelines_core/stages/denoising.py",
+    "denoising_sha256": "6629fc606ff5a0f2555d932144e63f1c085be1fd7e84663572ed07a931db8e9c",
+    "branch_context_built_once_lines": "724-763",
+    "fifty_step_context_lifetime_lines": "1250-1290",
+    "local_cfg_sequential_calls_lines": "1391-1429",
+    "text_config_path": "external/sol_runtime/python/sglang/multimodal_gen/configs/models/encoders/gemma2.py",
+    "text_config_sha256": "15334d16485d0d16ccd3ad5d9ac7a22da3603178f9f6883186770f8277145df7",
+    "text_tokens": 300
+  },
+  "object_and_data_lifetime": {
+    "formal_contexts": "The denoising stage constructs pos_cond_kwargs and neg_cond_kwargs once before the step loop from batch.prompt_embeds[0] and batch.negative_prompt_embeds[0]. The same two branch kwargs objects remain in ctx and are passed by predict_fn on each of 50 steps; CFG is local/sequential, yielding exactly two stable source Tensor objects over 100 DiT calls.",
+    "immutability": "The runtime only reads encoder_hidden_states in caption_projection/norm and cross-attention projections. No in-place operation targets either source context, cached normalized caption, cached K, or cached V; SDPA consumes K/V read-only. The denoising stage runs under torch.no_grad, and the cache is disabled whenever gradients are enabled.",
+    "strong_reference_safety": "Each cache entry stores the source Tensor object itself and compares with `is`; while live, allocator storage and Python id cannot be freed/reused for another tensor.",
+    "bounded_warmup_replacement": "Every model-level and per-layer cache has capacity two. Warmup objects miss. As the formal cond/uncond objects arrive, LRU insertion evicts warmup entries; after both formal branches, only the two formal strong references/values remain. No cache grows with steps or requests.",
+    "key_coverage": "A hit requires exact source object identity plus device type/index, dtype, shape, stride, storage offset, data pointer, and available source version. It also requires current module-parameter identity, device, dtype, shape, data pointer, and mutation version.",
+    "weight_lifecycle": "Caches start empty on each module instance. K/V cache is owned by that SanaVideoCrossAttention instance, so values cannot cross layers/models. Parameters load and cast to BF16 before any forward; a later move, recast, replacement, or mutation changes the weight signature and forces recomputation. Fixed run has no LoRA, quantization, training, or offload of the transformer.",
+    "aliasing": "Cached values are outputs of deterministic read-only projections/norm/reshape and are retained, not copied into or aliased with video hidden-state storage. Downstream code never mutates them."
+  },
+  "mathematical_equivalence": {
+    "caption": "For each fixed branch context c, cache exactly C=caption_norm(caption_projection(c)); later calls substitute the same C for recomputing the same deterministic expression.",
+    "cross_attention": "For each layer and C, cache exactly K=reshape(norm_k(to_k(C))) and V=reshape(to_v(C)); every call still computes Q=reshape(norm_q(to_q(video_tokens))), applies the current mask, executes SDPA(Q,K,V), reshapes, and executes to_out.",
+    "off_identity": "When SGLANG_SANA_XATTN_KV_CACHE is unset/0 or gradients are enabled, the original caption projection/norm and cross-attention K/V operations execute verbatim. Cache objects are absent and no cache helper runs.",
+    "no_approximation": "No tensor is stale across a source/weight lifecycle change; no denoising step, DiT call, block, token, head, Q projection, SDPA, mask, output projection, self-attention, or FFN work is skipped. Only deterministic step-invariant local quantities are reused."
+  },
+  "work_accounting": {
+    "scheduler_steps": 50,
+    "cfg_branches_per_step": 2,
+    "dit_calls": 100,
+    "transformer_blocks_per_call": 20,
+    "cross_attention_invocations": 2000,
+    "video_tokens_per_invocation": 32760,
+    "text_tokens": 300,
+    "caption_projection_original_calls": 100,
+    "caption_projection_formal_steady_calls": 2,
+    "cross_attention_kv_gemms_original": 4000,
+    "cross_attention_kv_gemms_formal_steady": 80,
+    "q_projections_preserved": 2000,
+    "sdpa_calls_preserved": 2000,
+    "to_out_calls_preserved": 2000,
+    "skipped_video_dependent_work": 0
+  },
+  "memory_estimate": {
+    "bf16_k_or_v_per_layer_per_branch_mib": 1.28173828125,
+    "two_kv_two_branches_twenty_layers_mib": 102.5390625,
+    "two_cached_caption_contexts_mib": 2.5634765625,
+    "estimated_incremental_value_storage_mib": 105.1025390625,
+    "note": "Strong source references do not duplicate source storage already owned by the request; signatures/list metadata are negligible. Measured runtime peak is required after launch."
+  },
+  "unit_gate": {
+    "path": "receipts/preflight/round_007_unit.py",
+    "sha256": "ed646763c41af5e03e86ecdb862259b98fdde0dc836abe6ce8b5e82145703601",
+    "python": "/home/jiangzhikun/yongyan_liu/Experiments/SolAgent/20260827-official-repro/envs/sana-cu128-phase0/bin/python",
+    "pythonpath": "external/sol_runtime/python:/home/jiangzhikun/yongyan_liu/Experiments/SolAgent/20260827-official-repro/baseline/targets/sana-runtime-deps-v1:/home/jiangzhikun/yongyan_liu/Experiments/SolAgent/20260827-official-repro/baseline/staging/sglang-build001-clean-v2",
+    "status": "passed",
+    "observed": {
+      "off_k_calls": 7,
+      "cached_k_calls": 4,
+      "caption_projection_calls_for_warmup_cond_uncond_repeats": 3,
+      "bounded_entries": 2,
+      "warmup_evicted": true,
+      "source_mutation_invalidated": true,
+      "weight_mutation_invalidated": true,
+      "cached_and_uncached_outputs_exact_equal": true
+    },
+    "nonfatal_note": "The exact environment emitted its known optional DeepGEMM import traceback before the passing test receipt."
+  },
+  "stacked_frontier": {
+    "linear_attention_aggregation": "bf16",
+    "self_attention_qkv_merge": true,
+    "confirmed_parent_median_total_s": 49.26,
+    "compile": false,
+    "step_skip_cache": false,
+    "topology_change": false
+  },
+  "admissibility_argument": "The method caches only provably invariant local text-derived values with fail-closed identity/storage/weight lifecycle keys and bounded branch ownership. It preserves the exact cross-attention function and every video-dependent logical operation, so it is method-level lossless kernel/runtime work under the recovered goal contract.",
+  "launch_allowed": true
+}

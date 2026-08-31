@@ -1,0 +1,28 @@
+id = "sana_video_2b_h100_kernel_r07_bf16_qkv_xattn_kv_cache"
+kind = "kernel"
+purpose = "delivery"
+description = "Round 7: retain BF16+QKV and exactly memoize immutable prompt projection plus per-layer cross-attention K/V."
+model_profile = "sana_video_2b_h100"
+
+[runtime]
+root = "models/sana_video_2b_h100/baseline"
+python = "/home/jiangzhikun/yongyan_liu/Experiments/SolAgent/20260827-official-repro/envs/sana-cu128-phase0/bin/python"
+
+[env]
+SANA_ENABLE_COMPILE = "0"
+SANA_ENABLE_MAX_AUTOTUNE = "0"
+SANA_ENABLE_LINATTN_BF16 = "1"
+SANA_ENABLE_QKV_MERGE = "1"
+SANA_EASYCACHE_THRESH = "0"
+SANA_DISABLE_WARMUP = "0"
+SGLANG_SANA_XATTN_KV_CACHE = "1"
+
+[artifacts]
+output_dir = "outputs"
+video = "out.mp4"
+log = "run.log"
+benchmark = "benchmark.json"
+frames_dir = "frames"
+quality = "quality.json"
+collection = "collection.json"
+run_config = "run_config.json"
