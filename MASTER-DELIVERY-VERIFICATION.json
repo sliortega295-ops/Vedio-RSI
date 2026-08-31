@@ -1,0 +1,79 @@
+{
+  "schema_version": 1,
+  "component": "kernel",
+  "status": "accepted_for_integration_subject_to_multi_prompt_sanity",
+  "delivery": "DELIVERY.json",
+  "accepted_candidate_source_commit": "7be2d6b0282f0230b9d888b2412d073ec9964250",
+  "confirmation_config_commit": "27912ac50009a96dba7a773d56a0d191f1eea477",
+  "trajectory": {
+    "validator_status": "valid",
+    "rounds": 23,
+    "stop_round": 23,
+    "stop_reason": "Archived plateau reached after three genuinely distinct post-frontier misses in rounds 21 through 23."
+  },
+  "official_verify_delivery": {
+    "command": "/home/jiangzhikun/yongyan_liu/Experiments/SolAgent/20260827-official-repro/envs/sana-cu128-phase0/bin/python /home/jiangzhikun/yongyan_liu/Experiments/SolAgent/20260831-sana-video-2b-full-exploration/src/Sana/orchestration/bin/verify_delivery.py --worktree /home/jiangzhikun/yongyan_liu/Experiments/SolAgent/20260831-sana-video-2b-full-exploration/artifacts/executors/sana2b-kernel_aw-0001/worktree --model sana_video_2b_h100 --tech kernel_aw --baseline /home/jiangzhikun/yongyan_liu/Experiments/SolAgent/20260831-sana-video-2b-full-exploration/artifacts/executors/sana2b-kernel_aw-0001/worktree/BASELINE-LOCK.json --lossless",
+    "exit_code": 0,
+    "objective_ok": true,
+    "issues": [],
+    "point": {
+      "config_id": "sana_video_2b_h100_kernel_r20_fused_reciprocal_scale_confirm",
+      "objective_ok": true,
+      "issues": [],
+      "recomputed_speedup": 1.519704433497537,
+      "baseline_total_s": 61.7,
+      "config_total_s": 40.6,
+      "baseline_peak_memory_mib": 17770.0,
+      "config_peak_memory_mib": 17504.0,
+      "steps": 50,
+      "logical_dit_calls": 100,
+      "method_argument_present": true,
+      "run_provenance": "passed"
+    }
+  },
+  "master_semantic_audit": {
+    "status": "passed",
+    "source_reviewed": [
+      "external/sol_runtime/python/sglang/jit_kernel/diffusion/triton/sana_rope.py",
+      "external/sol_runtime/python/sglang/multimodal_gen/runtime/models/dits/sana_video.py",
+      "models/sana_video_2b_h100/baseline/gpu_infer.py"
+    ],
+    "preserved": [
+      "model weights and scheduler",
+      "50 denoising steps",
+      "two CFG branches per step",
+      "100 logical DiT calls",
+      "all 20 blocks and all token positions",
+      "BF16 transformer and text-encoder precision",
+      "FP32 VAE",
+      "attention algorithms and output projections"
+    ],
+    "excluded_changes": [
+      "no approximation",
+      "no sparsity",
+      "no step skipping",
+      "no quantization below BF16",
+      "no cache reuse",
+      "no reduced logical work"
+    ],
+    "conclusion": "The selected point is an algorithmically lossless kernel/materialization implementation of the frozen workload."
+  },
+  "validated": [
+    "frozen baseline identity and timing scope",
+    "23-round contiguous Kernel trajectory",
+    "real run provenance and durable benchmark",
+    "single exact_fastest delivery point",
+    "official deterministic lossless delivery verification",
+    "master source and semantic audit"
+  ],
+  "partial": [
+    "small multi-prompt sanity remains master-owned closeout work",
+    "immutable wrapper total_s retains the disclosed one-step-warmup timing caveat"
+  ],
+  "not_run": [
+    "VBench",
+    "LPIPS",
+    "archived independent validator agent",
+    "full paper table"
+  ]
+}

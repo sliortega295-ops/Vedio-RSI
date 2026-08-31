@@ -1,0 +1,110 @@
+{
+  "schema_version": 2,
+  "status": "complete",
+  "component": "kernel",
+  "model_id": "sana_video_2b_h100",
+  "baseline": {
+    "total_s": 61.7,
+    "peak_memory_mib": 17770.0,
+    "run_dir": "/home/jiangzhikun/yongyan_liu/Experiments/SolAgent/20260831-sana-video-2b-full-exploration/artifacts/baseline/sana2b-baseline_bl-0001/worktree/runs/20260831-091727-sana_video_2b_h100_dense_baseline-formal-dense-retry3",
+    "timing_scope": "warm_single_prompt_gen.generate_including_text_encoder_denoise_vae_decode_and_video_write_excluding_model_load_and_one_step_warmup",
+    "lock_sha256": "3fdafdf00554ae4bafc91bc7729c3ba3e96af4edebac809782e6d6122ed23954"
+  },
+  "implementation_package": {
+    "files": [
+      "external/sol_runtime/python/sglang/jit_kernel/diffusion/triton/sana_rope.py",
+      "external/sol_runtime/python/sglang/multimodal_gen/runtime/models/dits/sana_video.py",
+      "models/sana_video_2b_h100/baseline/gpu_infer.py"
+    ],
+    "candidate_source_commit": "7be2d6b0282f0230b9d888b2412d073ec9964250",
+    "confirmation_config_commit": "27912ac50009a96dba7a773d56a0d191f1eea477",
+    "build_smoke": {
+      "status": "passed",
+      "evidence": "receipts/preflight/round_019_fused_reciprocal_scale_impl_probe.json"
+    }
+  },
+  "frontier_points": [
+    {
+      "tier": "exact_fastest",
+      "config_id": "sana_video_2b_h100_kernel_r20_fused_reciprocal_scale_confirm",
+      "run_dir": "runs/20260831-172206-sana_video_2b_h100_kernel_r20_fused_reciprocal_scale_confirm-r20-fused-reciprocal-scale-confirm",
+      "implementation_manifest": {
+        "path": "config/sana_video_2b_h100/kernel_r20_fused_reciprocal_scale_confirm.toml",
+        "sha256": "aff5b4112c5fe78a13cf417d50061833d7255e8017828a37e8a33cddcf7156a8"
+      },
+      "activation": {
+        "env": {
+          "SANA_ENABLE_LINATTN_BF16": "1",
+          "SANA_ENABLE_QKV_MERGE": "1",
+          "SGLANG_SANA_BLOCK_EPILOGUE_FUSION": "1",
+          "SGLANG_SANA_MODULATION_FUSION": "1",
+          "SGLANG_SANA_NORM_MODULATION_FUSION": "1",
+          "SGLANG_SANA_PAIRED_ROPE": "1",
+          "SGLANG_SANA_FUSED_QKNORM_RELU_ROPE": "1",
+          "SGLANG_SANA_FUSED_RECIPROCAL_SCALE": "1"
+        }
+      },
+      "compute_budget": {
+        "dit_calls_preserved": true,
+        "denoising_steps": 50,
+        "cfg_branches_per_step": 2,
+        "logical_dit_calls": 100
+      },
+      "quality": {
+        "lossless": true,
+        "config_relation": "Mathematically equivalent exact-kernel implementation; all logical model operations, tokens, blocks, CFG branches, and denoising steps are preserved.",
+        "max_artifact_severity": "none"
+      },
+      "correctness": {
+        "status": "passed",
+        "artifact": "receipts/rounds/round_020.json",
+        "baseline_steps": 50,
+        "config_steps": 50,
+        "steps_match": true,
+        "baseline_dit_calls": 100,
+        "config_dit_calls": 100,
+        "dit_calls_match": true,
+        "method_argument": "The candidate changes only BF16 kernel boundaries and materialization: paired rotary embedding, packed Q/K normalization, and reciprocal-scale fusion. It does not approximate attention, skip work, change precision below BF16, change weights, alter scheduler steps, or reduce logical DiT calls."
+      },
+      "performance": {
+        "frontier_axis": "latency",
+        "baseline_total_s": 61.7,
+        "config_total_s": 40.6,
+        "speedup": 1.519704433497537,
+        "confirmed_pair_median_s": 40.8,
+        "confirmed_pair_median_speedup": 1.5122549019607845,
+        "peak_memory_mib": 17504.0
+      },
+      "runtime_evidence": {
+        "assessment_path": "receipts/rounds/round_020.json",
+        "confirmation_pair": [
+          "receipts/rounds/round_019.json",
+          "receipts/rounds/round_020.json"
+        ]
+      },
+      "artifacts": [
+        "runs/20260831-172206-sana_video_2b_h100_kernel_r20_fused_reciprocal_scale_confirm-r20-fused-reciprocal-scale-confirm/outputs/out.mp4",
+        "runs/20260831-172206-sana_video_2b_h100_kernel_r20_fused_reciprocal_scale_confirm-r20-fused-reciprocal-scale-confirm/outputs/benchmark.json",
+        "receipts/preflight/round_019_fused_reciprocal_scale_impl_probe.json",
+        "receipts/rounds/round_020_authenticity.json"
+      ]
+    }
+  ],
+  "pareto_assessment": {
+    "status": "nondominated",
+    "objective": "maximize_quality_subject_to_measured_compute_budget",
+    "evidence": [
+      "receipts/rounds/round_019.json",
+      "receipts/rounds/round_020.json",
+      "receipts/rounds/round_023.json"
+    ],
+    "stop_reason": "The confirmed R19/R20 latency frontier was followed by three genuinely distinct no-improvement rounds (R21-R23), satisfying the archived plateau rule at round 23 of the 40-round hard cap."
+  },
+  "verification": {
+    "status": "pending_master_deterministic_verification",
+    "trajectory_rounds": 23,
+    "trajectory_validator": "models/sana_video_2b_h100/trajectory.py validate",
+    "multi_prompt_sanity": "pending master-owned closeout"
+  },
+  "published_by": "primary_integrator_after_executor_handoff_timeout"
+}
