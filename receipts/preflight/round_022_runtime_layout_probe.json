@@ -1,0 +1,70 @@
+{
+  "candidate": {
+    "wrapper_error": "SANA cross-attention output layout requires contiguous input",
+    "wrapper_rejected_runtime_layout": true
+  },
+  "decision": "Reject R22: on the model-matched SDPA input layout, the output already has BSHD-compatible backing storage. The native transpose+reshape is a zero-copy view, so the design probe's contiguous-BHSD copy assumption does not apply.",
+  "formal_contract": {
+    "dtype": "torch.bfloat16",
+    "key_value_shape": [
+      1,
+      20,
+      300,
+      112
+    ],
+    "query_shape": [
+      1,
+      20,
+      32760,
+      112
+    ]
+  },
+  "gpu": {
+    "index": 7,
+    "memory_total_mib": 81559,
+    "memory_used_mib": 0,
+    "name": "NVIDIA H100 80GB HBM3",
+    "utilization_gpu_percent": 0,
+    "uuid": "GPU-847305ce-670b-91ee-e0a9-aa3b7833df23"
+  },
+  "layout": {
+    "native_data_ptr_equals_sdpa_output": true,
+    "native_dense_contiguous": true,
+    "native_dense_shape": [
+      1,
+      32760,
+      2240
+    ],
+    "native_dense_stride": [
+      73382400,
+      2240,
+      1
+    ],
+    "native_exact": true,
+    "native_shares_storage_with_sdpa_output": true,
+    "query_contiguous": false,
+    "query_stride": [
+      73382400,
+      112,
+      2240,
+      1
+    ],
+    "sdpa_output_contiguous": false,
+    "sdpa_output_shape": [
+      1,
+      20,
+      32760,
+      112
+    ],
+    "sdpa_output_stride": [
+      73382400,
+      112,
+      2240,
+      1
+    ]
+  },
+  "lease_uuid": "GPU-847305ce-670b-91ee-e0a9-aa3b7833df23",
+  "schema_version": 1,
+  "status": "rejected",
+  "torch": "2.11.0+cu128"
+}

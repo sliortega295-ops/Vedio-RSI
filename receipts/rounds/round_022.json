@@ -1,0 +1,92 @@
+{
+  "schema_version": 1,
+  "component": "kernel",
+  "round": 22,
+  "hypothesis": "Replace the cross-attention SDPA output transpose-and-reshape handoff with an exact Triton layout kernel while leaving the output projection and all model work unchanged.",
+  "session": {
+    "agent_id": "/root/sol_video_reproducer",
+    "prompt_sha256": "b406128240c2e097550aa62333aa8ef2a85d5e45540c9c65b49aefa260a08072",
+    "handoff": "Primary continued the recovered Kernel Executor contract after the bounded child handoff."
+  },
+  "provenance": {
+    "baseline_sha256": "3fdafdf00554ae4bafc91bc7729c3ba3e96af4edebac809782e6d6122ed23954",
+    "parent_sha": "efb33ceaf5c7c2acc1d04f4f007325b5e0ad80f7",
+    "candidate_commit": "ef4dcd633c811ad76d0d997db08972f6bb525c31",
+    "retained_frontier_commit": "7be2d6b0282f0230b9d888b2412d073ec9964250",
+    "config_path": "config/sana_video_2b_h100/kernel_r22_cross_output_layout.toml",
+    "config_sha256": "8e659124c573beb8feeb0e532960f3ed15241588ed9c525b5b2afd1cfbb70b57",
+    "design_probe_path": "receipts/preflight/round_022_cross_output_layout_probe.json",
+    "design_probe_sha256": "2971cc2e8879c3b0791b02a8d8df991919c35fda9aeb32d7fa43114173ac2bd9",
+    "installed_probe_path": "receipts/preflight/round_022_cross_output_layout_impl_probe.json",
+    "installed_probe_sha256": "2a3e853316b42c4f5d1ce18c5513e88a66e03c44f692481defff6f8ae72eb460",
+    "runtime_layout_probe_path": "receipts/preflight/round_022_runtime_layout_probe.json",
+    "runtime_layout_probe_sha256": "9624d6f2e14e5964b45cdad39ed74b1c4ff9b11f5eed20fa31dfb0d0e87e57cb",
+    "semantics_receipt_path": "receipts/preflight/round_022_cross_output_layout_semantics.json",
+    "semantics_receipt_sha256": "69bf5663a69c7a09c311c658a304827a39d760df605b2a838fae1959c4fe223e",
+    "genuinely_different_hypothesis": true
+  },
+  "build": {
+    "status": "failed",
+    "marker": "module load passed; fail-closed wrapper rejected the real SDPA output layout during the first warmup forward",
+    "synthetic_preflight": {
+      "status": "passed_but_not_runtime_representative",
+      "assumed_sdpa_output_stride": [73382400, 3669120, 112, 1],
+      "layout_and_projection_exact": true,
+      "current_ms": 0.6301866769790649,
+      "candidate_ms": 0.5480320056279501,
+      "predicted_full_run_s_saved": 0.16430934270222974
+    },
+    "actual_layout_gate": {
+      "status": "rejected",
+      "sdpa_output_shape": [1, 20, 32760, 112],
+      "sdpa_output_stride": [73382400, 112, 2240, 1],
+      "sdpa_output_contiguous": false,
+      "native_dense_stride": [73382400, 2240, 1],
+      "native_dense_contiguous": true,
+      "native_shares_storage_with_sdpa_output": true,
+      "native_data_ptr_equals_sdpa_output": true,
+      "wrapper_error": "SANA cross-attention output layout requires contiguous input"
+    },
+    "note": "The synthetic probe allocated contiguous BHSD and therefore timed a real copy. Model-matched SDPA instead returns a non-contiguous BHSD view with BSHD-compatible backing storage, so the native transpose+reshape is already a zero-copy dense view. The fail-closed guard exposed the invalid applicability assumption before measured generation."
+  },
+  "run": {
+    "status": "failed",
+    "formal_generation": "FAILED",
+    "command": "/home/jiangzhikun/yongyan_liu/Experiments/SolAgent/20260827-official-repro/envs/sana-cu128-phase0/bin/python scripts/launch_config.py config/sana_video_2b_h100/kernel_r22_cross_output_layout.toml --mode local --run-root runs --name-suffix r22-cross-output-layout",
+    "cwd": "/home/jiangzhikun/yongyan_liu/Experiments/SolAgent/20260831-sana-video-2b-full-exploration/artifacts/executors/sana2b-kernel_aw-0001/worktree",
+    "run_dir": "runs/20260831-175050-sana_video_2b_h100_kernel_r22_cross_output_layout-r22-cross-output-layout",
+    "gpu_uuid": "GPU-847305ce-670b-91ee-e0a9-aa3b7833df23",
+    "returncode": 4,
+    "process_wall_s": 44.19731548288837,
+    "total_s": null,
+    "denoising_s": null,
+    "runtime_peak_memory_mib": null,
+    "nvidia_smi_sampled_peak_mib": 12583,
+    "manifest_sha256": "845d783b54093749422d36651a700f38695521afdbc8188bde5b0f8b26ed6034",
+    "launch_sha256": "3746f02e2e9946662414fc294208b22849f624bef653ad4a45cab47371856bcc",
+    "run_config_sha256": "0253b6bbf35d5616aa141157e7a5aa6ea6a50c08f7be1494289ef52586c447d4",
+    "benchmark_sha256": "3f668a38765829573b26fe11b5d6a5df13175fc25ade1ab726195a5d5dc2bd79",
+    "log_sha256": "1c2514532190b2c3c07e2f15ca1a85f3df57d684bc5b946a2e1f722fbbdb5716",
+    "failure": "The fail-closed R22 wrapper rejected the actual non-contiguous SDPA output at the first cross-attention invocation of the one-step warmup.",
+    "residual_compute_apps": [],
+    "status_after_run": "GPU at 0 MiB, lock free; no launch, runner, or server process remained"
+  },
+  "validity": {
+    "status": "validated",
+    "method_semantics": "The formal failure and the model-matched exact-shape follow-up probe agree: the actual SDPA output stride is [73382400,112,2240,1], and native transpose+reshape is a storage-sharing dense view. The candidate's presumed copy did not exist in the target workload.",
+    "structural_invariants": {
+      "measured_generation_started": false,
+      "first_warmup_cross_attention_reached": true,
+      "skipped_or_reused_model_work": 0,
+      "candidate_failed_closed": true
+    },
+    "artifact": "NOT_RUN: no video or sampled frames were created because the candidate failed during the one-step warmup."
+  },
+  "decision": {
+    "outcome": "reject",
+    "frontier_status": "retained_round19_round20_reciprocal_scale_frontier",
+    "plateau_eligible": true,
+    "post_best_distinct_no_improvement_count": 2,
+    "reason": "R22 is genuinely distinct, but its apparent synthetic microgate gain came from a layout copy absent in the real model. The formal run failed closed and the model-matched follow-up proved native layout conversion is zero-copy. Reject R22, retain the confirmed 40.8-second R19/R20 median frontier, and increment the post-best distinct miss counter to two."
+  }
+}
