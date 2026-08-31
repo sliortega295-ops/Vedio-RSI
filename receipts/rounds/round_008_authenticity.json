@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "component": "kernel",
+  "round": 8,
+  "status": "passed",
+  "scope": "authenticity_only",
+  "run_dir": "runs/20260831-135158-sana_video_2b_h100_kernel_r08_bf16_qkv_block_epilogue_fusion-r08-block-epilogue-fusion",
+  "video": {
+    "path": "runs/20260831-135158-sana_video_2b_h100_kernel_r08_bf16_qkv_block_epilogue_fusion-r08-block-epilogue-fusion/outputs/out.mp4",
+    "sha256": "e5954ebfabd7e6d261953e63383b171c729233f72dee29bdb462f8ebd1bb7aa3",
+    "bytes": 521987,
+    "width": 832,
+    "height": 480,
+    "frames": 81,
+    "fps": 16.0,
+    "duration_s": 5.0625
+  },
+  "frames": [
+    {
+      "position": "first",
+      "path": "runs/20260831-135158-sana_video_2b_h100_kernel_r08_bf16_qkv_block_epilogue_fusion-r08-block-epilogue-fusion/outputs/frames/frame_01.png",
+      "sha256": "d26775189ea176c702c08103ef03fbf0513f050ee1caf7bd98a04ce2157df80a",
+      "bytes": 644302
+    },
+    {
+      "position": "middle",
+      "path": "runs/20260831-135158-sana_video_2b_h100_kernel_r08_bf16_qkv_block_epilogue_fusion-r08-block-epilogue-fusion/outputs/frames/frame_02.png",
+      "sha256": "096ade2ee0c63196681dbb09fd19ffe8e70aa80d04d71bea437b3c30cbca42a3",
+      "bytes": 707224
+    },
+    {
+      "position": "last",
+      "path": "runs/20260831-135158-sana_video_2b_h100_kernel_r08_bf16_qkv_block_epilogue_fusion-r08-block-epilogue-fusion/outputs/frames/frame_03.png",
+      "sha256": "322446d25d936f389dba435fcae85a9eb94d8b2168048c9c730d413a398a0137",
+      "bytes": 653629
+    }
+  ],
+  "inspection": {
+    "observed": "First, middle, and last frames are nonblank, noncorrupt, coherent model outputs matching the fixed forest portrait prompt. They show the same young man in a sunlit forest with plausible pose/camera continuity and an expected progression of warm backlight and lens flare.",
+    "independent_parent_observation": "All three frames are real coherent model outputs for the fixed forest portrait prompt with expected motion/flare progression and no corrupt, blank, or mismatched artifact.",
+    "excluded": "No quality comparison, output-difference correctness gate, VBench, LPIPS, Gemini, or independent validator was run."
+  },
+  "hash_interpretation": "Hashes differ from R3-R7 because R8 explicitly permits BF16 fused-operation rounding movement. They identify the inspected R8 artifacts and are not a quality or bit-identity gate."
+}
