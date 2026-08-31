@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "status": "complete_with_primary_takeover",
+  "architecture": {
+    "long_lived_primary": 1,
+    "temporary_children": ["Kernel Executor", "Cache Executor"],
+    "additional_agents": 0,
+    "attention_or_pisa_child": false
+  },
+  "handoffs": [
+    {
+      "child": "Cache Executor",
+      "durable_work_completed": "12-round trajectory through genuine convergence",
+      "failure": "The child did not produce a validated final delivery within the final bounded delivery checkpoint.",
+      "recovery": "The primary reconstructed DELIVERY-DRAFT.json and DELIVERY.json solely from the durable 12-round ledger, reran deterministic receipt checks, committed e7cf11c877a91220af2f2ea2cc5e38000c0765f8, and retired the child.",
+      "search_data_lost": false
+    },
+    {
+      "child": "Kernel Executor",
+      "durable_work_completed": "Initial Kernel trajectory through the early fusion rounds",
+      "failure": "The child stopped making bounded forward progress during the later plateau sequence and did not deliver the final package.",
+      "recovery": "The primary continued the same durable ledger without adding an agent, completed rounds through R23, applied the archived three-distinct-miss plateau rule, ran the official lossless verifier, committed e8684f3fa9077d1387de44bbb0521a38ac6b7097, and retired the child.",
+      "search_data_lost": false
+    }
+  ],
+  "integrator": "primary Sol-Video-Agent reproducer",
+  "transparency": "Both handoff failures are process failures only; all accepted measurements, failed rounds, preflight rejections, commits and artifacts remain in the durable ledgers."
+}

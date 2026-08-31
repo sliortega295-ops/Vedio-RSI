@@ -1,0 +1,78 @@
+{
+  "schema_version": 1,
+  "status": "VALIDATED_LIGHTWEIGHT",
+  "protocol": {
+    "integrated_prompt_count": 2,
+    "checks": ["ffprobe dimensions, frames, fps and nonempty output", "manual first, middle and last frame inspection"],
+    "excluded": ["VBench", "LPIPS", "independent validator", "additional prompts"],
+    "gpu_uuid": "GPU-847305ce-670b-91ee-e0a9-aa3b7833df23",
+    "serialized_under_lock": true
+  },
+  "results": [
+    {
+      "prompt_id": "prompt1_model_card_long_motion30",
+      "prompt_path": "models/sana_video_2b_h100/prompts/model_card_long_motion30.txt",
+      "prompt_sha256": "870a3daedac57a0654d62de074a480daa3d7bee82b26988ec17b75496fb2643c",
+      "dense": {
+        "run_dir": "/home/jiangzhikun/yongyan_liu/Experiments/SolAgent/20260831-sana-video-2b-full-exploration/artifacts/baseline/sana2b-baseline_bl-0001/worktree/runs/20260831-091727-sana_video_2b_h100_dense_baseline-formal-dense-retry3",
+        "total_s": 61.7,
+        "runtime_peak_memory_mib": 17770,
+        "nvidia_smi_peak_memory_mib": 23319,
+        "benchmark_sha256": "b2ce44dbbef06517d205f1d34e8b3cfb9c7e28bc6c3bd9d9c90141a564170c08",
+        "video_sha256": "77b788db7c9488eeaae10497659f884c4f51df9ba8def45861f312160f550ec1"
+      },
+      "integrated": {
+        "run_dir": "runs/20260831-183230-sana_video_2b_h100_integrated_kernel_r20_cache_r12-closeout-integrated-prompt1",
+        "total_s": 29.2,
+        "speedup_over_dense": 2.113013698630137,
+        "runtime_peak_memory_mib": 18102,
+        "nvidia_smi_peak_memory_mib": 23653,
+        "cache_hits": 18,
+        "cache_computes": 32,
+        "cache_total_decisions": 50,
+        "benchmark_sha256": "b514bd68c2341fff09d3f1cd956fbbd5e1ad426e1c0a9160912930ebb9a284e0",
+        "run_config_sha256": "720cbd934cbd249f754c921bfdd57f5f414ff1b489727c77a51bda7984c8812e",
+        "command_sha256": "c2974b28ee618b8babbb0262c3d954e2d40c3a3fa11363269bbe0e6f84914638",
+        "video_sha256": "eb05b13437c86c51de02e75bdc8a71b652384316d73c7d92bb0efb40479ef1e3",
+        "quality_sha256": "ae653465253a83bdb48cbc9fa6ffd868fd603f421e94422080824b6ce61724b7"
+      },
+      "validity": "832x480, 81 frames, 16 fps, nonempty",
+      "visual_verdict": "PASS: dense, retained Cache R12, and integrated sampled frames preserve the portrait subject, forest lighting, coherent facial geometry and pose progression; no sampled-frame collapse."
+    },
+    {
+      "prompt_id": "prompt2_sana_default_cat_dog_baking",
+      "prompt_path": "external/sol_runtime/prompts/sana/default.txt",
+      "prompt_sha256": "e92c5b0e66440b14b915a5c0d8a8ad6b41c308fa8245b53ea49ac1ac6baaa696",
+      "dense": {
+        "run_dir": "runs/20260831-182800-sana_video_2b_h100_dense_baseline-closeout-dense-prompt2",
+        "total_s": 60.5,
+        "runtime_peak_memory_mib": 17756,
+        "nvidia_smi_peak_memory_mib": 23305,
+        "benchmark_sha256": "d8da037a9fe6141392af47f8b1c8eac85e3d00b86fd28509ab97052a79d46893",
+        "run_config_sha256": "2fc4efe6516bf3ae7805d40666b769cc62df964eadc4968a8a95ce4584f0fd7e",
+        "command_sha256": "1d3261255118ffc853b6d7fbe14e7199be12605fea94737963009376d3a7f52d",
+        "video_sha256": "2d91c29834bd4a03608993aaf7555b84a26c4de3d1d35661031a89fd7dc2e0c9",
+        "quality_sha256": "47039dd22814358cfb0afde4ba1fe1a52c51a57260450e1160c688f9ac48c1cd"
+      },
+      "integrated": {
+        "run_dir": "runs/20260831-183031-sana_video_2b_h100_integrated_kernel_r20_cache_r12-closeout-integrated-prompt2",
+        "total_s": 33.0,
+        "speedup_over_dense": 1.8333333333333333,
+        "runtime_peak_memory_mib": 18088,
+        "nvidia_smi_peak_memory_mib": 23639,
+        "cache_hits": 16,
+        "cache_computes": 34,
+        "cache_total_decisions": 50,
+        "benchmark_sha256": "799d60b63a932944383fd79e79cf2acf6d97c4068aba050aaa4b1fd6e5abff27",
+        "run_config_sha256": "719a520e93ddf7de79b76e31c901afc779e24968a3dfab68f80e53137614815f",
+        "command_sha256": "6f886637a3db7fc88eaaa4aacb9a636543193b04f6e0b247e23e4b78f15628f5",
+        "video_sha256": "da75caee9ecd44e54ae53de1fe2a090f46ef6c2e9aff60bde859e5ad1e5502af",
+        "quality_sha256": "4dc7e10a48ffdfebdb6e536fa870fb92ab54a709ce255a2a358bc2e402495703"
+      },
+      "validity": "832x480, 81 frames, 16 fps, nonempty",
+      "visual_verdict": "PASS: dense and integrated sampled frames preserve cat, dog, kitchen and baking semantics with coherent subject geometry and motion progression; no sampled-frame collapse."
+    }
+  ],
+  "conclusion": "The final integrated candidate itself ran successfully on exactly two distinct prompts and was faster than the prompt-matched dense control on both.",
+  "limitation": "This is a bounded validity and visual sanity screen, not evidence for broad prompt generalization or full temporal perceptual quality."
+}

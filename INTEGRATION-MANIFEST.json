@@ -1,15 +1,18 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "model_id": "sana_video_2b_h100",
-  "status": "preflight_passed_pending_gpu_sanity",
+  "status": "VALIDATED_COMPLETE",
+  "completed_at": "2026-09-01T02:44:39+08:00",
   "branch": "repro/sana2b-kernel-cache-integrated",
+  "composition_commit": "6d9ad0e984c6d236da7be3c3bc0e3d513f23173c",
   "composition": {
     "kernel": {
       "delivery_commit": "e8684f3fa9077d1387de44bbb0521a38ac6b7097",
       "candidate_source_commit": "7be2d6b0282f0230b9d888b2412d073ec9964250",
       "confirmation_config_commit": "27912ac50009a96dba7a773d56a0d191f1eea477",
       "point": "exact_fastest",
-      "confirmed_pair_median_s": 40.8
+      "confirmed_pair_median_s": 40.8,
+      "selection_reason": "R19/R20 is the verified lossless latency frontier; R21-R23 are three genuinely distinct post-frontier misses and trigger the archived plateau rule."
     },
     "cache": {
       "delivery_commit": "e7cf11c877a91220af2f2ea2cc5e38000c0765f8",
@@ -21,10 +24,12 @@
       "config_id": "sana2b_cache_r12_easy_t010_w3_s8_h2_balanced",
       "threshold": 0.1,
       "warmup_steps": 3,
+      "start_step": 0,
+      "end_step": 49,
       "subsample": 8,
       "max_continuous_hits": 2,
       "measured_total_s": 38.8,
-      "selection_reason": "R12 is the verified clear fixed-prompt matched-band winner with low artifact severity; aggressive remains tentative with medium severity and conservative leaves avoidable latency."
+      "selection_reason": "R12 is the verified clear fixed-prompt matched-band winner with low sampled-frame artifact severity; aggressive remains tentative with medium severity and conservative leaves avoidable latency."
     }
   },
   "merge": {
@@ -40,16 +45,25 @@
     "conflicts": [
       {
         "path": "models/sana_video_2b_h100/baseline/gpu_infer.py",
-        "resolution": "Retain both critical runtime fingerprint entries: the Kernel sana_rope source and Cache sana_video_cache source."
+        "resolution": "Retained both critical runtime fingerprints: Kernel sana_rope and Cache sana_video_cache."
       }
     ],
     "semantic_guards": {
       "kernel_flags_are_independent_of_cache": true,
       "cache_off_path_preserved": true,
-      "kernel_only_closeout_has_cache_off": true,
-      "cache_only_closeout_has_all_kernel_flags_off": true,
       "integrated_config_enables_only_confirmed_kernel_and_balanced_cache": true,
-      "model_weights_scheduler_resolution_frames_fps_seed_unchanged": true
+      "model_weights_scheduler_resolution_frames_fps_seed_unchanged": true,
+      "logical_kernel_work_preserved": true
+    },
+    "config": {
+      "path": "config/sana_video_2b_h100/closeout/integrated_kernel_r20_cache_r12.toml",
+      "sha256": "1bca4f71d90718615b3d6af6ec6c5694c4c3a4cab9b14aa2cddc7262d9aa0ba1"
+    },
+    "source_sha256": {
+      "sana_rope.py": "651b6f7a6efa108a4ed237706b745f5874cca376463a153f6859c9c841fcb9b1",
+      "sana_video_cache.py": "df3a1bd12fcc6674cc0ca59ab383e2d07dba496ee85c469ee42ed2acaf96c000",
+      "sana_video.py": "09b857a3a6fa12571841196e9613df660614e22b0c4f91861a0020f6774b031c",
+      "gpu_infer.py": "78f5304836110bb3b52465827f90c40df05992ed8662cc79d6f4a01438d343ff"
     }
   },
   "cpu_validation": {
@@ -59,17 +73,58 @@
       "tests": 9,
       "failures": 0
     },
+    "config_dry_runs": "passed",
     "pytest": "NOT_RUN: validated runtime environment does not install pytest; the same unittest file was executed directly and all 9 tests passed."
   },
-  "multi_prompt_plan": {
-    "prompt_1": "models/sana_video_2b_h100/prompts/model_card_long_motion30.txt",
-    "prompt_2": "external/sol_runtime/prompts/sana/default.txt",
-    "serialized_order": [
-      "dense prompt_2 control",
-      "Kernel R20 prompt_2",
-      "Cache balanced R12 prompt_2",
-      "integrated Kernel R20 plus Cache R12 prompt_1 final smoke"
-    ],
-    "quality_protocol": "Lightweight ffprobe validity plus first/middle/last frame inspection only; no VBench, LPIPS, or independent validator."
+  "gpu": {
+    "uuid": "GPU-847305ce-670b-91ee-e0a9-aa3b7833df23",
+    "physical_index": 7,
+    "name": "NVIDIA H100 80GB HBM3",
+    "serialization": "all closeout launches used the UUID-scoped H100.lock and rechecked live ownership",
+    "residual_state_after_runs": "0 MiB, 0 percent utilization, no compute applications, lock acquirable"
+  },
+  "multi_prompt_sanity": {
+    "status": "VALIDATED_LIGHTWEIGHT",
+    "integrated_prompt_count": 2,
+    "prompt_1": {
+      "path": "models/sana_video_2b_h100/prompts/model_card_long_motion30.txt",
+      "sha256": "870a3daedac57a0654d62de074a480daa3d7bee82b26988ec17b75496fb2643c",
+      "dense_control": "formal frozen baseline",
+      "integrated_run": "runs/20260831-183230-sana_video_2b_h100_integrated_kernel_r20_cache_r12-closeout-integrated-prompt1",
+      "dense_total_s": 61.7,
+      "integrated_total_s": 29.2,
+      "speedup": 2.113013698630137,
+      "runtime_peak_memory_mib": 18102,
+      "nvidia_smi_peak_memory_mib": 23653,
+      "cache_hits": 18,
+      "cache_computes": 32,
+      "validity": "832x480, 81 frames, 16 fps, sampled frames pass",
+      "video_sha256": "eb05b13437c86c51de02e75bdc8a71b652384316d73c7d92bb0efb40479ef1e3"
+    },
+    "prompt_2": {
+      "path": "external/sol_runtime/prompts/sana/default.txt",
+      "sha256": "e92c5b0e66440b14b915a5c0d8a8ad6b41c308fa8245b53ea49ac1ac6baaa696",
+      "dense_run": "runs/20260831-182800-sana_video_2b_h100_dense_baseline-closeout-dense-prompt2",
+      "integrated_run": "runs/20260831-183031-sana_video_2b_h100_integrated_kernel_r20_cache_r12-closeout-integrated-prompt2",
+      "dense_total_s": 60.5,
+      "integrated_total_s": 33.0,
+      "speedup": 1.8333333333333333,
+      "runtime_peak_memory_mib": 18088,
+      "nvidia_smi_peak_memory_mib": 23639,
+      "cache_hits": 16,
+      "cache_computes": 34,
+      "validity": "832x480, 81 frames, 16 fps, sampled frames pass",
+      "dense_video_sha256": "2d91c29834bd4a03608993aaf7555b84a26c4de3d1d35661031a89fd7dc2e0c9",
+      "integrated_video_sha256": "da75caee9ecd44e54ae53de1fe2a090f46ef6c2e9aff60bde859e5ad1e5502af"
+    },
+    "quality_protocol": "ffprobe validity plus manual first/middle/last frame inspection only",
+    "quality_claim_limit": "This screen rejects obvious invalidity or sampled-frame collapse; it does not establish VBench quality or full temporal generalization."
+  },
+  "artifacts": {
+    "integrated_delivery": "INTEGRATED-DELIVERY.json",
+    "multi_prompt_receipt": "reports/MULTI-PROMPT-SANITY.json",
+    "pisa_disposition": "reports/PISA-NOT-APPLICABLE.json",
+    "child_handoffs": "reports/CHILD-HANDOFFS.json",
+    "final_report": "reports/FINAL-REPORT.md"
   }
 }

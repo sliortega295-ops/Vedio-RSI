@@ -1,0 +1,170 @@
+{
+  "schema_version": 1,
+  "status": "complete",
+  "component": "integrated",
+  "model_id": "sana_video_2b_h100",
+  "scope": "SANA-Video 2B on one H100, frozen dense baseline, Kernel plus balanced Cache, bounded two-prompt sanity",
+  "authority": {
+    "archived_harness_commit": "d2c6407cc9b9133f3fff49fe4b561f14980d3f8b",
+    "harness_head": "1a35329a821a3e12631e23573622b18c090176bd",
+    "runtime_source_commit": "b0b7eb4d0a7f1f46118a356485f4523cf52e96dd",
+    "model_id": "Efficient-Large-Model/SANA-Video_2B_480p_diffusers",
+    "model_revision": "db5f398b13ca086d09a50ce156c20527773841b1",
+    "current_codex_transport_commit": "4aeb3e7c2275fbaa09bc337a369eb5087e95ce89",
+    "cu128_adapter_commit": "5bc0c43fb7fe548af4119a8831c4e286c982c71f",
+    "cu128_patch_sha256": "91eff9ae8f19a4e934fc727533b473e17ecbde706c874e4bc5a2a1da0369ecda"
+  },
+  "frozen_baseline": {
+    "status": "VALIDATED",
+    "lock_sha256": "3fdafdf00554ae4bafc91bc7729c3ba3e96af4edebac809782e6d6122ed23954",
+    "run_dir": "/home/jiangzhikun/yongyan_liu/Experiments/SolAgent/20260831-sana-video-2b-full-exploration/artifacts/baseline/sana2b-baseline_bl-0001/worktree/runs/20260831-091727-sana_video_2b_h100_dense_baseline-formal-dense-retry3",
+    "workload": {
+      "resolution": "832x480",
+      "frames": 81,
+      "fps": 16,
+      "steps": 50,
+      "guidance": 6.0,
+      "seed": 42,
+      "motion_score": 30,
+      "transformer_dtype": "bf16",
+      "text_encoder_dtype": "bf16",
+      "vae_dtype": "fp32",
+      "optimization_flags": "all off"
+    },
+    "total_s": 61.7,
+    "runtime_peak_memory_mib": 17770,
+    "nvidia_smi_peak_memory_mib": 23319,
+    "video_sha256": "77b788db7c9488eeaae10497659f884c4f51df9ba8def45861f312160f550ec1",
+    "benchmark_sha256": "b2ce44dbbef06517d205f1d34e8b3cfb9c7e28bc6c3bd9d9c90141a564170c08",
+    "validity": "VALIDATED: 832x480, 81 frames, 16 fps, nonempty, sampled frames pass"
+  },
+  "search": {
+    "kernel": {
+      "status": "complete_official_plateau",
+      "rounds": 23,
+      "hard_cap": 40,
+      "stop_reason": "Three genuinely distinct post-frontier misses in R21-R23 after the confirmed R19/R20 frontier.",
+      "delivery_commit": "e8684f3fa9077d1387de44bbb0521a38ac6b7097",
+      "delivery_sha256": "2704e014dcf9920ab35eab1ccafa7a9b55e29162038d303f1592fd3f849b42c2",
+      "official_verifier": "passed, exit 0, objective_ok true, no issues",
+      "winner": {
+        "candidate_source_commit": "7be2d6b0282f0230b9d888b2412d073ec9964250",
+        "confirmation_config_commit": "27912ac50009a96dba7a773d56a0d191f1eea477",
+        "r19_r20_pair_median_s": 40.8,
+        "pair_median_speedup": 1.5122549019607845,
+        "semantic_class": "lossless exact kernel and materialization changes"
+      }
+    },
+    "cache": {
+      "status": "complete_genuine_convergence",
+      "rounds": 12,
+      "hard_cap": 20,
+      "stop_reason": "All three faithful families were compared at conservative, balanced, and aggressive matched budgets; the retained tiers were stable and no additional family or unmatched budget was needed.",
+      "delivery_commit": "e7cf11c877a91220af2f2ea2cc5e38000c0765f8",
+      "delivery_sha256": "fdd0cfbad81b6162b3746dc123d558f6cf284165db18870bf8b84bdb9e588b85",
+      "selected_tier": "balanced",
+      "winner": {
+        "config_id": "sana2b_cache_r12_easy_t010_w3_s8_h2_balanced",
+        "fixed_prompt_total_s": 38.8,
+        "fixed_prompt_speedup": 1.5902061855670102,
+        "cache_hits": 17,
+        "cache_computes": 33,
+        "quality_scope": "low-severity first/middle/last fixed-prompt screen"
+      }
+    },
+    "pisa": {
+      "status": "NOT_APPLICABLE",
+      "reason": "SANA uses ReLU linear self-attention with head_dim 112; the archived PiecewiseAttention softmax backend omits 112 and would change the model attention algorithm."
+    }
+  },
+  "integration": {
+    "branch": "repro/sana2b-kernel-cache-integrated",
+    "composition_commit": "6d9ad0e984c6d236da7be3c3bc0e3d513f23173c",
+    "config": "config/sana_video_2b_h100/closeout/integrated_kernel_r20_cache_r12.toml",
+    "config_sha256": "1bca4f71d90718615b3d6af6ec6c5694c4c3a4cab9b14aa2cddc7262d9aa0ba1",
+    "cpu_checks": {
+      "py_compile": "passed",
+      "cache_controller_unittest": "9/9 passed",
+      "config_dry_run": "passed",
+      "pytest": "NOT_RUN because pytest is absent; direct unittest exercised the same test file"
+    },
+    "semantic_guards": [
+      "model weights and scheduler unchanged",
+      "832x480, 81 frames, 16 fps, 50 steps, guidance 6, seed 42 unchanged",
+      "Kernel keeps 100 logical DiT calls and does not cache or skip work",
+      "Cache uses only balanced EasyCache R12 controls",
+      "Kernel and Cache activations remain independently switchable"
+    ]
+  },
+  "gpu": {
+    "uuid": "GPU-847305ce-670b-91ee-e0a9-aa3b7833df23",
+    "index": 7,
+    "name": "NVIDIA H100 80GB HBM3",
+    "ownership": "leased idle UUID; every run serialized under the experiment H100.lock",
+    "post_run_audit": "0 MiB, 0 percent utilization, no compute applications, no residual run process, lock free"
+  },
+  "multi_prompt_results": [
+    {
+      "prompt": "model_card_long_motion30",
+      "prompt_sha256": "870a3daedac57a0654d62de074a480daa3d7bee82b26988ec17b75496fb2643c",
+      "dense_run": "formal frozen baseline",
+      "dense_total_s": 61.7,
+      "integrated_run": "runs/20260831-183230-sana_video_2b_h100_integrated_kernel_r20_cache_r12-closeout-integrated-prompt1",
+      "integrated_total_s": 29.2,
+      "speedup": 2.113013698630137,
+      "runtime_peak_memory_mib": 18102,
+      "nvidia_smi_peak_memory_mib": 23653,
+      "cache_hits": 18,
+      "cache_computes": 32,
+      "video_sha256": "eb05b13437c86c51de02e75bdc8a71b652384316d73c7d92bb0efb40479ef1e3",
+      "validity": "VALIDATED_LIGHTWEIGHT"
+    },
+    {
+      "prompt": "sana_default_cat_dog_baking",
+      "prompt_sha256": "e92c5b0e66440b14b915a5c0d8a8ad6b41c308fa8245b53ea49ac1ac6baaa696",
+      "dense_run": "runs/20260831-182800-sana_video_2b_h100_dense_baseline-closeout-dense-prompt2",
+      "dense_total_s": 60.5,
+      "integrated_run": "runs/20260831-183031-sana_video_2b_h100_integrated_kernel_r20_cache_r12-closeout-integrated-prompt2",
+      "integrated_total_s": 33.0,
+      "speedup": 1.8333333333333333,
+      "runtime_peak_memory_mib": 18088,
+      "nvidia_smi_peak_memory_mib": 23639,
+      "cache_hits": 16,
+      "cache_computes": 34,
+      "dense_video_sha256": "2d91c29834bd4a03608993aaf7555b84a26c4de3d1d35661031a89fd7dc2e0c9",
+      "video_sha256": "da75caee9ecd44e54ae53de1fe2a090f46ef6c2e9aff60bde859e5ad1e5502af",
+      "validity": "VALIDATED_LIGHTWEIGHT"
+    }
+  ],
+  "quality_protocol": {
+    "performed": "ffprobe plus manual first/middle/last frame inspection on exactly two integrated prompts",
+    "verdict": "Both prompts preserve requested subjects, scene semantics, coherent sampled-frame geometry, and visible progression; no sampled-frame collapse observed.",
+    "claim_limit": "PARTIAL for general quality: no full temporal review, VBench, LPIPS, blind validator, or broad prompt set."
+  },
+  "classifications": {
+    "VALIDATED": [
+      "archived harness and separated current-Codex/cu128 compatibility",
+      "formal dense H100 baseline",
+      "23-round Kernel trajectory through archived plateau",
+      "12-round Cache trajectory through genuine convergence",
+      "deterministic Kernel and Cache delivery receipts",
+      "integrated composition CPU checks",
+      "integrated candidate on exactly two distinct prompts"
+    ],
+    "PARTIAL": [
+      "quality conclusion is bounded to two prompts and sampled frames",
+      "frozen total_s retains the disclosed one-step-warmup variance caveat",
+      "Cache delivery follows the approved relaxed lightweight protocol rather than the archived LPIPS gate"
+    ],
+    "NOT_RUN": [
+      "VBench",
+      "LPIPS",
+      "independent validator agent",
+      "full paper table",
+      "B200 or B300 reproduction",
+      "second model",
+      "productionization",
+      "Attention or PISA executor because structurally not applicable"
+    ]
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "status": "NOT_APPLICABLE",
+  "executor_launched": false,
+  "model_evidence": {
+    "model_revision": "db5f398b13ca086d09a50ce156c20527773841b1",
+    "config": {
+      "num_attention_heads": 20,
+      "attention_head_dim": 112,
+      "cross_attention_head_dim": 112
+    },
+    "implementation": "external/sol_runtime/python/sglang/multimodal_gen/runtime/models/dits/sana_video.py",
+    "attention_type": "SanaVideoLinearAttention with ReLU feature map and linear KV aggregation"
+  },
+  "archived_pisa_evidence": {
+    "contract": "workflow/attention_pa/nodes/codex_executor/attention_scope.md at d2c6407cc9b9133f3fff49fe4b561f14980d3f8b",
+    "backend": "external/sol_runtime/python/sglang/multimodal_gen/runtime/layers/attention/backends/piecewise_attn.py",
+    "supported_head_dims": [32, 64, 96, 128, 160, 192, 224, 256],
+    "method": "selected-block softmax attention plus piecewise Taylor approximation of the remainder"
+  },
+  "reason": "The target uses linear rather than softmax self-attention, and head dimension 112 is unsupported. Adapting PISA would replace the attention algorithm and add a new kernel shape, which is new research rather than faithful reproduction.",
+  "source_note": "models/sana_video_2b_h100/PISA_NOT_APPLICABLE.md"
+}
