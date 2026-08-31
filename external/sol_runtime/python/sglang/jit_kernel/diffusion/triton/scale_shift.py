@@ -43,6 +43,8 @@ def _fused_layernorm_scale_shift_gate_select01_kernel(
     eps,
     HAS_WEIGHT: tl.constexpr,
     HAS_BIAS: tl.constexpr,
+    SELECT01: tl.constexpr,
+    WRITE_GATE: tl.constexpr,
     BLOCK_N: tl.constexpr,
 ):
     row = tl.program_id(0)
@@ -68,35 +70,39 @@ def _fused_layernorm_scale_shift_gate_select01_kernel(
         x_hat = x_hat + b
 
     batch_idx = row // seq_len
-    seq_idx = row % seq_len
-    idx = tl.load(index_ptr + batch_idx * stride_i_b + seq_idx * stride_i_l).to(tl.int1)
 
     scale0_ptrs = scale0_ptr + batch_idx * stride_s0_b + cols * stride_s0_c
     shift0_ptrs = shift0_ptr + batch_idx * stride_sh0_b + cols * stride_sh0_c
-    gate0_ptrs = gate0_ptr + batch_idx * stride_g0_b + cols * stride_g0_c
 
-    scale1_ptrs = scale1_ptr + batch_idx * stride_s1_b + cols * stride_s1_c
-    shift1_ptrs = shift1_ptr + batch_idx * stride_sh1_b + cols * stride_sh1_c
-    gate1_ptrs = gate1_ptr + batch_idx * stride_g1_b + cols * stride_g1_c
+    if SELECT01:
+        seq_idx = row % seq_len
+        idx = tl.load(
+            index_ptr + batch_idx * stride_i_b + seq_idx * stride_i_l
+        ).to(tl.int1)
+        gate0_ptrs = gate0_ptr + batch_idx * stride_g0_b + cols * stride_g0_c
+        scale1_ptrs = scale1_ptr + batch_idx * stride_s1_b + cols * stride_s1_c
+        shift1_ptrs = shift1_ptr + batch_idx * stride_sh1_b + cols * stride_sh1_c
+        gate1_ptrs = gate1_ptr + batch_idx * stride_g1_b + cols * stride_g1_c
 
-    # Branch on scalar idx instead of using tl.where on pointers.
-    # tl.where on pointers triggers an assertion in AMD Triton's
-    # CanonicalizePointers pass (ConvertArithSelectOp) on gfx950.
-    # This keeps it at 3 loads (not 6), avoids the pointer-level
-    # tl.where entirely, and since idx is uniform across all threads
-    # the branch has no divergence cost.
-    if idx:
-        scale = tl.load(scale1_ptrs, mask=mask, other=0.0).to(tl.float32)
-        shift = tl.load(shift1_ptrs, mask=mask, other=0.0).to(tl.float32)
-        gate = tl.load(gate1_ptrs, mask=mask, other=0.0)
+        # Branch on scalar idx instead of using tl.where on pointers.
+        # tl.where on pointers triggers an assertion in AMD Triton's
+        # CanonicalizePointers pass (ConvertArithSelectOp) on gfx950.
+        if idx:
+            scale = tl.load(scale1_ptrs, mask=mask, other=0.0).to(tl.float32)
+            shift = tl.load(shift1_ptrs, mask=mask, other=0.0).to(tl.float32)
+            gate = tl.load(gate1_ptrs, mask=mask, other=0.0)
+        else:
+            scale = tl.load(scale0_ptrs, mask=mask, other=0.0).to(tl.float32)
+            shift = tl.load(shift0_ptrs, mask=mask, other=0.0).to(tl.float32)
+            gate = tl.load(gate0_ptrs, mask=mask, other=0.0)
     else:
         scale = tl.load(scale0_ptrs, mask=mask, other=0.0).to(tl.float32)
         shift = tl.load(shift0_ptrs, mask=mask, other=0.0).to(tl.float32)
-        gate = tl.load(gate0_ptrs, mask=mask, other=0.0)
     y = x_hat * (1.0 + scale) + shift
 
     tl.store(out_row_ptr + cols, y, mask=mask)
-    tl.store(gate_row_ptr + cols, gate, mask=mask)
+    if WRITE_GATE:
+        tl.store(gate_row_ptr + cols, gate, mask=mask)
 
 
 @triton.jit
@@ -539,11 +545,98 @@ def fuse_layernorm_scale_shift_gate_select01_kernel(
         eps,
         HAS_WEIGHT=weight is not x_2d,
         HAS_BIAS=bias is not x_2d,
+        SELECT01=True,
+        WRITE_GATE=True,
         BLOCK_N=BLOCK_N,
         num_warps=num_warps,
         num_stages=num_stages,
     )
     return output, gate_out
+
+
+def fuse_layernorm_scale_shift_kernel(
+    x: torch.Tensor,
+    weight: torch.Tensor | None,
+    bias: torch.Tensor | None,
+    scale: torch.Tensor,
+    shift: torch.Tensor,
+    eps: float,
+):
+    """Fused LayerNorm and broadcast scale/shift without select/gate output.
+
+    This specializes the repository select01 kernel at compile time, removing
+    the unused selection and gate materialization for DiT blocks whose
+    modulation is already resolved before the call.
+    """
+    assert x.is_cuda
+    assert x.is_contiguous()
+    B, L, C = x.shape
+    if scale.shape != (B, C) or shift.shape != (B, C):
+        raise ValueError("scale/shift must be 2D [B, C]")
+    if weight is not None and (weight.dim() != 1 or weight.shape[0] != C):
+        raise ValueError("weight must be 1D [C]")
+    if bias is not None and (bias.dim() != 1 or bias.shape[0] != C):
+        raise ValueError("bias must be 1D [C]")
+
+    output = torch.empty_like(x)
+    x_2d = x.view(B * L, C)
+    output_2d = output.view(B * L, C)
+    scale = scale.contiguous()
+    shift = shift.contiguous()
+    weight = weight.contiguous() if weight is not None else x_2d
+    bias = bias.contiguous() if bias is not None else x_2d
+
+    max_fused_size = 65536 // x_2d.element_size()
+    block_n = min(max_fused_size, triton.next_power_of_2(C))
+    if C > block_n:
+        raise RuntimeError("This layer norm doesn't support feature dim >= 64KB.")
+
+    # Compile-time dead arguments reuse valid pointers; SELECT01=False and
+    # WRITE_GATE=False remove every access to them from generated code.
+    _fused_layernorm_scale_shift_gate_select01_kernel[(B * L,)](
+        output_2d,
+        output_2d,
+        x_2d,
+        weight,
+        bias,
+        scale,
+        shift,
+        scale,
+        scale,
+        shift,
+        scale,
+        output_2d,
+        C,
+        L,
+        x_2d.stride(0),
+        output_2d.stride(0),
+        output_2d.stride(0),
+        weight.stride(0) if weight.dim() == 1 else 0,
+        bias.stride(0) if bias.dim() == 1 else 0,
+        scale.stride(0),
+        scale.stride(1),
+        shift.stride(0),
+        shift.stride(1),
+        scale.stride(0),
+        scale.stride(1),
+        scale.stride(0),
+        scale.stride(1),
+        shift.stride(0),
+        shift.stride(1),
+        scale.stride(0),
+        scale.stride(1),
+        output_2d.stride(0),
+        1,
+        eps,
+        HAS_WEIGHT=weight is not x_2d,
+        HAS_BIAS=bias is not x_2d,
+        SELECT01=False,
+        WRITE_GATE=False,
+        BLOCK_N=block_n,
+        num_warps=4,
+        num_stages=4,
+    )
+    return output
 
 
 def fuse_residual_layernorm_scale_shift_gate_select01_kernel(

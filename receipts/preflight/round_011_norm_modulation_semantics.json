@@ -1,0 +1,121 @@
+{
+  "schema_version": 1,
+  "component": "kernel",
+  "round": 11,
+  "status": "passed",
+  "hypothesis": "Retain the confirmed Round 10 frontier and fuse each affine-free LayerNorm with its resolved scale-shift modulation by compile-time specializing the repository Triton select01 LayerNorm kernel without selection or gate output.",
+  "provenance": {
+    "parent_sha": "f5cb5a3e5df09dc970ef48357519f87d988b4a43",
+    "implementation_path": "external/sol_runtime/python/sglang/multimodal_gen/runtime/models/dits/sana_video.py",
+    "implementation_sha256": "e27a49411da344c8120696ad152909535870bb80d869ed8a51e490606fc58448",
+    "kernel_path": "external/sol_runtime/python/sglang/jit_kernel/diffusion/triton/scale_shift.py",
+    "kernel_sha256": "66ec10708998aed08bd8e3b07570a74bdf14e3999b3c75e592864e3276988773",
+    "config_path": "config/sana_video_2b_h100/kernel_r11_bf16_qkv_epilogue_norm_modulation_fusion.toml",
+    "config_sha256": "2564dbe0a3b593344b64c34b8ecb4ca9e714e82fc81dcc51d05785ba575234bf",
+    "final_probe_path": "receipts/preflight/round_011_norm_modulation_probe.py",
+    "final_probe_sha256": "b49087f0f17dde998260c2e2114517ec6689f716ae912198f4b592ae0ef00ead",
+    "final_probe_result_path": "receipts/preflight/round_011_norm_modulation_probe.json",
+    "final_probe_result_sha256": "3ca9aa3f037b145ffddcd3ce9d21c595aeae8bd4c6613463aa25632bf3c4d933",
+    "fallback_regression_probe_path": "receipts/preflight/round_011_triton_fallback_probe.py",
+    "fallback_regression_probe_sha256": "8b7d9c1f326403c1e593c32b7caced31f0d9024626d50b40df4a18f0a53489ee",
+    "fallback_regression_result_path": "receipts/preflight/round_011_triton_fallback_post_specialization.json",
+    "fallback_regression_result_sha256": "60e2f69a308bafc34cdd12c3cd5f0dc7168b01881936846775e66f86781db62e",
+    "cutedsl_rejection_path": "receipts/preflight/round_011_cutedsl_rejection.json",
+    "cutedsl_rejection_sha256": "b8e5247fc91bca88023ff004bec077839f1a12208e2708357fef6a44579f78c1"
+  },
+  "source_contract": {
+    "original_norms": {
+      "norm1": "nn.LayerNorm(dim, elementwise_affine=False, eps=norm_eps)",
+      "norm2": "nn.LayerNorm(dim, elementwise_affine=False, eps=norm_eps)"
+    },
+    "original_formula": "layer_norm(x, weight=None, bias=None, eps=1e-6) * (1 + scale) + shift",
+    "candidate_formula": "the same affine-free FP32 LayerNorm statistics and eps, followed in the same Triton program by x_hat * (1 + scale) + shift and one BF16 output store",
+    "candidate_arguments": {
+      "weight": null,
+      "bias": null,
+      "norm_type": "layer",
+      "eps": 1e-6,
+      "scale_shape": [1, 2240],
+      "shift_shape": [1, 2240]
+    },
+    "compile_time_specialization": {
+      "SELECT01": false,
+      "WRITE_GATE": false,
+      "effect": "Index, alternate branch, gate loads, and gate output store are dead code; only scale0 and shift0 are read. Existing select01 callers set both flags true and retain their previous behavior."
+    },
+    "off_path": "SGLANG_SANA_NORM_MODULATION_FUSION defaults to 0. When off, the exact prior Round 10 LayerNorm plus optional fuse_scale_shift path executes unchanged.",
+    "site_coverage": [
+      "norm1 plus scale_msa and shift_msa before linear self-attention",
+      "norm2 plus scale_mlp and shift_mlp before GLUMBTempConv"
+    ],
+    "first_block_layout": "The patch embedding produces a [1,32760,2240] last-dimension-strided view. The enabled path makes one explicit contiguous copy before the first block's fused kernel; later residual outputs are contiguous. The exact strided boundary is separately benchmarked and validated."
+  },
+  "formal_gate": {
+    "gpu_uuid": "GPU-847305ce-670b-91ee-e0a9-aa3b7833df23",
+    "cuda_capability": [9, 0],
+    "shape": [1, 32760, 2240],
+    "dtype": "torch.bfloat16",
+    "max_abs_diff_bf16": 0.125,
+    "assert_close": {
+      "rtol": 0.02,
+      "atol": 0.25
+    },
+    "msa": {
+      "current_r10_ms": 0.24558000266551971,
+      "candidate_ms": 0.11700800061225891,
+      "kernel_chain_speedup": 2.098830860970975,
+      "current_with_downstream_residual_ms": 0.4709239900112152,
+      "candidate_with_downstream_residual_ms": 0.34178000688552856,
+      "end_to_end_relevant_speedup": 1.377857044074964,
+      "end_to_end_relevant_delta_ms": 0.12914398312568665
+    },
+    "mlp": {
+      "current_r10_ms": 0.24460400640964508,
+      "candidate_ms": 0.11596400290727615,
+      "kernel_chain_speedup": 2.1093097881868426,
+      "current_with_downstream_residual_ms": 0.4699159860610962,
+      "candidate_with_downstream_residual_ms": 0.3409160077571869,
+      "end_to_end_relevant_speedup": 1.3783922589982571,
+      "end_to_end_relevant_delta_ms": 0.1289999783039093
+    },
+    "first_block_strided_boundary": {
+      "input_stride": [73382400, 1, 32760],
+      "current_r10_ms": 0.8273400068283081,
+      "candidate_with_contiguous_copy_ms": 0.6933079957962036,
+      "speedup": 1.193322465404687,
+      "max_abs_diff_bf16": 0.125
+    },
+    "memory": {
+      "candidate_outputs_full_tensors": 1,
+      "current_chain_outputs_full_tensors": 2,
+      "materialized_gate_output": false,
+      "avoided_unspecialized_gate_mib_per_site": 139.9658203125,
+      "broadcast_gate_path_unchanged": true
+    },
+    "existing_select01_regression": "The exact formal unspecialized select01 path was rerun after specialization; output/gate equivalence and timing passed with SELECT01=True and WRITE_GATE=True."
+  },
+  "structural_invariants": {
+    "denoising_steps": 50,
+    "cfg_branches_per_step": 2,
+    "logical_dit_calls": 100,
+    "transformer_blocks_per_call": 20,
+    "block_calls": 2000,
+    "norm_modulation_invocations": 4000,
+    "linear_attention_invocations": 2000,
+    "cross_attention_invocations": 2000,
+    "glumb_invocations": 2000,
+    "gated_residual_invocations": 4000,
+    "video_tokens_per_invocation": 32760,
+    "current_norm_plus_modulation_kernels_per_site": 2,
+    "candidate_kernels_per_site": 1,
+    "removed_cuda_launches_per_formal_run": 4000,
+    "skipped_or_reused_model_work": 0,
+    "world_size": 1
+  },
+  "rounding_contract": {
+    "bit_identity_claimed": false,
+    "explanation": "The LayerNorm and modulation formulas, FP32 reduction/statistics, BF16 model contract, and eps are unchanged. Combining primitive boundaries changes BF16 store/reload rounding, admitted as kernel fusion ordering; formal max absolute BF16 delta is 0.125."
+  },
+  "warmup_accounting": "The exact Triton specialization was compiled by the bounded probe into the shared persistent cache. The formal worker still performs its configured one-step model warmup and the frozen outer total remains the selection metric; internal warmup and denoising stages are supporting evidence only.",
+  "disposition": "freeze_candidate_and_run_full_round_11"
+}

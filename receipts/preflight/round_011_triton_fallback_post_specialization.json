@@ -1,0 +1,116 @@
+{
+  "cuda_capability": [
+    9,
+    0
+  ],
+  "formal_contract": {
+    "bias": null,
+    "dtype": "torch.bfloat16",
+    "elementwise_affine": false,
+    "eps": 1e-06,
+    "hidden_shape": [
+      1,
+      32760,
+      2240
+    ],
+    "hidden_stride": [
+      73382400,
+      2240,
+      1
+    ],
+    "index_dtype": "torch.int32",
+    "index_shape": [
+      1,
+      32760
+    ],
+    "modulation_shape": [
+      1,
+      1,
+      6,
+      2240
+    ],
+    "modulation_stride": [
+      13440,
+      13440,
+      2240,
+      1
+    ],
+    "site_2d_shape": [
+      1,
+      2240
+    ],
+    "site_view_shape": [
+      1,
+      1,
+      2240
+    ],
+    "weight": null
+  },
+  "gpu": {
+    "index": 7,
+    "memory_total_mib": 81559,
+    "memory_used_mib": 0,
+    "name": "NVIDIA H100 80GB HBM3",
+    "utilization_gpu_percent": 0,
+    "uuid": "GPU-847305ce-670b-91ee-e0a9-aa3b7833df23"
+  },
+  "lease_uuid": "GPU-847305ce-670b-91ee-e0a9-aa3b7833df23",
+  "logical_counts": {
+    "block_calls": 2000,
+    "blocks_per_call": 20,
+    "candidate_kernels_per_site": 1,
+    "cfg_branches_per_step": 2,
+    "current_kernels_per_site": 2,
+    "denoising_steps": 50,
+    "dit_calls": 100,
+    "logical_work_skipped": 0,
+    "norm_modulation_sites": 4000,
+    "removed_cuda_launches_per_formal_run": 4000
+  },
+  "memory_tradeoff": {
+    "candidate_outputs_full_tensors": 2,
+    "current_broadcast_gate_storage_bytes": 4480,
+    "current_chain_outputs_full_tensors": 2,
+    "materialized_gate_out_bytes_per_site": 146764800,
+    "materialized_gate_out_mib_per_site": 139.9658203125,
+    "note": "Candidate replaces the separate LayerNorm and modulation outputs with one modulated output plus an explicit full gate tensor. The extra full gate is consumed immediately by the existing residual addcmul; formal full-run peak must be measured."
+  },
+  "mlp_site": {
+    "assert_close": {
+      "atol": 0.25,
+      "rtol": 0.02
+    },
+    "candidate_ms": 0.16350799798965454,
+    "candidate_out_exact_equal": false,
+    "candidate_out_max_abs_diff_bf16": 0.125,
+    "candidate_with_downstream_residual_ms": 0.35504400730133057,
+    "current_r10_ms": 0.24527999758720398,
+    "current_with_downstream_residual_ms": 0.4711320102214813,
+    "downstream_addcmul_exact_equal": true,
+    "end_to_end_relevant_delta_ms": 0.11608800292015076,
+    "end_to_end_relevant_speedup": 1.3269679266030403,
+    "gate_out_exact_equal_to_broadcast": true,
+    "speedup": 1.5001100900441782
+  },
+  "msa_site": {
+    "assert_close": {
+      "atol": 0.25,
+      "rtol": 0.02
+    },
+    "candidate_ms": 0.16489599645137787,
+    "candidate_out_exact_equal": false,
+    "candidate_out_max_abs_diff_bf16": 0.125,
+    "candidate_with_downstream_residual_ms": 0.3557960093021393,
+    "current_r10_ms": 0.24606800079345703,
+    "current_with_downstream_residual_ms": 0.471780002117157,
+    "downstream_addcmul_exact_equal": true,
+    "end_to_end_relevant_delta_ms": 0.1159839928150177,
+    "end_to_end_relevant_speedup": 1.3259845242292332,
+    "gate_out_exact_equal_to_broadcast": true,
+    "speedup": 1.492261826174864
+  },
+  "schema_version": 1,
+  "semantics": "Both select branches receive the same SANA scale, shift, and gate and index is identically zero. The kernel computes affine-free FP32 LayerNorm with eps=1e-6 followed by x*(1+scale)+shift, and materializes the unchanged broadcast gate for the existing residual addcmul. No model call, block, normalization, attention, FFN, or residual work is skipped.",
+  "status": "passed",
+  "torch": "2.11.0+cu128"
+}
