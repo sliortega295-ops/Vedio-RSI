@@ -1,0 +1,138 @@
+{
+  "schema_version": 1,
+  "component": "kernel",
+  "round": 14,
+  "hypothesis": "Repeat the exact Round 13 BF16, QKV, block-epilogue, norm-modulation, and paired Q/K RoPE candidate under the same frozen workload to confirm the new latency frontier.",
+  "session": {
+    "agent_id": "/root/sol_video_reproducer",
+    "prompt_sha256": "b406128240c2e097550aa62333aa8ef2a85d5e45540c9c65b49aefa260a08072",
+    "handoff": "Primary continued the recovered Kernel Executor contract after the bounded child handoff."
+  },
+  "provenance": {
+    "baseline_sha256": "3fdafdf00554ae4bafc91bc7729c3ba3e96af4edebac809782e6d6122ed23954",
+    "parent_sha": "316dfc6ff21fc8b0b951305e223ec1224bca4908",
+    "candidate_commit": "0eda7e8fad3f7c3013863740f80ae5e6a605ae5e",
+    "confirmation_config_commit": "fcf3acda0fccc56e046ba21a94466bf18a9fb67b",
+    "repeat_of_round": 13,
+    "config_path": "config/sana_video_2b_h100/kernel_r14_bf16_qkv_epilogue_norm_modulation_paired_rope_confirm.toml",
+    "config_sha256": "6dd825a8601d0faa16fb36bf29b50e8d90caa86c82cc0dd1133fbdcb6f9a5338",
+    "implementation_path": "external/sol_runtime/python/sglang/multimodal_gen/runtime/models/dits/sana_video.py",
+    "implementation_sha256": "dfca446c5b4d57f3e04fc79bf5aad85a106444d1a5c09ba746b95806494178d0",
+    "kernel_source_path": "external/sol_runtime/python/sglang/jit_kernel/diffusion/triton/sana_rope.py",
+    "kernel_source_sha256": "e0f5118f84963d7523b508730ccfd21d94d637ddef1dba78332bc2dcf8133d6b",
+    "semantics_receipt_path": "receipts/preflight/round_013_paired_rope_semantics.json",
+    "semantics_receipt_sha256": "d42c933fb1ae252783b49cc6d107152fa9840f6b9c7ddb9eaf1d9a4a7905b3a9",
+    "authenticity_receipt_path": "receipts/rounds/round_014_authenticity.json",
+    "authenticity_receipt_sha256": "af0cf54c56a03bc35667717758e767907d6c2a85e1b5c121a974544d639329ce",
+    "genuinely_different_hypothesis": false
+  },
+  "build": {
+    "status": "passed",
+    "marker": "BUILD_OK (compile=False, warmup=True)",
+    "transformer_load_dtype": "torch.bfloat16",
+    "resident_transformer_size_gb": 3.83,
+    "consumed_gpu_memory_after_transformer_load_gb": 4.57,
+    "preflight": {
+      "status": "reused_from_round_13_exact_candidate_confirmation",
+      "formal_qk_shape": [1, 32760, 20, 112],
+      "q_max_abs_bf16": 0.015625,
+      "k_max_abs_bf16": 0.015625,
+      "nonrotated_inputs_preserved": true
+    },
+    "note": "The exact Round 13 source, environment knobs, workload, model snapshot, and GPU lease were repeated unchanged. The full build passed; optional DeepGEMM remained non-fatal."
+  },
+  "run": {
+    "status": "validated",
+    "command": "/home/jiangzhikun/yongyan_liu/Experiments/SolAgent/20260827-official-repro/envs/sana-cu128-phase0/bin/python scripts/launch_config.py config/sana_video_2b_h100/kernel_r14_bf16_qkv_epilogue_norm_modulation_paired_rope_confirm.toml --mode local --run-root runs --name-suffix r14-paired-rope-confirm",
+    "cwd": "/home/jiangzhikun/yongyan_liu/Experiments/SolAgent/20260831-sana-video-2b-full-exploration/artifacts/executors/sana2b-kernel_aw-0001/worktree",
+    "run_dir": "runs/20260831-160354-sana_video_2b_h100_kernel_r14_bf16_qkv_epilogue_norm_modulation_paired_rope_confirm-r14-paired-rope-confirm",
+    "gpu_uuid": "GPU-847305ce-670b-91ee-e0a9-aa3b7833df23",
+    "returncode": 0,
+    "baseline_total_s": 61.7,
+    "total_s": 41.5,
+    "log_total_s": 41.49,
+    "single_run_speedup": 1.4867469879518073,
+    "process_wall_s": 88.0467781512998,
+    "warmup_request_s": 5.57,
+    "warmed_request_s": 34.95,
+    "denoising_s": 31.4944,
+    "denoising_average_per_step_s": 0.6298,
+    "text_encoding_s": 0.3687,
+    "decoding_s": 3.0864,
+    "peak_memory_mib": 17504,
+    "nvidia_smi_sampled_peak_mib": 23055,
+    "baseline_peak_memory_mib": 17770,
+    "round3_memory_frontier_mib": 16814,
+    "round13_round14_confirmation": {
+      "total_samples_s": [42.3, 41.5],
+      "total_median_s": 41.9,
+      "total_median_speedup_vs_baseline": 1.4725536992840096,
+      "total_median_improvement_vs_round11_round12_percent": 9.98925886143931,
+      "warmup_samples_s": [6.29, 5.57],
+      "warmup_median_s": 5.93,
+      "warmed_request_samples_s": [34.96, 34.95],
+      "warmed_request_median_s": 34.955,
+      "denoising_samples_s": [31.4963, 31.4944],
+      "denoising_median_s": 31.49535,
+      "peak_memory_samples_mib": [17504, 17504],
+      "interpretation": "The identical confirmation reproduces the large latency gain: warmed-request and denoising samples are effectively identical, output bytes match, and peak memory is unchanged. The controlling total varies only through the outer one-step warmup envelope."
+    },
+    "timing_scope": "warm_single_prompt_gen.generate_including_text_encoder_denoise_vae_decode_and_video_write_excluding_model_load_and_one_step_warmup",
+    "timing_scope_caveat": "The legacy label says warmup excluded, but controlling total_s follows the outer GENERATE_OK/Pixel-data interval and empirically includes the one-step warmup. Selection uses total_s exactly as frozen; internal stages are supporting evidence only.",
+    "benchmark_sha256": "1f0a385469c19ed838c2cfb492320862e34085cad4966ed59b95a70891e54bc5",
+    "collection_sha256": "062e33b4ab4d338242e21b5806f92f2a063335e4e28f5c91b2da187bceda65eb",
+    "quality_sha256": "36e34abedbdf2489ee472a9d3182d1978e5e6a07aab6888e1ac7548381e30d9c",
+    "run_config_sha256": "70dec95b1c3008bc64164fb315995a5a72854fa3f308af69c2df691ca216dde8",
+    "log_sha256": "dcbb3f72b2d1da374cd6195f4b93c2a7ead1f44a0224a730342fa1eb58bea652",
+    "launch_sha256": "6cb2f62c19643a189ab25490116a419dfd1039fb17c74492254edf9863ff0384",
+    "manifest_sha256": "c7986fee72a0a809e15637b65c40ee2bbf16398bb138992abab6799d000b3b15",
+    "assessment": {
+      "collector_status": "VALIDATED",
+      "independent_validator_status": "not_invoked_by_approved_protocol",
+      "tool_limitation": "Frozen receipts, ffprobe, byte identity to inspected R13, and source gates control. No quality comparison or independent validator was run."
+    }
+  },
+  "validity": {
+    "status": "validated",
+    "method_semantics": "This is an exact repeat of Round 13. Both paired Q/K rotary outputs, nonrotated normalizer inputs, attention matmuls, logical calls, tokens, CFG branches, and denoising steps are unchanged.",
+    "structural_invariants": {
+      "denoising_steps": 50,
+      "cfg_branches_per_step": 2,
+      "logical_dit_calls": 100,
+      "transformer_blocks_per_call": 20,
+      "linear_attention_invocations": 2000,
+      "cross_attention_invocations": 2000,
+      "glumb_invocations": 2000,
+      "skipped_or_reused_model_work": 0,
+      "world_size": 1
+    },
+    "rounding_evidence": {
+      "bit_identity_claimed_to_native": false,
+      "formal_max_abs_bf16": 0.015625,
+      "interpretation": "R14 is byte-identical to R13, confirming deterministic output for the identical candidate under the admitted BF16 fusion-boundary rounding contract."
+    },
+    "video": {
+      "path": "runs/20260831-160354-sana_video_2b_h100_kernel_r14_bf16_qkv_epilogue_norm_modulation_paired_rope_confirm-r14-paired-rope-confirm/outputs/out.mp4",
+      "sha256": "fb8f3dfe37823a2d96fccaa4d6d0e56037dc5256ef3d770231414c3846cd17e3",
+      "bytes": 518337,
+      "width": 832,
+      "height": 480,
+      "frames": 81,
+      "fps": 16,
+      "duration_s": 5.0625
+    },
+    "frames": [
+      {"path": "runs/20260831-160354-sana_video_2b_h100_kernel_r14_bf16_qkv_epilogue_norm_modulation_paired_rope_confirm-r14-paired-rope-confirm/outputs/frames/frame_01.png", "sha256": "fa5c8422f74f4fb16aa823eb6e08bfac74adc2d8eddb054e2012ae933ee89573"},
+      {"path": "runs/20260831-160354-sana_video_2b_h100_kernel_r14_bf16_qkv_epilogue_norm_modulation_paired_rope_confirm-r14-paired-rope-confirm/outputs/frames/frame_02.png", "sha256": "311c1777b4adb200b3ce65c62e62b053e978949aecf2490d4674ae3e007058ed"},
+      {"path": "runs/20260831-160354-sana_video_2b_h100_kernel_r14_bf16_qkv_epilogue_norm_modulation_paired_rope_confirm-r14-paired-rope-confirm/outputs/frames/frame_03.png", "sha256": "0272d95bc0ef36621ea5e86d6a7fbb6cd97c2f5dc29d733ea74317a89ba6eeef"}
+    ],
+    "visual_note": "The video and sampled frames are byte-identical to manually inspected R13; no additional quality gate is claimed."
+  },
+  "decision": {
+    "outcome": "retain",
+    "frontier_status": "confirmed_large_latency_frontier",
+    "plateau_eligible": false,
+    "post_best_distinct_no_improvement_count": 0,
+    "reason": "R14 confirms the exact R13 candidate at 41.5 seconds. The R13/R14 frozen-total median is 41.9 seconds, 9.99% below the prior confirmed frontier, with stable 34.955-second warmed request and 31.49535-second denoising medians, identical output, and unchanged peak. Retain paired RoPE as the confirmed latency frontier, preserve Round 3 as the memory frontier, and keep the distinct-miss counter at zero because R14 is a non-distinct confirmation."
+  }
+}
