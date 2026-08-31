@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "component": "kernel",
+  "round": 9,
+  "status": "passed",
+  "scope": "authenticity_only",
+  "run_dir": "runs/20260831-141059-sana_video_2b_h100_kernel_r09_bf16_qkv_epilogue_modulation_fusion-r09-modulation-fusion",
+  "video": {
+    "path": "runs/20260831-141059-sana_video_2b_h100_kernel_r09_bf16_qkv_epilogue_modulation_fusion-r09-modulation-fusion/outputs/out.mp4",
+    "sha256": "85f2643a9c4d08b6028bcf85aaeff5a69aea369e53e0c7c216d56e0a0a9bc7aa",
+    "bytes": 519043,
+    "width": 832,
+    "height": 480,
+    "frames": 81,
+    "fps": 16.0,
+    "duration_s": 5.0625
+  },
+  "frames": [
+    {
+      "position": "first",
+      "path": "runs/20260831-141059-sana_video_2b_h100_kernel_r09_bf16_qkv_epilogue_modulation_fusion-r09-modulation-fusion/outputs/frames/frame_01.png",
+      "sha256": "afe4b9c628ec19fb74c2435a8fbe4b9069ee19df7cdda3f4c0caed122e258881",
+      "bytes": 646422
+    },
+    {
+      "position": "middle",
+      "path": "runs/20260831-141059-sana_video_2b_h100_kernel_r09_bf16_qkv_epilogue_modulation_fusion-r09-modulation-fusion/outputs/frames/frame_02.png",
+      "sha256": "2c5fcaf473be2e0d8e6dd6808014b3e19161a7fe1e91b580ac418a53a3d75626",
+      "bytes": 707168
+    },
+    {
+      "position": "last",
+      "path": "runs/20260831-141059-sana_video_2b_h100_kernel_r09_bf16_qkv_epilogue_modulation_fusion-r09-modulation-fusion/outputs/frames/frame_03.png",
+      "sha256": "6cab8b087e8fb24051a9f0779c636dd726923b8331eb495116d59704353d59fd",
+      "bytes": 654450
+    }
+  ],
+  "inspection": {
+    "observed": "First, middle, and last frames are nonblank, noncorrupt, coherent forest-portrait outputs. The same young man remains consistent while warm backlight and lens flare progress plausibly across the sampled sequence.",
+    "independent_parent_observation": "First, middle, and last frames are real coherent fixed-prompt outputs with correct forest, portrait, motion, and flare progression and no corrupt, blank, or mismatched artifact.",
+    "excluded": "No quality comparison, output-difference gate, VBench, LPIPS, Gemini, or independent validator was run."
+  },
+  "hash_interpretation": "Hashes identify the inspected R9 artifacts. They differ from R8 because the same affine formula is fused under the admitted BF16 rounding contract; they are not a quality or bit-identity gate."
+}

@@ -1,0 +1,152 @@
+{
+  "schema_version": 1,
+  "component": "kernel",
+  "round": 9,
+  "hypothesis": "Retain the Round 8 BF16, QKV, GLUMB AOT gate, and gated-residual frontier, then replace both per-block x-times-one-plus-scale-plus-shift chains with the repository's existing exact Triton fuse_scale_shift_kernel.",
+  "session": {
+    "agent_id": "/root/sol_video_reproducer/kernel_executor",
+    "prompt_sha256": "b406128240c2e097550aa62333aa8ef2a85d5e45540c9c65b49aefa260a08072"
+  },
+  "provenance": {
+    "baseline_sha256": "3fdafdf00554ae4bafc91bc7729c3ba3e96af4edebac809782e6d6122ed23954",
+    "parent_sha": "fc3d34c3d7f442eefc58b7b8e09bf08d1005cbc2",
+    "candidate_commit": "70033725118d3e12c0feefd865606ddd66fb47d6",
+    "config_path": "config/sana_video_2b_h100/kernel_r09_bf16_qkv_epilogue_modulation_fusion.toml",
+    "config_sha256": "b111d0a7eb5c1a13c5397764e55e8ba4012822c4abf431fd1a452cadd53f7087",
+    "implementation_path": "external/sol_runtime/python/sglang/multimodal_gen/runtime/models/dits/sana_video.py",
+    "implementation_sha256": "f50daac077ff8b92b429411a9a28e3d14c53b6aea6597f363fc350523ab90fa5",
+    "kernel_source_path": "external/sol_runtime/python/sglang/jit_kernel/diffusion/triton/scale_shift.py",
+    "kernel_source_sha256": "b51d0a25cc296b4dc1bb6e7c3c91c8c3f5f42d599b20a2a3d40d76cf96682838",
+    "semantics_receipt_path": "receipts/preflight/round_009_modulation_semantics.json",
+    "semantics_receipt_sha256": "9852944387a15f782782de2244fc7ed1bb81c30b05f3885b1ab57b76ffde43a3",
+    "probe_source_path": "receipts/preflight/round_009_modulation_probe.py",
+    "probe_source_sha256": "fd5f718e4604d33d89b96b1fbbf711221e6a7cf18c05da7ad064aab29e483a86",
+    "probe_result_path": "receipts/preflight/round_009_modulation_probe.json",
+    "probe_result_sha256": "268579cb2bdb6b8adb603e7e1002210339ba36be6e2b11bdcd72d9e6724535b7",
+    "authenticity_receipt_path": "receipts/rounds/round_009_authenticity.json",
+    "authenticity_receipt_sha256": "9a1db0d7fc4d91a1af81c2d61059478917ae13ac374d000a38d0d4f9e47db7eb",
+    "genuinely_different_hypothesis": true
+  },
+  "build": {
+    "status": "passed",
+    "marker": "BUILD_OK (compile=False, warmup=True)",
+    "transformer_load_dtype": "torch.bfloat16",
+    "resident_transformer_size_gb": 3.83,
+    "consumed_gpu_memory_after_transformer_load_gb": 4.57,
+    "preflight": {
+      "status": "passed",
+      "formal_shape": [1, 32760, 2240],
+      "formal_view_shape": [1, 1, 2240],
+      "msa_native_ms": 0.39435601234436035,
+      "msa_fused_ms": 0.11869599670171738,
+      "msa_speedup": 3.322403647153961,
+      "mlp_native_ms": 0.39346399903297424,
+      "mlp_fused_ms": 0.11706399917602539,
+      "mlp_speedup": 3.36110163502389,
+      "max_abs_bf16": 0.125,
+      "removed_cuda_launches_per_formal_run": 8000
+    },
+    "note": "The existing repository Triton kernel passed both exact formal site/stride/dtype/output contracts and the full GPU build. The known optional DeepGEMM diagnostic remained non-fatal."
+  },
+  "run": {
+    "status": "validated",
+    "command": "/home/jiangzhikun/yongyan_liu/Experiments/SolAgent/20260827-official-repro/envs/sana-cu128-phase0/bin/python scripts/launch_config.py config/sana_video_2b_h100/kernel_r09_bf16_qkv_epilogue_modulation_fusion.toml --mode local --run-root runs --name-suffix r09-modulation-fusion",
+    "cwd": "/home/jiangzhikun/yongyan_liu/Experiments/SolAgent/20260831-sana-video-2b-full-exploration/artifacts/executors/sana2b-kernel_aw-0001/worktree",
+    "run_dir": "runs/20260831-141059-sana_video_2b_h100_kernel_r09_bf16_qkv_epilogue_modulation_fusion-r09-modulation-fusion",
+    "gpu_uuid": "GPU-847305ce-670b-91ee-e0a9-aa3b7833df23",
+    "returncode": 0,
+    "baseline_total_s": 61.7,
+    "total_s": 47.3,
+    "log_total_s": 47.32,
+    "single_run_speedup": 1.3044397463002115,
+    "process_wall_s": 93.52746270317584,
+    "warmup_request_s": 6.41,
+    "warmed_request_s": 39.93,
+    "denoising_s": 36.5051,
+    "denoising_average_per_step_s": 0.73,
+    "text_encoding_s": 0.3688,
+    "decoding_s": 3.0539,
+    "peak_memory_mib": 17514,
+    "nvidia_smi_sampled_peak_mib": 23065,
+    "baseline_peak_memory_mib": 17770,
+    "round8_total_s": 47.1,
+    "round8_peak_memory_mib": 17514,
+    "round3_memory_frontier_mib": 16814,
+    "comparison_to_round8": {
+      "total_regression_percent": 0.4246284501061481,
+      "warmup_delta_s": 1.24,
+      "warmed_request_improvement_percent": 2.5859965845328183,
+      "denoising_improvement_percent": 2.8375457797461854,
+      "runtime_peak_delta_mib": 0,
+      "interpretation": "The frozen outer total is a noise-scale 0.2 seconds slower, while the warmed request and denoising path improve by about 2.6-2.8%. The first-process Triton compile appears in R9's 6.41-second warmup versus R8's 5.17 seconds, so one identical hot-cache confirmation is warranted but R9 is not yet the frozen-total frontier."
+    },
+    "timing_scope": "warm_single_prompt_gen.generate_including_text_encoder_denoise_vae_decode_and_video_write_excluding_model_load_and_one_step_warmup",
+    "timing_scope_caveat": "The legacy label says warmup excluded, but the controlling total_s follows the outer GENERATE_OK/Pixel-data interval and empirically includes the one-step warmup. Selection continues to use total_s exactly as frozen.",
+    "benchmark_sha256": "a579d1d7551e8b6f2065bd602d1b1ccdad5ee9b859d4372af58581d5fa458cd9",
+    "collection_sha256": "22d51ab373077c50858a40029ce7b877f1128ee5ac7a7c75c13fc8801b5aaf9b",
+    "quality_sha256": "d02826c5b8a16037ed4cfdf884c4968ca8feaa77afa8aa28498761a3ece72135",
+    "run_config_sha256": "1c21fa4227f928daace475ab445fa02f5dd0c723a47119ba6dfd2100ce86c8c2",
+    "log_sha256": "40fe4b0f6dd9b03cc6c5e457310741988698f4ea36277ec9fd71ccea01b36ec1",
+    "launch_sha256": "dff581d532cb2de0c4b7ff08b25e98fd62a0e1a013b479d0aa1a170d61e4b3f9",
+    "manifest_sha256": "3a1d8006e3dfadbae774d718c40cb5af0b5c37bc74e6706a1070147b6aa5260e",
+    "assessment": {
+      "collector_status": "VALIDATED",
+      "independent_validator_status": "not_invoked_by_overlay",
+      "tool_limitation": "The overlay wrapper, frozen source/workload, ffprobe, and authenticity gates control. No lossy quality or independent validator gate was run."
+    }
+  },
+  "validity": {
+    "status": "validated",
+    "method_semantics": "Both LayerNorms still execute, then the existing Triton kernel evaluates the identical x-times-one-plus-scale-plus-shift formula at each original site. BF16 primitive-boundary rounding can move, but no model work is skipped or reused.",
+    "structural_invariants": {
+      "denoising_steps": 50,
+      "cfg_branches_per_step": 2,
+      "logical_dit_calls": 100,
+      "transformer_blocks_per_call": 20,
+      "linear_attention_invocations": 2000,
+      "cross_attention_invocations": 2000,
+      "glumb_invocations": 2000,
+      "modulation_invocations": 4000,
+      "video_tokens_per_invocation": 32760,
+      "skipped_or_reused_model_work": 0,
+      "world_size": 1
+    },
+    "rounding_evidence": {
+      "bit_identity_claimed": false,
+      "formal_max_abs_bf16": 0.125,
+      "interpretation": "The formula and BF16 model contract are unchanged; fusion changes intermediate rounding points, so output hashes may differ from R8."
+    },
+    "video": {
+      "path": "runs/20260831-141059-sana_video_2b_h100_kernel_r09_bf16_qkv_epilogue_modulation_fusion-r09-modulation-fusion/outputs/out.mp4",
+      "sha256": "85f2643a9c4d08b6028bcf85aaeff5a69aea369e53e0c7c216d56e0a0a9bc7aa",
+      "bytes": 519043,
+      "width": 832,
+      "height": 480,
+      "frames": 81,
+      "fps": 16,
+      "duration_s": 5.0625
+    },
+    "frames": [
+      {
+        "path": "runs/20260831-141059-sana_video_2b_h100_kernel_r09_bf16_qkv_epilogue_modulation_fusion-r09-modulation-fusion/outputs/frames/frame_01.png",
+        "sha256": "afe4b9c628ec19fb74c2435a8fbe4b9069ee19df7cdda3f4c0caed122e258881"
+      },
+      {
+        "path": "runs/20260831-141059-sana_video_2b_h100_kernel_r09_bf16_qkv_epilogue_modulation_fusion-r09-modulation-fusion/outputs/frames/frame_02.png",
+        "sha256": "2c5fcaf473be2e0d8e6dd6808014b3e19161a7fe1e91b580ac418a53a3d75626"
+      },
+      {
+        "path": "runs/20260831-141059-sana_video_2b_h100_kernel_r09_bf16_qkv_epilogue_modulation_fusion-r09-modulation-fusion/outputs/frames/frame_03.png",
+        "sha256": "6cab8b087e8fb24051a9f0779c636dd726923b8331eb495116d59704353d59fd"
+      }
+    ],
+    "visual_note": "Authenticity-only inspection passed: first/middle/last frames are coherent prompt-matching forest portraits with consistent subject and plausible light progression; no blank/corrupt/mismatched artifact and no quality/output-difference gate."
+  },
+  "decision": {
+    "outcome": "retry",
+    "frontier_status": "valid_distinct_frozen_total_miss_pending_hot_confirmation",
+    "plateau_eligible": true,
+    "post_best_distinct_no_improvement_count": 1,
+    "reason": "Round 9 is a valid genuinely distinct frozen-total miss at 47.3 seconds versus R8's 47.1, so it is post-R8 no-improvement #1. However, its warmed request and denoising stages materially improve while the first-process Triton warmup increases by 1.24 seconds. Preserve the miss, keep R8 as the current frontier, and run one identical hot-cache confirmation as Round 10; the confirmation is non-distinct and will not increment plateau accounting."
+  }
+}
