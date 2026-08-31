@@ -1,0 +1,25 @@
+id = "sana2b_cache_r05_tea_t0012_w3_s8_h1_conservative"
+kind = "methodology"
+purpose = "frontier"
+description = "Round 5 conservative TeaCache point selected from measured round-3 signal distances to target the EasyCache round-2 time band."
+model_profile = "sana_video_2b_h100"
+
+[env]
+SANA_CACHE_FAMILY = "teacache"
+SANA_CACHE_THRESHOLD = "0.012"
+SANA_CACHE_WARMUP = "3"
+SANA_CACHE_START = "0"
+SANA_CACHE_END = "49"
+SANA_CACHE_SUBSAMPLE = "8"
+SANA_CACHE_MAX_HITS = "1"
+SANA_TAYLOR_ORDER = "1"
+SANA_TAYLOR_DAMPING = "1.0"
+SANA_CACHE_DEBUG = "1"
+
+[patch]
+summary = "Use the faithful TeaCache signal with a measured-distance threshold and one-hit cap chosen before launch to target approximately nine cache hits and 46.2 seconds."
+touch_points = [
+  "external/sol_runtime/python/sglang/multimodal_gen/runtime/cache/sana_video_cache.py",
+  "external/sol_runtime/python/sglang/multimodal_gen/runtime/models/dits/sana_video.py",
+]
+off_identity_required = true
