@@ -1,0 +1,103 @@
+{
+  "schema_version": 1,
+  "component": "kernel",
+  "round": 6,
+  "hypothesis": "Retry the externally interrupted Round 5 identical confirmation of Round 4's BF16 aggregation plus exact bias-free QKV merge, to test whether its sub-1% latency direction is consistent. This remains a confirmation, not a genuinely different hypothesis.",
+  "session": {
+    "agent_id": "/root/sol_video_reproducer/kernel_executor",
+    "prompt_sha256": "b406128240c2e097550aa62333aa8ef2a85d5e45540c9c65b49aefa260a08072"
+  },
+  "provenance": {
+    "baseline_sha256": "3fdafdf00554ae4bafc91bc7729c3ba3e96af4edebac809782e6d6122ed23954",
+    "parent_sha": "453e029ce539186e5fc355a34d46ae9180ce8cd9",
+    "candidate_commit": "96485aa48af1cb01066896e00cad5fc78c3a850a",
+    "config_path": "config/sana_video_2b_h100/kernel_r06_bf16_qkv_confirm_retry.toml",
+    "config_sha256": "92b03436356e4cbcf8d69ebc2a1e452be63cbab285b703247f5b11c9c0b0c623",
+    "implementation": "Identical Round 4 knobs: BF16 linear-attention aggregation and exact QKV merge enabled; compile/cache disabled.",
+    "repeat_of_round": 4,
+    "retry_of_round": 5,
+    "genuinely_different_hypothesis": false
+  },
+  "build": {
+    "status": "passed",
+    "marker": "BUILD_OK (compile=False, warmup=True)",
+    "transformer_load_dtype": "torch.bfloat16",
+    "resident_transformer_size_gb": 3.83,
+    "consumed_gpu_memory_after_transformer_load_gb": 4.56,
+    "note": "The same approved fused-QKV path built successfully; the optional DeepGEMM diagnostic remained non-fatal."
+  },
+  "run": {
+    "status": "validated",
+    "command": "/home/jiangzhikun/yongyan_liu/Experiments/SolAgent/20260827-official-repro/envs/sana-cu128-phase0/bin/python scripts/launch_config.py config/sana_video_2b_h100/kernel_r06_bf16_qkv_confirm_retry.toml --mode local --run-root runs --name-suffix r06-bf16-qkv-confirm-retry",
+    "cwd": "/home/jiangzhikun/yongyan_liu/Experiments/SolAgent/20260831-sana-video-2b-full-exploration/artifacts/executors/sana2b-kernel_aw-0001/worktree",
+    "run_dir": "runs/20260831-123636-sana_video_2b_h100_kernel_r06_bf16_qkv_confirm_retry-r06-bf16-qkv-confirm-retry",
+    "gpu_uuid": "GPU-847305ce-670b-91ee-e0a9-aa3b7833df23",
+    "returncode": 0,
+    "baseline_total_s": 61.7,
+    "total_s": 49.02,
+    "single_run_speedup": 1.258669930641,
+    "process_wall_s": 95.77790644904599,
+    "warmed_request_s": 43.14,
+    "denoising_s": 39.7243,
+    "text_encoding_s": 0.3689,
+    "decoding_s": 3.0454,
+    "peak_memory_mib": 17540,
+    "baseline_peak_memory_mib": 17770,
+    "timing_scope": "warm_single_prompt_gen.generate_including_text_encoder_denoise_vae_decode_and_video_write_excluding_model_load_and_one_step_warmup",
+    "confirmation_summary": {
+      "rounds": [4, 6],
+      "total_s_samples": [49.5, 49.02],
+      "median_total_s": 49.26,
+      "median_speedup_vs_baseline": 1.252537555826,
+      "median_speedup_vs_round3": 1.009338205441,
+      "warmed_request_s_samples": [43.13, 43.14],
+      "median_warmed_request_s": 43.135,
+      "denoising_s_samples": [39.7126, 39.7243],
+      "median_denoising_s": 39.71845,
+      "interpretation": "Both valid QKV runs are directionally below Round 3, confirming a real but small sub-1% median latency benefit. The 726 MiB peak-memory increase versus Round 3 is stable."
+    },
+    "benchmark_sha256": "d19fb591922693c6e034ffae3713075abe94a20460c210d60deae042b54e0b98",
+    "run_config_sha256": "60476ecf0f9cd725dd183131fbc468e630fbf91143a4f73a34625b11fd7e7ee5",
+    "assessment": {
+      "path": "runs/20260831-123636-sana_video_2b_h100_kernel_r06_bf16_qkv_confirm_retry-r06-bf16-qkv-confirm-retry/assess_verdict.json",
+      "sha256": "0859f1c8bb820c20a6be2657138a840a868ce668f8607912fcfaaa96cb0c6a97",
+      "tool_limitation": "The archived collector false-fails on the optional DeepGEMM traceback and the evaluator requests disabled lossy quality evidence while missing BASELINE-LOCK.json. Overlay wrapper/source/ffprobe/authenticity gates control."
+    }
+  },
+  "validity": {
+    "status": "validated",
+    "method_semantics": "Identical to approved Round 4 exact horizontal QKV GEMM fusion; every projection value, token, block, CFG branch, DiT call, and scheduler step remains logically present.",
+    "structural_invariants": {
+      "denoising_steps": 50,
+      "cfg_branches_per_step": 2,
+      "logical_dit_calls": 100,
+      "transformer_blocks_per_call": 20,
+      "linear_attention_invocations": 2000,
+      "tokens_per_invocation": 32760,
+      "skipped_or_reused_model_work": 0,
+      "world_size": 1
+    },
+    "video": {
+      "path": "runs/20260831-123636-sana_video_2b_h100_kernel_r06_bf16_qkv_confirm_retry-r06-bf16-qkv-confirm-retry/outputs/out.mp4",
+      "sha256": "c73d9b7c271a7c4fdc0a9fa2f80c17cb7cbc077f41000aee2aa18a0f775fc532",
+      "bytes": 522106,
+      "width": 832,
+      "height": 480,
+      "frames": 81,
+      "fps": 16,
+      "duration_s": 5.0625
+    },
+    "frames": [
+      {"path": "runs/20260831-123636-sana_video_2b_h100_kernel_r06_bf16_qkv_confirm_retry-r06-bf16-qkv-confirm-retry/outputs/frames/frame_01.png", "sha256": "d58d261080ad7bbdb37d0d929ab5366ff2e258e6b78e9a7c53799451b36b61be"},
+      {"path": "runs/20260831-123636-sana_video_2b_h100_kernel_r06_bf16_qkv_confirm_retry-r06-bf16-qkv-confirm-retry/outputs/frames/frame_02.png", "sha256": "8485a66cdc36fc9747b6eb6cf88544c8360a4ae6a450610ab4f5b9f314cdf907"},
+      {"path": "runs/20260831-123636-sana_video_2b_h100_kernel_r06_bf16_qkv_confirm_retry-r06-bf16-qkv-confirm-retry/outputs/frames/frame_03.png", "sha256": "4370e5fe15979d5e87522540d25116c50f1943be8683a453388fd529c210fc1d"}
+    ],
+    "visual_note": "Authenticity-only passed via exact hashes of already inspected coherent frames plus independent valid ffprobe. No output-difference correctness gate."
+  },
+  "decision": {
+    "outcome": "retain",
+    "frontier_status": "confirmed_small_latency_frontier",
+    "plateau_eligible": false,
+    "reason": "Round 6 validates at 49.02 seconds. Across Round 4 and Round 6, the median is 49.26 seconds, 1.253x baseline and 0.93% faster than Round 3; warmed-request and denoising timings are directionally consistent. Retain QKV as the confirmed small latency frontier, while Round 3 remains the memory frontier because QKV costs 726 MiB more. This confirmation does not count as a distinct hypothesis, but the confirmed QKV new best resets the plateau counter."
+  }
+}
