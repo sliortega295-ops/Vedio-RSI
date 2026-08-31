@@ -1,0 +1,25 @@
+id = "sana2b_cache_r09_easy_t025_w3_s8_h2_aggressive_matched"
+kind = "methodology"
+purpose = "frontier"
+description = "Round 9 EasyCache correction calibrated from round-8 accumulated distances to enter the 28.0-28.5 second aggressive matched band."
+model_profile = "sana_video_2b_h100"
+
+[env]
+SANA_CACHE_FAMILY = "easycache"
+SANA_CACHE_THRESHOLD = "0.25"
+SANA_CACHE_WARMUP = "3"
+SANA_CACHE_START = "0"
+SANA_CACHE_END = "49"
+SANA_CACHE_SUBSAMPLE = "8"
+SANA_CACHE_MAX_HITS = "2"
+SANA_TAYLOR_ORDER = "1"
+SANA_TAYLOR_DAMPING = "1.0"
+SANA_CACHE_DEBUG = "1"
+
+[patch]
+summary = "Raise EasyCache's threshold from 0.20 to 0.25 so round 8's approximately 0.236 accumulated step-15 distance becomes a second hit, targeting one additional reuse and the aggressive matched-time band."
+touch_points = [
+  "external/sol_runtime/python/sglang/multimodal_gen/runtime/cache/sana_video_cache.py",
+  "external/sol_runtime/python/sglang/multimodal_gen/runtime/models/dits/sana_video.py",
+]
+off_identity_required = true
