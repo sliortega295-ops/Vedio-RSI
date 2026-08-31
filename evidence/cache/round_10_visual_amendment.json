@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "component": "cache",
+  "round": 10,
+  "amends": [
+    "evidence/cache/round_10.json",
+    "evidence/cache/round_10_trajectory.json",
+    "runs/20260831-134036-sana2b_cache_r10_tea_t0020_w3_s8_h1_balanced-cache-r10/outputs/visual_verdict.json",
+    "runs/20260831-134036-sana2b_cache_r10_tea_t0020_w3_s8_h1_balanced-cache-r10/outputs/assess_verdict.json"
+  ],
+  "reason": "The independent coordinator screen found more visible drift than the executor's initial tier montage wording; this additive amendment governs the final visual interpretation without rewriting the append-only trajectory.",
+  "independent_visual_note": "TeaCache round 10 is valid and coherent: identity, anatomy, forest structure, and increasing flare remain intact with no gross artifact. Relative to dense and conservative TeaCache round 6, pose, framing, gaze, and flare shift is low-to-moderate. The three frames can resemble aggressive TeaCache more than timing alone suggests, so they do not establish a strong monotonic visual improvement across tiers.",
+  "decision_impact": "No compute-tier gate change: retain as the valid 39.0-second balanced anchor with visible drift; do not claim strong monotonic visual-quality ordering."
+}
