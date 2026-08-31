@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "component": "cache",
+  "round": 9,
+  "hypothesis": "Raising EasyCache's threshold from 0.20 to 0.25, selected from round-8 accumulated-distance evidence, will convert one marginal recompute into a cache hit and place EasyCache inside the 28.0-28.5 second aggressive TeaCache/TaylorSeer band.",
+  "session": {
+    "agent_id": "cache_executor",
+    "prompt_sha256": "c81c7d4f04ed602d0ac9171aaf9f170589e491bb4b42441c557008fc15466658",
+    "overlay_sha256": "95c0d4fb9226174cafb79f3764c35783aa4138554d6ae4e680cca8ce2393a98e"
+  },
+  "provenance": {
+    "baseline_sha256": "3fdafdf00554ae4bafc91bc7729c3ba3e96af4edebac809782e6d6122ed23954",
+    "parent_sha": "66140bbbda73ba93e521bbeefd25939e458bbefe",
+    "candidate_commit": "f96489709b14b83947323d09e5b651d52df791d1",
+    "config_sha256": "7eb762bb1c6334b41509e84f10da2c330347153d34ce8926a90fb38a91941219",
+    "baseline_total_s": 61.7,
+    "baseline_peak_memory_mib": 17770,
+    "fixed_prompt_sha256": "870a3daedac57a0654d62de074a480daa3d7bee82b26988ec17b75496fb2643c",
+    "timing_scope": "warm_single_prompt_gen.generate_including_text_encoder_denoise_vae_decode_and_video_write_excluding_model_load_and_one_step_warmup"
+  },
+  "build": {
+    "status": "passed",
+    "command": "PYTHONPATH=external/sol_runtime/python:/home/jiangzhikun/yongyan_liu/Experiments/SolAgent/20260827-official-repro/baseline/targets/sana-runtime-deps-v1:/home/jiangzhikun/yongyan_liu/Experiments/SolAgent/20260827-official-repro/baseline/staging/sglang-build001-clean-v2 /home/jiangzhikun/yongyan_liu/Experiments/SolAgent/20260827-official-repro/envs/sana-cu128-phase0/bin/python -m unittest tests.test_sana_video_cache",
+    "tests": "9/9 CPU tests passed; EasyCache calibration/hit behavior, ledger validation, dry-run, git diff, exact lease UUID, GPU-idle, and shared-lock availability preflights passed. The optional DeepGEMM warning remained benign."
+  },
+  "run": {
+    "status": "validated",
+    "command": "/home/jiangzhikun/yongyan_liu/Experiments/SolAgent/20260827-official-repro/envs/sana-cu128-phase0/bin/python scripts/launch_config.py config/sana_video_2b_h100/cache/easy_r09_t025_w3_s8_h2_aggressive_matched.toml --mode local --run-root runs --name-suffix cache-r09",
+    "run_dir": "runs/20260831-132823-sana2b_cache_r09_easy_t025_w3_s8_h2_aggressive_matched-cache-r09",
+    "total_s": 28.4,
+    "raw_speedup": 2.172535211267606,
+    "raw_time_ratio": 0.46029173419773095,
+    "warmed_request_s": 21.97,
+    "peak_memory_mib": 17770,
+    "signal_definition": "EasyCache runtime-adaptive input-to-output transformation rate multiplied by current token-subsampled input change and normalized by previous output magnitude",
+    "reuse_payload": "separate conditional and unconditional full-block-stack residual histories",
+    "cache_summary": {
+      "total_decisions": 50,
+      "computes": 21,
+      "hits": 29,
+      "hit_rate": 0.58,
+      "continuous_hit_cap_recomputes": 11,
+      "threshold_recomputes": 6,
+      "skipped_steps": [3, 5, 7, 9, 11, 13, 15, 16, 18, 19, 21, 22, 24, 25, 27, 28, 30, 31, 33, 34, 36, 37, 39, 40, 42, 43, 45, 46, 48],
+      "residual_history_steps": {
+        "0": [49],
+        "1": [49]
+      }
+    },
+    "matched_target": {
+      "tea_round": 3,
+      "tea_total_s": 28.5,
+      "tea_relative_difference": 0.003508771929824611,
+      "taylor_round": 4,
+      "taylor_total_s": 28.0,
+      "taylor_relative_difference": 0.014285714285714235,
+      "within_two_percent": true,
+      "status": "matched"
+    },
+    "residual_compute_apps": []
+  },
+  "validity": {
+    "status": "validated",
+    "artifact_status": "validated",
+    "method_provenance": "validated",
+    "ffprobe": "832x480, 81 frames, 16 fps, 5.0625 s",
+    "video_sha256": "97753b499a543f2f8a110296d99e0c92d749f228ab1c9f9b784db0c8f8c693d6",
+    "visual_note": "The first/middle/last frames are coherent and retain identity, anatomy, forest structure, and flare progression without a gross artifact. Against matched aggressive TeaCache round 3 and TaylorSeer round 4, EasyCache is materially better than TaylorSeer; EasyCache and TeaCache are close and ambiguous on this single prompt. EasyCache keeps background and flare progression somewhat nearer dense, while both have pose/framing drift, so only a tentative Easy quality edge or tie is recorded."
+  },
+  "decision": {
+    "outcome": "retain",
+    "reason": "Retain as the official matched aggressive EasyCache comparator: 28.4 s is within 0.351% of TeaCache round 3 and 1.429% of TaylorSeer round 4, the predicted 29-hit schedule was exact, and method, artifact, and lightweight visual validity pass. The one-prompt screen does not justify a decisive quality-superiority claim over TeaCache."
+  }
+}
