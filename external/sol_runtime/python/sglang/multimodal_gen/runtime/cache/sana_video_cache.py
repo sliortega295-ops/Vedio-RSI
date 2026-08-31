@@ -116,6 +116,45 @@ class SanaVideoCacheDecision:
     continuous_hits: int
 
 
+@dataclass(frozen=True)
+class SanaVideoCacheCall:
+    """Exact request-local scheduler/CFG identity for one model forward."""
+
+    step: int
+    branch: int
+    do_classifier_free_guidance: bool
+
+    @classmethod
+    def from_runtime(
+        cls,
+        *,
+        step: int,
+        is_cfg_negative: bool,
+        do_classifier_free_guidance: bool,
+    ) -> "SanaVideoCacheCall":
+        if step < 0:
+            raise ValueError("cache call step must be non-negative")
+        return cls(
+            step=step,
+            branch=1 if is_cfg_negative else 0,
+            do_classifier_free_guidance=do_classifier_free_guidance,
+        )
+
+    @property
+    def starts_generation(self) -> bool:
+        # Both a warmup request and the measured request begin here; this is
+        # intentionally independent of the scalar scheduler timestep.
+        return self.step == 0 and self.branch == 0
+
+    @property
+    def owns_decision(self) -> bool:
+        return self.branch == 0
+
+    @property
+    def is_last_branch(self) -> bool:
+        return self.branch == 1 if self.do_classifier_free_guidance else True
+
+
 class SanaVideoCacheController:
     """Family-neutral decision, residual replay, and Taylor forecast state."""
 
@@ -140,13 +179,24 @@ class SanaVideoCacheController:
         self.pending_signal: torch.Tensor | None = None
         self.accumulated_distance = 0.0
         self.continuous_hits = 0
-        self.residual_history: list[tuple[int, torch.Tensor]] = []
+        # Serial classifier-free guidance runs the conditional and
+        # unconditional branches through the same model instance.  They may
+        # share one adaptive recompute schedule, but their block residuals are
+        # conditioning-dependent and must never be interchanged.
+        self.residual_history: dict[int, list[tuple[int, torch.Tensor]]] = {}
         self.total_decisions = 0
         self.computes = 0
         self.hits = 0
         self.computed_steps: list[int] = []
         self.skipped_steps: list[int] = []
         self.reasons: dict[str, int] = {}
+
+    def begin_call(self, call: SanaVideoCacheCall) -> bool:
+        """Reset request-local state at an explicit conditional step zero."""
+        if call.starts_generation:
+            self.reset()
+            return True
+        return False
 
     def _sample(self, tensor: torch.Tensor) -> torch.Tensor:
         return tensor[:, :: self.config.subsample].detach().float()
@@ -227,7 +277,7 @@ class SanaVideoCacheController:
             self.accumulated_distance = 0.0
             self.continuous_hits = 0
             return self._decision(step, True, "end_boundary")
-        if not self.residual_history:
+        if not self.residual_history.get(0):
             return self._decision(step, True, "missing_residual")
         if self.continuous_hits >= self.config.max_continuous_hits:
             self.accumulated_distance = 0.0
@@ -286,32 +336,38 @@ class SanaVideoCacheController:
             self.previous_output = current_output
             self.previous_output_norm = float(current_output.abs().mean().item())
 
-        # The two CFG branches share the same replay payload.  Store exactly one
-        # real residual per denoising step, after the second branch completes.
-        if branch == 1:
-            residual = (hidden_after - hidden_before).detach()
-            self.residual_history.append((step, residual))
-            history_limit = 3 if self.config.family == "taylorseer" else 1
-            self.residual_history = self.residual_history[-history_limit:]
+        residual = (hidden_after - hidden_before).detach()
+        history = self.residual_history.setdefault(branch, [])
+        # Replacing an equal-step entry makes this robust to a repeated call
+        # without manufacturing a zero-interval Taylor history point.
+        if history and history[-1][0] == step:
+            history[-1] = (step, residual)
+        else:
+            history.append((step, residual))
+        history_limit = 3 if self.config.family == "taylorseer" else 1
+        self.residual_history[branch] = history[-history_limit:]
 
         self.accumulated_distance = 0.0
         self.continuous_hits = 0
 
-    def _forecast_residual(self, step: int) -> torch.Tensor:
-        if not self.residual_history:
-            raise RuntimeError("cache hit requested without residual history")
-        latest_step, latest = self.residual_history[-1]
-        if self.config.family != "taylorseer" or len(self.residual_history) < 2:
+    def _forecast_residual(self, step: int, branch: int) -> torch.Tensor:
+        history = self.residual_history.get(branch, [])
+        if not history:
+            raise RuntimeError(
+                f"cache hit requested without residual history for CFG branch {branch}"
+            )
+        latest_step, latest = history[-1]
+        if self.config.family != "taylorseer" or len(history) < 2:
             return latest
 
-        previous_step, previous = self.residual_history[-2]
+        previous_step, previous = history[-2]
         interval = max(latest_step - previous_step, 1)
         first_difference = (latest - previous) / interval
         dt = max(step - latest_step, 0)
         forecast_delta = dt * first_difference
 
-        if self.config.taylor_order == 2 and len(self.residual_history) >= 3:
-            oldest_step, oldest = self.residual_history[-3]
+        if self.config.taylor_order == 2 and len(history) >= 3:
+            oldest_step, oldest = history[-3]
             previous_interval = max(previous_step - oldest_step, 1)
             previous_difference = (previous - oldest) / previous_interval
             second_divided_difference = (
@@ -324,8 +380,10 @@ class SanaVideoCacheController:
 
         return latest + self.config.taylor_damping * forecast_delta
 
-    def reuse(self, step: int, hidden_states: torch.Tensor) -> torch.Tensor:
-        return hidden_states + self._forecast_residual(step).to(
+    def reuse(
+        self, step: int, hidden_states: torch.Tensor, *, branch: int = 0
+    ) -> torch.Tensor:
+        return hidden_states + self._forecast_residual(step, branch).to(
             device=hidden_states.device, dtype=hidden_states.dtype
         )
 
@@ -347,6 +405,10 @@ class SanaVideoCacheController:
             "computed_steps": self.computed_steps,
             "skipped_steps": self.skipped_steps,
             "reasons": self.reasons,
+            "residual_history_steps": {
+                str(branch): [step for step, _ in history]
+                for branch, history in sorted(self.residual_history.items())
+            },
         }
 
     def format_decision(self, decision: SanaVideoCacheDecision) -> str:
@@ -367,6 +429,7 @@ class SanaVideoCacheController:
 
 __all__ = [
     "FAMILIES",
+    "SanaVideoCacheCall",
     "SanaVideoCacheConfig",
     "SanaVideoCacheController",
     "SanaVideoCacheDecision",
