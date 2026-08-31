@@ -1,0 +1,81 @@
+{
+  "compile_cache_entries_after": null,
+  "compile_cache_entries_before": null,
+  "cuda_capability": [
+    9,
+    0
+  ],
+  "disposition": "preflight_rejection_not_a_formal_round",
+  "first_live_attempt": {
+    "error": "ModuleNotFoundError: No module named 'cutlass'",
+    "preserved": true,
+    "status": "failed_before_candidate_execution"
+  },
+  "formal_contract": {
+    "bias": null,
+    "elementwise_affine": false,
+    "eps": 1e-06,
+    "hidden_dtype": "torch.bfloat16",
+    "hidden_shape": [
+      1,
+      32760,
+      2240
+    ],
+    "hidden_stride": [
+      73382400,
+      2240,
+      1
+    ],
+    "norm_type": "layer",
+    "scale_shape": [
+      1,
+      1,
+      2240
+    ],
+    "scale_stride": [
+      2240,
+      2240,
+      1
+    ],
+    "shift_shape": [
+      1,
+      1,
+      2240
+    ],
+    "shift_stride": [
+      2240,
+      2240,
+      1
+    ],
+    "weight": null
+  },
+  "formal_hidden_dim": 2240,
+  "formal_hidden_dim_mod_256": 192,
+  "gpu": {
+    "index": 7,
+    "memory_total_mib": 81559,
+    "memory_used_mib": 0,
+    "name": "NVIDIA H100 80GB HBM3",
+    "utilization_gpu_percent": 0,
+    "uuid": "GPU-847305ce-670b-91ee-e0a9-aa3b7833df23"
+  },
+  "imports": {
+    "cuda_bindings_available": true,
+    "cutlass_available": false,
+    "fused_norm_scale_shift_imported": false,
+    "observed_import_error": "ModuleNotFoundError: No module named 'cutlass'"
+  },
+  "kernel_source_path": "external/sol_runtime/python/sglang/jit_kernel/diffusion/cutedsl/scale_residual_norm_scale_shift.py",
+  "kernel_source_sha256": "d6818e5da8d3c5ace3950313e996a22b4c051edc29ab7026eb8cb9d79e414df9",
+  "lazy_compilation_reached": false,
+  "lease_uuid": "GPU-847305ce-670b-91ee-e0a9-aa3b7833df23",
+  "observed_error": null,
+  "reason": "The pinned environment lacks the CuTe DSL cutlass Python module, and independently the exact SANA hidden dimension 2240 violates the pinned kernel's hard D%256==0 contract. Padding to 2304 or adding dependencies would be a different implementation and is outside this existing-kernel hypothesis.",
+  "schema_version": 1,
+  "sm90": true,
+  "status": "rejected",
+  "support_rule": "D must be a multiple of 256 and <= 8192",
+  "support_rule_present_in_pinned_source": true,
+  "torch": "2.11.0+cu128",
+  "warmup_accounting": "No CuTe kernel compiled or ran; candidate is rejected before lazy compilation, so there is no candidate warmup to charge to a formal total."
+}
