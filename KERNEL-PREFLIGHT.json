@@ -1,0 +1,78 @@
+{
+  "schema_version": 1,
+  "status": "VALIDATED_STAGE_AND_SOURCE_PROFILE",
+  "model_id": "sana_video_2b_h100",
+  "frozen_start_sha": "16af862a135e27d55bf8e574d786db595a8e0654",
+  "baseline_lock": {
+    "path": "BASELINE-LOCK.json",
+    "sha256": "3fdafdf00554ae4bafc91bc7729c3ba3e96af4edebac809782e6d6122ed23954",
+    "total_s": 61.7,
+    "peak_memory_mib": 17770.0,
+    "timing_scope": "warm_single_prompt_gen.generate_including_text_encoder_denoise_vae_decode_and_video_write_excluding_model_load_and_one_step_warmup",
+    "rerun": false
+  },
+  "hardware": {
+    "name": "NVIDIA H100 80GB HBM3",
+    "gpu_uuid": "GPU-847305ce-670b-91ee-e0a9-aa3b7833df23",
+    "world_size": 1,
+    "lease_file": "/home/jiangzhikun/yongyan_liu/Experiments/SolAgent/20260831-sana-video-2b-full-exploration/state/gpu/GPU_LEASE.json"
+  },
+  "workload": {
+    "width": 832,
+    "height": 480,
+    "frames": 81,
+    "fps": 16,
+    "steps": 50,
+    "guidance_scale": 6.0,
+    "seed": 42,
+    "prompt_sha256": "870a3daedac57a0654d62de074a480daa3d7bee82b26988ec17b75496fb2643c",
+    "precision": {"transformer": "bf16", "text_encoder": "bf16", "vae": "fp32"}
+  },
+  "architecture": {
+    "layers": 20,
+    "hidden_size": 2240,
+    "self_attention_heads": 20,
+    "head_dim": 112,
+    "cross_attention_heads": 20,
+    "mlp_ratio": 3.0,
+    "patch_size": [1, 2, 2],
+    "expected_latent_grid_before_patch": [21, 60, 104],
+    "expected_token_grid_after_patch": [21, 30, 52],
+    "expected_tokens": 32760,
+    "shape_evidence": "architecture_derived_pending_live_shape_confirmation"
+  },
+  "warm_stage_profile": {
+    "source": "/home/jiangzhikun/yongyan_liu/Experiments/SolAgent/20260831-sana-video-2b-full-exploration/artifacts/baseline/sana2b-baseline_bl-0001/worktree/runs/20260831-091727-sana_video_2b_h100_dense_baseline-formal-dense-retry3/outputs/run.log",
+    "text_encoding_s": 0.3638,
+    "denoising_s": 44.1425,
+    "decoding_s": 3.051,
+    "warmed_request_s": 47.56,
+    "denoising_fraction_of_warmed_request": 0.928143,
+    "note": "Read-only reuse of the one allowed frozen baseline log; no baseline rerun. This is stage-level full-path evidence, not an operator profiler."
+  },
+  "source": {
+    "dit_path": "external/sol_runtime/python/sglang/multimodal_gen/runtime/models/dits/sana_video.py",
+    "dit_sha256": "6a4c853e8f443734db72befdca0910b4cbf2ccf4a83792c7be03427a36522332",
+    "runner_path": "external/sol_runtime/scripts/sana/sana_video_sglang_run.py",
+    "runner_sha256": "b9e707bd131534d9096a570ab3e4d0c892db2dd6c5d1ac05cee8d1a72a03d964",
+    "dominant_families": [
+      "bf16/fp32 linear self-attention matmul and RoPE",
+      "bf16 softmax cross-attention SDPA",
+      "bf16 1x1/depthwise/temporal convolution FFN",
+      "layernorm/RMSNorm/modulation/gate/residual glue"
+    ]
+  },
+  "ranked_first_candidates": [
+    "compile_default",
+    "linear_attention_bf16",
+    "self_attention_qkv_merge",
+    "cross_attention_invariant_kv_cache",
+    "full_grid_rope_cache",
+    "compile_max_autotune"
+  ],
+  "limitations": [
+    "No new baseline or output-difference run was performed.",
+    "Operator percentages embedded in source comments are prior hypotheses and are not promoted as current H100 measurements.",
+    "Candidate integrated timings will update the live evidence frontier."
+  ]
+}
