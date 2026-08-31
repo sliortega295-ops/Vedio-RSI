@@ -1,0 +1,25 @@
+id = "sana2b_cache_r03_tea_t010_w3_s8_h2"
+kind = "methodology"
+purpose = "frontier"
+description = "Round 3 initial TeaCache point using accumulated relative L1 change of the first-block AdaLN-modulated SANA input."
+model_profile = "sana_video_2b_h100"
+
+[env]
+SANA_CACHE_FAMILY = "teacache"
+SANA_CACHE_THRESHOLD = "0.10"
+SANA_CACHE_WARMUP = "3"
+SANA_CACHE_START = "0"
+SANA_CACHE_END = "49"
+SANA_CACHE_SUBSAMPLE = "8"
+SANA_CACHE_MAX_HITS = "2"
+SANA_TAYLOR_ORDER = "1"
+SANA_TAYLOR_DAMPING = "1.0"
+SANA_CACHE_DEBUG = "1"
+
+[patch]
+summary = "Use TeaCache identity-rescaled accumulated relative L1 distance on the first-block timestep-modulated signal and replay branch-specific SANA block residuals."
+touch_points = [
+  "external/sol_runtime/python/sglang/multimodal_gen/runtime/cache/sana_video_cache.py",
+  "external/sol_runtime/python/sglang/multimodal_gen/runtime/models/dits/sana_video.py",
+]
+off_identity_required = true
