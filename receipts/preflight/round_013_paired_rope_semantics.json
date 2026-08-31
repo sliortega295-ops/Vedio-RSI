@@ -1,0 +1,95 @@
+{
+  "schema_version": 1,
+  "component": "kernel",
+  "round": 13,
+  "status": "passed",
+  "hypothesis": "Retain the confirmed Round 12 frontier and replace the two native out-of-place Q/K rotary elementwise chains in each linear-attention call with one exact-layout paired Triton kernel.",
+  "provenance": {
+    "parent_sha": "cd106935f6de0cd2ba3a2763c04d358f8e4e8f33",
+    "implementation_path": "external/sol_runtime/python/sglang/jit_kernel/diffusion/triton/sana_rope.py",
+    "implementation_sha256": "e0f5118f84963d7523b508730ccfd21d94d637ddef1dba78332bc2dcf8133d6b",
+    "model_path": "external/sol_runtime/python/sglang/multimodal_gen/runtime/models/dits/sana_video.py",
+    "model_sha256": "dfca446c5b4d57f3e04fc79bf5aad85a106444d1a5c09ba746b95806494178d0",
+    "runner_path": "models/sana_video_2b_h100/baseline/gpu_infer.py",
+    "runner_sha256": "403c3e3575d52e5d90149a94d8079ee20204d16e931107a1dd60f15c06e35bed",
+    "config_path": "config/sana_video_2b_h100/kernel_r13_bf16_qkv_epilogue_norm_modulation_paired_rope.toml",
+    "config_sha256": "6fdcc873e3804b7a8d8aa6565a33f77cf8de3585c43fa80b40c7952cf3cc4164",
+    "design_probe_path": "receipts/preflight/round_013_paired_rope_probe.py",
+    "design_probe_sha256": "e132af0ef490e1df4ceef0c0b806a46110ed4145e7e3307272879f363e3ea659",
+    "design_result_path": "receipts/preflight/round_013_paired_rope_probe.json",
+    "design_result_sha256": "ba71ad3c9f66eb6d1ef384321510e7ce0842888ced0a7e7056ee689a4c22d020",
+    "installed_probe_path": "receipts/preflight/round_013_paired_rope_impl_probe.py",
+    "installed_probe_sha256": "3416d888956644bfbd0fa7baaa19cdc778722e121421ff71267cfb345241345c",
+    "installed_result_path": "receipts/preflight/round_013_paired_rope_impl_probe.json",
+    "installed_result_sha256": "bd9babe9696d358acbc2527af7e41b35a46c58aeed7894040bb1b09690953e1e"
+  },
+  "source_contract": {
+    "native_formula": "For Q and K separately, adjacent even/odd BF16 values are multiplied by FP32 cosine/sine and stored into a fresh BF16 tensor.",
+    "candidate_formula": "The same adjacent-pair FP32 arithmetic for Q and K is issued in one Triton program and stored into two fresh BF16 tensors.",
+    "formal_qk_shape": [1, 32760, 20, 112],
+    "formal_qk_stride": [73382400, 2240, 112, 1],
+    "formal_qk_dtype": "torch.bfloat16",
+    "formal_frequency_shape": [1, 32760, 1, 112],
+    "formal_frequency_stride": [3669120, 112, 112, 1],
+    "formal_frequency_dtype": "torch.float32",
+    "nonrotated_inputs": "The ReLU Q/K tensors are not mutated and remain available to the linear-attention normalizer z.",
+    "off_path": "SGLANG_SANA_PAIRED_ROPE defaults to 0; when disabled, both previous _apply_rotary_emb calls execute unchanged.",
+    "fail_closed": "The enabled wrapper rejects non-CUDA, non-BF16, non-contiguous, mismatched-shape, odd-head-dimension, or incompatible frequency inputs instead of silently changing layout or semantics."
+  },
+  "formal_gate": {
+    "gpu_uuid": "GPU-847305ce-670b-91ee-e0a9-aa3b7833df23",
+    "cuda_capability": [9, 0],
+    "torch": "2.11.0+cu128",
+    "triton": "3.6.0",
+    "assert_close": {
+      "rtol": 0.02,
+      "atol": 0.03125
+    },
+    "q_max_abs_diff": 0.015625,
+    "k_max_abs_diff": 0.015625,
+    "nonrotated_q_preserved": true,
+    "nonrotated_k_preserved": true,
+    "output_stride_preserved": true,
+    "native_pair_ms": 2.823651123046875,
+    "candidate_pair_ms": 0.2503648042678833,
+    "kernel_chain_speedup": 11.278147227218277,
+    "delta_ms_per_attention": 2.5732863187789916,
+    "formal_attention_invocations": 2000,
+    "predicted_full_run_s_saved": 5.146572637557983
+  },
+  "structural_invariants": {
+    "denoising_steps": 50,
+    "cfg_branches_per_step": 2,
+    "logical_dit_calls": 100,
+    "transformer_blocks_per_call": 20,
+    "linear_attention_invocations": 2000,
+    "native_rotary_kernel_chains_per_attention": 2,
+    "candidate_paired_kernels_per_attention": 1,
+    "logical_work_skipped": 0,
+    "attention_matmuls_changed": false,
+    "full_output_tensors_native": 2,
+    "full_output_tensors_candidate": 2,
+    "inputs_mutated": false,
+    "world_size": 1
+  },
+  "rounding_contract": {
+    "bit_identity_claimed": false,
+    "explanation": "Fusing the primitive boundary permits FMA scheduling; both installed outputs match the native BF16 contract with max absolute error 0.015625 under rtol 0.02 and atol 0.03125."
+  },
+  "nonformal_incidents": [
+    {
+      "stage": "design_probe_gate_calibration",
+      "disposition": "The first exact-only comparison was rejected as overstrict after 371 of 73382400 Q elements differed with max absolute error 0.015625; the established BF16 tolerance was then applied."
+    },
+    {
+      "stage": "design_probe_payload_serialization",
+      "disposition": "One transient run used Python false instead of False after the numerical work; it produced no accepted receipt and was corrected."
+    },
+    {
+      "stage": "installed_wrapper_import",
+      "disposition": "The first standalone import omitted the validated dependency overlay and exited on missing requests before CUDA/model work; rerunning with the exact R12 receipt PYTHONPATH passed."
+    }
+  ],
+  "launch_allowed": true,
+  "disposition": "freeze_candidate_source_and_run_full_round_13"
+}

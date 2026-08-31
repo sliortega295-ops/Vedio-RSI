@@ -31,6 +31,9 @@ from sglang.jit_kernel.diffusion.triton.scale_shift import (
     fuse_layernorm_scale_shift_kernel,
     fuse_scale_shift_kernel,
 )
+from sglang.jit_kernel.diffusion.triton.sana_rope import (
+    apply_sana_paired_rotary_emb,
+)
 from sglang.multimodal_gen.configs.models.dits.sana_video import SanaVideoConfig
 from sglang.multimodal_gen.runtime.layers.layernorm import RMSNorm
 from sglang.multimodal_gen.runtime.managers.memory_managers.layerwise_offload import (
@@ -223,6 +226,11 @@ class SanaVideoLinearAttention(nn.Module):
         # launches -> 1). Built in post_load_weights. OFF == separate projections.
         self._qkv_merge = os.environ.get("SGLANG_SANA_QKV_MERGE", "0") in ("1", "true", "True")
         self._qkv_w = None
+        self._paired_rope = os.environ.get("SGLANG_SANA_PAIRED_ROPE", "0") in (
+            "1",
+            "true",
+            "True",
+        )
 
     def build_qkv_merge(self):
         if not self._qkv_merge:
@@ -255,8 +263,13 @@ class SanaVideoLinearAttention(nn.Module):
         query = F.relu(query)
         key = F.relu(key)
 
-        query_rotate = _apply_rotary_emb(query, *rotary_emb)
-        key_rotate = _apply_rotary_emb(key, *rotary_emb)
+        if self._paired_rope:
+            query_rotate, key_rotate = apply_sana_paired_rotary_emb(
+                query, key, *rotary_emb
+            )
+        else:
+            query_rotate = _apply_rotary_emb(query, *rotary_emb)
+            key_rotate = _apply_rotary_emb(key, *rotary_emb)
 
         # B, H, C, N
         query = query.permute(0, 2, 3, 1)

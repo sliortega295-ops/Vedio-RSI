@@ -1,0 +1,104 @@
+{
+  "correctness": {
+    "assert_close": {
+      "atol": 0.03125,
+      "rtol": 0.02
+    },
+    "initial_exact_only_probe": {
+      "q_max_abs_diff": 0.015625,
+      "q_mismatched_elements": 371,
+      "q_total_elements": 73382400,
+      "status": "rejected_as_overstrict_then_recalibrated"
+    },
+    "k_exact_equal": false,
+    "k_max_abs_diff": 0.015625,
+    "non_rotated_k_preserved": true,
+    "non_rotated_q_preserved": true,
+    "output_stride_preserved": true,
+    "q_exact_equal": false,
+    "q_max_abs_diff": 0.015625
+  },
+  "cuda_capability": [
+    9,
+    0
+  ],
+  "formal_contract": {
+    "frequency_dtype": "torch.float32",
+    "frequency_shape": [
+      1,
+      32760,
+      1,
+      112
+    ],
+    "frequency_stride": [
+      3669120,
+      112,
+      112,
+      1
+    ],
+    "interleaving": "adjacent even/odd pairs",
+    "k_shape": [
+      1,
+      32760,
+      20,
+      112
+    ],
+    "k_stride": [
+      73382400,
+      2240,
+      112,
+      1
+    ],
+    "q_shape": [
+      1,
+      32760,
+      20,
+      112
+    ],
+    "q_stride": [
+      73382400,
+      2240,
+      112,
+      1
+    ],
+    "qk_dtype": "torch.bfloat16"
+  },
+  "gpu": {
+    "index": 7,
+    "memory_total_mib": 81559,
+    "memory_used_mib": 0,
+    "name": "NVIDIA H100 80GB HBM3",
+    "utilization_gpu_percent": 0,
+    "uuid": "GPU-847305ce-670b-91ee-e0a9-aa3b7833df23"
+  },
+  "lease_uuid": "GPU-847305ce-670b-91ee-e0a9-aa3b7833df23",
+  "logical_counts": {
+    "blocks_per_call": 20,
+    "candidate_paired_kernel_invocations": 2000,
+    "cfg_branches_per_step": 2,
+    "denoising_steps": 50,
+    "dit_calls": 100,
+    "linear_attention_invocations": 2000,
+    "logical_work_skipped": 0
+  },
+  "memory": {
+    "candidate_output_tensors": 2,
+    "extra_full_tensor": false,
+    "inputs_mutated": false,
+    "native_output_tensors": 2
+  },
+  "schema_version": 1,
+  "semantics": "The candidate computes both adjacent-pair Q and K rotations out of place in one Triton kernel, using the same FP32 cosine/sine arithmetic and BF16 stores as the native function. Non-rotated relu Q/K remain unchanged for the linear-attention normalizer; all attention matmuls and logical counts remain unchanged.",
+  "status": "passed",
+  "timing": {
+    "candidate_pair_ms": 0.2503056049346924,
+    "delta_ms_per_attention": 2.575462484359741,
+    "formal_attention_invocations": 2000,
+    "gate": "candidate < 90% of native and predicted saving >= 0.10 s",
+    "native_pair_ms": 2.8257680892944337,
+    "predicted_full_run_s_saved": 5.150924968719482,
+    "speedup": 11.289272128092014
+  },
+  "torch": "2.11.0+cu128",
+  "triton": "3.6.0"
+}

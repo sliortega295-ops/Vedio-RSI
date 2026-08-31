@@ -57,6 +57,7 @@ CRITICAL_RUNTIME_FILES = (
     "python/sglang/multimodal_gen/configs/pipeline_configs/sana_video.py",
     "python/sglang/multimodal_gen/configs/sample/sana_video.py",
     "python/sglang/multimodal_gen/runtime/models/dits/sana_video.py",
+    "python/sglang/jit_kernel/diffusion/triton/sana_rope.py",
     "python/sglang/multimodal_gen/runtime/pipelines/sana_video.py",
 )
 
@@ -113,6 +114,7 @@ def _optimization_knobs() -> dict[str, object]:
         "max_autotune": _bool_env("SANA_ENABLE_MAX_AUTOTUNE"),
         "linear_attention_bf16": _bool_env("SANA_ENABLE_LINATTN_BF16"),
         "qkv_merge": _bool_env("SANA_ENABLE_QKV_MERGE"),
+        "paired_rope": _bool_env("SGLANG_SANA_PAIRED_ROPE"),
         "easycache_threshold": easycache,
         "warmup_disabled": _bool_env("SANA_DISABLE_WARMUP"),
     }
