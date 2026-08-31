@@ -1,0 +1,138 @@
+{
+  "schema_version": 1,
+  "component": "kernel",
+  "round": 19,
+  "hypothesis": "Fuse BF16 reciprocal z materialization with post-attention BF16 scaling while preserving the native BF16 rounding boundary and every linear-attention operation.",
+  "session": {
+    "agent_id": "/root/sol_video_reproducer",
+    "prompt_sha256": "b406128240c2e097550aa62333aa8ef2a85d5e45540c9c65b49aefa260a08072",
+    "handoff": "Primary continued the recovered Kernel Executor contract after the bounded child handoff."
+  },
+  "provenance": {
+    "baseline_sha256": "3fdafdf00554ae4bafc91bc7729c3ba3e96af4edebac809782e6d6122ed23954",
+    "parent_sha": "e78dcbbfa565bf72025b665d08e8d8ec4a524e73",
+    "candidate_commit": "7be2d6b0282f0230b9d888b2412d073ec9964250",
+    "config_path": "config/sana_video_2b_h100/kernel_r19_fused_reciprocal_scale.toml",
+    "config_sha256": "c4812ee6f216731877cf339da465fc52fd0df58c26e52d069960034c96bb2790",
+    "implementation_path": "external/sol_runtime/python/sglang/multimodal_gen/runtime/models/dits/sana_video.py",
+    "implementation_sha256": "413ee9c1a84ae063052b2d9ac4ec57e91b7e081b788850d257ce7d2bb9d9e38a",
+    "kernel_source_path": "external/sol_runtime/python/sglang/jit_kernel/diffusion/triton/sana_rope.py",
+    "kernel_source_sha256": "651b6f7a6efa108a4ed237706b745f5874cca376463a153f6859c9c841fcb9b1",
+    "semantics_receipt_path": "receipts/preflight/round_019_fused_reciprocal_scale_semantics.json",
+    "semantics_receipt_sha256": "e8813c814868e6ca842c9ebdbe3cc6da941b111ac5bfd880397a4f94ff014740",
+    "probe_result_path": "receipts/preflight/round_019_fused_reciprocal_scale_impl_probe.json",
+    "probe_result_sha256": "3a585e3675e028f6acd546e688765aee0fc375443393e86d02e5f15c3cf56ddd",
+    "authenticity_receipt_path": "receipts/rounds/round_019_authenticity.json",
+    "authenticity_receipt_sha256": "211c21856bb5ba31aca38639ee2fc876aa1965e9680a84ce2e47e4b2a9722427",
+    "genuinely_different_hypothesis": true
+  },
+  "build": {
+    "status": "passed",
+    "marker": "BUILD_OK (compile=False, warmup=True)",
+    "transformer_load_dtype": "torch.bfloat16",
+    "resident_transformer_size_gb": 3.83,
+    "consumed_gpu_memory_after_transformer_load_gb": 4.57,
+    "preflight": {
+      "status": "passed",
+      "formal_hidden_shape": [1, 20, 112, 32760],
+      "formal_denominator_shape": [1, 20, 1, 32760],
+      "scaled_exact": true,
+      "inputs_preserved": true,
+      "output_stride_preserved": true,
+      "current_ms": 0.22558400630950928,
+      "candidate_ms": 0.10894880294799805,
+      "predicted_full_run_s_saved": 0.23327040672302246
+    },
+    "note": "The installed fail-closed wrapper passed exact-shape H100 correctness and performance gates. Formal build passed; optional DeepGEMM remained non-fatal."
+  },
+  "run": {
+    "status": "validated",
+    "command": "/home/jiangzhikun/yongyan_liu/Experiments/SolAgent/20260827-official-repro/envs/sana-cu128-phase0/bin/python scripts/launch_config.py config/sana_video_2b_h100/kernel_r19_fused_reciprocal_scale.toml --mode local --run-root runs --name-suffix r19-fused-reciprocal-scale",
+    "cwd": "/home/jiangzhikun/yongyan_liu/Experiments/SolAgent/20260831-sana-video-2b-full-exploration/artifacts/executors/sana2b-kernel_aw-0001/worktree",
+    "run_dir": "runs/20260831-171424-sana_video_2b_h100_kernel_r19_fused_reciprocal_scale-r19-fused-reciprocal-scale",
+    "gpu_uuid": "GPU-847305ce-670b-91ee-e0a9-aa3b7833df23",
+    "returncode": 0,
+    "baseline_total_s": 61.7,
+    "total_s": 41.0,
+    "log_total_s": 41.03,
+    "single_run_speedup": 1.5048780487804878,
+    "process_wall_s": 85.81309746205807,
+    "warmup_request_s": 5.74,
+    "warmed_request_s": 34.31,
+    "denoising_s": 30.8095,
+    "denoising_average_per_step_s": 0.6161,
+    "text_encoding_s": 0.3689,
+    "decoding_s": 3.126,
+    "peak_memory_mib": 17504,
+    "nvidia_smi_sampled_peak_mib": 23055,
+    "baseline_peak_memory_mib": 17770,
+    "round3_memory_frontier_mib": 16814,
+    "comparison_vs_confirmed_round16_round17": {
+      "prior_total_median_s": 40.95,
+      "total_change_percent": -0.12210012210011516,
+      "prior_warmed_request_median_s": 34.49,
+      "warmed_request_improvement_percent": 0.5218904030153659,
+      "prior_denoising_median_s": 31.00595,
+      "denoising_improvement_percent": 0.633588069386678,
+      "peak_memory_change_mib": 0,
+      "interpretation": "Internal warmed-request and denoising gains agree with the exact-shape prediction, but the frozen total differs from the prior pair median by only 0.05 seconds inside the one-step-warmup envelope. Identical confirmation controls the decision."
+    },
+    "timing_scope": "warm_single_prompt_gen.generate_including_text_encoder_denoise_vae_decode_and_video_write_excluding_model_load_and_one_step_warmup",
+    "timing_scope_caveat": "The legacy label says warmup excluded, but controlling total_s empirically includes one-step warmup. Selection uses total_s exactly as frozen; internal stages are supporting evidence only.",
+    "benchmark_sha256": "12977a29ca80d23de7d51750ab18ba459a5f166616634fd1d9924881e90e4b4b",
+    "collection_sha256": "7fa50676f759aed68893748a6869903cf451a6559d593e5b59f94cc50f52fb3e",
+    "quality_sha256": "5222e37824b960425da71a1f2fce03195e1fa348c325ba951e3f2c1c2e932bf5",
+    "run_config_sha256": "c9aeb5c8a163d72b776f4327c2774e2c4c75e3d3effdbe9defd7611a586f8050",
+    "log_sha256": "e1f99148306e1dc631d07b35c6544337f9eb01aa58ea59edb16142592ca68247",
+    "launch_sha256": "816333cf8463bf07d510f73114b5cfd28872bcfeee623af0db86ebe8768de4ae",
+    "manifest_sha256": "a4a9eda00a3b7e67f2f932fcc258a70f803e0f9ee19f19c3c1bddb3404b42fea",
+    "assessment": {
+      "collector_status": "VALIDATED",
+      "independent_validator_status": "not_invoked_by_approved_protocol",
+      "tool_limitation": "Frozen receipts, ffprobe, byte identity to inspected Round 16, and source gates control. No quality comparison or independent validator was run."
+    }
+  },
+  "validity": {
+    "status": "validated",
+    "method_semantics": "Candidate preserves the native BF16 reciprocal boundary and scaled output bit exactly, all attention matmuls and output projection work, all tokens/blocks/calls, and changes only materialized z traffic and one primitive boundary.",
+    "structural_invariants": {
+      "denoising_steps": 50,
+      "cfg_branches_per_step": 2,
+      "logical_dit_calls": 100,
+      "transformer_blocks_per_call": 20,
+      "linear_attention_invocations": 2000,
+      "cross_attention_invocations": 2000,
+      "glumb_invocations": 2000,
+      "skipped_or_reused_model_work": 0,
+      "world_size": 1
+    },
+    "rounding_evidence": {
+      "bit_identity_claimed_at_fused_boundary": true,
+      "formal_scaled_max_abs_bf16": 0.0,
+      "interpretation": "The formal output artifact is byte-identical to R16/R17, consistent with the bit-exact tensor-boundary gate."
+    },
+    "video": {
+      "path": "runs/20260831-171424-sana_video_2b_h100_kernel_r19_fused_reciprocal_scale-r19-fused-reciprocal-scale/outputs/out.mp4",
+      "sha256": "37e4b053e0d083ca537eaeaca066e88aba1e51f5ee6932c567c3afdd044dc78b",
+      "bytes": 522180,
+      "width": 832,
+      "height": 480,
+      "frames": 81,
+      "fps": 16,
+      "duration_s": 5.0625
+    },
+    "frames": [
+      {"path": "runs/20260831-171424-sana_video_2b_h100_kernel_r19_fused_reciprocal_scale-r19-fused-reciprocal-scale/outputs/frames/frame_01.png", "sha256": "5cdc687da97cb70cc12359f83e2e78d4fcbf46570b20b671f30b16c4d003544b"},
+      {"path": "runs/20260831-171424-sana_video_2b_h100_kernel_r19_fused_reciprocal_scale-r19-fused-reciprocal-scale/outputs/frames/frame_02.png", "sha256": "d8a25a823e66367949da770cd61cb6735cc40529f6ba8734adcdc2742e593b8d"},
+      {"path": "runs/20260831-171424-sana_video_2b_h100_kernel_r19_fused_reciprocal_scale-r19-fused-reciprocal-scale/outputs/frames/frame_03.png", "sha256": "e93fd9a08545f85e04bd182d35c1b719422495efd36cccb496ab4b928528339f"}
+    ],
+    "visual_note": "The video and sampled frames are byte-identical to manually inspected R16; no additional quality gate is claimed."
+  },
+  "decision": {
+    "outcome": "retain",
+    "frontier_status": "provisional_internal_latency_candidate_pending_identical_confirmation",
+    "plateau_eligible": false,
+    "post_best_distinct_no_improvement_count": 1,
+    "reason": "R19 is genuinely distinct and its exact-shape prediction appears in warmed-request and denoising timings, with bit-identical output and unchanged peak. Because the controlling 41.0-second total is effectively tied with the prior 40.95-second pair median inside the warmup envelope, retain provisionally and run one identical confirmation before declaring a frontier reset or a second miss."
+  }
+}
