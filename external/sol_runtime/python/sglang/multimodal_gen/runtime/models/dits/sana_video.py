@@ -27,6 +27,7 @@ from diffusers.models.embeddings import (
     get_1d_rotary_pos_embed,
 )
 
+from sglang.jit_kernel.diffusion.triton.scale_shift import fuse_scale_shift_kernel
 from sglang.multimodal_gen.configs.models.dits.sana_video import SanaVideoConfig
 from sglang.multimodal_gen.runtime.layers.layernorm import RMSNorm
 from sglang.multimodal_gen.runtime.managers.memory_managers.layerwise_offload import (
@@ -518,6 +519,9 @@ class SanaVideoTransformerBlock(nn.Module):
         self._fused_epilogues = os.environ.get(
             "SGLANG_SANA_BLOCK_EPILOGUE_FUSION", "0"
         ) in ("1", "true", "True")
+        self._fused_modulation = os.environ.get(
+            "SGLANG_SANA_MODULATION_FUSION", "0"
+        ) in ("1", "true", "True")
 
     def forward(
         self,
@@ -539,7 +543,12 @@ class SanaVideoTransformerBlock(nn.Module):
 
         # 1. Self attention (linear + RoPE)
         norm_hidden_states = self.norm1(hidden_states)
-        norm_hidden_states = norm_hidden_states * (1 + scale_msa) + shift_msa
+        if self._fused_modulation:
+            norm_hidden_states = fuse_scale_shift_kernel(
+                norm_hidden_states, scale_msa, shift_msa, scale_constant=1.0
+            )
+        else:
+            norm_hidden_states = norm_hidden_states * (1 + scale_msa) + shift_msa
         norm_hidden_states = norm_hidden_states.to(hidden_states.dtype)
         attn_output = self.attn1(norm_hidden_states, rotary_emb=rotary_emb)
         if self._fused_epilogues:
@@ -557,7 +566,12 @@ class SanaVideoTransformerBlock(nn.Module):
 
         # 3. Feed-forward (conv FFN with temporal conv)
         norm_hidden_states = self.norm2(hidden_states)
-        norm_hidden_states = norm_hidden_states * (1 + scale_mlp) + shift_mlp
+        if self._fused_modulation:
+            norm_hidden_states = fuse_scale_shift_kernel(
+                norm_hidden_states, scale_mlp, shift_mlp, scale_constant=1.0
+            )
+        else:
+            norm_hidden_states = norm_hidden_states * (1 + scale_mlp) + shift_mlp
         norm_hidden_states = norm_hidden_states.unflatten(1, (frames, height, width))
         ff_output = self.ff(norm_hidden_states)
         ff_output = ff_output.flatten(1, 3)

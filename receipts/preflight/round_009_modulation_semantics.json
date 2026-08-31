@@ -1,0 +1,76 @@
+{
+  "schema_version": 1,
+  "status": "passed",
+  "hypothesis": "Retain the Round 8 frontier and replace both per-block native scale/shift pointwise chains with the repository's existing Triton fuse_scale_shift_kernel.",
+  "kernel_contract": {
+    "source_path": "external/sol_runtime/python/sglang/jit_kernel/diffusion/triton/scale_shift.py",
+    "source_sha256": "b51d0a25cc296b4dc1bb6e7c3c91c8c3f5f42d599b20a2a3d40d76cf96682838",
+    "api": "fuse_scale_shift_kernel(x, scale, shift, scale_constant=1.0)",
+    "formula_before": "x * (1 + scale) + shift",
+    "formula_after": "x * (scale_constant + scale) + shift, with scale_constant=1.0",
+    "formal_x": {
+      "shape": [1, 32760, 2240],
+      "stride": [73382400, 2240, 1],
+      "dtype": "torch.bfloat16",
+      "contiguous": true
+    },
+    "formal_scale_and_shift": {
+      "shape": [1, 1, 2240],
+      "stride": [13440, 13440, 1],
+      "dtype": "torch.bfloat16",
+      "origin": "Views unbound from the actual contiguous [1,1,6,2240] sum of the per-block [6,2240] table and timestep [1,1,13440]."
+    },
+    "output": "Fresh contiguous [1,32760,2240] torch.bfloat16 tensor on the same CUDA device."
+  },
+  "lossless_contract": {
+    "layernorm": "Both original nn.LayerNorm calls execute unchanged before modulation.",
+    "msa_site": "The self-attention input receives the same LayerNorm result, scale_msa, and shift_msa with the same scale_constant one.",
+    "mlp_site": "The GLUMB input receives the same LayerNorm result, scale_mlp, and shift_mlp with the same scale_constant one.",
+    "rounding": "The Triton kernel evaluates the same BF16 affine formula in one kernel. It may retain intermediates or round at a different primitive boundary; this is admitted BF16 kernel ordering, not approximation.",
+    "off_path": "When SGLANG_SANA_MODULATION_FUSION is unset or zero, both original Python expressions execute verbatim and the existing Round 8 path is otherwise unchanged.",
+    "no_state": "The kernel is stateless and allocates a fresh output; no tensor is cached, reused, aliased, or mutated.",
+    "logical_work": "No LayerNorm, attention, GLUMB, token, block, model call, CFG branch, or denoising step is removed or reused."
+  },
+  "formal_counts": {
+    "denoising_steps": 50,
+    "cfg_branches_per_step": 2,
+    "dit_calls": 100,
+    "transformer_blocks_per_call": 20,
+    "block_calls": 2000,
+    "modulation_sites_per_block": 2,
+    "modulation_calls": 4000,
+    "native_pointwise_launches_per_modulation": 3,
+    "fused_pointwise_launches_per_modulation": 1,
+    "removed_cuda_launches": 8000
+  },
+  "microgate": {
+    "gpu_uuid": "GPU-847305ce-670b-91ee-e0a9-aa3b7833df23",
+    "probe_source_sha256": "fd5f718e4604d33d89b96b1fbbf711221e6a7cf18c05da7ad064aab29e483a86",
+    "probe_result_sha256": "268579cb2bdb6b8adb603e7e1002210339ba36be6e2b11bdcd72d9e6724535b7",
+    "msa_native_ms": 0.39435601234436035,
+    "msa_fused_ms": 0.11869599670171738,
+    "msa_speedup": 3.322403647153961,
+    "msa_max_abs_bf16": 0.125,
+    "mlp_native_ms": 0.39346399903297424,
+    "mlp_fused_ms": 0.11706399917602539,
+    "mlp_speedup": 3.36110163502389,
+    "mlp_max_abs_bf16": 0.125,
+    "assert_close": {
+      "rtol": 0.02,
+      "atol": 0.125
+    },
+    "known_nonfatal": "The optional DeepGEMM import failed and was disabled; it is unrelated to this existing Triton kernel."
+  },
+  "candidate": {
+    "implementation_sha256": "f50daac077ff8b92b429411a9a28e3d14c53b6aea6597f363fc350523ab90fa5",
+    "config_sha256": "b111d0a7eb5c1a13c5397764e55e8ba4012822c4abf431fd1a452cadd53f7087",
+    "retained_linear_attention_bf16": true,
+    "retained_qkv_merge": true,
+    "retained_glumb_aot_gate": true,
+    "retained_addcmul_residuals": true,
+    "cross_attention_kv_cache": false,
+    "torch_compile": false,
+    "step_skip_cache": false
+  },
+  "launch_allowed": true
+}

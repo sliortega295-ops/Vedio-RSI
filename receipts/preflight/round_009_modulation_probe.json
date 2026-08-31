@@ -1,0 +1,83 @@
+{
+  "formal_contract": {
+    "dtype": "torch.bfloat16",
+    "hidden_shape": [
+      1,
+      32760,
+      2240
+    ],
+    "hidden_stride": [
+      73382400,
+      2240,
+      1
+    ],
+    "modulation_shape": [
+      1,
+      1,
+      6,
+      2240
+    ],
+    "modulation_stride": [
+      13440,
+      13440,
+      2240,
+      1
+    ],
+    "output_contiguous": true,
+    "view_shape": [
+      1,
+      1,
+      2240
+    ],
+    "view_stride": [
+      13440,
+      13440,
+      1
+    ]
+  },
+  "gpu": {
+    "index": 7,
+    "memory_total_mib": 81559,
+    "memory_used_mib": 0,
+    "name": "NVIDIA H100 80GB HBM3",
+    "utilization_gpu_percent": 0,
+    "uuid": "GPU-847305ce-670b-91ee-e0a9-aa3b7833df23"
+  },
+  "lease_uuid": "GPU-847305ce-670b-91ee-e0a9-aa3b7833df23",
+  "logical_counts": {
+    "block_calls": 2000,
+    "blocks_per_call": 20,
+    "cfg_branches_per_step": 2,
+    "denoising_steps": 50,
+    "dit_calls": 100,
+    "fused_pointwise_launches_per_call": 1,
+    "modulation_calls": 4000,
+    "native_pointwise_launches_per_call": 3,
+    "removed_cuda_launches": 8000
+  },
+  "mlp_site": {
+    "assert_close": {
+      "atol": 0.125,
+      "rtol": 0.02
+    },
+    "exact_equal": false,
+    "fused_ms": 0.11706399917602539,
+    "max_abs_diff_bf16": 0.125,
+    "native_ms": 0.39346399903297424,
+    "speedup": 3.36110163502389
+  },
+  "msa_site": {
+    "assert_close": {
+      "atol": 0.125,
+      "rtol": 0.02
+    },
+    "exact_equal": false,
+    "fused_ms": 0.11869599670171738,
+    "max_abs_diff_bf16": 0.125,
+    "native_ms": 0.39435601234436035,
+    "speedup": 3.322403647153961
+  },
+  "schema_version": 1,
+  "status": "passed",
+  "torch": "2.11.0+cu128"
+}
