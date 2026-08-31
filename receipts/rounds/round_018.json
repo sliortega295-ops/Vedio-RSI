@@ -1,0 +1,70 @@
+{
+  "schema_version": 1,
+  "component": "kernel",
+  "round": 18,
+  "hypothesis": "Fuse the post-attention BF16 z scaling with the [B,H,C,N] to contiguous [B,N,H*C] layout handoff, then feed the unchanged 2240-to-2240 output projection.",
+  "session": {
+    "agent_id": "/root/sol_video_reproducer",
+    "prompt_sha256": "b406128240c2e097550aa62333aa8ef2a85d5e45540c9c65b49aefa260a08072",
+    "handoff": "Primary continued the recovered Kernel Executor contract after the bounded child handoff."
+  },
+  "provenance": {
+    "baseline_sha256": "3fdafdf00554ae4bafc91bc7729c3ba3e96af4edebac809782e6d6122ed23954",
+    "parent_sha": "afe2eda019dce3e239d5b50bda3a069f64c4d045",
+    "candidate_commit": "not_created_preflight_rejection",
+    "retained_frontier_commit": "b884348d77b271b1def26b88f4153a6b49563f2d",
+    "probe_source_path": "receipts/preflight/round_018_fused_z_layout_probe.py",
+    "probe_source_sha256": "d092033b048c291fdb00dc8c59b34783d66a16e91a20ce3007e01c168c0b9470",
+    "probe_result_path": "receipts/preflight/round_018_fused_z_layout_probe.json",
+    "probe_result_sha256": "ed0f31a469772aa3f317306ce41d2a9d5290fa35b33f6b29a5e9e03c7e818cf2",
+    "genuinely_different_hypothesis": true
+  },
+  "build": {
+    "status": "passed",
+    "marker": "exact-shape Triton microgate compiled and executed",
+    "preflight": {
+      "status": "rejected_on_performance_gate",
+      "formal_hidden_shape": [1, 20, 112, 32760],
+      "formal_z_shape": [1, 20, 1, 32760],
+      "output_projection_weight_shape": [2240, 2240],
+      "scaled_exact": true,
+      "projected_max_abs_bf16": 0.0625,
+      "current_chain_ms": 0.8671279748280843,
+      "candidate_ms": 1.0159599781036377,
+      "speedup": 0.8535060371636303,
+      "predicted_full_run_s_saved": -0.2976640065511067
+    },
+    "note": "The exact-shape candidate was correct at the scaled-tensor boundary and close after the unchanged projection, but the forced contiguous layout made the complete scale-layout-projection chain 17.2% slower. It was rejected before touching model source or allocating a formal generation."
+  },
+  "run": {
+    "status": "not_run",
+    "formal_generation": "NOT_RUN",
+    "command": "PYTHONNOUSERSITE=1 /home/jiangzhikun/yongyan_liu/Experiments/SolAgent/20260827-official-repro/envs/sana-cu128-phase0/bin/python receipts/preflight/round_018_fused_z_layout_probe.py --lease-file /home/jiangzhikun/yongyan_liu/Experiments/SolAgent/20260831-sana-video-2b-full-exploration/state/gpu/GPU_LEASE.json --guard-dir models/sana_video_2b_h100/baseline --out receipts/preflight/round_018_fused_z_layout_probe.json",
+    "cwd": "/home/jiangzhikun/yongyan_liu/Experiments/SolAgent/20260831-sana-video-2b-full-exploration/artifacts/executors/sana2b-kernel_aw-0001/worktree",
+    "gpu_uuid": "GPU-847305ce-670b-91ee-e0a9-aa3b7833df23",
+    "reason": "The exact-shape chain regressed from 0.86713 ms to 1.01596 ms, predicting a 0.29766-second full-run loss across 2000 attention invocations.",
+    "residual_compute_apps": [],
+    "status_after_probe": "GPU at 3 MiB, lock free"
+  },
+  "validity": {
+    "status": "validated",
+    "method_semantics": "The probe preserved the native BF16 z multiplication bit exactly, materialized the same logical [B,N,H*C] tensor, and included the unchanged output projection in the timing gate. The projected output differed by at most 0.0625 BF16 from the native strided-input GEMM.",
+    "structural_invariants": {
+      "attention_matmuls_if_launched": "unchanged",
+      "output_projection_if_launched": "unchanged",
+      "denoising_steps_if_launched": 50,
+      "cfg_branches_per_step_if_launched": 2,
+      "logical_dit_calls_if_launched": 100,
+      "linear_attention_invocations_if_launched": 2000,
+      "skipped_or_reused_model_work": 0
+    },
+    "artifact": "NOT_RUN: no video or sampled frames were created because the candidate failed its exact-shape performance gate."
+  },
+  "decision": {
+    "outcome": "reject",
+    "frontier_status": "retained_round16_round17_packed_qknorm_frontier",
+    "plateau_eligible": true,
+    "post_best_distinct_no_improvement_count": 1,
+    "reason": "R18 is a genuinely distinct exact-layout fusion, but the fair gate including the unchanged output projection was slower, not faster. Reject before full generation, retain the confirmed 40.95-second R16/R17 median frontier, and increment the distinct post-best miss counter to one."
+  }
+}
