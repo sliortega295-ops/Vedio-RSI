@@ -1,0 +1,67 @@
+{
+  "correctness": {
+    "inputs_preserved": true,
+    "k_relu_exact": true,
+    "k_rotate_max_abs_diff": 0.0,
+    "output_strides_preserved": true,
+    "q_relu_exact": true,
+    "q_rotate_max_abs_diff": 0.0,
+    "rotate_assert_close": {
+      "atol": 0.03125,
+      "rtol": 0.02
+    }
+  },
+  "formal_contract": {
+    "frequency_dtype": "torch.float32",
+    "frequency_shape": [
+      1,
+      32760,
+      1,
+      112
+    ],
+    "qk_dtype": "torch.bfloat16",
+    "qk_shape": [
+      1,
+      32760,
+      20,
+      112
+    ],
+    "qk_stride": [
+      73382400,
+      2240,
+      112,
+      1
+    ]
+  },
+  "gpu": {
+    "index": 7,
+    "memory_total_mib": 81559,
+    "memory_used_mib": 0,
+    "name": "NVIDIA H100 80GB HBM3",
+    "utilization_gpu_percent": 0,
+    "uuid": "GPU-847305ce-670b-91ee-e0a9-aa3b7833df23"
+  },
+  "lease_uuid": "GPU-847305ce-670b-91ee-e0a9-aa3b7833df23",
+  "memory": {
+    "candidate_full_outputs": 4,
+    "candidate_full_tensor_reads": 2,
+    "current_full_outputs": 4,
+    "current_full_tensor_reads": 4,
+    "extra_full_tensor": false,
+    "inputs_mutated": false
+  },
+  "schema_version": 1,
+  "semantics": "The candidate writes the same BF16 ReLU Q/K required by z and the same paired rotary Q/K required by the attention matmuls. No tensor, block, CFG call, or denoising step is skipped.",
+  "status": "rejected",
+  "timing": {
+    "candidate_fused_ms": 0.42238559722900393,
+    "current_relu_plus_paired_rope_ms": 0.44758081436157227,
+    "delta_ms_per_attention": 0.025195217132568337,
+    "formal_attention_invocations": 2000,
+    "gate": "candidate < 95% of current and predicted saving >= 0.10 s",
+    "predicted_full_run_s_saved": 0.050390434265136674,
+    "speedup": 1.0596498017400633
+  },
+  "torch": "2.11.0+cu128",
+  "triton": "3.6.0"
+}

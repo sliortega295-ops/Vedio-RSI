@@ -1,0 +1,75 @@
+{
+  "schema_version": 1,
+  "component": "kernel",
+  "round": 15,
+  "hypothesis": "Fuse the two BF16 ReLU feature-map kernels with the confirmed paired Q/K RoPE kernel, writing the required nonrotated ReLU Q/K and rotated Q/K outputs in one exact-layout Triton program.",
+  "session": {
+    "agent_id": "/root/sol_video_reproducer",
+    "prompt_sha256": "b406128240c2e097550aa62333aa8ef2a85d5e45540c9c65b49aefa260a08072",
+    "handoff": "Primary continued the recovered Kernel Executor contract after the bounded child handoff."
+  },
+  "provenance": {
+    "baseline_sha256": "3fdafdf00554ae4bafc91bc7729c3ba3e96af4edebac809782e6d6122ed23954",
+    "parent_sha": "10a56f026b49e09c45bf4115ba7b227ed8d18cca",
+    "candidate_commit": "not_created_preflight_rejection",
+    "probe_source_path": "receipts/preflight/round_015_fused_relu_rope_probe.py",
+    "probe_source_sha256": "d6f672533551312e4143c2365a149bd15b8e88038cdf33fa2725916257e4bd21",
+    "probe_result_path": "receipts/preflight/round_015_fused_relu_rope_probe.json",
+    "probe_result_sha256": "052fbbaab172ac2f2da008e930e90e2943aaf7d1c197305ca48180b6c749f553",
+    "retained_frontier_commit": "0eda7e8fad3f7c3013863740f80ae5e6a605ae5e",
+    "genuinely_different_hypothesis": true
+  },
+  "build": {
+    "status": "passed",
+    "marker": "exact-shape Triton microgate compiled and executed",
+    "preflight": {
+      "status": "rejected_on_minimum_materiality_gate",
+      "formal_qk_shape": [1, 32760, 20, 112],
+      "formal_qk_stride": [73382400, 2240, 112, 1],
+      "q_relu_exact": true,
+      "k_relu_exact": true,
+      "q_rotate_max_abs_bf16": 0.0,
+      "k_rotate_max_abs_bf16": 0.0,
+      "inputs_preserved": true,
+      "output_strides_preserved": true,
+      "current_chain_ms": 0.44758081436157227,
+      "candidate_ms": 0.42238559722900393,
+      "speedup": 1.0596498017400633,
+      "predicted_full_run_s_saved": 0.050390434265136674,
+      "required_full_run_s_saved": 0.1
+    },
+    "note": "The candidate was numerically valid and compiled on the leased H100, but its predicted full-run benefit was only 50 milliseconds. It was rejected before touching production model source or allocating a full formal generation."
+  },
+  "run": {
+    "status": "not_run",
+    "command": "PYTHONNOUSERSITE=1 PYTHONPATH=<kernel-runtime>:<validated-dependency-overlay>:<validated-kernel-staging> /home/jiangzhikun/yongyan_liu/Experiments/SolAgent/20260827-official-repro/envs/sana-cu128-phase0/bin/python receipts/preflight/round_015_fused_relu_rope_probe.py --lease-file /home/jiangzhikun/yongyan_liu/Experiments/SolAgent/20260831-sana-video-2b-full-exploration/state/gpu/GPU_LEASE.json --guard-dir models/sana_video_2b_h100/baseline --runtime-python-root external/sol_runtime/python --out receipts/preflight/round_015_fused_relu_rope_probe.json",
+    "cwd": "/home/jiangzhikun/yongyan_liu/Experiments/SolAgent/20260831-sana-video-2b-full-exploration/artifacts/executors/sana2b-kernel_aw-0001/worktree",
+    "gpu_uuid": "GPU-847305ce-670b-91ee-e0a9-aa3b7833df23",
+    "formal_generation": "NOT_RUN",
+    "reason": "Exact-shape predicted saving 0.05039 seconds was below the predeclared 0.10-second materiality gate.",
+    "residual_compute_apps": []
+  },
+  "validity": {
+    "status": "validated",
+    "method_semantics": "The bounded probe showed bit-exact ReLU Q/K and bit-exact rotated Q/K versus the current confirmed chain while preserving inputs and layout. Four required full outputs remain four; only two intermediate full-tensor reads would be removed.",
+    "structural_invariants": {
+      "denoising_steps_if_launched": 50,
+      "cfg_branches_per_step_if_launched": 2,
+      "logical_dit_calls_if_launched": 100,
+      "linear_attention_invocations_if_launched": 2000,
+      "current_full_outputs_per_attention": 4,
+      "candidate_full_outputs_per_attention": 4,
+      "current_full_tensor_reads_per_attention": 4,
+      "candidate_full_tensor_reads_per_attention": 2,
+      "skipped_or_reused_model_work": 0
+    },
+    "artifact": "NOT_RUN: no video or sampled frames were created because the candidate failed its preflight performance gate."
+  },
+  "decision": {
+    "outcome": "reject",
+    "frontier_status": "retained_round13_round14_paired_rope_frontier",
+    "plateau_eligible": true,
+    "post_best_distinct_no_improvement_count": 1,
+    "reason": "R15 is a genuinely distinct and numerically exact fusion, but 1.05965x at the local chain translates to only 0.05039 seconds predicted across the formal run, below the 0.10-second launch threshold. Reject before full generation, retain the confirmed 41.9-second R13/R14 median frontier, and increment the distinct post-best miss counter to one."
+  }
+}
