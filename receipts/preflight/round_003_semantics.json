@@ -1,0 +1,76 @@
+{
+  "schema_version": 1,
+  "component": "kernel",
+  "round": 3,
+  "status": "ADMISSIBLE_SOURCE_CHECK",
+  "hypothesis": "Keep the exact linear-attention recurrence and all logical work, but execute its two RoPE KV-aggregation matmuls in the model's pinned BF16 precision instead of explicitly materializing FP32 operands and intermediate outputs.",
+  "source_evidence": {
+    "attention_path": "external/sol_runtime/python/sglang/multimodal_gen/runtime/models/dits/sana_video.py",
+    "attention_sha256": "6a4c853e8f443734db72befdca0910b4cbf2ccf4a83792c7be03427a36522332",
+    "attention_lines": {
+      "dtype_toggle": "137-140",
+      "qkv_and_relu_rope": "154-185",
+      "only_conditional_cast": "187-192",
+      "unchanged_recurrence": "194-203"
+    },
+    "pipeline_precision_path": "external/sol_runtime/python/sglang/multimodal_gen/configs/pipeline_configs/sana_video.py",
+    "pipeline_precision_sha256": "60f7224ff67e3f44ad3b59de3b45b496ce5b2018431e156e2b11ff8c0707a3af",
+    "pipeline_precision_lines": "35-56",
+    "pipeline_contract": {
+      "transformer": "bf16",
+      "text_encoder": "bf16",
+      "vae": "fp32"
+    }
+  },
+  "dtype_path": {
+    "common_before_toggle": {
+      "hidden_states": "bf16",
+      "query_key_value_after_projection_norm_relu_rope": "bf16",
+      "normalizer_z_operands": "bf16",
+      "normalizer_z_stored_result": "bf16"
+    },
+    "baseline_disabled": {
+      "aggregation_operands": "query_rotate=float32, key_rotate=float32, value=float32",
+      "matmul_accumulation": "float32",
+      "scores_stored_result": "float32",
+      "hidden_aggregation_stored_result": "float32",
+      "post_recurrence_output": "explicitly cast back to original bf16"
+    },
+    "enabled": {
+      "aggregation_operands": "query_rotate=bfloat16, key_rotate=bfloat16, value=bfloat16",
+      "matmul_accumulation": "H100 BF16 Tensor Core products accumulate in FP32 as documented by the pinned source comment at lines 137-139",
+      "scores_stored_result": "bfloat16",
+      "hidden_aggregation_stored_result": "bfloat16",
+      "post_recurrence_output": "already original bf16; line 200 remains unchanged"
+    },
+    "difference": "Only removal of three explicit float() materializations before the same two aggregation matmuls; stored-intermediate rounding changes from FP32 to BF16, which stays within the pinned 16-bit transformer contract."
+  },
+  "exact_recurrence": [
+    "q=ReLU(norm(Wq*x)); k=ReLU(norm(Wk*x)); v=Wv*x",
+    "qr=RoPE(q); kr=RoPE(k)",
+    "z=1/(((sum_tokens k)^T @ q)+1e-15)",
+    "scores=v @ kr^T",
+    "y=(scores @ qr)*z",
+    "out=Wo(y)"
+  ],
+  "structural_invariants": {
+    "scheduler_steps": 50,
+    "cfg_branches_per_step": 2,
+    "dit_calls": 100,
+    "transformer_blocks_per_call": 20,
+    "linear_attention_invocations": 2000,
+    "tokens_per_invocation": 32760,
+    "heads": 20,
+    "head_dim": 112,
+    "normalizer_matmuls_per_invocation": 1,
+    "aggregation_matmuls_per_invocation": 2,
+    "qkv_projection_count_per_invocation": 3,
+    "skipped_or_reused_work": 0,
+    "rank_reduction": false,
+    "sparsity": false,
+    "sub_16_bit_quantization": false,
+    "cache_or_step_skip": false
+  },
+  "admissibility_argument": "The toggle does not alter control flow, tensor shapes, token coverage, projections, ReLU feature map, RoPE, normalizer, recurrence, scheduler, CFG, model-call count, or block count. It is a local dtype implementation path for the same mathematical recurrence and stays at BF16, so it is admissible under the recovered kernel goal's method-level lossless rule. Numerical output movement is expected rounding behavior and is not a quality-gated approximation.",
+  "launch_allowed": true
+}
