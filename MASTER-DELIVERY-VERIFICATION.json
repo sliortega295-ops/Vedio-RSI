@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "component": "cache",
+  "status": "accepted_for_integration_subject_to_multi_prompt_sanity",
+  "accepted_draft_commit": "4ec0a2204ce4b84e5f45250a3ff2dea76d26d508",
+  "draft": "DELIVERY-DRAFT.json",
+  "published_delivery": "DELIVERY.json",
+  "deterministic_receipt": "evidence/cache/delivery_verification.json",
+  "selection": {
+    "conservative": "sana2b_cache_r02_easy_t005_w3_s8_h2_confirm",
+    "balanced": "sana2b_cache_r12_easy_t010_w3_s8_h2_balanced",
+    "aggressive": "sana2b_cache_r09_easy_t025_w3_s8_h2_aggressive_matched"
+  },
+  "validated": [
+    "frozen baseline identity and timing scope",
+    "12-round contiguous ledger and genuine-convergence evidence",
+    "all three faithful families at all three matched budgets",
+    "real run provenance and config identity",
+    "implementation and manifest hashes",
+    "benchmark totals, peak memory, output video hashes, and ffprobe validity",
+    "three distinct points with strictly increasing speedups",
+    "9 of 9 cache-controller CPU tests"
+  ],
+  "partial": [
+    "fixed-prompt visual ranking does not establish multi-prompt generalization",
+    "immutable wrapper total_s inherits the disclosed one-step-warmup variance caveat"
+  ],
+  "not_run": [
+    "archived five-prompt validation set",
+    "archived independent blind-review node",
+    "LPIPS re-verification",
+    "VBench"
+  ],
+  "next_gate": "small multi-prompt sanity for near-final winners, then integrated smoke"
+}

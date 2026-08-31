@@ -1,0 +1,174 @@
+{
+  "schema_version": 2,
+  "status": "complete",
+  "component": "cache",
+  "model_id": "sana_video_2b_h100",
+  "baseline": {
+    "total_s": 61.7,
+    "peak_memory_mib": 17770.0,
+    "run_dir": "/home/jiangzhikun/yongyan_liu/Experiments/SolAgent/20260831-sana-video-2b-full-exploration/artifacts/baseline/sana2b-baseline_bl-0001/worktree/runs/20260831-091727-sana_video_2b_h100_dense_baseline-formal-dense-retry3",
+    "timing_scope": "warm_single_prompt_gen.generate_including_text_encoder_denoise_vae_decode_and_video_write_excluding_model_load_and_one_step_warmup",
+    "lock_sha256": "3fdafdf00554ae4bafc91bc7729c3ba3e96af4edebac809782e6d6122ed23954"
+  },
+  "implementation_package": {
+    "files": [
+      "external/sol_runtime/python/sglang/multimodal_gen/runtime/cache/sana_video_cache.py",
+      "external/sol_runtime/python/sglang/multimodal_gen/runtime/models/dits/sana_video.py",
+      "external/sol_runtime/scripts/sana/sana_video_sglang_run.py",
+      "models/sana_video_2b_h100/baseline/gpu_infer.py"
+    ],
+    "build_smoke": {
+      "status": "passed",
+      "evidence": "evidence/cache/delivery_verification.json"
+    }
+  },
+  "frontier_points": [
+    {
+      "tier": "conservative",
+      "config_id": "sana2b_cache_r02_easy_t005_w3_s8_h2_confirm",
+      "run_dir": "runs/20260831-102004-sana2b_cache_r02_easy_t005_w3_s8_h2_confirm-cache-r02",
+      "activation": {
+        "env": {
+          "SANA_CACHE_FAMILY": "easycache",
+          "SANA_CACHE_THRESHOLD": "0.05",
+          "SANA_CACHE_WARMUP": "3",
+          "SANA_CACHE_START": "0",
+          "SANA_CACHE_END": "49",
+          "SANA_CACHE_SUBSAMPLE": "8",
+          "SANA_CACHE_MAX_HITS": "2"
+        }
+      },
+      "implementation_manifest": {
+        "path": "config/sana_video_2b_h100/cache/easy_r02_t005_w3_s8_h2_confirm.toml",
+        "sha256": "cd460fc1ffa79a0891cf878611086290a1d6745bd5afe28f2047225b39a6ff2d"
+      },
+      "performance": {
+        "frontier_axis": "latency",
+        "baseline_total_s": 61.7,
+        "config_total_s": 46.2,
+        "speedup": 1.3354978354978355,
+        "peak_memory_mib": 17770.0,
+        "cache_hits": 9,
+        "computed_steps": 41
+      },
+      "quality": {
+        "mode": "quality_gated_lightweight",
+        "lpips_max": null,
+        "lpips_mean": null,
+        "visual_overall": "pass",
+        "visual_verdict": "runs/20260831-102004-sana2b_cache_r02_easy_t005_w3_s8_h2_confirm-cache-r02/outputs/visual_verdict.json",
+        "relation": "bounded_tie_or_leader_on_fixed_prompt",
+        "max_artifact_severity": "low",
+        "scope": "approved fixed-prompt first/middle/last screen; LPIPS not used"
+      },
+      "artifacts": [
+        "runs/20260831-102004-sana2b_cache_r02_easy_t005_w3_s8_h2_confirm-cache-r02/outputs/out.mp4",
+        "runs/20260831-102004-sana2b_cache_r02_easy_t005_w3_s8_h2_confirm-cache-r02/outputs/frames",
+        "runs/20260831-102004-sana2b_cache_r02_easy_t005_w3_s8_h2_confirm-cache-r02/outputs/assess_verdict.json",
+        "runs/20260831-102004-sana2b_cache_r02_easy_t005_w3_s8_h2_confirm-cache-r02/outputs/visual_verdict.json",
+        "runs/20260831-102004-sana2b_cache_r02_easy_t005_w3_s8_h2_confirm-cache-r02/outputs/benchmark.json"
+      ]
+    },
+    {
+      "tier": "balanced",
+      "config_id": "sana2b_cache_r12_easy_t010_w3_s8_h2_balanced",
+      "run_dir": "runs/20260831-135723-sana2b_cache_r12_easy_t010_w3_s8_h2_balanced-cache-r12",
+      "activation": {
+        "env": {
+          "SANA_CACHE_FAMILY": "easycache",
+          "SANA_CACHE_THRESHOLD": "0.10",
+          "SANA_CACHE_WARMUP": "3",
+          "SANA_CACHE_START": "0",
+          "SANA_CACHE_END": "49",
+          "SANA_CACHE_SUBSAMPLE": "8",
+          "SANA_CACHE_MAX_HITS": "2"
+        }
+      },
+      "implementation_manifest": {
+        "path": "config/sana_video_2b_h100/cache/easy_r12_t010_w3_s8_h2_balanced.toml",
+        "sha256": "bf4a2a71ae0d4f71c65b7ff76cb891809821a1561063c5ba194de926c4d52987"
+      },
+      "performance": {
+        "frontier_axis": "latency",
+        "baseline_total_s": 61.7,
+        "config_total_s": 38.8,
+        "speedup": 1.5902061855670102,
+        "peak_memory_mib": 17770.0,
+        "cache_hits": 17,
+        "computed_steps": 33
+      },
+      "quality": {
+        "mode": "quality_gated_lightweight",
+        "lpips_max": null,
+        "lpips_mean": null,
+        "visual_overall": "pass",
+        "visual_verdict": "runs/20260831-135723-sana2b_cache_r12_easy_t010_w3_s8_h2_balanced-cache-r12/outputs/visual_verdict.json",
+        "relation": "clear_fixed_prompt_matched_band_winner",
+        "max_artifact_severity": "low",
+        "scope": "approved fixed-prompt first/middle/last screen; LPIPS not used"
+      },
+      "artifacts": [
+        "runs/20260831-135723-sana2b_cache_r12_easy_t010_w3_s8_h2_balanced-cache-r12/outputs/out.mp4",
+        "runs/20260831-135723-sana2b_cache_r12_easy_t010_w3_s8_h2_balanced-cache-r12/outputs/frames",
+        "runs/20260831-135723-sana2b_cache_r12_easy_t010_w3_s8_h2_balanced-cache-r12/outputs/assess_verdict.json",
+        "runs/20260831-135723-sana2b_cache_r12_easy_t010_w3_s8_h2_balanced-cache-r12/outputs/visual_verdict.json",
+        "runs/20260831-135723-sana2b_cache_r12_easy_t010_w3_s8_h2_balanced-cache-r12/outputs/benchmark.json"
+      ]
+    },
+    {
+      "tier": "aggressive",
+      "config_id": "sana2b_cache_r09_easy_t025_w3_s8_h2_aggressive_matched",
+      "run_dir": "runs/20260831-132823-sana2b_cache_r09_easy_t025_w3_s8_h2_aggressive_matched-cache-r09",
+      "activation": {
+        "env": {
+          "SANA_CACHE_FAMILY": "easycache",
+          "SANA_CACHE_THRESHOLD": "0.25",
+          "SANA_CACHE_WARMUP": "3",
+          "SANA_CACHE_START": "0",
+          "SANA_CACHE_END": "49",
+          "SANA_CACHE_SUBSAMPLE": "8",
+          "SANA_CACHE_MAX_HITS": "2"
+        }
+      },
+      "implementation_manifest": {
+        "path": "config/sana_video_2b_h100/cache/easy_r09_t025_w3_s8_h2_aggressive_matched.toml",
+        "sha256": "7eb762bb1c6334b41509e84f10da2c330347153d34ce8926a90fb38a91941219"
+      },
+      "performance": {
+        "frontier_axis": "latency",
+        "baseline_total_s": 61.7,
+        "config_total_s": 28.4,
+        "speedup": 2.172535211267606,
+        "peak_memory_mib": 17770.0,
+        "cache_hits": 29,
+        "computed_steps": 21
+      },
+      "quality": {
+        "mode": "quality_gated_lightweight",
+        "lpips_max": null,
+        "lpips_mean": null,
+        "visual_overall": "pass_with_tradeoff",
+        "visual_verdict": "runs/20260831-132823-sana2b_cache_r09_easy_t025_w3_s8_h2_aggressive_matched-cache-r09/outputs/visual_verdict.json",
+        "relation": "tentative_fixed_prompt_edge_or_tie_with_teacache",
+        "max_artifact_severity": "medium",
+        "scope": "approved fixed-prompt first/middle/last screen; LPIPS not used"
+      },
+      "artifacts": [
+        "runs/20260831-132823-sana2b_cache_r09_easy_t025_w3_s8_h2_aggressive_matched-cache-r09/outputs/out.mp4",
+        "runs/20260831-132823-sana2b_cache_r09_easy_t025_w3_s8_h2_aggressive_matched-cache-r09/outputs/frames",
+        "runs/20260831-132823-sana2b_cache_r09_easy_t025_w3_s8_h2_aggressive_matched-cache-r09/outputs/assess_verdict.json",
+        "runs/20260831-132823-sana2b_cache_r09_easy_t025_w3_s8_h2_aggressive_matched-cache-r09/outputs/visual_verdict.json",
+        "runs/20260831-132823-sana2b_cache_r09_easy_t025_w3_s8_h2_aggressive_matched-cache-r09/outputs/benchmark.json"
+      ]
+    }
+  ],
+  "pareto_assessment": "Nondominated under the approved fixed-prompt lightweight screen: exactly three distinct EasyCache points at matched conservative, balanced, and aggressive budgets, selected only after all three cache families were measured at each tier; speedups strictly increase.",
+  "verification": {
+    "status": "passed_relaxed_protocol",
+    "draft": "DELIVERY-DRAFT.json",
+    "receipt": "evidence/cache/delivery_verification.json",
+    "official_verify_delivery": "not_run_by_design_because_it_reimposes_archived_lpips_gate",
+    "pending": "master-owned small multi-prompt sanity before final integrated claim"
+  },
+  "published_by": "primary_integrator_after_executor_delivery_timeout"
+}
