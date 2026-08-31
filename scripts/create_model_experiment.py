@@ -109,7 +109,14 @@ def sorted_unique(paths: list[Path]) -> list[Path]:
 
 def expand_include(root: Path, pattern: str) -> list[Path]:
     pattern = validate_repo_relative_pattern(pattern)
-    if has_glob_magic(pattern):
+    # pathlib's trailing ``/**`` glob yields the directory itself on current
+    # Python rather than its files. Archived model contracts use this form to
+    # mean a recursive directory copy, so preserve that contract explicitly.
+    recursive_dir = pattern[:-3] if pattern.endswith("/**") else ""
+    if recursive_dir and not has_glob_magic(recursive_dir):
+        path = root / recursive_dir
+        matches = [config for config in path.rglob("*") if config.is_file()]
+    elif has_glob_magic(pattern):
         matches = [path for path in root.glob(pattern) if path.is_file()]
     else:
         path = root / pattern
