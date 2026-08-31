@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "component": "kernel",
+  "round": 17,
+  "status": "passed",
+  "scope": "authenticity_only",
+  "run_dir": "runs/20260831-164343-sana_video_2b_h100_kernel_r17_packed_qknorm_relu_paired_rope_confirm-r17-packed-qknorm-relu-rope-confirm",
+  "video": {
+    "path": "runs/20260831-164343-sana_video_2b_h100_kernel_r17_packed_qknorm_relu_paired_rope_confirm-r17-packed-qknorm-relu-rope-confirm/outputs/out.mp4",
+    "sha256": "37e4b053e0d083ca537eaeaca066e88aba1e51f5ee6932c567c3afdd044dc78b",
+    "bytes": 522180,
+    "width": 832,
+    "height": 480,
+    "frames": 81,
+    "fps": 16.0,
+    "duration_s": 5.0625
+  },
+  "frames": [
+    {
+      "position": "first",
+      "path": "runs/20260831-164343-sana_video_2b_h100_kernel_r17_packed_qknorm_relu_paired_rope_confirm-r17-packed-qknorm-relu-rope-confirm/outputs/frames/frame_01.png",
+      "sha256": "5cdc687da97cb70cc12359f83e2e78d4fcbf46570b20b671f30b16c4d003544b",
+      "bytes": 642654
+    },
+    {
+      "position": "middle",
+      "path": "runs/20260831-164343-sana_video_2b_h100_kernel_r17_packed_qknorm_relu_paired_rope_confirm-r17-packed-qknorm-relu-rope-confirm/outputs/frames/frame_02.png",
+      "sha256": "d8a25a823e66367949da770cd61cb6735cc40529f6ba8734adcdc2742e593b8d",
+      "bytes": 709236
+    },
+    {
+      "position": "last",
+      "path": "runs/20260831-164343-sana_video_2b_h100_kernel_r17_packed_qknorm_relu_paired_rope_confirm-r17-packed-qknorm-relu-rope-confirm/outputs/frames/frame_03.png",
+      "sha256": "e93fd9a08545f85e04bd182d35c1b719422495efd36cccb496ab4b928528339f",
+      "bytes": 647729
+    }
+  ],
+  "inspection": {
+    "observed": "The video and all three sampled frames are byte-identical to manually inspected Round 16, confirming deterministic output for the identical candidate.",
+    "excluded": "Lightweight authenticity inspection only; no VBench, LPIPS, blind comparison, independent validator, or quality-improvement claim."
+  },
+  "hash_interpretation": "Byte identity to Round 16 confirms repeatability under the frozen seed, prompt, model, source, and environment."
+}

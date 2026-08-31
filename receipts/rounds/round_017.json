@@ -1,0 +1,143 @@
+{
+  "schema_version": 1,
+  "component": "kernel",
+  "round": 17,
+  "hypothesis": "Repeat the exact Round 16 packed Q/K RMSNorm, BF16 ReLU, paired RoPE, QKV, block-epilogue, and norm-modulation candidate under the frozen workload to confirm the latency frontier.",
+  "session": {
+    "agent_id": "/root/sol_video_reproducer",
+    "prompt_sha256": "b406128240c2e097550aa62333aa8ef2a85d5e45540c9c65b49aefa260a08072",
+    "handoff": "Primary continued the recovered Kernel Executor contract after the bounded child handoff."
+  },
+  "provenance": {
+    "baseline_sha256": "3fdafdf00554ae4bafc91bc7729c3ba3e96af4edebac809782e6d6122ed23954",
+    "parent_sha": "a1abea9506008508c3c5dfc492735e33447543a4",
+    "candidate_commit": "b884348d77b271b1def26b88f4153a6b49563f2d",
+    "confirmation_config_commit": "590024eb48e2a56eeed35dc2bcee13a10b628ff6",
+    "repeat_of_round": 16,
+    "config_path": "config/sana_video_2b_h100/kernel_r17_packed_qknorm_relu_paired_rope_confirm.toml",
+    "config_sha256": "f151d5c69683f114855ccb85f0fb44ff7c73abd358d64a635b8118016f39994b",
+    "implementation_path": "external/sol_runtime/python/sglang/multimodal_gen/runtime/models/dits/sana_video.py",
+    "implementation_sha256": "ef1ca5bc656a539d05e23a7a6148ee5577ed1d6505259dad2b48f59bf3f6c14e",
+    "kernel_source_path": "external/sol_runtime/python/sglang/jit_kernel/diffusion/triton/sana_rope.py",
+    "kernel_source_sha256": "94ce53785f6a0afd6505bd06cfaeafc528a5870ed618074811ad9f367c7c7c3b",
+    "semantics_receipt_path": "receipts/preflight/round_016_fused_qknorm_relu_rope_semantics.json",
+    "semantics_receipt_sha256": "b8015916fbf3c9e9ef1aca657d151c65a3c203a248531c4d2304efb47dcdc376",
+    "probe_result_path": "receipts/preflight/round_016_fused_qknorm_relu_rope_impl_probe.json",
+    "probe_result_sha256": "b73a9f3d20f6205eed74087dd04f4206d25c8a52d2868a1e920ba7f992cde59a",
+    "authenticity_receipt_path": "receipts/rounds/round_017_authenticity.json",
+    "authenticity_receipt_sha256": "d12341ddb955bf94c1d9bffb369bc8dd7907a6d0bc10e74a0fc6171bda7c4602",
+    "genuinely_different_hypothesis": false
+  },
+  "build": {
+    "status": "passed",
+    "marker": "BUILD_OK (compile=False, warmup=True)",
+    "transformer_load_dtype": "torch.bfloat16",
+    "resident_transformer_size_gb": 3.83,
+    "consumed_gpu_memory_after_transformer_load_gb": 4.57,
+    "preflight": {
+      "status": "reused_from_round_16_exact_candidate_confirmation",
+      "formal_packed_shape": [1, 32760, 6720],
+      "qk_view_stride": [220147200, 6720, 1],
+      "q_relu_max_abs_bf16": 0.015625,
+      "k_relu_max_abs_bf16": 0.015625,
+      "q_rotate_max_abs_bf16": 0.03125,
+      "k_rotate_max_abs_bf16": 0.03125
+    },
+    "note": "The exact Round 16 source, environment knobs, workload, model snapshot, and GPU lease were repeated unchanged. Formal build passed; optional DeepGEMM remained non-fatal."
+  },
+  "run": {
+    "status": "validated",
+    "command": "/home/jiangzhikun/yongyan_liu/Experiments/SolAgent/20260827-official-repro/envs/sana-cu128-phase0/bin/python scripts/launch_config.py config/sana_video_2b_h100/kernel_r17_packed_qknorm_relu_paired_rope_confirm.toml --mode local --run-root runs --name-suffix r17-packed-qknorm-relu-rope-confirm",
+    "cwd": "/home/jiangzhikun/yongyan_liu/Experiments/SolAgent/20260831-sana-video-2b-full-exploration/artifacts/executors/sana2b-kernel_aw-0001/worktree",
+    "run_dir": "runs/20260831-164343-sana_video_2b_h100_kernel_r17_packed_qknorm_relu_paired_rope_confirm-r17-packed-qknorm-relu-rope-confirm",
+    "gpu_uuid": "GPU-847305ce-670b-91ee-e0a9-aa3b7833df23",
+    "returncode": 0,
+    "baseline_total_s": 61.7,
+    "total_s": 40.7,
+    "log_total_s": 40.67,
+    "single_run_speedup": 1.515970515970516,
+    "process_wall_s": 84.99635143717751,
+    "warmup_request_s": 5.23,
+    "warmed_request_s": 34.49,
+    "denoising_s": 31.0058,
+    "denoising_average_per_step_s": 0.6201,
+    "text_encoding_s": 0.3689,
+    "decoding_s": 3.1088,
+    "peak_memory_mib": 17504,
+    "nvidia_smi_sampled_peak_mib": 23055,
+    "baseline_peak_memory_mib": 17770,
+    "round3_memory_frontier_mib": 16814,
+    "round16_round17_confirmation": {
+      "total_samples_s": [41.2, 40.7],
+      "total_median_s": 40.95,
+      "total_median_speedup_vs_baseline": 1.5067155067155067,
+      "total_median_improvement_vs_round13_round14_percent": 2.2673031026252883,
+      "warmup_samples_s": [5.76, 5.23],
+      "warmup_median_s": 5.495,
+      "warmed_request_samples_s": [34.49, 34.49],
+      "warmed_request_median_s": 34.49,
+      "denoising_samples_s": [31.0061, 31.0058],
+      "denoising_median_s": 31.00595,
+      "peak_memory_samples_mib": [17504, 17504],
+      "interpretation": "The identical confirmation reproduces the candidate: warmed-request and denoising timings are effectively identical, output bytes match, and peak memory is unchanged. The controlling total differs only through the outer one-step warmup envelope."
+    },
+    "timing_scope": "warm_single_prompt_gen.generate_including_text_encoder_denoise_vae_decode_and_video_write_excluding_model_load_and_one_step_warmup",
+    "timing_scope_caveat": "The legacy label says warmup excluded, but controlling total_s empirically includes one-step warmup. Selection uses total_s exactly as frozen; internal stages are supporting evidence only.",
+    "benchmark_sha256": "ac1f2aedc5016319dd00187b97292fa65877aac911216b1fbbfabbbb5472a4a4",
+    "collection_sha256": "ff8976cd27196a2b94c2913e38019676caeaeb2843d4fc888c39e1d53f6bac3a",
+    "quality_sha256": "ab67c0ec036dee89490935aeec1a7b9754b42854cdfa47cc2317d324a43a8ba7",
+    "run_config_sha256": "942d9729fb4e86ead841a6d52dad181368e25d35e618b45fb157be2830d867b3",
+    "log_sha256": "a5e682faa8894add1353212cace248b91d68930ab2e3bc50cd4a5c5cee403f88",
+    "launch_sha256": "6180e28478d6f10e0d9f6d9d36937affcdbe82863766871cc2fb16c23b9ad5a3",
+    "manifest_sha256": "57ec12d84358deeed0eab0113cfb90a995b5bdc97e5af1782242db27d770b197",
+    "assessment": {
+      "collector_status": "VALIDATED",
+      "independent_validator_status": "not_invoked_by_approved_protocol",
+      "tool_limitation": "Frozen receipts, ffprobe, byte identity to inspected Round 16, and source gates control. No quality comparison or independent validator was run."
+    }
+  },
+  "validity": {
+    "status": "validated",
+    "method_semantics": "This is an exact repeat of Round 16. Learned Q/K RMSNorm, BF16 ReLU outputs used by z, paired rotations used by matmuls, attention operations, logical calls, tokens, CFG branches, and denoising steps are unchanged.",
+    "structural_invariants": {
+      "denoising_steps": 50,
+      "cfg_branches_per_step": 2,
+      "logical_dit_calls": 100,
+      "transformer_blocks_per_call": 20,
+      "linear_attention_invocations": 2000,
+      "cross_attention_invocations": 2000,
+      "glumb_invocations": 2000,
+      "skipped_or_reused_model_work": 0,
+      "world_size": 1
+    },
+    "rounding_evidence": {
+      "bit_identity_claimed_to_native": false,
+      "formal_qk_relu_max_abs_bf16": 0.015625,
+      "formal_rotated_qk_max_abs_bf16": 0.03125,
+      "interpretation": "R17 is byte-identical to R16, confirming deterministic output for the identical candidate under the admitted learned-RMSNorm and fusion-boundary rounding contract."
+    },
+    "video": {
+      "path": "runs/20260831-164343-sana_video_2b_h100_kernel_r17_packed_qknorm_relu_paired_rope_confirm-r17-packed-qknorm-relu-rope-confirm/outputs/out.mp4",
+      "sha256": "37e4b053e0d083ca537eaeaca066e88aba1e51f5ee6932c567c3afdd044dc78b",
+      "bytes": 522180,
+      "width": 832,
+      "height": 480,
+      "frames": 81,
+      "fps": 16,
+      "duration_s": 5.0625
+    },
+    "frames": [
+      {"path": "runs/20260831-164343-sana_video_2b_h100_kernel_r17_packed_qknorm_relu_paired_rope_confirm-r17-packed-qknorm-relu-rope-confirm/outputs/frames/frame_01.png", "sha256": "5cdc687da97cb70cc12359f83e2e78d4fcbf46570b20b671f30b16c4d003544b"},
+      {"path": "runs/20260831-164343-sana_video_2b_h100_kernel_r17_packed_qknorm_relu_paired_rope_confirm-r17-packed-qknorm-relu-rope-confirm/outputs/frames/frame_02.png", "sha256": "d8a25a823e66367949da770cd61cb6735cc40529f6ba8734adcdc2742e593b8d"},
+      {"path": "runs/20260831-164343-sana_video_2b_h100_kernel_r17_packed_qknorm_relu_paired_rope_confirm-r17-packed-qknorm-relu-rope-confirm/outputs/frames/frame_03.png", "sha256": "e93fd9a08545f85e04bd182d35c1b719422495efd36cccb496ab4b928528339f"}
+    ],
+    "visual_note": "The video and sampled frames are byte-identical to manually inspected Round 16; no additional quality gate is claimed."
+  },
+  "decision": {
+    "outcome": "retain",
+    "frontier_status": "confirmed_latency_frontier",
+    "plateau_eligible": false,
+    "post_best_distinct_no_improvement_count": 0,
+    "reason": "R17 confirms the exact Round 16 candidate at 40.7 seconds. The R16/R17 frozen-total median is 40.95 seconds, 2.27% below the prior confirmed frontier, with a stable 34.49-second warmed request and 31.00595-second denoising median, identical output, and unchanged peak. Retain the packed Q/K fusion as latency frontier, preserve Round 3 as memory frontier, and keep the distinct-miss counter at zero because R17 is a non-distinct confirmation."
+  }
+}
