@@ -9,6 +9,17 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
+from .quality_contract import (
+    EXCLUDED_CACHE_IDS,
+    FORMAL_CACHE_IDS,
+    MAX_MEAN_RELATIVE_DROP,
+    MAX_SINGLE_DIMENSION_DROP,
+    QUALITY_DIMENSIONS,
+    QUALITY_METRICS_BY_SUITE,
+    QUALITY_SEEDS,
+    VBENCH_REF,
+)
+
 
 REQUIRED_FILES = {
     "suite.json",
@@ -262,18 +273,51 @@ def _validate_quality(quality: dict[str, Any]) -> None:
     excluded = quality.get("excluded_cache_candidates")
     if not isinstance(formal, list) or not isinstance(excluded, dict):
         raise SuiteValidationError("quality protocol candidate partition is missing")
-    all_cache = {f"C{number:02d}" for number in range(1, 13)}
-    if set(formal) & set(excluded) or set(formal) | set(excluded) != all_cache:
+    if formal != list(FORMAL_CACHE_IDS) or excluded != dict(EXCLUDED_CACHE_IDS):
         raise SuiteValidationError("quality candidate partition must cover C01-C12 exactly")
     prompt_suites = quality.get("prompt_selection", {}).get("prompt_suites", [])
     seeds = quality.get("seeds", [])
-    if len(prompt_suites) != 4 or len(seeds) != 2 or len(prompt_suites) * len(seeds) != 8:
+    if len(prompt_suites) != len(QUALITY_METRICS_BY_SUITE) or seeds != list(QUALITY_SEEDS):
         raise SuiteValidationError("quality protocol must freeze 4 prompts x 2 seeds = 8 matched pairs")
     if quality.get("matched_pairs_per_candidate") != 8:
         raise SuiteValidationError("matched_pairs_per_candidate must equal 8")
+    if quality.get("dimensions") != list(QUALITY_DIMENSIONS):
+        raise SuiteValidationError("quality protocol must map exactly seven dimensions")
     metric_union = {metric for prompt in prompt_suites for metric in prompt.get("metrics", [])}
     if metric_union != set(quality.get("dimensions", [])) or len(metric_union) != 7:
         raise SuiteValidationError("quality protocol must map exactly seven dimensions")
+    suites = {str(prompt.get("suite")): prompt for prompt in prompt_suites}
+    if set(suites) != set(QUALITY_METRICS_BY_SUITE):
+        raise SuiteValidationError("quality prompt suites do not match the frozen protocol")
+    for suite, expected_metrics in QUALITY_METRICS_BY_SUITE.items():
+        prompt = suites[suite]
+        if prompt.get("metrics") != list(expected_metrics):
+            raise SuiteValidationError(f"quality metric mapping mismatch for {suite}")
+        source_path = prompt.get("source_path")
+        prompt_text = prompt.get("prompt")
+        if not isinstance(source_path, str) or not isinstance(prompt_text, str):
+            raise SuiteValidationError(f"quality prompt specification is incomplete for {suite}")
+        selection_digest = _sha256(source_path.encode("utf-8") + b"\0" + prompt_text.encode("utf-8"))
+        if prompt.get("selection_sha256") != selection_digest:
+            raise SuiteValidationError(f"prompt selection digest mismatch for {suite}")
+    acceptance = quality.get("acceptance")
+    expected_acceptance = {
+        "comparison": "candidate relative drop from matched dense output",
+        "max_mean_relative_drop": MAX_MEAN_RELATIVE_DROP,
+        "max_single_dimension_drop": MAX_SINGLE_DIMENSION_DROP,
+        "both_thresholds_required": True,
+    }
+    if acceptance != expected_acceptance:
+        raise SuiteValidationError("quality acceptance contract mismatch")
+    if quality.get("vbench", {}).get("git_ref") != VBENCH_REF:
+        raise SuiteValidationError("quality VBench revision mismatch")
+    if quality.get("lpips") != {
+        "frames": 81,
+        "alignment": "all corresponding decoded frames",
+        "role": "secondary_ranking_only",
+        "hard_threshold": None,
+    }:
+        raise SuiteValidationError("quality LPIPS contract mismatch")
 
 
 def validate_suite_directory(
@@ -325,6 +369,20 @@ def validate_suite_directory(
         raise SuiteValidationError("suite.json counts do not match the v0 contract")
     if suite.get("ordering", {}).get("global_fifo_rule") != "round_robin_K_then_C_through_round_12_then_K13_to_K23":
         raise SuiteValidationError("suite ordering rule mismatch")
+    structural_workload = {
+        "denoising_steps": 50,
+        "cfg_branches_per_step": 2,
+        "logical_dit_calls": 100,
+        "transformer_blocks_per_call": 20,
+    }
+    workload = suite.get("workload", {})
+    if any(workload.get(field) != value for field, value in structural_workload.items()):
+        raise SuiteValidationError("workload contract mismatch")
+    if suite.get("frontier_contracts") != {
+        "legacy_oracle": {"kernel": "K20", "cache": "C12"},
+        "quality_v1": {"winner": None, "must_be_derived_from_quality_protocol": True},
+    }:
+        raise SuiteValidationError("frontier contract mismatch")
 
     artifact_rows = artifacts.get("artifacts")
     if not isinstance(artifact_rows, list) or not artifact_rows:

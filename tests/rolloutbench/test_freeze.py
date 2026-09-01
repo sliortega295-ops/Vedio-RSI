@@ -167,6 +167,23 @@ class FreezeSuiteTests(unittest.TestCase):
             with self.assertRaisesRegex(SuiteValidationError, "duplicate episode_id"):
                 validate_suite_directory(output)
 
+    def test_validator_rejects_mutated_runtime_and_frontier_contracts(self) -> None:
+        mutators = {
+            "workload contract": lambda suite: suite["workload"].update(denoising_steps=49),
+            "frontier contract": lambda suite: suite["frontier_contracts"]["legacy_oracle"].update(cache="C11"),
+        }
+        for expected_error, mutate in mutators.items():
+            with self.subTest(expected_error=expected_error), tempfile.TemporaryDirectory() as output_dir:
+                output = Path(output_dir)
+                freeze_suite(output, repo_root=REPO_ROOT)
+                suite = _json(output / "suite.json")
+                mutate(suite)
+                (output / "suite.json").write_text(
+                    json.dumps(suite, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+                )
+                with self.assertRaisesRegex(SuiteValidationError, expected_error):
+                    validate_suite_directory(output, repo_root=REPO_ROOT)
+
     def test_fifo_dependencies_validation_and_git_blob_closure(self) -> None:
         with tempfile.TemporaryDirectory() as output_dir:
             output = Path(output_dir)
@@ -239,6 +256,8 @@ class FreezeSuiteTests(unittest.TestCase):
             "probe source Git hash": lambda rows, quality: rows[14]["candidate"]["probe"]["source"].update(blob_sha256="0" * 64),
             "quality candidate partition": lambda rows, quality: quality["formal_cache_candidates"].remove("C12"),
             "4 prompts x 2 seeds": lambda rows, quality: quality["prompt_selection"]["prompt_suites"].pop(),
+            "quality acceptance contract": lambda rows, quality: quality["acceptance"].update(max_mean_relative_drop=0.05),
+            "prompt selection digest": lambda rows, quality: quality["prompt_selection"]["prompt_suites"][0].update(selection_sha256="0" * 64),
         }
         for expected_error, mutate in mutators.items():
             with self.subTest(expected_error=expected_error), tempfile.TemporaryDirectory() as output_dir:

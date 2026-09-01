@@ -7,6 +7,16 @@ import subprocess
 from pathlib import Path
 from typing import Any
 
+from .quality_contract import (
+    EXCLUDED_CACHE_IDS,
+    FORMAL_CACHE_IDS,
+    MAX_MEAN_RELATIVE_DROP,
+    MAX_SINGLE_DIMENSION_DROP,
+    QUALITY_DIMENSIONS,
+    QUALITY_METRICS_BY_SUITE,
+    QUALITY_SEEDS,
+    VBENCH_REF,
+)
 from .schema import validate_suite_directory
 
 
@@ -14,14 +24,15 @@ KERNEL_REF = "e8684f3fa9077d1387de44bbb0521a38ac6b7097"
 CACHE_REF = "e7cf11c877a91220af2f2ea2cc5e38000c0765f8"
 INTEGRATION_REF = "8b066889950b638b59b5703c39909b4ac0bf9cca"
 HARNESS_REF = "d2c6407cc9b9133f3fff49fe4b561f14980d3f8b"
-VBENCH_REF = "fd18b3d055cb0fc6f066ca90fe2c3c8cbb698490"
 MODEL_REVISION = "db5f398b13ca086d09a50ce156c20527773841b1"
 BASELINE_SHA256 = "3fdafdf00554ae4bafc91bc7729c3ba3e96af4edebac809782e6d6122ed23954"
 TRAJECTORY_PATH = "TRAJECTORY.jsonl"
 
 _REMOTE_ROOT = "/home/jiangzhikun/yongyan_liu/Experiments/SolAgent/20260831-sana-video-2b-full-exploration"
-_FORMAL_CACHE_ROUNDS = {2, 3, 4, 6, 7, 9, 10, 11, 12}
-_CACHE_EXCLUSIONS = {1: "provenance_failed", 5: "calibration_only", 8: "calibration_only"}
+_FORMAL_CACHE_ROUNDS = {int(candidate_id[1:]) for candidate_id in FORMAL_CACHE_IDS}
+_CACHE_EXCLUSIONS = {
+    int(candidate_id[1:]): reason for candidate_id, reason in EXCLUDED_CACHE_IDS.items()
+}
 _PREFLIGHT_ONLY_KERNEL_ROUNDS = {15, 18, 21, 23}
 
 
@@ -461,7 +472,7 @@ def _quality_protocol() -> dict[str, Any]:
             "selected_line_number_one_based": 3,
             "prompt": "a person washing the dishes",
             "selection_sha256": "0388d9179df4da12015f44777e6c56016d42bb83915d5e099e240703e0a1ab3f",
-            "metrics": ["subject_consistency", "motion_smoothness"],
+            "metrics": list(QUALITY_METRICS_BY_SUITE["subject_consistency"]),
         },
         {
             "suite": "scene",
@@ -470,7 +481,7 @@ def _quality_protocol() -> dict[str, Any]:
             "selected_line_number_one_based": 13,
             "prompt": "bedroom",
             "selection_sha256": "024d5d57f16e1c00291a5477cf75798fb9215703a64a1650b381a9b24a0725f9",
-            "metrics": ["background_consistency"],
+            "metrics": list(QUALITY_METRICS_BY_SUITE["scene"]),
         },
         {
             "suite": "temporal_flickering",
@@ -479,7 +490,7 @@ def _quality_protocol() -> dict[str, Any]:
             "selected_line_number_one_based": 2,
             "prompt": "a toilet, frozen in time",
             "selection_sha256": "04175c2dacc00b9a608873b11c815adb59ec4ed5e44b7238c08879536564e2d5",
-            "metrics": ["temporal_flickering"],
+            "metrics": list(QUALITY_METRICS_BY_SUITE["temporal_flickering"]),
         },
         {
             "suite": "overall_consistency",
@@ -488,7 +499,7 @@ def _quality_protocol() -> dict[str, Any]:
             "selected_line_number_one_based": 73,
             "prompt": "A cute fluffy panda eating Chinese food in a restaurant",
             "selection_sha256": "02369a8b9987de43da8a8a246f421a20211baea835a61e9d9cfc77c4d8c928a2",
-            "metrics": ["aesthetic_quality", "imaging_quality", "overall_consistency"],
+            "metrics": list(QUALITY_METRICS_BY_SUITE["overall_consistency"]),
         },
     ]
     return {
@@ -500,32 +511,20 @@ def _quality_protocol() -> dict[str, Any]:
             "git_ref": VBENCH_REF,
             "claim_boundary": "paper-inspired mini gate; not official full VBench",
         },
-        "formal_cache_candidates": ["C02", "C03", "C04", "C06", "C07", "C09", "C10", "C11", "C12"],
-        "excluded_cache_candidates": {
-            "C01": "provenance_failed",
-            "C05": "calibration_only",
-            "C08": "calibration_only",
-        },
+        "formal_cache_candidates": list(FORMAL_CACHE_IDS),
+        "excluded_cache_candidates": dict(EXCLUDED_CACHE_IDS),
         "prompt_selection": {
             "method": "For each source file, compute SHA256(utf8(source_relative_path) + NUL + utf8(exact_prompt_text)) for every nonempty line and select the lexicographically smallest digest.",
             "selected_before_candidate_scores": True,
             "prompt_suites": prompt_suites,
         },
-        "seeds": [42, 12345],
+        "seeds": list(QUALITY_SEEDS),
         "matched_pairs_per_candidate": 8,
-        "dimensions": [
-            "subject_consistency",
-            "motion_smoothness",
-            "background_consistency",
-            "temporal_flickering",
-            "aesthetic_quality",
-            "imaging_quality",
-            "overall_consistency",
-        ],
+        "dimensions": list(QUALITY_DIMENSIONS),
         "acceptance": {
             "comparison": "candidate relative drop from matched dense output",
-            "max_mean_relative_drop": 0.005,
-            "max_single_dimension_drop": 0.02,
+            "max_mean_relative_drop": MAX_MEAN_RELATIVE_DROP,
+            "max_single_dimension_drop": MAX_SINGLE_DIMENSION_DROP,
             "both_thresholds_required": True,
         },
         "lpips": {
