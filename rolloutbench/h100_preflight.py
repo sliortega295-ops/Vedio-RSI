@@ -12,6 +12,7 @@ import tomllib
 from dataclasses import dataclass
 from pathlib import Path, PurePosixPath
 from typing import Any, Callable, Mapping
+from urllib.parse import urlsplit
 
 from .schema import validate_suite_directory
 
@@ -19,6 +20,8 @@ from .schema import validate_suite_directory
 DEFAULT_PROFILE = Path("benchmarks/sana_video_2b_h100_v0/h100_profile.json")
 _DINO_REPOSITORY_URL = "https://github.com/facebookresearch/dino.git"
 _FULL_GIT_SHA_RE = re.compile(r"[0-9a-f]{40}\Z")
+_SHA256_RE = re.compile(r"[0-9a-f]{64}\Z")
+_REMOTE_QUERY_TIMEOUT_S = 600
 _MODEL_ENV_PATHS = {
     "python_bin": ("SANA_PYTHON_BIN", "file"),
     "dependency_overlay": ("SANA_DEPENDENCY_OVERLAY", "dir"),
@@ -246,24 +249,39 @@ def build_preflight_spec(
     weights = profile.get("vbench_weights")
     if not isinstance(weights, list) or len(weights) != 8:
         raise ValueError("H100 profile must declare exactly eight VBench weight assets")
-    normalized_weights: list[dict[str, str]] = []
+    normalized_weights: list[dict[str, Any]] = []
     seen_ids: set[str] = set()
     vbench_cache = path_values["vbench_cache_path"]
     for item in weights:
-        if not isinstance(item, dict):
+        if not isinstance(item, dict) or set(item) != {
+            "id", "relative_path", "sha256", "size_bytes", "source_url"
+        }:
             raise ValueError("VBench weight entry is malformed")
         asset_id = item.get("id")
         relative = item.get("relative_path")
+        digest = item.get("sha256")
+        size_bytes = item.get("size_bytes")
+        source_url = item.get("source_url")
+        parsed_source = urlsplit(source_url) if isinstance(source_url, str) else None
         relative_path = PurePosixPath(relative) if isinstance(relative, str) else None
         if (
             not isinstance(asset_id, str) or not asset_id or asset_id in seen_ids
             or relative_path is None or relative_path.is_absolute() or ".." in relative_path.parts
+            or not isinstance(digest, str) or not _SHA256_RE.fullmatch(digest)
+            or type(size_bytes) is not int or size_bytes <= 0
+            or parsed_source is None or parsed_source.scheme != "https"
+            or not parsed_source.hostname
         ):
-            raise ValueError("VBench weight IDs and relative paths must be unique and safe")
+            raise ValueError(
+                "VBench weight IDs, paths, SHA-256, sizes, and source URLs must be exact and safe"
+            )
         seen_ids.add(asset_id)
         normalized_weights.append({
             "id": asset_id,
             "path": str(PurePosixPath(vbench_cache) / relative_path),
+            "sha256": digest,
+            "size_bytes": size_bytes,
+            "source_url": source_url,
         })
 
     return {
@@ -310,6 +328,7 @@ def _remote_script(spec: Mapping[str, Any]) -> str:
     ).decode("ascii")
     return f'''import base64
 import datetime
+import hashlib
 import json
 import os
 import socket
@@ -330,6 +349,13 @@ def path_receipt(item):
     exists = os.path.exists(path)
     matches = os.path.isfile(path) if expected_type == "file" else os.path.isdir(path)
     return {{"path": path, "expected_type": expected_type, "exists": exists, "type_matches": matches}}
+
+def file_sha256(path):
+    digest = hashlib.sha256()
+    with open(path, "rb") as handle:
+        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
 
 storage_path = SPEC["persistent_path"]
 mount_rc, mount_out, mount_err = run(["findmnt", "-n", "-T", storage_path, "-o", "TARGET,SOURCE,FSTYPE"])
@@ -400,6 +426,7 @@ for item in SPEC["vbench_weights"]:
         "id": item["id"], "path": path, "exists": exists, "is_file": is_file,
         "readable": os.access(path, os.R_OK) if exists else False,
         "size_bytes": os.path.getsize(path) if is_file else 0,
+        "sha256": file_sha256(path) if is_file else None,
     }})
 
 dino_spec = SPEC["dino_source"]
@@ -500,7 +527,12 @@ print(json.dumps(payload, sort_keys=True))
 
 def _default_command_runner(argv: list[str], stdin: str) -> CommandResult:
     result = subprocess.run(
-        argv, input=stdin, text=True, capture_output=True, check=False, timeout=120
+        argv,
+        input=stdin,
+        text=True,
+        capture_output=True,
+        check=False,
+        timeout=_REMOTE_QUERY_TIMEOUT_S,
     )
     return CommandResult(result.returncode, result.stdout, result.stderr)
 
@@ -647,7 +679,8 @@ def _evaluate(spec: Mapping[str, Any], observation: Any) -> dict[str, Any]:
         if (
             row.get("path") != expected["path"] or row.get("exists") is not True
             or row.get("is_file") is not True or row.get("readable") is not True
-            or type(row.get("size_bytes")) is not int or row.get("size_bytes", 0) <= 0
+            or row.get("size_bytes") != expected["size_bytes"]
+            or row.get("sha256") != expected["sha256"]
         ):
             quality_errors.append(f'VBench weight {expected["id"]} is missing or invalid')
     if set(weights_by_id) != {item["id"] for item in spec["vbench_weights"]}:

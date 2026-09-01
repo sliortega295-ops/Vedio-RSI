@@ -18,13 +18,61 @@
   "vbench_cache_path": "/home/jiangzhikun/yongyan_liu/Experiments/SolRolloutBench/20260901-v0/cache/vbench",
   "vbench_source_path": "/home/jiangzhikun/yongyan_liu/Experiments/SolRolloutBench/20260901-v0/sources/VBench",
   "vbench_weights": [
-    {"id": "subject_dino_vitb16", "relative_path": "dino_model/dino_vitbase16_pretrain.pth"},
-    {"id": "background_clip_vit_b32", "relative_path": "clip_model/ViT-B-32.pt"},
-    {"id": "motion_amt_s", "relative_path": "amt_model/amt-s.pth"},
-    {"id": "aesthetic_clip_vit_l14", "relative_path": "clip_model/ViT-L-14.pt"},
-    {"id": "aesthetic_linear", "relative_path": "aesthetic_model/emb_reader/sa_0_4_vit_l_14_linear.pth"},
-    {"id": "imaging_musiq_spaq", "relative_path": "pyiqa_model/musiq_spaq_ckpt-358bb6af.pth"},
-    {"id": "overall_viclip", "relative_path": "ViCLIP/ViClip-InternVid-10M-FLT.pth"},
-    {"id": "overall_viclip_tokenizer", "relative_path": "ViCLIP/bpe_simple_vocab_16e6.txt.gz"}
+    {
+      "id": "subject_dino_vitb16",
+      "relative_path": "dino_model/dino_vitbase16_pretrain.pth",
+      "sha256": "bf34ad0f424b9029b593e8dc3ed553bf26e88bcba0d32bf3e62a6209cb64c85e",
+      "size_bytes": 343242485,
+      "source_url": "https://dl.fbaipublicfiles.com/dino/dino_vitbase16_pretrain/dino_vitbase16_pretrain.pth"
+    },
+    {
+      "id": "background_clip_vit_b32",
+      "relative_path": "clip_model/ViT-B-32.pt",
+      "sha256": "40d365715913c9da98579312b702a82c18be219cc2a73407c4526f58eba950af",
+      "size_bytes": 353976522,
+      "source_url": "https://openaipublic.azureedge.net/clip/models/40d365715913c9da98579312b702a82c18be219cc2a73407c4526f58eba950af/ViT-B-32.pt"
+    },
+    {
+      "id": "motion_amt_s",
+      "relative_path": "amt_model/amt-s.pth",
+      "sha256": "07e7e03405c213fe4405678db9b42d05671e48c56faf6a441b99bb0047d3cf77",
+      "size_bytes": 12038359,
+      "source_url": "https://huggingface.co/lalala125/AMT/resolve/main/amt-s.pth"
+    },
+    {
+      "id": "aesthetic_clip_vit_l14",
+      "relative_path": "clip_model/ViT-L-14.pt",
+      "sha256": "b8cca3fd41ae0c99ba7e8951adf17d267cdb84cd88be6f7c2e0eca1737a03836",
+      "size_bytes": 932768134,
+      "source_url": "https://openaipublic.azureedge.net/clip/models/b8cca3fd41ae0c99ba7e8951adf17d267cdb84cd88be6f7c2e0eca1737a03836/ViT-L-14.pt"
+    },
+    {
+      "id": "aesthetic_linear",
+      "relative_path": "aesthetic_model/emb_reader/sa_0_4_vit_l_14_linear.pth",
+      "sha256": "2cd4e60f4f24ae3bcd57b847b13c1f3ba27edc28cc1a7f9ce74ee9f421243cba",
+      "size_bytes": 4071,
+      "source_url": "https://raw.githubusercontent.com/LAION-AI/aesthetic-predictor/main/sa_0_4_vit_l_14_linear.pth"
+    },
+    {
+      "id": "imaging_musiq_spaq",
+      "relative_path": "pyiqa_model/musiq_spaq_ckpt-358bb6af.pth",
+      "sha256": "358bb6af275e28ea56821d44fb55c6cb83645db11f394d3ad65b2d149965ab50",
+      "size_bytes": 108610983,
+      "source_url": "https://github.com/chaofengc/IQA-PyTorch/releases/download/v0.1-weights/musiq_spaq_ckpt-358bb6af.pth"
+    },
+    {
+      "id": "overall_viclip",
+      "relative_path": "ViCLIP/ViClip-InternVid-10M-FLT.pth",
+      "sha256": "7a4d6ad6eac6632db3693f4b97f9f8f6445b65b1e139a6fc6686150522238c56",
+      "size_bytes": 1710545812,
+      "source_url": "https://huggingface.co/OpenGVLab/VBench_Used_Models/resolve/main/ViClip-InternVid-10M-FLT.pth"
+    },
+    {
+      "id": "overall_viclip_tokenizer",
+      "relative_path": "ViCLIP/bpe_simple_vocab_16e6.txt.gz",
+      "sha256": "924691ac288e54409236115652ad4aa250f48203de50a9e4722a6ecd48d6804a",
+      "size_bytes": 1356917,
+      "source_url": "https://raw.githubusercontent.com/openai/CLIP/main/clip/bpe_simple_vocab_16e6.txt.gz"
+    }
   ]
 }

@@ -10,6 +10,7 @@ from unittest import mock
 from rolloutbench.cli import main
 from rolloutbench.h100_preflight import (
     CommandResult,
+    _default_command_runner,
     build_preflight_spec,
     run_h100_preflight,
 )
@@ -95,7 +96,8 @@ def _remote_success(spec: dict) -> dict:
                     "exists": True,
                     "is_file": True,
                     "readable": True,
-                    "size_bytes": 1024,
+                    "size_bytes": item["size_bytes"],
+                    "sha256": item["sha256"],
                 }
                 for item in spec["vbench_weights"]
             ],
@@ -149,6 +151,14 @@ class H100PreflightTests(unittest.TestCase):
         )
         self.assertEqual([6, 7], [item["index"] for item in spec["target_gpus"]])
         self.assertEqual(8, len(spec["vbench_weights"]))
+        self.assertTrue(
+            all(
+                len(item["sha256"]) == 64
+                and item["size_bytes"] > 0
+                and item["source_url"].startswith("https://")
+                for item in spec["vbench_weights"]
+            )
+        )
         self.assertEqual(
             {
                 "repository_url": "https://github.com/facebookresearch/dino.git",
@@ -205,6 +215,8 @@ class H100PreflightTests(unittest.TestCase):
         self.assertIn("--no-optional-locks", remote_script)
         self.assertIn("--porcelain", remote_script)
         self.assertIn('dino_spec["required_file"]', remote_script)
+        self.assertIn("def file_sha256(path):", remote_script)
+        self.assertIn('handle.read(1024 * 1024)', remote_script)
         self.assertNotIn("os.environ", remote_script)
         self.assertNotIn("printenv", remote_script)
         self.assertNotIn("mkdir", remote_script)
@@ -243,6 +255,55 @@ class H100PreflightTests(unittest.TestCase):
         self.assertFalse(receipt["quality_ready"])
         self.assertFalse(receipt["pilot_ready"])
         self.assertIn("torch", " ".join(receipt["checks"]["runtime"]["errors"]))
+
+    def test_wrong_weight_digest_or_size_fails_quality_closed(self) -> None:
+        spec = build_preflight_spec(PROFILE, repo_root=REPO_ROOT)
+        for mutation in ("digest", "size"):
+            with self.subTest(mutation=mutation):
+                payload = _remote_success(spec)
+                row = payload["vbench"]["weights"][0]
+                if mutation == "digest":
+                    row["sha256"] = "0" * 64
+                else:
+                    row["size_bytes"] += 1
+                receipt = run_h100_preflight(
+                    PROFILE, repo_root=REPO_ROOT, runner=RecordingRunner(payload)
+                )
+                self.assertFalse(receipt["quality_ready"])
+                self.assertFalse(receipt["pilot_ready"])
+                self.assertIn(
+                    "subject_dino_vitb16",
+                    " ".join(receipt["checks"]["quality"]["errors"]),
+                )
+
+    def test_weight_profile_rejects_missing_or_malformed_receipts(self) -> None:
+        profile = json.loads(PROFILE.read_text(encoding="utf-8"))
+        mutations = {
+            "missing_sha": lambda row: row.pop("sha256"),
+            "short_sha": lambda row: row.__setitem__("sha256", "abcd"),
+            "zero_size": lambda row: row.__setitem__("size_bytes", 0),
+            "non_https": lambda row: row.__setitem__("source_url", "file:///tmp/model"),
+            "missing_host": lambda row: row.__setitem__("source_url", "https://"),
+        }
+        with tempfile.TemporaryDirectory() as directory:
+            for name, mutate in mutations.items():
+                with self.subTest(name=name):
+                    changed = copy.deepcopy(profile)
+                    mutate(changed["vbench_weights"][0])
+                    path = Path(directory) / f"{name}.json"
+                    path.write_text(json.dumps(changed), encoding="utf-8")
+                    with self.assertRaisesRegex(ValueError, "VBench weight"):
+                        build_preflight_spec(path, repo_root=REPO_ROOT)
+
+    def test_remote_query_timeout_has_a_large_asset_io_budget(self) -> None:
+        completed = type(
+            "Completed", (), {"returncode": 0, "stdout": "{}", "stderr": ""}
+        )()
+        with mock.patch(
+            "rolloutbench.h100_preflight.subprocess.run", return_value=completed
+        ) as run:
+            _default_command_runner(["ssh", "BAAI"], "print('{}')")
+        self.assertGreaterEqual(run.call_args.kwargs["timeout"], 600)
 
     def test_missing_attached_or_dirty_dino_source_fails_quality_closed(self) -> None:
         spec = build_preflight_spec(PROFILE, repo_root=REPO_ROOT)
