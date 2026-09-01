@@ -39,6 +39,7 @@ WORKLOAD = {
     "text_encoder_precision": "bf16",
     "flow_shift": 8.0,
 }
+_FORMAL_WORKLOAD_SEEDS = frozenset({42, 12345})
 TECHNIQUE_ENV = (
     "SGLANG_SANA_LINATTN_BF16",
     "SGLANG_SANA_QKV_MERGE",
@@ -60,17 +61,20 @@ TECHNIQUE_ENV = (
     "SGLANG_TORCH_COMPILE_MODE",
     "TORCHINDUCTOR_AUTOTUNE_IN_SUBPROC",
 )
-CRITICAL_RUNTIME_FILES = (
+COMMON_RUNTIME_FILES = (
     "scripts/sana/sana_video_sglang_run.py",
     "python/sglang/multimodal_gen/registry_sana.py",
     "python/sglang/multimodal_gen/configs/models/dits/sana_video.py",
     "python/sglang/multimodal_gen/configs/pipeline_configs/sana_video.py",
     "python/sglang/multimodal_gen/configs/sample/sana_video.py",
     "python/sglang/multimodal_gen/runtime/models/dits/sana_video.py",
-    "python/sglang/jit_kernel/diffusion/triton/sana_rope.py",
-    "python/sglang/multimodal_gen/runtime/cache/sana_video_cache.py",
     "python/sglang/multimodal_gen/runtime/pipelines/sana_video.py",
 )
+OPTIONAL_HISTORICAL_RUNTIME_FILES = (
+    "python/sglang/jit_kernel/diffusion/triton/sana_rope.py",
+    "python/sglang/multimodal_gen/runtime/cache/sana_video_cache.py",
+)
+CRITICAL_RUNTIME_FILES = COMMON_RUNTIME_FILES + OPTIONAL_HISTORICAL_RUNTIME_FILES
 
 
 def _required_env(name: str) -> str:
@@ -114,6 +118,56 @@ def _sha256(path: Path) -> str:
 def _fingerprint(payload: object) -> str:
     encoded = json.dumps(payload, sort_keys=True, separators=(",", ":")).encode()
     return hashlib.sha256(encoded).hexdigest()
+
+
+def _workload_from_env() -> dict[str, object]:
+    """Return the locked workload with the sole formal-quality seed override."""
+
+    raw_seed = os.environ.get("SANA_WORKLOAD_SEED")
+    if raw_seed is None:
+        seed = 42
+    elif raw_seed in {"42", "12345"}:
+        seed = int(raw_seed)
+    else:
+        raise RuntimeError(
+            "SANA_WORKLOAD_SEED must be one of the decimal formal-quality seeds "
+            "42 or 12345"
+        )
+    if seed not in _FORMAL_WORKLOAD_SEEDS:
+        raise AssertionError("formal workload seed contract drift")
+    return {**WORKLOAD, "seed": seed}
+
+
+def _workload_receipt(workload: dict[str, object], prompt: str, prompt_sha256: str) -> dict[str, object]:
+    return {
+        **workload,
+        "prompt": prompt,
+        "prompt_sha256": prompt_sha256,
+        "negative_prompt": NEGATIVE_PROMPT,
+    }
+
+
+def _runtime_receipt_paths() -> tuple[str, ...]:
+    raw = os.environ.get("ROLLOUTBENCH_REQUIRED_RUNTIME_PATHS_JSON")
+    if raw is None:
+        return CRITICAL_RUNTIME_FILES
+    try:
+        value = json.loads(raw)
+    except json.JSONDecodeError as exc:
+        raise RuntimeError(
+            "ROLLOUTBENCH_REQUIRED_RUNTIME_PATHS_JSON must be JSON"
+        ) from exc
+    if (
+        not isinstance(value, list)
+        or any(not isinstance(path, str) for path in value)
+        or len(value) != len(set(value))
+        or not set(COMMON_RUNTIME_FILES).issubset(value)
+        or not set(value).issubset(CRITICAL_RUNTIME_FILES)
+    ):
+        raise RuntimeError(
+            "ROLLOUTBENCH_REQUIRED_RUNTIME_PATHS_JSON violates the runtime manifest"
+        )
+    return tuple(value)
 
 
 def _optimization_knobs() -> dict[str, object]:
@@ -177,6 +231,7 @@ def _command(
     prompt_file: Path,
     output_basename: str,
     knobs: dict[str, object],
+    workload: dict[str, object],
 ) -> list[str]:
     command = [
         str(python_bin),
@@ -186,17 +241,17 @@ def _command(
         "--prompt-file",
         str(prompt_file),
         "--frames",
-        str(WORKLOAD["frames"]),
+        str(workload["frames"]),
         "--steps",
-        str(WORKLOAD["steps"]),
+        str(workload["steps"]),
         "--height",
-        str(WORKLOAD["height"]),
+        str(workload["height"]),
         "--width",
-        str(WORKLOAD["width"]),
+        str(workload["width"]),
         "--guidance-scale",
-        str(WORKLOAD["guidance_scale"]),
+        str(workload["guidance_scale"]),
         "--seed",
-        str(WORKLOAD["seed"]),
+        str(workload["seed"]),
         "--output",
         output_basename,
     ]
@@ -335,14 +390,16 @@ def _ffprobe(video: Path) -> dict[str, object]:
     }
 
 
-def _validate_video(video: Path, frames_dir: Path) -> dict[str, object]:
+def _validate_video(
+    video: Path, frames_dir: Path, workload: dict[str, object]
+) -> dict[str, object]:
     probe = _ffprobe(video)
-    expected_duration = WORKLOAD["frames"] / WORKLOAD["fps"]
+    expected_duration = workload["frames"] / workload["fps"]
     checks = {
-        "width": probe["width"] == WORKLOAD["width"],
-        "height": probe["height"] == WORKLOAD["height"],
-        "frames": probe["frames"] == WORKLOAD["frames"],
-        "fps": abs(float(probe["fps"]) - WORKLOAD["fps"]) < 1e-6,
+        "width": probe["width"] == workload["width"],
+        "height": probe["height"] == workload["height"],
+        "frames": probe["frames"] == workload["frames"],
+        "fps": abs(float(probe["fps"]) - workload["fps"]) < 1e-6,
         "duration": abs(float(probe["duration_s"]) - expected_duration) <= 0.25,
         "nonempty": video.stat().st_size > 0,
     }
@@ -412,6 +469,7 @@ def main() -> int:
 
     knobs = _optimization_knobs()
     _assert_dense_control(config_id, knobs)
+    workload = _workload_from_env()
     out_dir.mkdir(parents=True, exist_ok=True)
     slug = hashlib.sha256(str(out_dir).encode()).hexdigest()[:12]
     output_basename = f"sana2b_{slug}"
@@ -421,17 +479,13 @@ def main() -> int:
         raise RuntimeError("refusing to overwrite an existing output video")
 
     command = _command(
-        python_bin, runtime_root, model_path, prompt_file, output_basename, knobs
+        python_bin, runtime_root, model_path, prompt_file, output_basename, knobs, workload
     )
+    required_runtime_paths = _runtime_receipt_paths()
     critical_hashes = {
-        rel: _sha256(runtime_root / rel) for rel in CRITICAL_RUNTIME_FILES
+        rel: _sha256(runtime_root / rel) for rel in required_runtime_paths
     }
-    workload_receipt = {
-        **WORKLOAD,
-        "prompt": prompt,
-        "prompt_sha256": _sha256(prompt_file),
-        "negative_prompt": NEGATIVE_PROMPT,
-    }
+    workload_receipt = _workload_receipt(workload, prompt, _sha256(prompt_file))
     child_env = dict(os.environ)
     for name in TECHNIQUE_ENV:
         child_env.pop(name, None)
@@ -483,6 +537,7 @@ def main() -> int:
                 "runtime_authority_sha": _required_env("SANA_RUNTIME_AUTHORITY_SHA"),
                 "runtime_compat_sha": _required_env("SANA_RUNTIME_COMPAT_SHA"),
                 "runtime_root": str(runtime_root),
+                "required_runtime_paths": list(required_runtime_paths),
                 "critical_file_sha256": critical_hashes,
             },
             "model": {
@@ -549,7 +604,7 @@ def main() -> int:
             "num_gpus": 1,
             "nproc": 1,
             "prompt_count": 1,
-            "steps_per_prompt": WORKLOAD["steps"],
+            "steps_per_prompt": workload["steps"],
             "warmup_policy": "one_step_model_warmup_before_measured_generation",
             "nvidia_smi_sample_count": len(samples),
             "nvidia_smi_samples": samples,
@@ -570,7 +625,7 @@ def main() -> int:
         if not runtime_video.exists():
             raise RuntimeError(f"runtime reported success but video is missing: {runtime_video}")
         shutil.move(runtime_video, final_video)
-        validity = _validate_video(final_video, out_dir / "frames")
+        validity = _validate_video(final_video, out_dir / "frames", workload)
         atomic_write_json(out_dir / "quality.json", validity)
         benchmark.update(
             {

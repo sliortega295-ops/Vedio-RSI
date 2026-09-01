@@ -8,6 +8,9 @@ from typing import Any, Mapping
 
 from .acceptance import run_cpu_acceptance, verify_cpu_acceptance_pack
 from .freeze import freeze_suite
+from .h100_preflight import DEFAULT_PROFILE, build_preflight_spec, run_h100_preflight
+from .preparation import prepare_experiment
+from .runplan import build_experiment_plan, write_experiment_plan
 from .scheduler import SYSTEMS, simulate
 from .schema import validate_suite_directory
 from .validators import build_quality_plan, compare_historical_oracle
@@ -77,11 +80,103 @@ def _parser() -> argparse.ArgumentParser:
     verify_pack.add_argument("--suite", type=Path, default=DEFAULT_SUITE_DIR)
     verify_pack.add_argument("--repo-root", type=Path, default=Path.cwd())
     verify_pack.add_argument("--allow-dirty", action="store_true")
+
+    h100_preflight = subparsers.add_parser(
+        "h100-preflight", help="run one read-only BAAI H100 readiness query"
+    )
+    h100_preflight.add_argument("--profile", type=Path, default=DEFAULT_PROFILE)
+    h100_preflight.add_argument("--output", type=Path, required=True)
+    h100_preflight.add_argument("--repo-root", type=Path, default=Path.cwd())
+
+    experiment_plan = subparsers.add_parser(
+        "experiment-plan", help="write a frozen pilot or full H100 experiment plan"
+    )
+    experiment_plan.add_argument("--suite", type=Path, default=DEFAULT_SUITE_DIR)
+    experiment_plan.add_argument("--profile", type=Path, default=DEFAULT_PROFILE)
+    experiment_plan.add_argument("--repo-root", type=Path, default=Path.cwd())
+    experiment_plan.add_argument("--output", type=Path, required=True)
+    experiment_plan.add_argument("--phase", choices=("pilot", "full"), required=True)
+    experiment_plan.add_argument("--repetitions", type=int, choices=(3, 5), required=True)
+
+    preparation = subparsers.add_parser(
+        "prepare-experiment",
+        help="prepare exact candidate worktrees and authority artifacts without GPU work",
+    )
+    preparation.add_argument("--plan", type=Path, required=True)
+    preparation.add_argument("--suite", type=Path, default=DEFAULT_SUITE_DIR)
+    preparation.add_argument("--experiment-root", type=Path, required=True)
+    preparation.add_argument("--repo-root", type=Path, default=Path.cwd())
+    preparation.add_argument(
+        "--allow-dirty",
+        action="store_true",
+        help="development only: allow a dirty harness checkout",
+    )
     return parser
 
 
 def main(argv: list[str] | None = None) -> int:
     args = _parser().parse_args(argv)
+    if args.command == "prepare-experiment":
+        payload = prepare_experiment(
+            args.plan,
+            args.suite,
+            args.experiment_root,
+            repo_root=args.repo_root,
+            require_clean=not args.allow_dirty,
+        )
+        print(
+            json.dumps(
+                {
+                    "status": payload["status"],
+                    "plan_id": payload["plan_id"],
+                    "run_count": payload["run_count"],
+                    "unique_episode_count": payload["unique_episode_count"],
+                },
+                sort_keys=True,
+            )
+        )
+        return 0
+    if args.command == "experiment-plan":
+        spec = build_preflight_spec(args.profile, repo_root=args.repo_root)
+        suite_path = args.suite.resolve()
+        if (suite_path / "suite.json").resolve() != Path(spec["suite_path"]).resolve():
+            raise ValueError("experiment plan suite must match the frozen H100 profile")
+        plan = build_experiment_plan(
+            suite_path,
+            scope=args.phase,
+            repetitions=args.repetitions,
+            gpu_uuids=tuple(item["uuid"] for item in spec["target_gpus"]),
+            repo_root=args.repo_root,
+        )
+        write_receipt = write_experiment_plan(
+            args.output, plan, repo_root=args.repo_root
+        )
+        print(
+            json.dumps(
+                {
+                    **write_receipt,
+                    "plan_id": plan["plan_id"],
+                    "phase": plan["scope"],
+                    "repetitions": plan["repetitions"],
+                },
+                sort_keys=True,
+            )
+        )
+        return 0
+    if args.command == "h100-preflight":
+        payload = run_h100_preflight(
+            args.profile, repo_root=args.repo_root, output_path=args.output
+        )
+        print(
+            json.dumps(
+                {
+                    "query_status": payload["query_status"],
+                    "pilot_ready": payload["pilot_ready"],
+                },
+                sort_keys=True,
+            )
+        )
+        return 0 if payload["pilot_ready"] else 1
     if args.command == "cpu-acceptance":
         payload = run_cpu_acceptance(
             args.suite,
