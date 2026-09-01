@@ -604,6 +604,7 @@ def dispatch_formal_run(
                         authorization_path,
                         lease_files,
                         preflight_spec=profile,
+                        require_fresh_preflight=False,
                     )
                     if (
                         refreshed_authorization.get("authorization_sha256")

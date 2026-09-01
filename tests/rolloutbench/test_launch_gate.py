@@ -186,6 +186,24 @@ class LaunchGateTests(unittest.TestCase):
                         context, path, leases, preflight_spec=spec, now=now
                     )
 
+    def test_long_run_revalidation_keeps_expiry_and_lease_without_refreshing_preflight(self):
+        with tempfile.TemporaryDirectory() as directory:
+            context, now, path, leases, spec = self._fixture(Path(directory))
+            later = now + timedelta(minutes=30)
+            with self.assertRaisesRegex(LaunchAuthorizationError, "fresh preflight"):
+                validate_launch_authorization(
+                    context, path, leases, preflight_spec=spec, now=later
+                )
+            receipt = validate_launch_authorization(
+                context,
+                path,
+                leases,
+                preflight_spec=spec,
+                now=later,
+                require_fresh_preflight=False,
+            )
+        self.assertFalse(receipt["preflight_freshness_enforced"])
+
     def test_expiry_must_follow_issue_time(self):
         with tempfile.TemporaryDirectory() as directory:
             context, now, path, leases, spec = self._fixture(Path(directory))

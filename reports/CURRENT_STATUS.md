@@ -7,7 +7,7 @@ Status: `CPU_VALIDATED_H100_NOT_RUN` (2026-09-01).
 - Sol-RolloutBench v0: exact 23 Kernel + 12 Cache episodes frozen and valid.
 - Runtime: formal dispatcher, typed quality path, recovery, aggregation and
   four-system comparison implemented.
-- Local validation: 149/149 RolloutBench CPU tests and compileall pass.
+- Local validation: 151/151 RolloutBench CPU tests and compileall pass.
 - Remote target: `/home/jiangzhikun/yongyan_liu/Experiments/SolRolloutBench/20260901-v0`;
   the published branch HEAD is deployed there as a clean detached checkout.
 - Fresh read-only preflight: `query_status=PASS`, `technical_ready=true`; pinned

@@ -25,8 +25,9 @@ this report contains no new performance claim.
   dispatch for OptRoll.
 - Worker-to-GPU UUID, lease and `CUDA_VISIBLE_DEVICES` binding, with one global
   physical-GPU lock namespace across runs.
-- Procedural external launch authorization, ten-minute preflight freshness,
-  per-unit revalidation and release-aware cooperative leases.
+- Procedural external launch authorization, ten-minute dispatcher-admission
+  preflight freshness, per-unit expiry/lease revalidation and release-aware
+  cooperative leases.
 - One-shot candidate ranking by complete child-process wall time. Warm
   generation latency remains diagnostic only, so compile-heavy K01/K02 cannot
   win by hiding cold cost.
@@ -51,7 +52,7 @@ this report contains no new performance claim.
 ## Validation completed locally
 
 - `python3 -m rolloutbench validate-suite ...`: 35 episodes, valid.
-- `python3 -m unittest discover -s tests/rolloutbench -v`: 149/149 pass.
+- `python3 -m unittest discover -s tests/rolloutbench -v`: 151/151 pass.
 - `python3 -m compileall -q ...`: pass.
 - Targeted adversarial tests cover missing/duplicate systems, cross-plan input,
   partial repetitions, missing episodes, forged/unreplayable results, changed
@@ -61,7 +62,7 @@ this report contains no new performance claim.
 
 The repository-root Cache controller test was not rerun in the current local
 Python because PyTorch is absent. Its historical 9/9 result remains recorded in
-`FINAL-REPORT.md`; it is not counted in the 149 tests above.
+`FINAL-REPORT.md`; it is not counted in the 151 tests above.
 
 ## Important design boundaries
 

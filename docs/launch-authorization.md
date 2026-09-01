@@ -44,13 +44,21 @@ prevention.
 ```
 
 Use `sol-rolloutbench-v0-formal-full` for a full run. Authorization must satisfy
-`observed <= issued <= now < expires`, the preflight must be at most ten minutes
-old at each dispatch, and the authorization lifetime must be at most 24 hours.
+`observed <= issued <= now < expires`, must be issued within ten minutes of its
+preflight, and must be at most 24 hours long. The preflight must also be at most
+ten minutes old when a run dispatcher starts.
 
-The dispatcher validates authorization after taking its dispatcher lock and
-again before every new GPU unit. The runtime then takes the physical GPU lock,
+The dispatcher validates fresh-preflight authorization after taking its lock.
+Before every later GPU unit it revalidates the unchanged authorization, expiry,
+plan binding and active leases without requiring a long run to regenerate its
+immutable launch preflight. The runtime then takes the physical GPU lock,
 rejects a released lease, checks for live compute processes and confirms the
 planned GPU UUID. Releasing a lease prevents subsequent units from starting.
+
+If a run reaches the 24-hour authorization limit, let the dispatcher fail
+closed. Resume only through a new dispatcher admission with a new fresh
+preflight, authorization and lease set; completed units remain in the durable
+ledger and must be independently reverified before reuse.
 
 ## Non-authorizing preflight
 

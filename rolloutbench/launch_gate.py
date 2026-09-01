@@ -74,6 +74,7 @@ def validate_launch_authorization(
     *,
     preflight_spec: Mapping[str, Any],
     now: datetime | None = None,
+    require_fresh_preflight: bool = True,
 ) -> dict[str, Any]:
     """Validate a procedural external assertion plus exact active GPU leases.
 
@@ -148,7 +149,11 @@ def validate_launch_authorization(
     if (
         observed_at > issued_at
         or issued_at > current
-        or current - observed_at > _MAX_PREFLIGHT_AGE
+        or issued_at - observed_at > _MAX_PREFLIGHT_AGE
+        or (
+            require_fresh_preflight
+            and current - observed_at > _MAX_PREFLIGHT_AGE
+        )
     ):
         raise LaunchAuthorizationError("authorization is not based on a fresh preflight")
     if (
@@ -256,6 +261,7 @@ def validate_launch_authorization(
         },
         "preflight_receipt_path": str(preflight_path),
         "preflight_receipt_sha256": preflight_sha,
+        "preflight_freshness_enforced": require_fresh_preflight,
         "ownership_assertion_accepted": True,
         "ownership_verified": False,
         "authority_verification": "procedural_assertion_not_cryptographically_verified",

@@ -209,6 +209,57 @@ class FormalDispatchTests(unittest.TestCase):
         self.assertEqual(["U0:primary"], execution_calls)
         self.assertEqual(3, authorization_calls)
 
+    def test_per_unit_revalidation_does_not_reapply_launch_preflight_window(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            context = self._context(root, "serial1")
+            unit = Unit("U0:primary", "U0", "kernel", 0, (), 0)
+            ledger = EventLedger(root / "state" / "events.jsonl")
+            with (
+                patch(
+                    "rolloutbench.formal_dispatch.validate_launch_authorization",
+                    return_value={"authorization_sha256": "d" * 64},
+                ) as validate,
+                patch("rolloutbench.formal_dispatch._load_bound_suite", return_value={}),
+                patch(
+                    "rolloutbench.formal_dispatch._validate_planned_episode_scope",
+                    return_value=[],
+                ),
+                patch("rolloutbench.formal_dispatch.open_run_ledger", return_value=ledger),
+                patch("rolloutbench.formal_dispatch.expand_run_units", return_value=[unit]),
+                patch("rolloutbench.formal_dispatch.build_formal_invocation", return_value={}),
+                patch(
+                    "rolloutbench.formal_dispatch.execute_unit",
+                    return_value={"status": "EXECUTED", "unit_id": unit.unit_id},
+                ),
+                patch("rolloutbench.formal_dispatch.collect_primary_evidence", return_value={}),
+                patch("rolloutbench.formal_dispatch.finalize_quality_decisions", return_value=[]),
+                patch(
+                    "rolloutbench.formal_dispatch.finalize_run_decisions",
+                    return_value={
+                        "decision_count": 0,
+                        "decisions": {},
+                        "frontier_receipt": {
+                            "path": str(root / "frontier.json"),
+                            "sha256": "e" * 64,
+                        },
+                    },
+                ),
+            ):
+                dispatch_formal_run(
+                    context,
+                    object(),
+                    root / "state-root",
+                    authorization_path=root / "authorization.json",
+                    lease_files={},
+                    profile={},
+                    quality_protocol={},
+                )
+        self.assertNotIn("require_fresh_preflight", validate.call_args_list[0].kwargs)
+        self.assertFalse(
+            validate.call_args_list[1].kwargs["require_fresh_preflight"]
+        )
+
     def test_scope_validator_requires_exact_frozen_sequence(self):
         repo = Path(__file__).resolve().parents[2]
         suite_dir = repo / "benchmarks/sana_video_2b_h100_v0"
