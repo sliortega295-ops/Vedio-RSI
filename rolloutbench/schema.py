@@ -3,6 +3,7 @@ from __future__ import annotations
 import hashlib
 import json
 import subprocess
+from functools import lru_cache
 from collections import Counter
 from dataclasses import dataclass
 from pathlib import Path
@@ -68,6 +69,7 @@ def _load_jsonl_bytes(path: Path) -> tuple[list[dict[str, Any]], bytes]:
     return rows, raw
 
 
+@lru_cache(maxsize=256)
 def _git_blob(repo_root: Path, ref: str, path: str) -> bytes:
     try:
         return subprocess.check_output(
@@ -242,6 +244,17 @@ def _validate_episode_contracts(episodes: list[dict[str, Any]], repo_root: Path)
         golden = episode.get("golden", {})
         if golden.get("scheduler_visible") is not False or golden.get("role") != "acceptance_oracle_only":
             raise SuiteValidationError(f"{episode_id} golden oracle must be hidden from scheduler")
+        expected_failure = (
+            {
+                "kind": "real_fail_closed_layout_mismatch",
+                "stage": "generate",
+                "deterministic": True,
+            }
+            if episode_id == "K22"
+            else None
+        )
+        if episode.get("replay", {}).get("failure_contract") != expected_failure:
+            raise SuiteValidationError(f"{episode_id} failure contract mismatch")
 
 
 def _validate_quality(quality: dict[str, Any]) -> None:
@@ -267,7 +280,9 @@ def validate_suite_directory(
     suite_dir: Path | str, *, repo_root: Path | str | None = None
 ) -> ValidationReport:
     root = Path(suite_dir)
-    repository = Path(repo_root) if repo_root is not None else Path.cwd()
+    repository = (
+        Path(repo_root).resolve() if repo_root is not None else Path.cwd().resolve()
+    )
     missing = sorted(name for name in REQUIRED_FILES if not (root / name).is_file())
     if missing:
         raise SuiteValidationError(f"missing suite files: {', '.join(missing)}")

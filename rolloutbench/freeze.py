@@ -236,7 +236,16 @@ def _episode(
                 }
                 if episode_id == "K05"
                 else None
-            )
+            ),
+            "failure_contract": (
+                {
+                    "kind": "real_fail_closed_layout_mismatch",
+                    "stage": "generate",
+                    "deterministic": True,
+                }
+                if episode_id == "K22"
+                else None
+            ),
         },
         "golden": {
             "role": "acceptance_oracle_only",

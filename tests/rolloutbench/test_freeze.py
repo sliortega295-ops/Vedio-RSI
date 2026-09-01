@@ -210,6 +210,15 @@ class FreezeSuiteTests(unittest.TestCase):
                     self.assertEqual(config["authority_reported_sha256"], config["blob_sha256"])
                 self.assertFalse(episode["golden"]["scheduler_visible"])
 
+            self.assertEqual(
+                {
+                    "kind": "real_fail_closed_layout_mismatch",
+                    "stage": "generate",
+                    "deterministic": True,
+                },
+                by_id["K22"]["replay"]["failure_contract"],
+            )
+
             for episode_id in [f"C{number:02d}" for number in range(1, 13)]:
                 stages = by_id[episode_id]["validation"]["stages"]
                 for required in ("generate", "collect", "decide"):
