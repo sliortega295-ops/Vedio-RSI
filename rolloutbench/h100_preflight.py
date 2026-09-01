@@ -522,6 +522,7 @@ print(json.dumps({{
 """
 quality_rc, quality_out, quality_err = run([
     "env", "-i",
+    "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
     "CUDA_VISIBLE_DEVICES=",
     "HF_HUB_OFFLINE=1",
     "TRANSFORMERS_OFFLINE=1",

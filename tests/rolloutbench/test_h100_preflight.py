@@ -240,6 +240,10 @@ class H100PreflightTests(unittest.TestCase):
         self.assertIn("def file_sha256(path):", remote_script)
         self.assertIn('handle.read(1024 * 1024)', remote_script)
         self.assertIn('"env", "-i"', remote_script)
+        self.assertIn(
+            "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+            remote_script,
+        )
         self.assertIn('CUDA_VISIBLE_DEVICES=', remote_script)
         self.assertIn('SPEC["vbench_python_bin"]', remote_script)
         self.assertNotIn("os.environ", remote_script)
