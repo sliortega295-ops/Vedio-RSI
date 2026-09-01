@@ -8,11 +8,14 @@ Status: `CPU_VALIDATED_H100_NOT_RUN` (2026-09-01).
 - Runtime: formal dispatcher, typed quality path, recovery, aggregation and
   four-system comparison implemented.
 - Local validation: 149/149 RolloutBench CPU tests and compileall pass.
-- Remote target: `/home/jiangzhikun/yongyan_liu/Experiments/SolRolloutBench/20260901-v0`.
+- Remote target: `/home/jiangzhikun/yongyan_liu/Experiments/SolRolloutBench/20260901-v0`;
+  the published branch HEAD is deployed there as a clean detached checkout.
+- Fresh read-only preflight: `query_status=PASS`, `technical_ready=true`; pinned
+  runtime, model, sources, weights and offline LPIPS load all pass.
 - H100 execution: `NOT_RUN`; no performance comparison exists yet.
 - Ownership: `NOT_AUTHORIZED`; point-in-time idle GPUs do not grant use.
-- Required next step: publish the clean commit, deploy it, regenerate read-only
-  preflight, then wait for explicit ownership authorization before a pilot.
+- Required next step: wait for explicit ownership authorization before any
+  formal pilot process is launched.
 
 The formal comparison is valid only when all four systems execute the same plan
 and exact episode set, finish the same repetition policy, and independently

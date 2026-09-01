@@ -93,8 +93,10 @@ Python because PyTorch is absent. Its historical 9/9 result remains recorded in
 ### PREPARED
 
 - Pinned model/runtime/VBench/DINO/weight profiles and persistent remote path.
-- Remote deployment and a fresh read-only preflight must be regenerated from
-  the final published commit before any run.
+- Clean published branch deployed to the canonical remote repository.
+- Fresh read-only preflight passes technical readiness, including the pinned
+  CUDA/Python runtime, model, VBench/DINO sources, ten quality weights and
+  offline LPIPS construction. It does not grant GPU ownership.
 
 ### NOT_RUN
 
@@ -107,10 +109,8 @@ Python because PyTorch is absent. Its historical 9/9 result remains recorded in
 
 ## Next authorized step
 
-Publish the clean benchmark branch, deploy that exact commit to the canonical
-remote path, regenerate a read-only preflight and stop. Only after explicit GPU
-ownership authorization should one five-repetition pilot plan be prepared and
-its first three repetitions run. If any candidate exceeds 3% sample latency CV,
-execute its already planned repetitions 4-5 for all four systems; otherwise stop
-at three. Then use `compare-systems` to issue the first performance-bearing
-comparison.
+Wait for explicit GPU ownership authorization. The formal plan must predeclare
+five repetitions; execute and summarize runs 1-3 first. If any candidate exceeds
+3% sample latency CV, execute its already planned runs 4-5 for all four systems;
+otherwise stop at three. Then use `compare-systems` to issue the first
+performance-bearing comparison.

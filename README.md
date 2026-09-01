@@ -45,8 +45,10 @@ unimplemented persistent-worker speedup.
 - Frozen 35-episode suite: `VALIDATED`.
 - CPU benchmark/runtime tests: `VALIDATED` (see
   [reports/ROLLOUTBENCH-V0-IMPLEMENTATION.md](reports/ROLLOUTBENCH-V0-IMPLEMENTATION.md)).
-- Formal H100 pilot, VBench/LPIPS outputs and four-system TTVF comparison:
-  `NOT_RUN`.
+- Read-only H100 readiness: `TECHNICAL_READY`; the pinned CUDA/Python runtime,
+  model, VBench/DINO sources, ten quality weights and offline LPIPS load pass.
+- Formal H100 pilot, candidate VBench/LPIPS outputs and four-system TTVF
+  comparison: `NOT_RUN`.
 - GPU ownership: not authorized by this repository. Point-in-time idleness is
   never treated as ownership.
 

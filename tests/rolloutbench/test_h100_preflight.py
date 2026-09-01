@@ -246,6 +246,7 @@ class H100PreflightTests(unittest.TestCase):
         )
         self.assertIn('CUDA_VISIBLE_DEVICES=', remote_script)
         self.assertIn('SPEC["vbench_python_bin"]', remote_script)
+        self.assertIn("contextlib.redirect_stdout(lpips_stdout)", remote_script)
         self.assertNotIn("os.environ", remote_script)
         self.assertNotIn("printenv", remote_script)
         self.assertNotIn("mkdir", remote_script)

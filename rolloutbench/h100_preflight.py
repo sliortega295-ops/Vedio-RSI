@@ -476,7 +476,9 @@ else:
     git_status_rc, git_status_out, git_status_err = 1, "", "source missing"
 
 quality_code = """
+import contextlib
 import importlib
+import io
 import json
 import platform
 
@@ -506,9 +508,11 @@ try:
 except Exception as error:
     versions = {{}}
     version_error = type(error).__name__ + ": " + str(error)
+lpips_stdout = io.StringIO()
 try:
-    lpips_metric = pyiqa.create_metric("lpips", device="cpu")
-    del lpips_metric
+    with contextlib.redirect_stdout(lpips_stdout):
+        lpips_metric = pyiqa.create_metric("lpips", device="cpu")
+        del lpips_metric
     lpips_model = "PASS"
 except Exception as error:
     lpips_model = type(error).__name__ + ": " + str(error)
@@ -517,6 +521,7 @@ print(json.dumps({{
     "versions": versions,
     "imports": imports,
     "lpips_model": lpips_model,
+    "lpips_stdout": lpips_stdout.getvalue(),
     "error": version_error,
 }}, sort_keys=True))
 """
