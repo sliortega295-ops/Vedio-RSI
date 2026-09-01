@@ -161,6 +161,14 @@ class H100PreflightTests(unittest.TestCase):
             },
             spec["dino_source"],
         )
+        run_script = next(
+            row for row in spec["runtime_paths"] if row["id"] == "run_script"
+        )
+        self.assertEqual(
+            f'{spec["remote_repo_path"]}/models/sana_video_2b_h100/'
+            "baseline/scripts/run_sana_video_2b_gpu.sh",
+            run_script["path"],
+        )
 
     def test_dino_profile_rejects_unpinned_unofficial_or_external_source(self) -> None:
         profile = json.loads(PROFILE.read_text(encoding="utf-8"))

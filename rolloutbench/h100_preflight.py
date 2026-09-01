@@ -176,6 +176,14 @@ def build_preflight_spec(
             raise ValueError(f"model profile lacks absolute {env_name}")
         runtime_paths.append({"id": path_id, "path": value, "type": path_type})
     remote_repo = path_values["remote_repo_path"]
+    submodule = model.get("submodule")
+    if (
+        not isinstance(submodule, str)
+        or not submodule
+        or Path(submodule).is_absolute()
+        or ".." in Path(submodule).parts
+    ):
+        raise ValueError("model profile submodule must be repository-relative")
     for path_id, model_key in (
         ("run_script", "run_script"),
         ("eval_profile", "eval_profile"),
@@ -184,9 +192,14 @@ def build_preflight_spec(
         relative = model.get(model_key)
         if not isinstance(relative, str) or Path(relative).is_absolute() or ".." in Path(relative).parts:
             raise ValueError(f"model profile {model_key} must be repository-relative")
+        remote_relative = (
+            PurePosixPath(submodule) / relative
+            if path_id == "run_script"
+            else PurePosixPath(relative)
+        )
         runtime_paths.append({
             "id": path_id,
-            "path": str(PurePosixPath(remote_repo) / relative),
+            "path": str(PurePosixPath(remote_repo) / remote_relative),
             "type": "file",
         })
     prompt_relative = env.get("SANA_PROMPT_FILE")
