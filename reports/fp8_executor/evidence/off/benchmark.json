@@ -1,0 +1,1375 @@
+{
+  "cache": {
+    "computed_steps": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      13,
+      15,
+      17,
+      19,
+      21,
+      23,
+      25,
+      27,
+      29,
+      31,
+      33,
+      35,
+      37,
+      39,
+      41,
+      43,
+      45,
+      47,
+      48,
+      49
+    ],
+    "computes": 32,
+    "end_step": 49,
+    "family": "easycache",
+    "hit_rate": 0.36,
+    "hits": 18,
+    "max_continuous_hits": 2,
+    "reasons": {
+      "cache_hit": 18,
+      "end_boundary": 1,
+      "threshold_recompute": 28,
+      "warmup_or_start": 3
+    },
+    "residual_history_steps": {
+      "0": [
+        49
+      ],
+      "1": [
+        49
+      ]
+    },
+    "skipped_steps": [
+      12,
+      14,
+      16,
+      18,
+      20,
+      22,
+      24,
+      26,
+      28,
+      30,
+      32,
+      34,
+      36,
+      38,
+      40,
+      42,
+      44,
+      46
+    ],
+    "start_step": 0,
+    "subsample": 8,
+    "taylor_damping": 1.0,
+    "taylor_order": 1,
+    "threshold": 0.1,
+    "total_decisions": 50,
+    "warmup_steps": 3
+  },
+  "denoise_s": null,
+  "fp8": {
+    "active_module_count": 0,
+    "active_modules": [],
+    "enabled": false,
+    "install": null
+  },
+  "generation_s": 38.2,
+  "gpu_after": {
+    "index": 6,
+    "memory_total_mib": 81559,
+    "memory_used_mib": 0,
+    "name": "NVIDIA H100 80GB HBM3",
+    "utilization_gpu_percent": 0,
+    "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+  },
+  "gpu_before": {
+    "index": 6,
+    "memory_total_mib": 81559,
+    "memory_used_mib": 0,
+    "name": "NVIDIA H100 80GB HBM3",
+    "utilization_gpu_percent": 0,
+    "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+  },
+  "max_device_memory_used_mib": 18102.0,
+  "memory": {
+    "max_device_memory_used_mib": 18102.0
+  },
+  "nproc": 1,
+  "num_gpus": 1,
+  "nvidia_smi_peak_memory_mib": 23653,
+  "nvidia_smi_sample_count": 132,
+  "nvidia_smi_samples": [
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 0,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:36:38.639950+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 0,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:36:39.356830+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 0,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:36:40.059280+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 0,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:36:40.709111+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 0,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:36:41.382835+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 0,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:36:42.027853+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 0,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:36:42.905748+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 3,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:36:43.684569+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 3,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:36:44.407333+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 3,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:36:45.105032+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 3,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:36:45.803475+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 3,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:36:46.504203+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 3,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:36:47.176134+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 3,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:36:47.823273+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 3,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:36:48.475835+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 3,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:36:49.149068+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 3,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:36:49.813499+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 3,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:36:50.482222+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 3,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:36:51.179260+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 3,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:36:51.823697+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 3,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:36:52.515728+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 3,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:36:53.174386+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 3,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:36:53.824900+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 3,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:36:54.519312+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 3,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:36:55.184677+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 3,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:36:55.861703+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 3,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:36:56.606836+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 3,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:36:57.283504+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 3,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:36:57.929050+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 3,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:36:58.580725+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 3,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:36:59.281272+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 3,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:37:00.022727+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 3,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:37:00.720074+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 3,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:37:01.377481+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 3,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:37:02.029230+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 3,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:37:02.721625+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 3,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:37:03.403376+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 3,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:37:04.077096+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 3,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:37:04.823552+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 3,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:37:05.587838+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 109,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:37:06.409205+00:00",
+      "utilization_gpu_percent": 1,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 1125,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:37:07.203745+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 3879,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:37:07.903535+00:00",
+      "utilization_gpu_percent": 1,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 5455,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:37:08.550749+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 5455,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:37:09.247371+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 5773,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:37:09.928660+00:00",
+      "utilization_gpu_percent": 1,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 6229,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:37:10.604957+00:00",
+      "utilization_gpu_percent": 1,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 6685,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:37:11.272334+00:00",
+      "utilization_gpu_percent": 1,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 7201,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:37:11.915602+00:00",
+      "utilization_gpu_percent": 2,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 7677,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:37:12.697625+00:00",
+      "utilization_gpu_percent": 1,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 8133,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:37:13.359951+00:00",
+      "utilization_gpu_percent": 1,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 8609,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:37:14.076376+00:00",
+      "utilization_gpu_percent": 1,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 9145,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:37:14.772664+00:00",
+      "utilization_gpu_percent": 1,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 9521,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:37:15.470628+00:00",
+      "utilization_gpu_percent": 1,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 10131,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:37:16.170762+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 10131,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:37:16.837285+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 10131,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:37:17.496986+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 10131,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:37:18.142023+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 10131,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:37:18.826924+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 10131,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:37:19.511923+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 10131,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:37:20.203602+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 10131,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:37:20.902402+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 10131,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:37:21.548310+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 10131,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:37:22.207765+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 10133,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:37:22.859919+00:00",
+      "utilization_gpu_percent": 1,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 10137,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:37:23.507966+00:00",
+      "utilization_gpu_percent": 1,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 10139,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:37:24.203809+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 10143,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:37:24.925417+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 11269,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:37:25.605365+00:00",
+      "utilization_gpu_percent": 4,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 11691,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:37:26.278941+00:00",
+      "utilization_gpu_percent": 1,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 11693,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:37:27.005620+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 11693,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:37:27.759108+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 11693,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:37:28.422811+00:00",
+      "utilization_gpu_percent": 2,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 12227,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:37:29.082707+00:00",
+      "utilization_gpu_percent": 64,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 12373,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:37:29.774492+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 12373,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:37:30.439155+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 12373,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:37:31.110283+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 12373,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:37:31.774750+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 12373,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:37:32.441115+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 12373,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:37:33.101201+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 12373,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:37:33.743874+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 12373,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:37:34.540472+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 12373,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:37:35.219369+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 12513,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:37:36.013612+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 12513,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:37:36.702976+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 13353,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:37:37.356882+00:00",
+      "utilization_gpu_percent": 1,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 13763,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:37:38.021837+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 15443,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:37:38.675036+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 15443,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:37:39.325133+00:00",
+      "utilization_gpu_percent": 92,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 22765,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:37:40.008128+00:00",
+      "utilization_gpu_percent": 99,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 22765,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:37:40.662802+00:00",
+      "utilization_gpu_percent": 100,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 22765,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:37:41.323323+00:00",
+      "utilization_gpu_percent": 100,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 22765,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:37:41.979147+00:00",
+      "utilization_gpu_percent": 100,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 22769,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:37:42.743655+00:00",
+      "utilization_gpu_percent": 100,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 22769,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:37:43.407269+00:00",
+      "utilization_gpu_percent": 99,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 22769,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:37:44.078472+00:00",
+      "utilization_gpu_percent": 100,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 22769,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:37:44.780747+00:00",
+      "utilization_gpu_percent": 100,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 22769,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:37:45.472304+00:00",
+      "utilization_gpu_percent": 100,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 22769,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:37:46.143913+00:00",
+      "utilization_gpu_percent": 100,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 22769,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:37:46.804273+00:00",
+      "utilization_gpu_percent": 100,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 22769,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:37:47.459815+00:00",
+      "utilization_gpu_percent": 100,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 22769,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:37:48.111882+00:00",
+      "utilization_gpu_percent": 100,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 22769,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:37:48.782152+00:00",
+      "utilization_gpu_percent": 100,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 22769,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:37:49.459930+00:00",
+      "utilization_gpu_percent": 100,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 22769,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:37:50.122055+00:00",
+      "utilization_gpu_percent": 100,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 22769,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:37:50.798055+00:00",
+      "utilization_gpu_percent": 100,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 22769,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:37:51.449388+00:00",
+      "utilization_gpu_percent": 100,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 22769,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:37:52.104456+00:00",
+      "utilization_gpu_percent": 100,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 22769,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:37:52.815380+00:00",
+      "utilization_gpu_percent": 100,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 22769,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:37:53.475545+00:00",
+      "utilization_gpu_percent": 100,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 22769,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:37:54.177978+00:00",
+      "utilization_gpu_percent": 100,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 22769,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:37:54.841025+00:00",
+      "utilization_gpu_percent": 100,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 22769,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:37:55.508149+00:00",
+      "utilization_gpu_percent": 100,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 22769,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:37:56.179104+00:00",
+      "utilization_gpu_percent": 100,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 22769,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:37:56.883092+00:00",
+      "utilization_gpu_percent": 100,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 22769,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:37:57.528531+00:00",
+      "utilization_gpu_percent": 100,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 22769,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:37:58.176467+00:00",
+      "utilization_gpu_percent": 100,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 22769,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:37:58.890158+00:00",
+      "utilization_gpu_percent": 100,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 22769,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:37:59.582104+00:00",
+      "utilization_gpu_percent": 100,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 22769,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:38:00.246339+00:00",
+      "utilization_gpu_percent": 100,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 22769,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:38:00.909878+00:00",
+      "utilization_gpu_percent": 100,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 22769,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:38:01.573057+00:00",
+      "utilization_gpu_percent": 100,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 22769,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:38:02.221676+00:00",
+      "utilization_gpu_percent": 100,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 22769,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:38:02.907041+00:00",
+      "utilization_gpu_percent": 100,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 22769,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:38:03.577375+00:00",
+      "utilization_gpu_percent": 100,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 22769,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:38:04.343195+00:00",
+      "utilization_gpu_percent": 100,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 22769,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:38:05.061630+00:00",
+      "utilization_gpu_percent": 100,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 23653,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:38:06.022033+00:00",
+      "utilization_gpu_percent": 100,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 12467,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:38:06.719964+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 12455,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:38:07.376012+00:00",
+      "utilization_gpu_percent": 8,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 3,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:38:08.379579+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 3,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:38:09.044464+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    }
+  ],
+  "process_wall_s": 90.79477686900645,
+  "prompt_count": 1,
+  "residual_compute_apps": [],
+  "returncode": 0,
+  "runtime_peak_memory_mb": 18102.0,
+  "schema_version": 1,
+  "status": "VALIDATED",
+  "steps_per_prompt": 50,
+  "timing_scope": "warm_single_prompt_gen.generate_including_text_encoder_denoise_vae_decode_and_video_write_excluding_model_load_and_one_step_warmup",
+  "total_s": 38.2,
+  "validity": {
+    "checks": {
+      "duration": true,
+      "fps": true,
+      "frames": true,
+      "height": true,
+      "nonempty": true,
+      "width": true
+    },
+    "ffprobe": {
+      "duration_s": 5.0625,
+      "fps": 16.0,
+      "frames": 81,
+      "height": 480,
+      "raw": {
+        "format": {
+          "duration": "5.063000"
+        },
+        "programs": [],
+        "streams": [
+          {
+            "duration": "5.062500",
+            "height": 480,
+            "nb_frames": "81",
+            "nb_read_frames": "81",
+            "r_frame_rate": "16/1",
+            "width": 832
+          }
+        ]
+      },
+      "width": 832
+    },
+    "frames": [
+      {
+        "bytes": 638787,
+        "path": "/home/jiangzhikun/yongyan_liu/Experiments/SolAgent/20260901-sana-video-fp8-executor/runs/20260901-113637-sana_video_2b_h100_integrated_kernel_r20_cache_r12-fp8-off-gpu6/outputs/frames/frame_01.png",
+        "sha256": "2ac5be96fe3400b07b3893da1284703836c5c873fcb79c0f3a8ce11ab407624c"
+      },
+      {
+        "bytes": 707967,
+        "path": "/home/jiangzhikun/yongyan_liu/Experiments/SolAgent/20260901-sana-video-fp8-executor/runs/20260901-113637-sana_video_2b_h100_integrated_kernel_r20_cache_r12-fp8-off-gpu6/outputs/frames/frame_02.png",
+        "sha256": "e2f7d3899ee85e4f507e5fb52ab59ca1120ebc5618e9f5d9afa34498bbbc3f87"
+      },
+      {
+        "bytes": 643846,
+        "path": "/home/jiangzhikun/yongyan_liu/Experiments/SolAgent/20260901-sana-video-fp8-executor/runs/20260901-113637-sana_video_2b_h100_integrated_kernel_r20_cache_r12-fp8-off-gpu6/outputs/frames/frame_03.png",
+        "sha256": "44866658066e0ca718be6a4992724300d31b70efd5c1d9ae999db6fe4bd915f2"
+      }
+    ],
+    "status": "VALIDATED"
+  },
+  "video": {
+    "bytes": 527568,
+    "path": "/home/jiangzhikun/yongyan_liu/Experiments/SolAgent/20260901-sana-video-fp8-executor/runs/20260901-113637-sana_video_2b_h100_integrated_kernel_r20_cache_r12-fp8-off-gpu6/outputs/out.mp4",
+    "sha256": "eb05b13437c86c51de02e75bdc8a71b652384316d73c7d92bb0efb40479ef1e3"
+  },
+  "warmup_policy": "one_step_model_warmup_before_measured_generation",
+  "world_size": 1
+}

@@ -1,0 +1,97 @@
+{
+  "schema_version": 1,
+  "delivery_kind": "direct_integration_acceptance_packet",
+  "component": "fp8",
+  "implementation_status": "validated",
+  "integrated_candidate_status": "accepted_bounded",
+  "official_executor_delivery_status": "NOT_RUN",
+  "attribution": "joint_fp8_plus_cache_retune",
+  "source_branch": "repro/sana2b-fp8-executor",
+  "boundary": "This packet records a direct integration experiment. It is not the executor-owned schema-v2 DELIVERY.json and cannot pass verify_delivery.py because the isolated FP8-only full-generation frontier was not run.",
+  "integrated_frontier": [
+    {
+      "candidate": "fp8_ffn_all_blocks_cache013",
+      "config": "config/sana_video_2b_h100/fp8/fp8_ffn_all_blocks_cache013.toml",
+      "activation": {
+        "env": {
+          "SANA_ENABLE_FP8": "1",
+          "SANA_FP8_SCOPE": "ffn_1x1",
+          "SANA_FP8_BLOCK_START": "0",
+          "SANA_FP8_BLOCK_END": "-1",
+          "SANA_FP8_STRICT": "1",
+          "SANA_CACHE_FAMILY": "easycache",
+          "SANA_CACHE_THRESHOLD": "0.13"
+        }
+      },
+      "backend": {
+        "name": "sglang_w8a8_e4m3",
+        "device": "NVIDIA H100 80GB HBM3",
+        "compute_capability": [9, 0],
+        "weight_dtype": "torch.float8_e4m3fn",
+        "cutlass_fp8_supported": true,
+        "converted_modules": 40,
+        "active_modules": 40,
+        "fallback_modules": 0
+      },
+      "joint_candidate_latency": {
+        "matching_fresh_control_warm_steady_state_s": 23.32,
+        "candidate_warm_steady_state_samples_s": [20.99, 20.98],
+        "candidate_warm_steady_state_median_s": 20.985,
+        "warm_steady_state_speedup": 1.11127,
+        "matching_fresh_control_denoise_s": 19.8883,
+        "candidate_denoise_samples_s": [17.6059, 17.5913],
+        "candidate_denoise_median_s": 17.5986,
+        "denoise_speedup": 1.13011,
+        "candidate_outer_total_samples_s": [27.3, 27.4],
+        "outer_total_includes_runtime_warmup": true,
+        "pure_fp8_attribution": "NOT_RUN"
+      },
+      "memory": {
+        "matching_control_runtime_peak_mb": 18102,
+        "candidate_runtime_peak_mb": 17476,
+        "runtime_peak_reduction_percent": 3.45818,
+        "source_weight_bytes": 1806336000,
+        "fp8_weight_and_scale_bytes": 904422400
+      },
+      "quality": {
+        "mode": "quality_gated",
+        "status": "bounded_pass",
+        "component_minimum_cosine": 0.9993184804916382,
+        "component_maximum_relative_rmse": 0.03692222386598587,
+        "video_contract_valid": true,
+        "sampled_visual_verdict": "pass_no_critical_corruption",
+        "lpips": "NOT_RUN",
+        "vbench": "NOT_RUN",
+        "broad_quality_parity": "NOT_CLAIMED"
+      },
+      "artifacts": {
+        "component_smoke": "evidence/component/fp8_component_full_m32760.json",
+        "primary_benchmark": "evidence/on013/benchmark.json",
+        "confirmation_benchmark": "evidence/on013_confirm/benchmark.json",
+        "primary_log": "evidence/on013/run.log",
+        "confirmation_log": "evidence/on013_confirm/run.log",
+        "timing_receipts": "TIMING-RECEIPTS.json",
+        "primary_quality": "evidence/on013/quality.json",
+        "confirmation_quality": "evidence/on013_confirm/quality.json",
+        "trajectory": "TRAJECTORY.jsonl",
+        "search_state": "FP8-SEARCH-STATE.json",
+        "video_sha256": "171700f5e7e4800f1ce351920dac267864756886b60bb59cb138cbdec547575f"
+      }
+    }
+  ],
+  "rejected": [
+    {
+      "candidate": "fp8_ffn_all_blocks_cache010",
+      "reason": "inherited EasyCache threshold lost hits from 18 to 9 and made the warmed request slower than the BF16 integrated control"
+    }
+  ],
+  "not_run": [
+    "official autonomous FP8 executor run and schema-v2 DELIVERY.json",
+    "fp8_ffn_only_all_blocks end-to-end attribution",
+    "BF16 cache-0.13 counterfactual",
+    "second prompt",
+    "VBench",
+    "LPIPS",
+    "blind reviewer"
+  ]
+}

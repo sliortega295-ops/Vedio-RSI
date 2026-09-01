@@ -1,0 +1,80 @@
+{
+  "schema_version": 1,
+  "timing_scope": {
+    "outer_total_s": "first gen.generate envelope including one-step runtime warmup, text encoding, denoise, decode, and video write; model load excluded",
+    "warmup_request_s": "runtime one-step warmup inside the first gen.generate call",
+    "warm_steady_state_s": "reported request time after the runtime warmup",
+    "denoise_s": "DenoisingStage elapsed time",
+    "decode_s": "DecodingStage elapsed time"
+  },
+  "parser": {
+    "version": "gpu_infer_timing_receipt_v1",
+    "preprocess": "strip ANSI escape sequences",
+    "patterns": {
+      "outer_total_s": "GENERATE_OK in ([0-9.]+)s",
+      "warmup_request_s": "Warmup req .* processed in ([0-9.]+) seconds",
+      "warm_steady_state_s": "Warmed-up request processed in ([0-9.]+) seconds",
+      "denoise_s": "\\[DenoisingStage\\] finished in ([0-9.]+) seconds",
+      "decode_s": "\\[DecodingStage\\] finished in ([0-9.]+) seconds"
+    }
+  },
+  "runs": [
+    {
+      "id": "fresh_integrated_fp8_off",
+      "log": "evidence/off/run.log",
+      "log_sha256": "6808c5d24827b3e5fbf59b3933564fee12395e94091aa5dba681cf94ec32823e",
+      "source_lines": {"warmup": 110, "denoise": 220, "decode": 222, "steady": 225, "outer": 227},
+      "outer_total_s": 38.2,
+      "warmup_request_s": 13.91,
+      "warm_steady_state_s": 23.32,
+      "denoise_s": 19.8883,
+      "decode_s": 3.0557,
+      "cache_hits": 18,
+      "cache_computes": 32,
+      "fp8_active_modules": 0
+    },
+    {
+      "id": "fp8_cache_010",
+      "log": "evidence/on010/run.log",
+      "log_sha256": "e5c5c0d264cafa134335c92e4d95455d090fcc39cd187d4e5a9e9bc2f3c90b53",
+      "source_lines": {"warmup": 145, "denoise": 255, "decode": 257, "steady": 260, "outer": 262},
+      "outer_total_s": 31.9,
+      "warmup_request_s": 5.56,
+      "warm_steady_state_s": 25.36,
+      "denoise_s": 21.9633,
+      "decode_s": 3.0177,
+      "cache_hits": 9,
+      "cache_computes": 41,
+      "fp8_active_modules": 40
+    },
+    {
+      "id": "fp8_cache_013",
+      "log": "evidence/on013/run.log",
+      "log_sha256": "d49a65a4fb692776fc6574e12a861d0f1f292ae1025286eb74d0e9ad8ebdc808",
+      "source_lines": {"warmup": 145, "denoise": 255, "decode": 257, "steady": 260, "outer": 262},
+      "outer_total_s": 27.3,
+      "warmup_request_s": 5.31,
+      "warm_steady_state_s": 20.99,
+      "denoise_s": 17.6059,
+      "decode_s": 3.0141,
+      "cache_hits": 17,
+      "cache_computes": 33,
+      "fp8_active_modules": 40
+    },
+    {
+      "id": "fp8_cache_013_confirmation",
+      "log": "evidence/on013_confirm/run.log",
+      "log_sha256": "47bbbc6421a39c6f9884ada4e438d73359c6b650bd6da54e6cb1749b496d3f09",
+      "source_lines": {"warmup": 145, "denoise": 255, "decode": 257, "steady": 260, "outer": 262},
+      "outer_total_s": 27.4,
+      "warmup_request_s": 5.44,
+      "warm_steady_state_s": 20.98,
+      "denoise_s": 17.5913,
+      "decode_s": 3.0126,
+      "cache_hits": 17,
+      "cache_computes": 33,
+      "fp8_active_modules": 40
+    }
+  ],
+  "attribution_boundary": "The 0.13 candidate changes both FP8 precision and the EasyCache threshold relative to the 0.10 BF16 control. Its 1.11127x steady and 1.13011x denoise results are joint integrated-candidate gains, not isolated FP8 gains."
+}

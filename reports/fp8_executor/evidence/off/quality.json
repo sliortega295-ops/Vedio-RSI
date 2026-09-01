@@ -1,0 +1,51 @@
+{
+  "checks": {
+    "duration": true,
+    "fps": true,
+    "frames": true,
+    "height": true,
+    "nonempty": true,
+    "width": true
+  },
+  "ffprobe": {
+    "duration_s": 5.0625,
+    "fps": 16.0,
+    "frames": 81,
+    "height": 480,
+    "raw": {
+      "format": {
+        "duration": "5.063000"
+      },
+      "programs": [],
+      "streams": [
+        {
+          "duration": "5.062500",
+          "height": 480,
+          "nb_frames": "81",
+          "nb_read_frames": "81",
+          "r_frame_rate": "16/1",
+          "width": 832
+        }
+      ]
+    },
+    "width": 832
+  },
+  "frames": [
+    {
+      "bytes": 638787,
+      "path": "/home/jiangzhikun/yongyan_liu/Experiments/SolAgent/20260901-sana-video-fp8-executor/runs/20260901-113637-sana_video_2b_h100_integrated_kernel_r20_cache_r12-fp8-off-gpu6/outputs/frames/frame_01.png",
+      "sha256": "2ac5be96fe3400b07b3893da1284703836c5c873fcb79c0f3a8ce11ab407624c"
+    },
+    {
+      "bytes": 707967,
+      "path": "/home/jiangzhikun/yongyan_liu/Experiments/SolAgent/20260901-sana-video-fp8-executor/runs/20260901-113637-sana_video_2b_h100_integrated_kernel_r20_cache_r12-fp8-off-gpu6/outputs/frames/frame_02.png",
+      "sha256": "e2f7d3899ee85e4f507e5fb52ab59ca1120ebc5618e9f5d9afa34498bbbc3f87"
+    },
+    {
+      "bytes": 643846,
+      "path": "/home/jiangzhikun/yongyan_liu/Experiments/SolAgent/20260901-sana-video-fp8-executor/runs/20260901-113637-sana_video_2b_h100_integrated_kernel_r20_cache_r12-fp8-off-gpu6/outputs/frames/frame_03.png",
+      "sha256": "44866658066e0ca718be6a4992724300d31b70efd5c1d9ae999db6fe4bd915f2"
+    }
+  ],
+  "status": "VALIDATED"
+}

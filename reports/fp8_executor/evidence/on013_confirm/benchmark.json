@@ -1,0 +1,1702 @@
+{
+  "cache": {
+    "computed_steps": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      15,
+      17,
+      19,
+      21,
+      23,
+      25,
+      27,
+      29,
+      31,
+      33,
+      35,
+      37,
+      39,
+      41,
+      43,
+      45,
+      47,
+      48,
+      49
+    ],
+    "computes": 33,
+    "end_step": 49,
+    "family": "easycache",
+    "hit_rate": 0.34,
+    "hits": 17,
+    "max_continuous_hits": 2,
+    "reasons": {
+      "cache_hit": 17,
+      "end_boundary": 1,
+      "threshold_recompute": 29,
+      "warmup_or_start": 3
+    },
+    "residual_history_steps": {
+      "0": [
+        49
+      ],
+      "1": [
+        49
+      ]
+    },
+    "skipped_steps": [
+      14,
+      16,
+      18,
+      20,
+      22,
+      24,
+      26,
+      28,
+      30,
+      32,
+      34,
+      36,
+      38,
+      40,
+      42,
+      44,
+      46
+    ],
+    "start_step": 0,
+    "subsample": 8,
+    "taylor_damping": 1.0,
+    "taylor_order": 1,
+    "threshold": 0.13,
+    "total_decisions": 50,
+    "warmup_steps": 3
+  },
+  "decode_s": 3.0126,
+  "denoise_s": 17.5913,
+  "fp8": {
+    "active_module_count": 40,
+    "active_modules": [
+      {
+        "backend": "sglang_w8a8_e4m3",
+        "input_dtype": "torch.bfloat16",
+        "input_shape": [
+          21,
+          2240,
+          30,
+          52
+        ],
+        "module": "transformer_blocks.0.ff.conv_inverted",
+        "weight_dtype": "torch.float8_e4m3fn"
+      },
+      {
+        "backend": "sglang_w8a8_e4m3",
+        "input_dtype": "torch.bfloat16",
+        "input_shape": [
+          21,
+          6720,
+          30,
+          52
+        ],
+        "module": "transformer_blocks.0.ff.conv_point",
+        "weight_dtype": "torch.float8_e4m3fn"
+      },
+      {
+        "backend": "sglang_w8a8_e4m3",
+        "input_dtype": "torch.bfloat16",
+        "input_shape": [
+          21,
+          2240,
+          30,
+          52
+        ],
+        "module": "transformer_blocks.1.ff.conv_inverted",
+        "weight_dtype": "torch.float8_e4m3fn"
+      },
+      {
+        "backend": "sglang_w8a8_e4m3",
+        "input_dtype": "torch.bfloat16",
+        "input_shape": [
+          21,
+          6720,
+          30,
+          52
+        ],
+        "module": "transformer_blocks.1.ff.conv_point",
+        "weight_dtype": "torch.float8_e4m3fn"
+      },
+      {
+        "backend": "sglang_w8a8_e4m3",
+        "input_dtype": "torch.bfloat16",
+        "input_shape": [
+          21,
+          2240,
+          30,
+          52
+        ],
+        "module": "transformer_blocks.2.ff.conv_inverted",
+        "weight_dtype": "torch.float8_e4m3fn"
+      },
+      {
+        "backend": "sglang_w8a8_e4m3",
+        "input_dtype": "torch.bfloat16",
+        "input_shape": [
+          21,
+          6720,
+          30,
+          52
+        ],
+        "module": "transformer_blocks.2.ff.conv_point",
+        "weight_dtype": "torch.float8_e4m3fn"
+      },
+      {
+        "backend": "sglang_w8a8_e4m3",
+        "input_dtype": "torch.bfloat16",
+        "input_shape": [
+          21,
+          2240,
+          30,
+          52
+        ],
+        "module": "transformer_blocks.3.ff.conv_inverted",
+        "weight_dtype": "torch.float8_e4m3fn"
+      },
+      {
+        "backend": "sglang_w8a8_e4m3",
+        "input_dtype": "torch.bfloat16",
+        "input_shape": [
+          21,
+          6720,
+          30,
+          52
+        ],
+        "module": "transformer_blocks.3.ff.conv_point",
+        "weight_dtype": "torch.float8_e4m3fn"
+      },
+      {
+        "backend": "sglang_w8a8_e4m3",
+        "input_dtype": "torch.bfloat16",
+        "input_shape": [
+          21,
+          2240,
+          30,
+          52
+        ],
+        "module": "transformer_blocks.4.ff.conv_inverted",
+        "weight_dtype": "torch.float8_e4m3fn"
+      },
+      {
+        "backend": "sglang_w8a8_e4m3",
+        "input_dtype": "torch.bfloat16",
+        "input_shape": [
+          21,
+          6720,
+          30,
+          52
+        ],
+        "module": "transformer_blocks.4.ff.conv_point",
+        "weight_dtype": "torch.float8_e4m3fn"
+      },
+      {
+        "backend": "sglang_w8a8_e4m3",
+        "input_dtype": "torch.bfloat16",
+        "input_shape": [
+          21,
+          2240,
+          30,
+          52
+        ],
+        "module": "transformer_blocks.5.ff.conv_inverted",
+        "weight_dtype": "torch.float8_e4m3fn"
+      },
+      {
+        "backend": "sglang_w8a8_e4m3",
+        "input_dtype": "torch.bfloat16",
+        "input_shape": [
+          21,
+          6720,
+          30,
+          52
+        ],
+        "module": "transformer_blocks.5.ff.conv_point",
+        "weight_dtype": "torch.float8_e4m3fn"
+      },
+      {
+        "backend": "sglang_w8a8_e4m3",
+        "input_dtype": "torch.bfloat16",
+        "input_shape": [
+          21,
+          2240,
+          30,
+          52
+        ],
+        "module": "transformer_blocks.6.ff.conv_inverted",
+        "weight_dtype": "torch.float8_e4m3fn"
+      },
+      {
+        "backend": "sglang_w8a8_e4m3",
+        "input_dtype": "torch.bfloat16",
+        "input_shape": [
+          21,
+          6720,
+          30,
+          52
+        ],
+        "module": "transformer_blocks.6.ff.conv_point",
+        "weight_dtype": "torch.float8_e4m3fn"
+      },
+      {
+        "backend": "sglang_w8a8_e4m3",
+        "input_dtype": "torch.bfloat16",
+        "input_shape": [
+          21,
+          2240,
+          30,
+          52
+        ],
+        "module": "transformer_blocks.7.ff.conv_inverted",
+        "weight_dtype": "torch.float8_e4m3fn"
+      },
+      {
+        "backend": "sglang_w8a8_e4m3",
+        "input_dtype": "torch.bfloat16",
+        "input_shape": [
+          21,
+          6720,
+          30,
+          52
+        ],
+        "module": "transformer_blocks.7.ff.conv_point",
+        "weight_dtype": "torch.float8_e4m3fn"
+      },
+      {
+        "backend": "sglang_w8a8_e4m3",
+        "input_dtype": "torch.bfloat16",
+        "input_shape": [
+          21,
+          2240,
+          30,
+          52
+        ],
+        "module": "transformer_blocks.8.ff.conv_inverted",
+        "weight_dtype": "torch.float8_e4m3fn"
+      },
+      {
+        "backend": "sglang_w8a8_e4m3",
+        "input_dtype": "torch.bfloat16",
+        "input_shape": [
+          21,
+          6720,
+          30,
+          52
+        ],
+        "module": "transformer_blocks.8.ff.conv_point",
+        "weight_dtype": "torch.float8_e4m3fn"
+      },
+      {
+        "backend": "sglang_w8a8_e4m3",
+        "input_dtype": "torch.bfloat16",
+        "input_shape": [
+          21,
+          2240,
+          30,
+          52
+        ],
+        "module": "transformer_blocks.9.ff.conv_inverted",
+        "weight_dtype": "torch.float8_e4m3fn"
+      },
+      {
+        "backend": "sglang_w8a8_e4m3",
+        "input_dtype": "torch.bfloat16",
+        "input_shape": [
+          21,
+          6720,
+          30,
+          52
+        ],
+        "module": "transformer_blocks.9.ff.conv_point",
+        "weight_dtype": "torch.float8_e4m3fn"
+      },
+      {
+        "backend": "sglang_w8a8_e4m3",
+        "input_dtype": "torch.bfloat16",
+        "input_shape": [
+          21,
+          2240,
+          30,
+          52
+        ],
+        "module": "transformer_blocks.10.ff.conv_inverted",
+        "weight_dtype": "torch.float8_e4m3fn"
+      },
+      {
+        "backend": "sglang_w8a8_e4m3",
+        "input_dtype": "torch.bfloat16",
+        "input_shape": [
+          21,
+          6720,
+          30,
+          52
+        ],
+        "module": "transformer_blocks.10.ff.conv_point",
+        "weight_dtype": "torch.float8_e4m3fn"
+      },
+      {
+        "backend": "sglang_w8a8_e4m3",
+        "input_dtype": "torch.bfloat16",
+        "input_shape": [
+          21,
+          2240,
+          30,
+          52
+        ],
+        "module": "transformer_blocks.11.ff.conv_inverted",
+        "weight_dtype": "torch.float8_e4m3fn"
+      },
+      {
+        "backend": "sglang_w8a8_e4m3",
+        "input_dtype": "torch.bfloat16",
+        "input_shape": [
+          21,
+          6720,
+          30,
+          52
+        ],
+        "module": "transformer_blocks.11.ff.conv_point",
+        "weight_dtype": "torch.float8_e4m3fn"
+      },
+      {
+        "backend": "sglang_w8a8_e4m3",
+        "input_dtype": "torch.bfloat16",
+        "input_shape": [
+          21,
+          2240,
+          30,
+          52
+        ],
+        "module": "transformer_blocks.12.ff.conv_inverted",
+        "weight_dtype": "torch.float8_e4m3fn"
+      },
+      {
+        "backend": "sglang_w8a8_e4m3",
+        "input_dtype": "torch.bfloat16",
+        "input_shape": [
+          21,
+          6720,
+          30,
+          52
+        ],
+        "module": "transformer_blocks.12.ff.conv_point",
+        "weight_dtype": "torch.float8_e4m3fn"
+      },
+      {
+        "backend": "sglang_w8a8_e4m3",
+        "input_dtype": "torch.bfloat16",
+        "input_shape": [
+          21,
+          2240,
+          30,
+          52
+        ],
+        "module": "transformer_blocks.13.ff.conv_inverted",
+        "weight_dtype": "torch.float8_e4m3fn"
+      },
+      {
+        "backend": "sglang_w8a8_e4m3",
+        "input_dtype": "torch.bfloat16",
+        "input_shape": [
+          21,
+          6720,
+          30,
+          52
+        ],
+        "module": "transformer_blocks.13.ff.conv_point",
+        "weight_dtype": "torch.float8_e4m3fn"
+      },
+      {
+        "backend": "sglang_w8a8_e4m3",
+        "input_dtype": "torch.bfloat16",
+        "input_shape": [
+          21,
+          2240,
+          30,
+          52
+        ],
+        "module": "transformer_blocks.14.ff.conv_inverted",
+        "weight_dtype": "torch.float8_e4m3fn"
+      },
+      {
+        "backend": "sglang_w8a8_e4m3",
+        "input_dtype": "torch.bfloat16",
+        "input_shape": [
+          21,
+          6720,
+          30,
+          52
+        ],
+        "module": "transformer_blocks.14.ff.conv_point",
+        "weight_dtype": "torch.float8_e4m3fn"
+      },
+      {
+        "backend": "sglang_w8a8_e4m3",
+        "input_dtype": "torch.bfloat16",
+        "input_shape": [
+          21,
+          2240,
+          30,
+          52
+        ],
+        "module": "transformer_blocks.15.ff.conv_inverted",
+        "weight_dtype": "torch.float8_e4m3fn"
+      },
+      {
+        "backend": "sglang_w8a8_e4m3",
+        "input_dtype": "torch.bfloat16",
+        "input_shape": [
+          21,
+          6720,
+          30,
+          52
+        ],
+        "module": "transformer_blocks.15.ff.conv_point",
+        "weight_dtype": "torch.float8_e4m3fn"
+      },
+      {
+        "backend": "sglang_w8a8_e4m3",
+        "input_dtype": "torch.bfloat16",
+        "input_shape": [
+          21,
+          2240,
+          30,
+          52
+        ],
+        "module": "transformer_blocks.16.ff.conv_inverted",
+        "weight_dtype": "torch.float8_e4m3fn"
+      },
+      {
+        "backend": "sglang_w8a8_e4m3",
+        "input_dtype": "torch.bfloat16",
+        "input_shape": [
+          21,
+          6720,
+          30,
+          52
+        ],
+        "module": "transformer_blocks.16.ff.conv_point",
+        "weight_dtype": "torch.float8_e4m3fn"
+      },
+      {
+        "backend": "sglang_w8a8_e4m3",
+        "input_dtype": "torch.bfloat16",
+        "input_shape": [
+          21,
+          2240,
+          30,
+          52
+        ],
+        "module": "transformer_blocks.17.ff.conv_inverted",
+        "weight_dtype": "torch.float8_e4m3fn"
+      },
+      {
+        "backend": "sglang_w8a8_e4m3",
+        "input_dtype": "torch.bfloat16",
+        "input_shape": [
+          21,
+          6720,
+          30,
+          52
+        ],
+        "module": "transformer_blocks.17.ff.conv_point",
+        "weight_dtype": "torch.float8_e4m3fn"
+      },
+      {
+        "backend": "sglang_w8a8_e4m3",
+        "input_dtype": "torch.bfloat16",
+        "input_shape": [
+          21,
+          2240,
+          30,
+          52
+        ],
+        "module": "transformer_blocks.18.ff.conv_inverted",
+        "weight_dtype": "torch.float8_e4m3fn"
+      },
+      {
+        "backend": "sglang_w8a8_e4m3",
+        "input_dtype": "torch.bfloat16",
+        "input_shape": [
+          21,
+          6720,
+          30,
+          52
+        ],
+        "module": "transformer_blocks.18.ff.conv_point",
+        "weight_dtype": "torch.float8_e4m3fn"
+      },
+      {
+        "backend": "sglang_w8a8_e4m3",
+        "input_dtype": "torch.bfloat16",
+        "input_shape": [
+          21,
+          2240,
+          30,
+          52
+        ],
+        "module": "transformer_blocks.19.ff.conv_inverted",
+        "weight_dtype": "torch.float8_e4m3fn"
+      },
+      {
+        "backend": "sglang_w8a8_e4m3",
+        "input_dtype": "torch.bfloat16",
+        "input_shape": [
+          21,
+          6720,
+          30,
+          52
+        ],
+        "module": "transformer_blocks.19.ff.conv_point",
+        "weight_dtype": "torch.float8_e4m3fn"
+      }
+    ],
+    "enabled": true,
+    "install": {
+      "backend": {
+        "backend": "sglang_w8a8_e4m3",
+        "compute_capability": [
+          9,
+          0
+        ],
+        "cutlass_fp8_supported": true,
+        "device": "cuda:0",
+        "device_name": "NVIDIA H100 80GB HBM3",
+        "fp8_dtype": "torch.float8_e4m3fn",
+        "source_dtype": "torch.bfloat16"
+      },
+      "converted_modules": [
+        "transformer_blocks.0.ff.conv_inverted",
+        "transformer_blocks.0.ff.conv_point",
+        "transformer_blocks.1.ff.conv_inverted",
+        "transformer_blocks.1.ff.conv_point",
+        "transformer_blocks.2.ff.conv_inverted",
+        "transformer_blocks.2.ff.conv_point",
+        "transformer_blocks.3.ff.conv_inverted",
+        "transformer_blocks.3.ff.conv_point",
+        "transformer_blocks.4.ff.conv_inverted",
+        "transformer_blocks.4.ff.conv_point",
+        "transformer_blocks.5.ff.conv_inverted",
+        "transformer_blocks.5.ff.conv_point",
+        "transformer_blocks.6.ff.conv_inverted",
+        "transformer_blocks.6.ff.conv_point",
+        "transformer_blocks.7.ff.conv_inverted",
+        "transformer_blocks.7.ff.conv_point",
+        "transformer_blocks.8.ff.conv_inverted",
+        "transformer_blocks.8.ff.conv_point",
+        "transformer_blocks.9.ff.conv_inverted",
+        "transformer_blocks.9.ff.conv_point",
+        "transformer_blocks.10.ff.conv_inverted",
+        "transformer_blocks.10.ff.conv_point",
+        "transformer_blocks.11.ff.conv_inverted",
+        "transformer_blocks.11.ff.conv_point",
+        "transformer_blocks.12.ff.conv_inverted",
+        "transformer_blocks.12.ff.conv_point",
+        "transformer_blocks.13.ff.conv_inverted",
+        "transformer_blocks.13.ff.conv_point",
+        "transformer_blocks.14.ff.conv_inverted",
+        "transformer_blocks.14.ff.conv_point",
+        "transformer_blocks.15.ff.conv_inverted",
+        "transformer_blocks.15.ff.conv_point",
+        "transformer_blocks.16.ff.conv_inverted",
+        "transformer_blocks.16.ff.conv_point",
+        "transformer_blocks.17.ff.conv_inverted",
+        "transformer_blocks.17.ff.conv_point",
+        "transformer_blocks.18.ff.conv_inverted",
+        "transformer_blocks.18.ff.conv_point",
+        "transformer_blocks.19.ff.conv_inverted",
+        "transformer_blocks.19.ff.conv_point"
+      ],
+      "enabled": true,
+      "fp8_weight_bytes": 904422400,
+      "policy": {
+        "block_end": -1,
+        "block_start": 0,
+        "enabled": true,
+        "scope": "ffn_1x1",
+        "strict": true
+      },
+      "skipped_modules": [],
+      "source_weight_bytes": 1806336000,
+      "status": "installed"
+    }
+  },
+  "generation_s": 27.4,
+  "gpu_after": {
+    "index": 6,
+    "memory_total_mib": 81559,
+    "memory_used_mib": 0,
+    "name": "NVIDIA H100 80GB HBM3",
+    "utilization_gpu_percent": 0,
+    "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+  },
+  "gpu_before": {
+    "index": 6,
+    "memory_total_mib": 81559,
+    "memory_used_mib": 0,
+    "name": "NVIDIA H100 80GB HBM3",
+    "utilization_gpu_percent": 0,
+    "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+  },
+  "max_device_memory_used_mib": 17476.0,
+  "memory": {
+    "max_device_memory_used_mib": 17476.0
+  },
+  "nproc": 1,
+  "num_gpus": 1,
+  "nvidia_smi_peak_memory_mib": 23027,
+  "nvidia_smi_sample_count": 107,
+  "nvidia_smi_samples": [
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 0,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:48:59.802961+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 0,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:49:00.480168+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 0,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:49:01.190572+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 0,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:49:01.834795+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 0,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:49:02.505727+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 0,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:49:03.189893+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 0,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:49:03.882544+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 3,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:49:04.736387+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 3,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:49:05.427349+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 3,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:49:06.159283+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 3,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:49:06.848606+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 3,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:49:07.514451+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 3,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:49:08.190600+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 3,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:49:08.871371+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 3,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:49:09.570146+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 3,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:49:10.272397+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 3,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:49:10.923315+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 3,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:49:11.609801+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 3,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:49:12.271335+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 3,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:49:12.925958+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 3,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:49:13.606061+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 3,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:49:14.311376+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 3,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:49:15.003703+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 3,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:49:15.703348+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 3,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:49:16.384225+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 3,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:49:17.077870+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 3,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:49:17.740028+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 3,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:49:18.403480+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 3,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:49:19.079672+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 3,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:49:19.776467+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 3,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:49:20.522807+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 3,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:49:21.229845+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 3,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:49:21.874791+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 3,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:49:22.534027+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 3,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:49:23.187091+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 3,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:49:23.872481+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 3,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:49:24.539319+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 3,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:49:25.229088+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 3,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:49:25.904799+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 3,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:49:26.580020+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 39,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:49:27.312255+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 721,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:49:28.134582+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 3531,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:49:28.880835+00:00",
+      "utilization_gpu_percent": 1,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 5555,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:49:29.577803+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 6229,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:49:30.279236+00:00",
+      "utilization_gpu_percent": 2,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 6913,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:49:30.978337+00:00",
+      "utilization_gpu_percent": 2,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 7559,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:49:31.633313+00:00",
+      "utilization_gpu_percent": 2,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 8173,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:49:32.313944+00:00",
+      "utilization_gpu_percent": 2,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 8769,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:49:32.973474+00:00",
+      "utilization_gpu_percent": 2,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 9343,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:49:33.626233+00:00",
+      "utilization_gpu_percent": 2,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 9233,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:49:34.380216+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 9233,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:49:35.075088+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 9233,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:49:35.913985+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 9233,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:49:36.603441+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 9233,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:49:37.292364+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 9235,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:49:37.943821+00:00",
+      "utilization_gpu_percent": 1,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 9237,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:49:38.603928+00:00",
+      "utilization_gpu_percent": 1,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 9241,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:49:39.304701+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 9245,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:49:39.970921+00:00",
+      "utilization_gpu_percent": 1,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 10371,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:49:40.624243+00:00",
+      "utilization_gpu_percent": 4,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 10829,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:49:41.291021+00:00",
+      "utilization_gpu_percent": 1,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 10831,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:49:41.936376+00:00",
+      "utilization_gpu_percent": 1,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 10831,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:49:42.737184+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 10831,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:49:43.405070+00:00",
+      "utilization_gpu_percent": 2,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 11365,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:49:44.102691+00:00",
+      "utilization_gpu_percent": 72,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 15423,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:49:44.806572+00:00",
+      "utilization_gpu_percent": 5,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 15423,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:49:45.478882+00:00",
+      "utilization_gpu_percent": 3,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 16855,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:49:46.190071+00:00",
+      "utilization_gpu_percent": 85,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 21855,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:49:46.873076+00:00",
+      "utilization_gpu_percent": 100,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 21855,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:49:47.540178+00:00",
+      "utilization_gpu_percent": 100,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 21855,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:49:48.209279+00:00",
+      "utilization_gpu_percent": 100,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 21855,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:49:48.907677+00:00",
+      "utilization_gpu_percent": 100,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 21857,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:49:49.574766+00:00",
+      "utilization_gpu_percent": 98,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 21857,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:49:50.246371+00:00",
+      "utilization_gpu_percent": 100,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 21857,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:49:50.919159+00:00",
+      "utilization_gpu_percent": 100,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 21857,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:49:51.579374+00:00",
+      "utilization_gpu_percent": 100,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 21857,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:49:52.228884+00:00",
+      "utilization_gpu_percent": 100,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 21857,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:49:52.879138+00:00",
+      "utilization_gpu_percent": 100,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 21857,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:49:53.530982+00:00",
+      "utilization_gpu_percent": 100,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 21857,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:49:54.217113+00:00",
+      "utilization_gpu_percent": 100,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 21857,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:49:54.913119+00:00",
+      "utilization_gpu_percent": 100,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 21857,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:49:55.609741+00:00",
+      "utilization_gpu_percent": 100,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 21857,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:49:56.317238+00:00",
+      "utilization_gpu_percent": 100,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 21857,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:49:57.005237+00:00",
+      "utilization_gpu_percent": 100,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 21857,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:49:57.745531+00:00",
+      "utilization_gpu_percent": 100,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 21857,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:49:58.421458+00:00",
+      "utilization_gpu_percent": 100,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 21857,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:49:59.118777+00:00",
+      "utilization_gpu_percent": 100,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 21857,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:49:59.813756+00:00",
+      "utilization_gpu_percent": 100,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 21857,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:50:00.484722+00:00",
+      "utilization_gpu_percent": 100,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 21857,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:50:01.189621+00:00",
+      "utilization_gpu_percent": 100,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 21857,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:50:01.837081+00:00",
+      "utilization_gpu_percent": 100,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 21857,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:50:02.571815+00:00",
+      "utilization_gpu_percent": 100,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 21857,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:50:03.228967+00:00",
+      "utilization_gpu_percent": 100,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 21857,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:50:03.924861+00:00",
+      "utilization_gpu_percent": 100,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 21857,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:50:04.756404+00:00",
+      "utilization_gpu_percent": 100,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 21857,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:50:05.448632+00:00",
+      "utilization_gpu_percent": 100,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 21857,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:50:06.190189+00:00",
+      "utilization_gpu_percent": 100,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 21857,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:50:06.871908+00:00",
+      "utilization_gpu_percent": 100,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 21857,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:50:07.522837+00:00",
+      "utilization_gpu_percent": 100,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 23027,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:50:08.190707+00:00",
+      "utilization_gpu_percent": 100,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 23027,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:50:08.871426+00:00",
+      "utilization_gpu_percent": 100,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 23027,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:50:09.548729+00:00",
+      "utilization_gpu_percent": 100,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 23027,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:50:10.223283+00:00",
+      "utilization_gpu_percent": 81,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 11589,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:50:10.874820+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 11575,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:50:11.584639+00:00",
+      "utilization_gpu_percent": 8,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 3,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:50:13.008328+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    },
+    {
+      "index": 6,
+      "memory_total_mib": 81559,
+      "memory_used_mib": 3,
+      "name": "NVIDIA H100 80GB HBM3",
+      "sampled_at_utc": "2026-09-01T11:50:13.675819+00:00",
+      "utilization_gpu_percent": 0,
+      "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+    }
+  ],
+  "process_wall_s": 74.13199773710221,
+  "prompt_count": 1,
+  "residual_compute_apps": [],
+  "returncode": 0,
+  "runtime_peak_memory_mb": 17476.0,
+  "schema_version": 1,
+  "status": "VALIDATED",
+  "steady_state_timing_scope": "runtime_reported_warmed_request_excluding_one_step_model_warmup",
+  "steps_per_prompt": 50,
+  "timing_scope": "first_gen.generate_call_including_one_step_runtime_warmup_text_encoder_denoise_vae_decode_and_video_write_excluding_model_load",
+  "total_s": 27.4,
+  "validity": {
+    "checks": {
+      "duration": true,
+      "fps": true,
+      "frames": true,
+      "height": true,
+      "nonempty": true,
+      "width": true
+    },
+    "ffprobe": {
+      "duration_s": 5.0625,
+      "fps": 16.0,
+      "frames": 81,
+      "height": 480,
+      "raw": {
+        "format": {
+          "duration": "5.063000"
+        },
+        "programs": [],
+        "streams": [
+          {
+            "duration": "5.062500",
+            "height": 480,
+            "nb_frames": "81",
+            "nb_read_frames": "81",
+            "r_frame_rate": "16/1",
+            "width": 832
+          }
+        ]
+      },
+      "width": 832
+    },
+    "frames": [
+      {
+        "bytes": 661192,
+        "path": "/home/jiangzhikun/yongyan_liu/Experiments/SolAgent/20260901-sana-video-fp8-executor/runs/20260901-114859-sana_video_2b_h100_fp8_ffn_all_blocks_cache013-fp8-cache013-confirm-gpu6/outputs/frames/frame_01.png",
+        "sha256": "ad8b0e8a16ddf7ff30f597b6a00f221ee3b785c11ba127f2224de8af582eddc2"
+      },
+      {
+        "bytes": 734032,
+        "path": "/home/jiangzhikun/yongyan_liu/Experiments/SolAgent/20260901-sana-video-fp8-executor/runs/20260901-114859-sana_video_2b_h100_fp8_ffn_all_blocks_cache013-fp8-cache013-confirm-gpu6/outputs/frames/frame_02.png",
+        "sha256": "b26909c60c83a8f5e18c90eada7ec59d6f04773901998f7107179f863bc521c4"
+      },
+      {
+        "bytes": 683275,
+        "path": "/home/jiangzhikun/yongyan_liu/Experiments/SolAgent/20260901-sana-video-fp8-executor/runs/20260901-114859-sana_video_2b_h100_fp8_ffn_all_blocks_cache013-fp8-cache013-confirm-gpu6/outputs/frames/frame_03.png",
+        "sha256": "48e5506e3952c583379c21815900c26125eeb3868a1375d63956956cb30c5fee"
+      }
+    ],
+    "status": "VALIDATED"
+  },
+  "video": {
+    "bytes": 561322,
+    "path": "/home/jiangzhikun/yongyan_liu/Experiments/SolAgent/20260901-sana-video-fp8-executor/runs/20260901-114859-sana_video_2b_h100_fp8_ffn_all_blocks_cache013-fp8-cache013-confirm-gpu6/outputs/out.mp4",
+    "sha256": "171700f5e7e4800f1ce351920dac267864756886b60bb59cb138cbdec547575f"
+  },
+  "warm_steady_state_s": 20.98,
+  "warmup_policy": "one_step_model_warmup_before_measured_generation",
+  "warmup_request_s": 5.44,
+  "world_size": 1
+}

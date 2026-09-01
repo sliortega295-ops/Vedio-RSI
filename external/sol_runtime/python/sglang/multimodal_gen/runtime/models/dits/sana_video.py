@@ -48,6 +48,10 @@ from sglang.multimodal_gen.runtime.managers.memory_managers.layerwise_offload im
 )
 from sglang.multimodal_gen.runtime.models.dits.base import CachableDiT
 from sglang.multimodal_gen.runtime.models.dits.sana import SanaAdaLayerNormSingle
+from sglang.multimodal_gen.runtime.models.dits.sana_fp8 import (
+    collect_sana_fp8_runtime,
+    install_sana_fp8,
+)
 from sglang.multimodal_gen.runtime.utils.logging_utils import init_logger
 
 logger = init_logger(__name__)
@@ -749,6 +753,7 @@ class SanaVideoTransformer3DModel(CachableDiT, LayerwiseOffloadableModuleMixin):
         # the block stack on the first call and print the per-op CUDA-time breakdown.
         self._profile = bool(os.environ.get("SGLANG_SANA_PROFILE", ""))
         self._profiled = False
+        self._fp8_install_report = None
 
     # --- compiled hot path vs. eager cache control ----------------------------
     # sglang compiles the WHOLE DiT forward (denoising.py: module.compile()). To
@@ -879,6 +884,13 @@ class SanaVideoTransformer3DModel(CachableDiT, LayerwiseOffloadableModuleMixin):
             ff = getattr(blk, "ff", None)
             if ff is not None and hasattr(ff, "build_fused_gate"):
                 ff.build_fused_gate()
+        # Quantize only after every BF16 cast and optional channel permutation is
+        # finalized.  OFF returns without replacing a module; ON prints a
+        # machine-readable installation receipt and fails closed in strict mode.
+        self._fp8_install_report = install_sana_fp8(self)
+
+    def fp8_runtime_summary(self) -> dict:
+        return collect_sana_fp8_runtime(self)
 
     def forward(
         self,

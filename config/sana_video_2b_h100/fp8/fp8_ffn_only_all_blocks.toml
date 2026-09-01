@@ -1,0 +1,50 @@
+id = "sana_video_2b_h100_fp8_ffn_only_all_blocks"
+kind = "patch"
+purpose = "frontier"
+description = "Isolated H100 W8A8 E4M3 attribution run for both SANA FFN 1x1 projections in all 20 blocks."
+model_profile = "sana_video_2b_h100"
+
+[runtime]
+root = "models/sana_video_2b_h100/baseline"
+python = "/home/jiangzhikun/yongyan_liu/Experiments/SolAgent/20260827-official-repro/envs/sana-cu128-phase0/bin/python"
+
+[env]
+SANA_ENABLE_COMPILE = "0"
+SANA_ENABLE_MAX_AUTOTUNE = "0"
+SANA_ENABLE_LINATTN_BF16 = "0"
+SANA_ENABLE_QKV_MERGE = "0"
+SANA_ENABLE_FP8 = "1"
+SANA_FP8_SCOPE = "ffn_1x1"
+SANA_FP8_BLOCK_START = "0"
+SANA_FP8_BLOCK_END = "-1"
+SANA_FP8_STRICT = "1"
+SANA_EASYCACHE_THRESH = "0"
+SANA_DISABLE_WARMUP = "0"
+SGLANG_SANA_XATTN_KV_CACHE = "0"
+SGLANG_SANA_BLOCK_EPILOGUE_FUSION = "0"
+SGLANG_SANA_MODULATION_FUSION = "0"
+SGLANG_SANA_NORM_MODULATION_FUSION = "0"
+SGLANG_SANA_PAIRED_ROPE = "0"
+SGLANG_SANA_FUSED_QKNORM_RELU_ROPE = "0"
+SGLANG_SANA_FUSED_RECIPROCAL_SCALE = "0"
+SANA_CACHE_FAMILY = "off"
+SANA_CACHE_THRESHOLD = "0"
+SANA_CACHE_DEBUG = "0"
+
+[patch]
+summary = "Replace only SANA GLUMBTempConv pointwise projections with native H100 FP8 GEMMs."
+touch_points = [
+  "external/sol_runtime/python/sglang/multimodal_gen/runtime/models/dits/sana_fp8.py",
+  "external/sol_runtime/python/sglang/multimodal_gen/runtime/models/dits/sana_video.py",
+]
+off_identity_required = true
+
+[artifacts]
+output_dir = "outputs"
+video = "out.mp4"
+log = "run.log"
+benchmark = "benchmark.json"
+frames_dir = "frames"
+quality = "quality.json"
+collection = "collection.json"
+run_config = "run_config.json"

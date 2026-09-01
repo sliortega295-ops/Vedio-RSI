@@ -1,0 +1,31 @@
+{
+  "artifacts": {
+    "benchmark.json": {
+      "bytes": 49767,
+      "path": "/home/jiangzhikun/yongyan_liu/Experiments/SolAgent/20260901-sana-video-fp8-executor/runs/20260901-114859-sana_video_2b_h100_fp8_ffn_all_blocks_cache013-fp8-cache013-confirm-gpu6/outputs/benchmark.json",
+      "sha256": "b0221c19e9c0a375a73db2351b27b29c00c82a3ddc7ac44013a24bc49b44e0bb"
+    },
+    "out.mp4": {
+      "bytes": 561322,
+      "path": "/home/jiangzhikun/yongyan_liu/Experiments/SolAgent/20260901-sana-video-fp8-executor/runs/20260901-114859-sana_video_2b_h100_fp8_ffn_all_blocks_cache013-fp8-cache013-confirm-gpu6/outputs/out.mp4",
+      "sha256": "171700f5e7e4800f1ce351920dac267864756886b60bb59cb138cbdec547575f"
+    },
+    "quality.json": {
+      "bytes": 1653,
+      "path": "/home/jiangzhikun/yongyan_liu/Experiments/SolAgent/20260901-sana-video-fp8-executor/runs/20260901-114859-sana_video_2b_h100_fp8_ffn_all_blocks_cache013-fp8-cache013-confirm-gpu6/outputs/quality.json",
+      "sha256": "edb032cf631b8d5be0a033faaf52c4f63810ad39bb530343c37fc88ceb714c26"
+    },
+    "run.log": {
+      "bytes": 40130,
+      "path": "/home/jiangzhikun/yongyan_liu/Experiments/SolAgent/20260901-sana-video-fp8-executor/runs/20260901-114859-sana_video_2b_h100_fp8_ffn_all_blocks_cache013-fp8-cache013-confirm-gpu6/outputs/run.log",
+      "sha256": "47bbbc6421a39c6f9884ada4e438d73359c6b650bd6da54e6cb1749b496d3f09"
+    },
+    "run_config.json": {
+      "bytes": 7617,
+      "path": "/home/jiangzhikun/yongyan_liu/Experiments/SolAgent/20260901-sana-video-fp8-executor/runs/20260901-114859-sana_video_2b_h100_fp8_ffn_all_blocks_cache013-fp8-cache013-confirm-gpu6/outputs/run_config.json",
+      "sha256": "89631fa9e4bf0d58fb8d72055b6b95385c25f372fbf2198104e26343678207f3"
+    }
+  },
+  "schema_version": 1,
+  "status": "VALIDATED"
+}

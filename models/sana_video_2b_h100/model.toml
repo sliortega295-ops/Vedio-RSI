@@ -8,7 +8,7 @@ contract_kind = "model_baseline_minimal_copy"
 manifest = "config/sana_video_2b_h100/baseline.toml"
 runtime_root = "models/sana_video_2b_h100/baseline"
 eval_profile = "evals/profiles/official_video_t2v_sana_video_2b_h100.toml"
-description = "Frozen dense SANA-Video 2B control plus a copied, editable runtime for Kernel and Cache search."
+description = "Frozen dense SANA-Video 2B control plus a copied, editable runtime for Kernel, Cache, and H100 FP8 search."
 
 [baseline.copy]
 paths_are_repo_relative = true
@@ -26,6 +26,10 @@ include = [
   "models/sana_video_2b_h100/baseline/probe_h100.py",
   "models/sana_video_2b_h100/baseline/scripts/run_sana_video_2b_gpu.sh",
   "config/sana_video_2b_h100/baseline.toml",
+  "config/sana_video_2b_h100/fp8/fp8_ffn_all_blocks.toml",
+  "config/sana_video_2b_h100/fp8/fp8_ffn_all_blocks_cache013.toml",
+  "config/sana_video_2b_h100/fp8/fp8_ffn_only_all_blocks.toml",
+  "scripts/sana/fp8_component_smoke.py",
   "config/schema.md",
   "evals/profiles/official_video_t2v_sana_video_2b_h100.toml",
   "evals/tiers.toml",
@@ -64,6 +68,36 @@ exclude = [
   "rust/**",
   "3rdparty/**",
 ]
+
+[[baseline.overlay_copy]]
+name = "sana_video_fp8_model_wiring"
+source = "external/sol_runtime/python/sglang/multimodal_gen/runtime/models/dits/sana_video.py"
+dest = "external/sol_runtime/python/sglang/multimodal_gen/runtime/models/dits/sana_video.py"
+reason = "Install the experiment-owned FP8 hook after BF16 weight loading and fused-gate preparation."
+
+[[baseline.overlay_copy]]
+name = "sana_video_fp8_runtime"
+source = "external/sol_runtime/python/sglang/multimodal_gen/runtime/models/dits/sana_fp8.py"
+dest = "external/sol_runtime/python/sglang/multimodal_gen/runtime/models/dits/sana_fp8.py"
+reason = "Selective H100 W8A8 E4M3 implementation for SANA FFN pointwise projections."
+
+[[baseline.overlay_copy]]
+name = "sana_video_fp8_cli"
+source = "external/sol_runtime/scripts/sana/sana_video_sglang_run.py"
+dest = "external/sol_runtime/scripts/sana/sana_video_sglang_run.py"
+reason = "Expose the FP8 scope and dense-guard policy before model construction."
+
+[[baseline.overlay_copy]]
+name = "sana_video_fp8_transform"
+source = "external/sol_runtime/python/sglang/multimodal_gen/runtime/efficiency/transforms/fp8_ffn.py"
+dest = "external/sol_runtime/python/sglang/multimodal_gen/runtime/efficiency/transforms/fp8_ffn.py"
+reason = "Register FP8 as an exclusive load-time FFN-precision transform parallel to NVFP4."
+
+[[baseline.overlay_copy]]
+name = "sana_video_fp8_transform_registry"
+source = "external/sol_runtime/python/sglang/multimodal_gen/runtime/efficiency/transforms/__init__.py"
+dest = "external/sol_runtime/python/sglang/multimodal_gen/runtime/efficiency/transforms/__init__.py"
+reason = "Import the registered FP8 transform in materialized executor worktrees."
 
 [[baseline.reference_only]]
 name = "sana_video_2b_weights"

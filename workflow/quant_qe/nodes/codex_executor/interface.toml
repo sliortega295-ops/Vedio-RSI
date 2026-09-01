@@ -1,0 +1,9 @@
+name = "codex_executor"
+kind = "orchestration"
+callable_by = ["orchestration/bin/spawn_executor.py"]
+description = "Run one bounded H100 FP8 search executor for SANA-Video."
+
+inputs = ["goal_dir", "goal.md", "frozen_baseline", "autorun_model"]
+outputs = ["TRAJECTORY.jsonl", "DELIVERY.json", "FP8-SEARCH-STATE.json"]
+outcomes = ["delivered", "structured_negative", "blocked", "failed"]
+side_effects = ["may_modify_own_worktree", "may_launch_owned_gpu_runs"]

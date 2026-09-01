@@ -1,0 +1,77 @@
+{
+  "cases": [
+    {
+      "backend": {
+        "backend": "sglang_w8a8_e4m3",
+        "compute_capability": [
+          9,
+          0
+        ],
+        "cutlass_fp8_supported": true,
+        "device": "cuda:0",
+        "device_name": "NVIDIA H100 80GB HBM3",
+        "fp8_dtype": "torch.float8_e4m3fn",
+        "source_dtype": "torch.bfloat16"
+      },
+      "bf16_ms": 0.037431903183460236,
+      "cosine_similarity": 0.9993188977241516,
+      "finite": true,
+      "fp8_calls": 14,
+      "fp8_ms": 0.04736608825623989,
+      "max_abs_error": 0.1064453125,
+      "micro_speedup": 0.7902679862639712,
+      "name": "conv_inverted",
+      "relative_rmse": 0.036912571638822556,
+      "shape": {
+        "in_channels": 2240,
+        "out_channels": 13440,
+        "tokens": 128
+      },
+      "weight_dtype": "torch.float8_e4m3fn"
+    },
+    {
+      "backend": {
+        "backend": "sglang_w8a8_e4m3",
+        "compute_capability": [
+          9,
+          0
+        ],
+        "cutlass_fp8_supported": true,
+        "device": "cuda:0",
+        "device_name": "NVIDIA H100 80GB HBM3",
+        "fp8_dtype": "torch.float8_e4m3fn",
+        "source_dtype": "torch.bfloat16"
+      },
+      "bf16_ms": 0.03009401261806488,
+      "cosine_similarity": 0.9993161559104919,
+      "finite": true,
+      "fp8_calls": 14,
+      "fp8_ms": 0.04641399718821049,
+      "max_abs_error": 0.109375,
+      "micro_speedup": 0.6483822648592953,
+      "name": "conv_point",
+      "relative_rmse": 0.03698617219924927,
+      "shape": {
+        "in_channels": 6720,
+        "out_channels": 2240,
+        "tokens": 128
+      },
+      "weight_dtype": "torch.float8_e4m3fn"
+    }
+  ],
+  "checks": {
+    "cosine": true,
+    "finite": true,
+    "fp8_weight_dtype": true,
+    "real_fp8_calls": true,
+    "relative_rmse": true
+  },
+  "note": "Microbench timings are diagnostic only; promotion requires matching full generation.",
+  "schema_version": 1,
+  "seed": 42,
+  "status": "passed",
+  "tolerances": {
+    "max_relative_rmse": 0.1,
+    "min_cosine": 0.995
+  }
+}

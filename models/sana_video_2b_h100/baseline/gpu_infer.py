@@ -57,6 +57,11 @@ TECHNIQUE_ENV = (
     "SGLANG_SANA_TAYLOR_DAMPING",
     "SGLANG_SANA_CACHE_DEBUG",
     "SGLANG_SANA_PROFILE",
+    "SGLANG_SANA_FP8",
+    "SGLANG_SANA_FP8_SCOPE",
+    "SGLANG_SANA_FP8_BLOCK_START",
+    "SGLANG_SANA_FP8_BLOCK_END",
+    "SGLANG_SANA_FP8_STRICT",
     "SGLANG_TORCH_COMPILE_MODE",
     "TORCHINDUCTOR_AUTOTUNE_IN_SUBPROC",
 )
@@ -67,6 +72,7 @@ CRITICAL_RUNTIME_FILES = (
     "python/sglang/multimodal_gen/configs/pipeline_configs/sana_video.py",
     "python/sglang/multimodal_gen/configs/sample/sana_video.py",
     "python/sglang/multimodal_gen/runtime/models/dits/sana_video.py",
+    "python/sglang/multimodal_gen/runtime/models/dits/sana_fp8.py",
     "python/sglang/jit_kernel/diffusion/triton/sana_rope.py",
     "python/sglang/multimodal_gen/runtime/cache/sana_video_cache.py",
     "python/sglang/multimodal_gen/runtime/pipelines/sana_video.py",
@@ -116,8 +122,14 @@ def _fingerprint(payload: object) -> str:
     return hashlib.sha256(encoded).hexdigest()
 
 
+def _without_ansi(text: str) -> str:
+    """Remove terminal colour/control sequences before parsing runtime receipts."""
+    return re.sub(r"\x1b\[[0-?]*[ -/]*[@-~]", "", text)
+
+
 def _optimization_knobs() -> dict[str, object]:
     easycache = float(os.environ.get("SANA_EASYCACHE_THRESH", "0"))
+    fp8_enabled = _bool_env("SANA_ENABLE_FP8")
     if easycache < 0:
         raise RuntimeError("SANA_EASYCACHE_THRESH must be non-negative")
     cache_family = os.environ.get("SANA_CACHE_FAMILY", "off").strip().lower()
@@ -133,6 +145,11 @@ def _optimization_knobs() -> dict[str, object]:
         "max_autotune": _bool_env("SANA_ENABLE_MAX_AUTOTUNE"),
         "linear_attention_bf16": _bool_env("SANA_ENABLE_LINATTN_BF16"),
         "qkv_merge": _bool_env("SANA_ENABLE_QKV_MERGE"),
+        "fp8_enabled": fp8_enabled,
+        "fp8_scope": os.environ.get("SANA_FP8_SCOPE", "ffn_1x1").strip(),
+        "fp8_block_start": int(os.environ.get("SANA_FP8_BLOCK_START", "0")),
+        "fp8_block_end": int(os.environ.get("SANA_FP8_BLOCK_END", "-1")),
+        "fp8_strict": _bool_env("SANA_FP8_STRICT", True) if fp8_enabled else False,
         "paired_rope": _bool_env("SGLANG_SANA_PAIRED_ROPE"),
         "fused_qknorm_relu_rope": _bool_env(
             "SGLANG_SANA_FUSED_QKNORM_RELU_ROPE"
@@ -210,6 +227,20 @@ def _command(
         command.append("--linattn-bf16")
     if knobs["qkv_merge"]:
         command.append("--qkv-merge")
+    if knobs["fp8_enabled"]:
+        command.extend(
+            [
+                "--fp8-ffn",
+                "--fp8-scope",
+                str(knobs["fp8_scope"]),
+                "--fp8-block-start",
+                str(knobs["fp8_block_start"]),
+                "--fp8-block-end",
+                str(knobs["fp8_block_end"]),
+            ]
+        )
+        if not knobs["fp8_strict"]:
+            command.append("--fp8-allow-fallback")
     if float(knobs["easycache_threshold"]) > 0:
         command.extend(
             [
@@ -510,9 +541,36 @@ def main() -> int:
             gpu_uuid=lease.gpu_uuid,
         )
         residual = _wait_for_no_compute_apps(lease.gpu_uuid)
-        generation_match = re.search(r"GENERATE_OK in ([0-9.]+)s", transcript)
-        runtime_peak_match = re.search(r"Max peak: ([0-9.]+) MB", transcript)
-        cache_summary_matches = re.findall(r"SANA_CACHE_SUMMARY (\{.*\})", transcript)
+        clean_transcript = _without_ansi(transcript)
+        generation_match = re.search(
+            r"GENERATE_OK in ([0-9.]+)s", clean_transcript
+        )
+        warmup_request_matches = re.findall(
+            r"Warmup req \(\d+/\d+\) processed in ([0-9.]+) seconds",
+            clean_transcript,
+        )
+        warm_steady_state_matches = re.findall(
+            r"Warmed-up request processed in ([0-9.]+) seconds",
+            clean_transcript,
+        )
+        denoise_matches = re.findall(
+            r"\[DenoisingStage\] finished in ([0-9.]+) seconds",
+            clean_transcript,
+        )
+        decode_matches = re.findall(
+            r"\[DecodingStage\] finished in ([0-9.]+) seconds",
+            clean_transcript,
+        )
+        runtime_peak_match = re.search(r"Max peak: ([0-9.]+) MB", clean_transcript)
+        cache_summary_matches = re.findall(
+            r"SANA_CACHE_SUMMARY (\{.*\})", clean_transcript
+        )
+        fp8_install_matches = re.findall(
+            r"SANA_FP8_INSTALL (\{.*\})", clean_transcript
+        )
+        fp8_active_matches = re.findall(
+            r"SANA_FP8_MODULE_ACTIVE (\{.*\})", clean_transcript
+        )
         telemetry_peak = max(
             (
                 int(sample["memory_used_mib"])
@@ -522,6 +580,16 @@ def main() -> int:
             default=0,
         )
         generation_s = float(generation_match.group(1)) if generation_match else None
+        warmup_request_s = (
+            float(warmup_request_matches[-1]) if warmup_request_matches else None
+        )
+        warm_steady_state_s = (
+            float(warm_steady_state_matches[-1])
+            if warm_steady_state_matches
+            else None
+        )
+        denoise_s = float(denoise_matches[-1]) if denoise_matches else None
+        decode_s = float(decode_matches[-1]) if decode_matches else None
         runtime_peak_memory_mb = (
             float(runtime_peak_match.group(1)) if runtime_peak_match else None
         )
@@ -529,16 +597,26 @@ def main() -> int:
         cache_summary = (
             json.loads(cache_summary_matches[-1]) if cache_summary_matches else None
         )
+        fp8_install = (
+            json.loads(fp8_install_matches[-1]) if fp8_install_matches else None
+        )
+        fp8_active = [json.loads(item) for item in fp8_active_matches]
         benchmark: dict[str, object] = {
             "schema_version": 1,
             "status": "FAILED" if returncode else "PARTIAL",
             "returncode": returncode,
             "generation_s": generation_s,
             "total_s": generation_s,
-            "denoise_s": None,
+            "warmup_request_s": warmup_request_s,
+            "warm_steady_state_s": warm_steady_state_s,
+            "denoise_s": denoise_s,
+            "decode_s": decode_s,
             "timing_scope": (
-                "warm_single_prompt_gen.generate_including_text_encoder_denoise_"
-                "vae_decode_and_video_write_excluding_model_load_and_one_step_warmup"
+                "first_gen.generate_call_including_one_step_runtime_warmup_text_"
+                "encoder_denoise_vae_decode_and_video_write_excluding_model_load"
+            ),
+            "steady_state_timing_scope": (
+                "runtime_reported_warmed_request_excluding_one_step_model_warmup"
             ),
             "process_wall_s": wall_s,
             "runtime_peak_memory_mb": runtime_peak_memory_mb,
@@ -557,6 +635,12 @@ def main() -> int:
             "gpu_after": query_gpu(lease.gpu_uuid),
             "residual_compute_apps": residual,
             "cache": cache_summary,
+            "fp8": {
+                "enabled": bool(knobs["fp8_enabled"]),
+                "install": fp8_install,
+                "active_modules": fp8_active,
+                "active_module_count": len(fp8_active),
+            },
         }
         atomic_write_json(out_dir / "benchmark.json", benchmark)
         if returncode != 0:
@@ -567,6 +651,20 @@ def main() -> int:
             raise RuntimeError("runtime succeeded without a parseable GENERATE_OK latency")
         if str(knobs["cache_family"]) != "off" and cache_summary is None:
             raise RuntimeError("cache run succeeded without a parseable SANA_CACHE_SUMMARY")
+        if knobs["fp8_enabled"]:
+            if fp8_install is None:
+                raise RuntimeError("FP8 run succeeded without SANA_FP8_INSTALL evidence")
+            if fp8_install.get("status") != "installed":
+                raise RuntimeError(
+                    f"FP8 run did not install native modules: {fp8_install.get('status')!r}"
+                )
+            converted = fp8_install.get("converted_modules") or []
+            active_names = {str(item.get("module")) for item in fp8_active}
+            if not converted or active_names != set(converted):
+                raise RuntimeError(
+                    "FP8 activation evidence does not match converted modules: "
+                    f"converted={len(converted)} active={len(active_names)}"
+                )
         if not runtime_video.exists():
             raise RuntimeError(f"runtime reported success but video is missing: {runtime_video}")
         shutil.move(runtime_video, final_video)

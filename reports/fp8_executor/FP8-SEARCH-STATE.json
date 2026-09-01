@@ -1,0 +1,116 @@
+{
+  "schema_version": 1,
+  "component": "fp8",
+  "status": "partial_integrated_acceptance",
+  "implementation_status": "validated",
+  "official_executor_delivery_status": "NOT_RUN",
+  "source": {
+    "branch": "repro/sana2b-fp8-executor",
+    "parent_commit": "8b066889950b638b59b5703c39909b4ac0bf9cca",
+    "harness_archival_parent": "d2c6407cc9b9133f3fff49fe4b561f14980d3f8b",
+    "runtime_authority": "b0b7eb4d0a7f1f46118a356485f4523cf52e96dd",
+    "runtime_compat": "5bc0c43fb7fe548af4119a8831c4e286c982c71f"
+  },
+  "workload": {
+    "model": "Efficient-Large-Model/SANA-Video_2B_480p_diffusers",
+    "revision": "db5f398b13ca086d09a50ce156c20527773841b1",
+    "prompt": "model_card_long_motion30",
+    "seed": 42,
+    "width": 832,
+    "height": 480,
+    "frames": 81,
+    "fps": 16,
+    "steps": 50,
+    "gpu": "NVIDIA H100 80GB HBM3",
+    "gpu_uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"
+  },
+  "implementation": {
+    "backend": "sglang_w8a8_e4m3",
+    "scope": "transformer_blocks.0-19.ff.{conv_inverted,conv_point}",
+    "converted_modules": 40,
+    "active_modules": 40,
+    "weight_dtype": "torch.float8_e4m3fn",
+    "activation_scheme": "dynamic",
+    "source_weight_bytes": 1806336000,
+    "fp8_weight_and_scale_bytes": 904422400,
+    "selected_weight_storage_reduction_percent": 49.9306,
+    "fallback_modules": 0
+  },
+  "component_smoke": {
+    "status": "passed",
+    "tokens": 32760,
+    "minimum_cosine_similarity": 0.9993184804916382,
+    "maximum_relative_rmse": 0.03692222386598587,
+    "conv_inverted_micro_speedup": 2.321425676336264,
+    "conv_point_micro_speedup": 1.2161040137244354,
+    "evidence": "evidence/component/fp8_component_full_m32760.json"
+  },
+  "final_candidate": {
+    "kind": "integrated_fp8_plus_cache_retune",
+    "config": "config/sana_video_2b_h100/fp8/fp8_ffn_all_blocks_cache013.toml",
+    "cache_threshold": 0.13,
+    "outer_total_samples_s": [27.3, 27.4],
+    "outer_total_median_s": 27.35,
+    "warm_steady_state_samples_s": [20.99, 20.98],
+    "warm_steady_state_median_s": 20.985,
+    "denoise_samples_s": [17.6059, 17.5913],
+    "denoise_median_s": 17.5986,
+    "cache_hits": 17,
+    "cache_computes": 33,
+    "runtime_peak_memory_mb": 17476,
+    "nvidia_smi_peak_memory_mib": 23027,
+    "video_sha256": "171700f5e7e4800f1ce351920dac267864756886b60bb59cb138cbdec547575f",
+    "confirmation_byte_identical": true
+  },
+  "matched_fresh_control": {
+    "outer_total_s": 38.2,
+    "warmup_request_s": 13.91,
+    "warm_steady_state_s": 23.32,
+    "denoise_s": 19.8883,
+    "cache_hits": 18,
+    "cache_computes": 32,
+    "runtime_peak_memory_mb": 18102,
+    "nvidia_smi_peak_memory_mib": 23653,
+    "video_sha256": "eb05b13437c86c51de02e75bdc8a71b652384316d73c7d92bb0efb40479ef1e3",
+    "byte_identical_to_prior_accepted_integrated": true
+  },
+  "comparison": {
+    "attribution": "joint_fp8_plus_cache_retune",
+    "joint_warm_steady_state_speedup_vs_fresh_control": 1.11127,
+    "joint_denoise_speedup_vs_fresh_control": 1.13011,
+    "runtime_peak_memory_reduction_percent": 3.45818,
+    "nvidia_smi_peak_memory_reduction_percent": 2.6466,
+    "outer_speedup_vs_prior_accepted_integrated_29_2s": 1.06764,
+    "outer_speedup_vs_historical_dense_61_7s": 2.25594,
+    "outer_timing_caveat": "generation_s includes one-step runtime warmup; steady and denoise comparisons control the integrated-candidate decision",
+    "pure_fp8_end_to_end_attribution": "NOT_RUN"
+  },
+  "quality": {
+    "status": "bounded_pass",
+    "video_contract": "832x480, 81 frames, 16 fps, 5.0625 seconds",
+    "sampled_frames": "first, middle, last",
+    "visual_verdict": "same requested scene and coherent subject with no critical corruption; not pixel-identical to BF16",
+    "not_run": [
+      "VBench",
+      "LPIPS",
+      "full-frame perceptual evaluation",
+      "blind reviewer",
+      "second prompt",
+      "FP8-only end-to-end ablation",
+      "BF16 cache-0.13 counterfactual",
+      "official autonomous executor DELIVERY.json"
+    ]
+  },
+  "runs": {
+    "fresh_off": "20260901-113637-sana_video_2b_h100_integrated_kernel_r20_cache_r12-fp8-off-gpu6",
+    "fp8_cache_010": "20260901-113821-sana_video_2b_h100_fp8_ffn_all_blocks-fp8-on-gpu6",
+    "fp8_cache_013": "20260901-114133-sana_video_2b_h100_fp8_ffn_all_blocks_cache013-fp8-cache013-gpu6",
+    "fp8_cache_013_confirmation": "20260901-114859-sana_video_2b_h100_fp8_ffn_all_blocks_cache013-fp8-cache013-confirm-gpu6"
+  },
+  "resource_release": {
+    "lease_status": "released",
+    "released_at_utc": "2026-09-01T12:03:27Z",
+    "compute_apps": [],
+    "gpu_memory_used_mib": 0
+  }
+}

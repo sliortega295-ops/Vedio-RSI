@@ -3,6 +3,7 @@
 # Build/load-time ModelTransforms. Importing registers each via @register_transform.
 
 from sglang.multimodal_gen.runtime.efficiency.transforms import (  # noqa: F401
+    fp8_ffn,
     kwl_fusions,
     nvfp4_ffn,
     sparse_attention,

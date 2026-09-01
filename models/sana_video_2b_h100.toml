@@ -34,7 +34,7 @@ measured = false
 status = "NOT_RUN"
 
 [orchestration]
-default_techniques = ["kernel", "cache"]
+default_techniques = ["kernel", "cache", "fp8"]
 inference_world_size = 1
 
 [env]
@@ -45,7 +45,7 @@ SANA_MODEL_PATH = "/home/jiangzhikun/yongyan_liu/Experiments/SolAgent/20260827-o
 SANA_MODEL_REPO = "Efficient-Large-Model/SANA-Video_2B_480p_diffusers"
 SANA_MODEL_REVISION = "db5f398b13ca086d09a50ce156c20527773841b1"
 SANA_PROMPT_FILE = "models/sana_video_2b_h100/prompts/model_card_long_motion30.txt"
-SANA_GPU_LEASE_FILE = "/home/jiangzhikun/yongyan_liu/Experiments/SolAgent/20260831-sana-video-2b-full-exploration/state/gpu/GPU_LEASE.json"
+SANA_GPU_LEASE_FILE = "/home/jiangzhikun/yongyan_liu/Experiments/SolAgent/20260901-sana-video-fp8-executor/state/gpu/GPU_LEASE.json"
 SANA_HARNESS_ARCHIVE_SHA = "d2c6407cc9b9133f3fff49fe4b561f14980d3f8b"
 SANA_RUNTIME_AUTHORITY_SHA = "b0b7eb4d0a7f1f46118a356485f4523cf52e96dd"
 SANA_RUNTIME_COMPAT_SHA = "5bc0c43fb7fe548af4119a8831c4e286c982c71f"
@@ -53,6 +53,11 @@ SANA_ENABLE_COMPILE = "0"
 SANA_ENABLE_MAX_AUTOTUNE = "0"
 SANA_ENABLE_LINATTN_BF16 = "0"
 SANA_ENABLE_QKV_MERGE = "0"
+SANA_ENABLE_FP8 = "0"
+SANA_FP8_SCOPE = "ffn_1x1"
+SANA_FP8_BLOCK_START = "0"
+SANA_FP8_BLOCK_END = "-1"
+SANA_FP8_STRICT = "1"
 SANA_EASYCACHE_THRESH = "0"
 SANA_DISABLE_WARMUP = "0"
 HF_HUB_OFFLINE = "1"
@@ -74,6 +79,6 @@ blocks = "wired"
 kernel_fusion = "wired"
 step_cache = "wired"
 swappable_attention = "n/a_linear_attention_head_dim_112"
-ffn_precision = "out_of_scope"
+ffn_precision = "wired_h100_fp8_executor"
 prunable_tokens = "out_of_scope"
 teacache_signal = "wired_easycache"

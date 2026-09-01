@@ -88,6 +88,15 @@ def main():
                     help="bf16 linear-attention KV aggregation (fusion; part of fullopt stack)")
     ap.add_argument("--qkv-merge", action="store_true",
                     help="lossless merged QKV projection for self-attention (fusion; part of fullopt stack)")
+    ap.add_argument("--fp8-ffn", action="store_true",
+                    help="H100 W8A8 E4M3 execution for selected SANA FFN 1x1 projections")
+    ap.add_argument("--fp8-scope", choices=("ffn_1x1",), default="ffn_1x1")
+    ap.add_argument("--fp8-block-start", type=int, default=0,
+                    help="first transformer block quantized to FP8 (inclusive)")
+    ap.add_argument("--fp8-block-end", type=int, default=-1,
+                    help="last transformer block quantized to FP8 (inclusive; -1=final)")
+    ap.add_argument("--fp8-allow-fallback", action="store_true",
+                    help="record unsupported modules instead of failing strict FP8 installation")
     ap.add_argument("--no-warmup", action="store_true",
                     help="disable warmup (warmup is ON by default for clean steady-state timing)")
     ap.add_argument("--easycache", type=float, default=0.0,
@@ -143,6 +152,14 @@ def main():
         _os.environ["SGLANG_SANA_LINATTN_BF16"] = "1"
     if args.qkv_merge:
         _os.environ["SGLANG_SANA_QKV_MERGE"] = "1"
+    if args.fp8_ffn:
+        _os.environ["SGLANG_SANA_FP8"] = "1"
+        _os.environ["SGLANG_SANA_FP8_SCOPE"] = args.fp8_scope
+        _os.environ["SGLANG_SANA_FP8_BLOCK_START"] = str(args.fp8_block_start)
+        _os.environ["SGLANG_SANA_FP8_BLOCK_END"] = str(args.fp8_block_end)
+        _os.environ["SGLANG_SANA_FP8_STRICT"] = (
+            "0" if args.fp8_allow_fallback else "1"
+        )
     if args.easycache:
         _os.environ["SGLANG_SANA_EASYCACHE_THRESH"] = str(args.easycache)
         _os.environ["SGLANG_SANA_EASYCACHE_WARMUP"] = str(args.ec_warmup)
