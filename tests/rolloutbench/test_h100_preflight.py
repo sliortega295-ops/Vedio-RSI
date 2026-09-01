@@ -164,7 +164,8 @@ class H100PreflightTests(unittest.TestCase):
                 "repository_url": "https://github.com/facebookresearch/dino.git",
                 "path": (
                     "/home/jiangzhikun/yongyan_liu/Experiments/"
-                    "SolRolloutBench/20260901-v0/sources/dino"
+                    "SolRolloutBench/20260901-v0/cache/vbench/dino_model/"
+                    "facebookresearch_dino_main"
                 ),
                 "git_ref": DINO_MAIN_SHA,
                 "required_file": "hubconf.py",
