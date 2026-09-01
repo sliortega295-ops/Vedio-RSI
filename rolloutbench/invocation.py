@@ -15,6 +15,9 @@ from .runtime_checkout import verify_runtime_receipt
 
 _SAFE_ID = re.compile(r"[A-Za-z0-9_.-]+")
 _MOTION_SUFFIX = "motion score: 30."
+_SYSTEM_EXECUTABLE_PATH = (
+    "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+)
 
 
 class InvocationError(RuntimeError):
@@ -313,6 +316,10 @@ def build_episode_invocation(
     ):
         raise InvocationError("episode deterministic failure contract is invalid")
     common_env = {
+        # SubprocessStageExecutor intentionally replaces, rather than inherits,
+        # the parent environment. Keep the system compiler toolchain reachable
+        # without admitting an operator-specific login PATH.
+        "PATH": _SYSTEM_EXECUTABLE_PATH,
         "CUDA_DEVICE_ORDER": "PCI_BUS_ID",
         "CUDA_VISIBLE_DEVICES": gpu_uuid,
         "TRITON_CACHE_DIR": str(cache_root / "triton"),

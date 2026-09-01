@@ -105,6 +105,10 @@ class EpisodeInvocationTests(unittest.TestCase):
                 invocation["argv"][1],
             )
             self.assertEqual("1", invocation["env"]["SANA_ENABLE_COMPILE"])
+            self.assertEqual(
+                "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+                invocation["env"]["PATH"],
+            )
             self.assertEqual(worker["gpu_uuid"], invocation["env"]["CUDA_VISIBLE_DEVICES"])
             self.assertEqual("42", invocation["env"]["SANA_WORKLOAD_SEED"])
             self.assertEqual(
