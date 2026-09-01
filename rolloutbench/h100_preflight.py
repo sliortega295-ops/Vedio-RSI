@@ -283,8 +283,10 @@ def build_preflight_spec(
     if not isinstance(vbench_ref, str) or len(vbench_ref) != 40:
         raise ValueError("quality protocol lacks the pinned VBench revision")
     weights = profile.get("vbench_weights")
-    if not isinstance(weights, list) or len(weights) != 8:
-        raise ValueError("H100 profile must declare exactly eight VBench weight assets")
+    if not isinstance(weights, list) or len(weights) != 10:
+        raise ValueError(
+            "H100 profile must declare exactly ten VBench and LPIPS weight assets"
+        )
     normalized_weights: list[dict[str, Any]] = []
     seen_ids: set[str] = set()
     vbench_cache = path_values["vbench_cache_path"]
@@ -504,10 +506,17 @@ try:
 except Exception as error:
     versions = {{}}
     version_error = type(error).__name__ + ": " + str(error)
+try:
+    lpips_metric = pyiqa.create_metric("lpips", device="cpu")
+    del lpips_metric
+    lpips_model = "PASS"
+except Exception as error:
+    lpips_model = type(error).__name__ + ": " + str(error)
 print(json.dumps({{
-    "ok": version_error is None and all(value == "PASS" for value in imports.values()),
+    "ok": version_error is None and lpips_model == "PASS" and all(value == "PASS" for value in imports.values()),
     "versions": versions,
     "imports": imports,
+    "lpips_model": lpips_model,
     "error": version_error,
 }}, sort_keys=True))
 """
@@ -518,6 +527,7 @@ quality_rc, quality_out, quality_err = run([
     "TRANSFORMERS_OFFLINE=1",
     "PYTHONNOUSERSITE=1",
     "PYTHONDONTWRITEBYTECODE=1",
+    "TORCH_HOME=" + os.path.join(SPEC["vbench_cache_path"], "torch_home"),
     "PYTHONPATH=" + vbench_source,
     "VBENCH_CACHE_DIR=" + SPEC["vbench_cache_path"],
     SPEC["vbench_python_bin"], "-c", quality_code,
@@ -660,7 +670,9 @@ def _default_command_runner(argv: list[str], stdin: str) -> CommandResult:
 def _error_receipt(spec: Mapping[str, Any], error: str) -> dict[str, Any]:
     return {
         "schema_version": 1, "query_status": "ERROR", "runtime_ready": False,
-        "two_gpu_idle_point_in_time": False, "quality_ready": False, "pilot_ready": False,
+        "two_gpu_idle_point_in_time": False, "quality_ready": False,
+        "technical_ready": False, "launch_authorized": False,
+        "pilot_ready": False,
         "ssh_host": spec["ssh_host"], "profile_sha256": spec["profile_sha256"],
         "suite_sha256": spec["suite_sha256"],
         "artifacts_sha256": spec["artifacts_sha256"],
@@ -793,6 +805,8 @@ def _evaluate(spec: Mapping[str, Any], observation: Any) -> dict[str, Any]:
     )
     if quality_runtime.get("ok") is not True:
         quality_errors.append("VBench runtime import probe failed")
+    if quality_runtime.get("lpips_model") != "PASS":
+        quality_errors.append("LPIPS model failed to load from the frozen offline cache")
     if dict(quality_versions) != spec["vbench_environment"]:
         quality_errors.append("VBench runtime version set mismatch")
     if (
@@ -856,11 +870,17 @@ def _evaluate(spec: Mapping[str, Any], observation: Any) -> dict[str, Any]:
         or remote_root.get("exists") is not True or remote_root.get("is_dir") is not True
     ):
         root_errors.append("remote benchmark root is missing or mismatched")
-    pilot_ready = runtime_ready and idle and quality_ready and not root_errors
+    technical_ready = runtime_ready and idle and quality_ready and not root_errors
+    # This read-only probe can establish technical readiness and point-in-time
+    # idleness, never resource ownership.  A separate externally issued launch
+    # authorization is required by the formal dispatcher.
+    launch_authorized = False
+    pilot_ready = technical_ready and launch_authorized
     return {
         "schema_version": 1, "query_status": "PASS" if not parse_errors else "ERROR",
         "runtime_ready": runtime_ready, "two_gpu_idle_point_in_time": idle,
-        "quality_ready": quality_ready, "pilot_ready": pilot_ready,
+        "quality_ready": quality_ready, "technical_ready": technical_ready,
+        "launch_authorized": launch_authorized, "pilot_ready": pilot_ready,
         "ssh_host": spec["ssh_host"], "hostname": hostname if isinstance(hostname, str) else None,
         "profile_sha256": spec["profile_sha256"],
         "model_profile_sha256": spec["model_profile_sha256"],

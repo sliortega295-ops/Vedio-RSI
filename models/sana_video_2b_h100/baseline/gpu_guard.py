@@ -135,7 +135,16 @@ def locked_idle_lease(path: str | Path) -> Iterator[tuple[GpuLease, dict[str, ob
     initial.lock_path.parent.mkdir(parents=True, exist_ok=True)
     with initial.lock_path.open("a+") as lock_handle:
         fcntl.flock(lock_handle.fileno(), fcntl.LOCK_EX)
-        current = load_lease(path)
+        contract_lock = initial.lease_file.parent / f".{initial.lease_file.name}.contract.lock"
+        release_path = initial.lease_file.with_name(
+            f"{initial.lease_file.name}.release.json"
+        )
+        with contract_lock.open("a+b") as contract_handle:
+            fcntl.flock(contract_handle.fileno(), fcntl.LOCK_SH)
+            if release_path.exists():
+                raise RuntimeError(f"GPU lease has been released: {initial.lease_file}")
+            current = load_lease(path)
+            fcntl.flock(contract_handle.fileno(), fcntl.LOCK_UN)
         if current.gpu_uuid != initial.gpu_uuid or current.lock_path != initial.lock_path:
             raise RuntimeError("GPU lease changed while waiting for its lock")
         gpu = query_gpu(current.gpu_uuid)

@@ -11,7 +11,14 @@ import tempfile
 from pathlib import Path
 from typing import Any, Mapping, Sequence
 
-from .quality_contract import FORMAL_CACHE_IDS
+from .quality_contract import (
+    DENSE_CONFIG_PATH,
+    DENSE_CONFIG_SHA256,
+    DENSE_REFERENCE_ID,
+    DENSE_RUNTIME_PARENT_REF,
+    DENSE_RUNTIME_REF,
+    FORMAL_CACHE_IDS,
+)
 from .runtime_manifest import build_runtime_manifest
 from .scheduler import load_public_episodes
 from .schema import validate_suite_directory
@@ -113,6 +120,7 @@ def _episode_plan(
     quality_pairs: Mapping[str, list[dict[str, Any]]],
     runtime_manifest: Mapping[str, Any],
     system: str,
+    historical_predecessor_receipts: Sequence[Mapping[str, Any]],
 ) -> dict[str, Any]:
     episode_id = str(episode["episode_id"])
     declared_inputs = [
@@ -148,6 +156,9 @@ def _episode_plan(
         "round": episode["round"],
         "global_fifo_index": episode["global_fifo_index"],
         "depends_on": list(episode["depends_on"]),
+        "historical_predecessor_receipts": [
+            dict(item) for item in historical_predecessor_receipts
+        ],
         "candidate_type": episode["candidate_type"],
         "quality_eligibility": episode["quality_eligibility"],
         "candidate": episode["candidate"],
@@ -158,6 +169,9 @@ def _episode_plan(
             "checkout_mutation_allowed": False,
         },
         "validation": episode["validation"],
+        "expected_failure_contract": episode.get("replay", {}).get(
+            "failure_contract"
+        ),
         "resources": episode["resources"],
         "declared_artifact_inputs": declared_inputs,
         "cache_scope_key": "K01" if episode_id == "K02" else episode_id,
@@ -173,6 +187,63 @@ def _episode_plan(
             ),
         },
         "quality_pairs": quality_pairs.get(episode_id, []),
+    }
+
+
+def _quality_dense_reference(
+    protocol: Mapping[str, Any], repository: Path, system: str
+) -> dict[str, Any]:
+    declared = protocol.get("dense_reference")
+    expected = {
+        "episode_id": DENSE_REFERENCE_ID,
+        "authority_ref": DENSE_RUNTIME_REF,
+        "runtime_ref": DENSE_RUNTIME_REF,
+        "runtime_parent_ref": DENSE_RUNTIME_PARENT_REF,
+        "config_path": DENSE_CONFIG_PATH,
+        "config_sha256": DENSE_CONFIG_SHA256,
+        "semantics": "cache-capable SANA runtime with every optimization switch disabled",
+        "reuse_scope": "same prompt and seed within one benchmark run",
+    }
+    if declared != expected:
+        raise ValueError("quality protocol dense reference is not canonical")
+    candidate = {
+        "authority_ref": DENSE_RUNTIME_REF,
+        "candidate_commit": DENSE_RUNTIME_REF,
+        "parent_sha": DENSE_RUNTIME_PARENT_REF,
+        "config": {
+            "path": DENSE_CONFIG_PATH,
+            "blob_sha256": DENSE_CONFIG_SHA256,
+            "authority_reported_sha256": DENSE_CONFIG_SHA256,
+            "hash_scope": "raw_git_blob_bytes",
+        },
+        "probe": None,
+    }
+    affinity: int | str
+    if system == "optroll2":
+        affinity = 1
+    elif system in {"serial1", "optroll1"}:
+        affinity = 0
+    else:
+        affinity = "dynamic"
+    return {
+        "episode_id": DENSE_REFERENCE_ID,
+        "component": "cache",
+        "candidate_type": "dense_reference",
+        "candidate": candidate,
+        "runtime_checkout": {
+            "mode": "detached_candidate_commit_worktree",
+            **build_runtime_manifest(repository, candidate),
+            "shared_object_store": True,
+            "checkout_mutation_allowed": False,
+        },
+        "cache_scope_key": DENSE_REFERENCE_ID,
+        "worker_affinity": affinity,
+        "worker_contract": {
+            "requested_mode": "one_shot",
+            "effective_mode": "one_shot",
+            "reason": "matched_dense_reference_requires_frozen_process_state",
+            "activation_gate": None,
+        },
     }
 
 
@@ -213,6 +284,29 @@ def build_experiment_plan(
         else [str(episode["episode_id"]) for episode in public]
     )
     selected = [by_id[episode_id] for episode_id in selected_ids]
+    selected_id_set = set(selected_ids)
+    historical_predecessors: dict[str, list[dict[str, Any]]] = {}
+    for episode in selected:
+        episode_id = str(episode["episode_id"])
+        rows: list[dict[str, Any]] = []
+        for predecessor_id in episode.get("depends_on", []):
+            if predecessor_id in selected_id_set:
+                continue
+            predecessor = by_id.get(str(predecessor_id))
+            if predecessor is None:
+                raise ValueError(
+                    f"episode {episode_id} names an unknown predecessor {predecessor_id}"
+                )
+            rows.append(
+                {
+                    "episode_id": str(predecessor_id),
+                    "public_episode_sha256": hashlib.sha256(
+                        _canonical(predecessor)
+                    ).hexdigest(),
+                    "disposition": "frozen_history_not_replayed_in_this_scope",
+                }
+            )
+        historical_predecessors[episode_id] = rows
     runtime_manifests = {
         episode_id: build_runtime_manifest(repository, by_id[episode_id]["candidate"])
         for episode_id in selected_ids
@@ -249,12 +343,16 @@ def build_experiment_plan(
                     "workers": _workers(system, repeat_index, normalized_gpu_uuids),
                     "cache_namespace": cache_namespace,
                     "cache_namespace_independent": True,
+                    "quality_dense_reference": _quality_dense_reference(
+                        protocol, repository, system
+                    ),
                     "episodes": [
                         _episode_plan(
                             episode,
                             quality_pairs,
                             runtime_manifests[str(episode["episode_id"])],
                             system,
+                            historical_predecessors[str(episode["episode_id"])],
                         )
                         for episode in selected
                     ],
@@ -295,6 +393,10 @@ def build_experiment_plan(
         },
         "execution_status": "NOT_RUN",
         "real_fault_injection_status": "NOT_RUN",
+        "historical_predecessor_policy": (
+            "every dependency omitted from this scope is bound to the canonical "
+            "public episode digest and is never inferred from a missing ID"
+        ),
         "performance_claim": False,
         "runs": runs,
     }

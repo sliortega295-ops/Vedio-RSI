@@ -9,6 +9,21 @@
     "inside_deterministic_ttvf": false,
     "required_for_final_publication": true
   },
+  "dense_measurement_reuse": {
+    "reason": "v0 keeps every dense/candidate VBench execution receipt inside one candidate-specific pair plan; cross-candidate score reuse is disabled",
+    "vbench_scoring": "rerun_for_each_candidate_pair",
+    "video_generation": "once_per_prompt_seed_per_benchmark_run"
+  },
+  "dense_reference": {
+    "authority_ref": "8bd01c6898f920c140a9c74197676debbcaff1fe",
+    "config_path": "config/sana_video_2b_h100/baseline.toml",
+    "config_sha256": "6b61041dd4441ed3b84bad3756a2b656ba4e49d7cba3be66e9c7abda4c2f083e",
+    "episode_id": "DENSE",
+    "reuse_scope": "same prompt and seed within one benchmark run",
+    "runtime_parent_ref": "2c6bdf06db4dd3be507720b25512217e1f3ae5e9",
+    "runtime_ref": "8bd01c6898f920c140a9c74197676debbcaff1fe",
+    "semantics": "cache-capable SANA runtime with every optimization switch disabled"
+  },
   "dimensions": [
     "subject_consistency",
     "motion_smoothness",

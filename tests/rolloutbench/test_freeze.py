@@ -8,6 +8,7 @@ import unittest
 from pathlib import Path
 
 from rolloutbench.freeze import CACHE_REF, INTEGRATION_REF, KERNEL_REF, freeze_suite
+from rolloutbench.quality_contract import K22_FAILURE_CONTRACT
 from rolloutbench.schema import SuiteValidationError, validate_suite_directory
 
 
@@ -122,6 +123,10 @@ class FreezeSuiteTests(unittest.TestCase):
             self.assertEqual(0.005, protocol["acceptance"]["max_mean_relative_drop"])
             self.assertEqual(0.02, protocol["acceptance"]["max_single_dimension_drop"])
             self.assertEqual("secondary_ranking_only", protocol["lpips"]["role"])
+            self.assertEqual(
+                "rerun_for_each_candidate_pair",
+                protocol["dense_measurement_reuse"]["vbench_scoring"],
+            )
             selected = {
                 row["suite"]: (row["selected_line_number_one_based"], row["prompt"], row["selection_sha256"])
                 for row in protocol["prompt_selection"]["prompt_suites"]
@@ -228,11 +233,7 @@ class FreezeSuiteTests(unittest.TestCase):
                 self.assertFalse(episode["golden"]["scheduler_visible"])
 
             self.assertEqual(
-                {
-                    "kind": "real_fail_closed_layout_mismatch",
-                    "stage": "generate",
-                    "deterministic": True,
-                },
+                dict(K22_FAILURE_CONTRACT),
                 by_id["K22"]["replay"]["failure_contract"],
             )
 

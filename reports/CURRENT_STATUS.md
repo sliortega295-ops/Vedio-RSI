@@ -1,18 +1,21 @@
-# Sol-Video-Agent SANA-Video 2B reproduction status
+# Current status
 
-Status: `COMPLETE_APPROVED_SCOPE`.
+Status: `CPU_VALIDATED_H100_NOT_RUN` (2026-09-01).
 
-- Dense baseline: `VALIDATED`, 61.7 s on H100 UUID `GPU-847305ce-670b-91ee-e0a9-aa3b7833df23`.
-- Kernel: `VALIDATED`, 23 rounds, stopped by the archived three-distinct-miss plateau rule; delivery `e8684f3fa9077d1387de44bbb0521a38ac6b7097`.
-- Cache: `VALIDATED` under the approved lightweight protocol, 12 rounds, genuine convergence; balanced R12 selected; delivery `e7cf11c877a91220af2f2ea2cc5e38000c0765f8`.
-- PISA: `NOT_APPLICABLE` for SANA linear attention/head dimension 112.
-- Integration: composition `6d9ad0e984c6d236da7be3c3bc0e3d513f23173c`; closeout evidence `d33a58948e33dea0dacee361e5b50c004a0d8d65`.
-- Final integrated prompt 1: 29.2 s versus 61.7 s dense, 2.1130x.
-- Final integrated prompt 2: 33.0 s versus 60.5 s dense, 1.8333x.
-- Both outputs: valid 832x480, 81 frames at 16 fps; first/middle/last visual screen passed.
-- Final GPU audit: 0 MiB, 0% utilization, no compute applications or residual process, lock free; experiment lease released.
+- Historical Sol-Video reproduction: complete for its bounded two-prompt scope;
+  see `FINAL-REPORT.md`.
+- Sol-RolloutBench v0: exact 23 Kernel + 12 Cache episodes frozen and valid.
+- Runtime: formal dispatcher, typed quality path, recovery, aggregation and
+  four-system comparison implemented.
+- Local validation: 148/148 RolloutBench CPU tests and compileall pass.
+- Remote target: `/home/jiangzhikun/yongyan_liu/Experiments/SolRolloutBench/20260901-v0`.
+- H100 execution: `NOT_RUN`; no performance comparison exists yet.
+- Ownership: `NOT_AUTHORIZED`; point-in-time idle GPUs do not grant use.
+- Required next step: publish the clean commit, deploy it, regenerate read-only
+  preflight, then wait for explicit ownership authorization before a pilot.
 
-Canonical report:
-`artifacts/integration/sana2b-kernel-cache-final/worktree/reports/FINAL-REPORT.md`.
-
-Taxonomy: archival/compatibility, baseline, trajectories, deliveries, integration and two-prompt sanity are `VALIDATED`; broad perceptual generalization and the timing-scope caveat are `PARTIAL`; VBench, LPIPS, independent validator, full paper table, B200/B300, second model and productionization are `NOT_RUN`.
+The formal comparison is valid only when all four systems execute the same plan
+and exact episode set, finish the same repetition policy, and independently
+reach K20/C12. Until those receipts exist, no RolloutBench speedup is claimed.
+The plan predeclares five repetitions: summarize runs 1-3 first, and execute
+runs 4-5 for every system only if the frozen 3% sample-CV rule fires.

@@ -89,19 +89,21 @@ class CooperativeLeaseTests(unittest.TestCase):
     def test_release_preserves_active_record_and_writes_idempotent_audit(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             path = Path(directory) / "gpu-6.json"
-            active = acquire_cooperative_lease(path, **_request())
-            release = release_cooperative_lease(path, **_request())
+            request = _request(lock_path=str(Path(directory) / "gpu.lock"))
+            active = acquire_cooperative_lease(path, **request)
+            release = release_cooperative_lease(path, **request)
             self.assertEqual("released", release["status"])
             self.assertTrue(path.is_file())
             self.assertEqual(active, json.loads(path.read_text(encoding="utf-8")))
-            self.assertEqual(release, release_cooperative_lease(path, **_request()))
+            self.assertEqual(release, release_cooperative_lease(path, **request))
             with self.assertRaisesRegex(LeaseContractError, "released"):
                 validate_active_lease(path, **_request())
 
     def test_validate_cannot_return_active_across_a_completed_release(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             path = Path(directory) / "gpu-6.json"
-            acquire_cooperative_lease(path, **_request())
+            request = _request(lock_path=str(Path(directory) / "gpu.lock"))
+            acquire_cooperative_lease(path, **request)
             validation_loaded = threading.Event()
             allow_validation = threading.Event()
             release_finished = threading.Event()
@@ -116,13 +118,13 @@ class CooperativeLeaseTests(unittest.TestCase):
 
             with patch("rolloutbench.leases._load_record", side_effect=release_after_validation_load):
                 validator = threading.Thread(
-                    name="validator", target=lambda: validate_active_lease(path, **_request())
+                    name="validator", target=lambda: validate_active_lease(path, **request)
                 )
                 validator.start()
                 self.assertTrue(validation_loaded.wait(timeout=1))
                 releaser = threading.Thread(
                     target=lambda: (
-                        release_cooperative_lease(path, **_request()), release_finished.set()
+                        release_cooperative_lease(path, **request), release_finished.set()
                     )
                 )
                 releaser.start()
@@ -133,7 +135,7 @@ class CooperativeLeaseTests(unittest.TestCase):
             self.assertFalse(validator.is_alive())
             self.assertFalse(releaser.is_alive())
             with self.assertRaisesRegex(LeaseContractError, "released"):
-                validate_active_lease(path, **_request())
+                validate_active_lease(path, **request)
 
 
 if __name__ == "__main__":

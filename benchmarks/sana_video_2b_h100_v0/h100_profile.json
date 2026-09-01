@@ -84,6 +84,20 @@
       "source_url": "https://github.com/chaofengc/IQA-PyTorch/releases/download/v0.1-weights/musiq_spaq_ckpt-358bb6af.pth"
     },
     {
+      "id": "lpips_alex_linear_v01",
+      "relative_path": "torch_home/hub/pyiqa/LPIPS_v0.1_alex-df73285e.pth",
+      "sha256": "df73285e35b22355a2df87cdb6b70b343713b667eddbda73e1977e0c860835c0",
+      "size_bytes": 6009,
+      "source_url": "https://huggingface.co/chaofengc/IQA-PyTorch-Weights/resolve/main/LPIPS_v0.1_alex-df73285e.pth"
+    },
+    {
+      "id": "lpips_alexnet_imagenet1k_v1",
+      "relative_path": "torch_home/hub/checkpoints/alexnet-owt-7be5be79.pth",
+      "sha256": "7be5be791159472b1fbf3c69796f7cb30dca7ad8466c2df70058c37116cdee02",
+      "size_bytes": 244408911,
+      "source_url": "https://download.pytorch.org/models/alexnet-owt-7be5be79.pth"
+    },
+    {
       "id": "overall_viclip",
       "relative_path": "ViCLIP/ViClip-InternVid-10M-FLT.pth",
       "sha256": "7a4d6ad6eac6632db3693f4b97f9f8f6445b65b1e139a6fc6686150522238c56",

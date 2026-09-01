@@ -10,6 +10,7 @@ import tomllib
 from pathlib import Path
 from typing import Any, Mapping
 
+from .quality_contract import K22_FAILURE_CONTRACT
 from .runtime_checkout import verify_runtime_receipt
 
 _SAFE_ID = re.compile(r"[A-Za-z0-9_.-]+")
@@ -193,6 +194,8 @@ def build_episode_invocation(
     repo_root: Path | str,
     experiment_root: Path | str,
     plan_id: str,
+    plan_sha256: str,
+    run_sha256: str,
     run: Mapping[str, Any],
     episode: Mapping[str, Any],
     worker: Mapping[str, Any],
@@ -217,6 +220,10 @@ def build_episode_invocation(
     episode_id = _safe_component(episode.get("episode_id"), label="episode_id")
     run_id = _safe_component(run.get("run_id"), label="run_id")
     safe_plan_id = _safe_component(plan_id, label="plan_id")
+    if not re.fullmatch(r"[0-9a-f]{64}", plan_sha256):
+        raise InvocationError("plan_sha256 must be a lowercase SHA-256 digest")
+    if not re.fullmatch(r"[0-9a-f]{64}", run_sha256):
+        raise InvocationError("run_sha256 must be a lowercase SHA-256 digest")
     candidate = episode.get("candidate")
     if not isinstance(candidate, Mapping):
         raise InvocationError("episode candidate is missing")
@@ -247,16 +254,31 @@ def build_episode_invocation(
 
     variant_parts = ["primary"]
     pair_id: str | None = None
+    quality_role: str | None = None
     seed = 42
     if quality_pair is not None:
-        if episode.get("candidate_type") != "lossy_cache":
-            raise InvocationError("quality pairs are valid only for Cache candidates")
+        candidate_type = episode.get("candidate_type")
+        if candidate_type not in {"lossy_cache", "dense_reference"}:
+            raise InvocationError(
+                "quality pairs are valid only for Cache candidates or the dense reference"
+            )
         pair_id = str(quality_pair.get("pair_id", ""))
-        declared_pairs = [
-            row
-            for row in episode.get("quality_pairs", [])
-            if row.get("pair_id") == pair_id
-        ]
+        if candidate_type == "dense_reference":
+            declared_pairs = [
+                row
+                for planned_episode in run.get("episodes", [])
+                if isinstance(planned_episode, Mapping)
+                for row in planned_episode.get("quality_pairs", [])
+                if row.get("pair_id") == pair_id
+            ]
+            quality_role = "dense"
+        else:
+            declared_pairs = [
+                row
+                for row in episode.get("quality_pairs", [])
+                if row.get("pair_id") == pair_id
+            ]
+            quality_role = "candidate"
         if len(declared_pairs) != 1 or _canonical(declared_pairs[0]) != _canonical(
             quality_pair
         ):
@@ -267,14 +289,32 @@ def build_episode_invocation(
             raise InvocationError("quality pair has an unsupported seed")
         suite = _safe_component(quality_pair.get("prompt_suite"), label="prompt_suite")
         variant_parts = ["quality-v1", suite, f"seed-{seed}"]
-    output_dir = experiment / "runs" / safe_plan_id / run_id / episode_id
+    output_dir = (
+        experiment
+        / "runs"
+        / safe_plan_id
+        / plan_sha256
+        / run_id
+        / run_sha256
+        / episode_id
+    )
     for part in variant_parts:
         output_dir /= part
     output_dir.mkdir(parents=True, exist_ok=True)
 
     config_descriptor = candidate.get("config")
     probe_descriptor = candidate.get("probe")
+    failure_contract = episode.get("expected_failure_contract")
+    if failure_contract is not None and (
+        not isinstance(failure_contract, Mapping)
+        or dict(failure_contract) != dict(K22_FAILURE_CONTRACT)
+        or episode_id != "K22"
+        or quality_pair is not None
+    ):
+        raise InvocationError("episode deterministic failure contract is invalid")
     common_env = {
+        "CUDA_DEVICE_ORDER": "PCI_BUS_ID",
+        "CUDA_VISIBLE_DEVICES": gpu_uuid,
         "TRITON_CACHE_DIR": str(cache_root / "triton"),
         "TORCHINDUCTOR_CACHE_DIR": str(cache_root / "torchinductor"),
         "TMPDIR": str(cache_root / "tmp"),
@@ -296,6 +336,13 @@ def build_episode_invocation(
         config_id = merged.get("id")
         if not isinstance(config_id, str) or not config_id:
             raise InvocationError("candidate config has no id")
+        if failure_contract is not None and (
+            config_id != failure_contract["config_id"]
+            or config_descriptor.get("blob_sha256")
+            != failure_contract["config_sha256"]
+            or runtime_ref != failure_contract["runtime_ref"]
+        ):
+            raise InvocationError("expected failure config/runtime binding drifted")
         submodule = Path(str(merged.get("submodule", "")))
         run_script = Path(str(merged.get("run_script", "")))
         if (
@@ -340,9 +387,37 @@ def build_episode_invocation(
                 ),
             }
         )
+        if failure_contract is not None:
+            environment.update(
+                {
+                    "ROLLOUTBENCH_EXPECTED_FAILURE_EPISODE": str(
+                        failure_contract["episode_id"]
+                    ),
+                    "ROLLOUTBENCH_EXPECTED_FAILURE_CODE": str(
+                        failure_contract["failure_code"]
+                    ),
+                    "ROLLOUTBENCH_EXPECTED_FAILURE_MARKER": str(
+                        failure_contract["expected_log_marker"]
+                    ),
+                    "ROLLOUTBENCH_EXPECTED_FAILURE_CONFIG_SHA256": str(
+                        failure_contract["config_sha256"]
+                    ),
+                    "ROLLOUTBENCH_EXPECTED_FAILURE_RUNTIME_REF": str(
+                        failure_contract["runtime_ref"]
+                    ),
+                }
+            )
         argv = ["bash", str(script)]
-        kind = "config_generation"
-        output_path = output_dir / "out.mp4"
+        kind = (
+            "expected_fail_closed_generation"
+            if failure_contract is not None
+            else "config_generation"
+        )
+        output_path = (
+            output_dir / "benchmark.json"
+            if failure_contract is not None
+            else output_dir / "out.mp4"
+        )
         cwd = repository
     elif probe_descriptor is not None:
         if quality_pair is not None:
@@ -388,9 +463,13 @@ def build_episode_invocation(
         "episode_id": episode_id,
         "run_id": run_id,
         "quality_pair_id": pair_id,
+        "quality_role": quality_role,
         "gpu_uuid": gpu_uuid,
         "runtime_ref": runtime_ref,
         "runtime_tree_oid": runtime_checkout["runtime_tree_oid"],
+        "expected_failure_contract": (
+            dict(failure_contract) if failure_contract is not None else None
+        ),
         "harness": harness,
     }
     return {
@@ -401,6 +480,11 @@ def build_episode_invocation(
         "cache_root": str(cache_root),
         "lease_file": str(lease_file),
         "prompt": prompt_receipt,
+        "quality_artifact_id": (
+            quality_pair[f"{quality_role}_artifact_id"]
+            if quality_pair is not None and quality_role is not None
+            else None
+        ),
         "command_fingerprint": hashlib.sha256(_canonical(identity)).hexdigest(),
         "execution_status": "NOT_RUN",
         "performance_claim": False,

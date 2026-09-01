@@ -231,20 +231,24 @@ def release_cooperative_lease(
     target = Path(lease_path)
     audit_path = _release_path(target)
     mutex = target.parent / f".{target.name}.contract.lock"
-    with mutex.open("a+b") as handle:
-        fcntl.flock(handle.fileno(), fcntl.LOCK_EX)
-        try:
-            active = _load_record(target, "lease record")
-            _assert_matches(active, request)
-            audit = {
-                "schema_version": 1,
-                "record_type": "cooperative_gpu_lease_release",
-                "status": "released",
-                "active_lease_sha256": _sha256(_canonical(active)),
-                "ownership_claim": False,
-                **request,
-            }
-            _atomic_write_new_or_same(audit_path, _canonical(audit))
-            return audit
-        finally:
-            fcntl.flock(handle.fileno(), fcntl.LOCK_UN)
+    physical_lock = Path(request["lock_path"])
+    physical_lock.parent.mkdir(parents=True, exist_ok=True)
+    with physical_lock.open("a+") as physical_handle:
+        fcntl.flock(physical_handle.fileno(), fcntl.LOCK_EX)
+        with mutex.open("a+b") as handle:
+            fcntl.flock(handle.fileno(), fcntl.LOCK_EX)
+            try:
+                active = _load_record(target, "lease record")
+                _assert_matches(active, request)
+                audit = {
+                    "schema_version": 1,
+                    "record_type": "cooperative_gpu_lease_release",
+                    "status": "released",
+                    "active_lease_sha256": _sha256(_canonical(active)),
+                    "ownership_claim": False,
+                    **request,
+                }
+                _atomic_write_new_or_same(audit_path, _canonical(audit))
+                return audit
+            finally:
+                fcntl.flock(handle.fileno(), fcntl.LOCK_UN)

@@ -13,7 +13,9 @@ from .quality_contract import (
 )
 
 
-_LATENCY_SELECTION_BASIS = "new_measured_median_generation_or_decision_latency"
+_LATENCY_SELECTION_BASIS = (
+    "fresh_repetition_median_ranking_latency_s_one_shot_process_wall"
+)
 
 
 def _formal_candidates(protocol: Mapping[str, Any]) -> tuple[str, ...]:

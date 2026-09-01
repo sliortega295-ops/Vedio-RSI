@@ -7,6 +7,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
+from rolloutbench.pilot_runner import expand_run_units
 from rolloutbench.runplan import (
     build_experiment_plan,
     required_repetitions,
@@ -84,6 +85,28 @@ class H100RunPlanTests(unittest.TestCase):
             namespaces.add(run["cache_namespace"])
             expected_workers = 1 if run["system"] in {"serial1", "optroll1"} else 2
             self.assertEqual(expected_workers, len(run["workers"]))
+            dense = run["quality_dense_reference"]
+            self.assertEqual("DENSE", dense["episode_id"])
+            self.assertEqual(
+                "8bd01c6898f920c140a9c74197676debbcaff1fe",
+                dense["runtime_checkout"]["git_ref"],
+            )
+            self.assertEqual("dense_reference", dense["candidate_type"])
+            self.assertEqual(138, len(expand_run_units(run)))
+            selected = {row["episode_id"] for row in run["episodes"]}
+            for episode in run["episodes"]:
+                expected_historical = [
+                    predecessor
+                    for predecessor in episode["depends_on"]
+                    if predecessor not in selected
+                ]
+                self.assertEqual(
+                    expected_historical,
+                    [
+                        row["episode_id"]
+                        for row in episode["historical_predecessor_receipts"]
+                    ],
+                )
 
         optroll2 = {
             run["repeat_index"]: run
@@ -117,6 +140,7 @@ class H100RunPlanTests(unittest.TestCase):
         self.assertEqual(8, len(episodes["C02"]["quality_pairs"]))
         self.assertEqual(8, len(episodes["C09"]["quality_pairs"]))
         self.assertEqual(8, len(episodes["C12"]["quality_pairs"]))
+        self.assertEqual(1, run["quality_dense_reference"]["worker_affinity"])
 
     def test_full_scope_contains_all_35_and_adaptive_repeat_rule(self) -> None:
         plan = build_experiment_plan(
@@ -127,6 +151,13 @@ class H100RunPlanTests(unittest.TestCase):
             repo_root=REPO_ROOT,
         )
         self.assertTrue(all(len(run["episodes"]) == 35 for run in plan["runs"]))
+        self.assertTrue(
+            all(
+                not episode["historical_predecessor_receipts"]
+                for run in plan["runs"]
+                for episode in run["episodes"]
+            )
+        )
         self.assertEqual(3, required_repetitions([10.0, 10.1, 9.9]))
         self.assertEqual(5, required_repetitions([10.0, 11.0, 9.0]))
         with self.assertRaises(ValueError):

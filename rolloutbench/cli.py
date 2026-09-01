@@ -111,11 +111,189 @@ def _parser() -> argparse.ArgumentParser:
         action="store_true",
         help="development only: allow a dirty harness checkout",
     )
+
+    formal_run = subparsers.add_parser(
+        "run-formal",
+        help="execute one externally authorized formal run with durable resume",
+    )
+    formal_run.add_argument("--plan", type=Path, required=True)
+    formal_run.add_argument("--preparation", type=Path, required=True)
+    formal_run.add_argument("--run-id", required=True)
+    formal_run.add_argument("--profile", type=Path, default=DEFAULT_PROFILE)
+    formal_run.add_argument("--suite", type=Path, default=DEFAULT_SUITE_DIR)
+    formal_run.add_argument("--repo-root", type=Path, default=Path.cwd())
+    formal_run.add_argument("--state-root", type=Path, required=True)
+    formal_run.add_argument("--authorization", type=Path, required=True)
+    formal_run.add_argument(
+        "--execute-authorized-gpu-plan",
+        action="store_true",
+        help="required acknowledgement; authorization validation still cannot be bypassed",
+    )
+
+    summarize = subparsers.add_parser(
+        "summarize-system",
+        help="aggregate completed repetitions for one system without GPU execution",
+    )
+    summarize.add_argument("--plan", type=Path, required=True)
+    summarize.add_argument("--preparation", type=Path, required=True)
+    summarize.add_argument("--state-root", type=Path, required=True)
+    summarize.add_argument("--system", choices=sorted(SYSTEMS), required=True)
+    summarize.add_argument(
+        "--completed-repetitions",
+        type=int,
+        choices=(3, 5),
+        help=(
+            "aggregate the first three or all five repetitions from one "
+            "predeclared plan; defaults to the plan repetition count"
+        ),
+    )
+    summarize.add_argument("--suite", type=Path, default=DEFAULT_SUITE_DIR)
+    summarize.add_argument("--repo-root", type=Path, default=Path.cwd())
+    summarize.add_argument("--output", type=Path, required=True)
+
+    compare = subparsers.add_parser(
+        "compare-systems",
+        help="validate and seal the exact four-system TTVF comparison",
+    )
+    compare.add_argument(
+        "--result",
+        type=Path,
+        action="append",
+        required=True,
+        help="one sealed summarize-system result; provide exactly four",
+    )
+    compare.add_argument("--suite", type=Path, default=DEFAULT_SUITE_DIR)
+    compare.add_argument("--repo-root", type=Path, default=Path.cwd())
+    compare.add_argument("--output", type=Path, required=True)
     return parser
 
 
 def main(argv: list[str] | None = None) -> int:
     args = _parser().parse_args(argv)
+    if args.command == "compare-systems":
+        from .aggregation import compare_system_results, write_system_comparison
+
+        comparison = compare_system_results(
+            args.result,
+            args.suite,
+            repo_root=args.repo_root,
+        )
+        receipt = write_system_comparison(args.output, comparison)
+        print(json.dumps(receipt, sort_keys=True))
+        return 0
+    if args.command == "summarize-system":
+        from .aggregation import aggregate_system, write_system_result
+        from .pilot_runner import load_run_context
+
+        try:
+            plan = json.loads(args.plan.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError) as exc:
+            raise RuntimeError("cannot load experiment plan for aggregation") from exc
+        if not isinstance(plan, dict) or not isinstance(plan.get("runs"), list):
+            raise RuntimeError("experiment plan is malformed")
+        plan_repetitions = plan.get("repetitions")
+        planned_runs = sorted(
+            (
+                run
+                for run in plan["runs"]
+                if isinstance(run, dict) and run.get("system") == args.system
+            ),
+            key=lambda run: run.get("repeat_index", -1),
+        )
+        if (
+            type(plan_repetitions) is not int
+            or plan_repetitions not in {3, 5}
+            or len(planned_runs) != plan_repetitions
+            or [run.get("repeat_index") for run in planned_runs]
+            != list(range(1, plan_repetitions + 1))
+        ):
+            raise RuntimeError("system aggregation run set is incomplete")
+        completed_repetitions = (
+            args.completed_repetitions
+            if args.completed_repetitions is not None
+            else plan_repetitions
+        )
+        if completed_repetitions > plan_repetitions:
+            raise RuntimeError(
+                "completed repetitions exceed the predeclared experiment plan"
+            )
+        run_ids = [
+            str(run["run_id"])
+            for run in planned_runs[:completed_repetitions]
+        ]
+        suite_path = args.suite
+        if not suite_path.is_absolute():
+            suite_path = args.repo_root / suite_path
+        validate_suite_directory(suite_path, repo_root=args.repo_root)
+        suite = json.loads(
+            (suite_path / "suite.json").read_text(encoding="utf-8")
+        )
+        protocol = json.loads(
+            (suite_path / "quality_protocol.json").read_text(encoding="utf-8")
+        )
+        contexts = [
+            load_run_context(args.plan, args.preparation, run_id)
+            for run_id in run_ids
+        ]
+        result = aggregate_system(
+            contexts, args.state_root, suite, protocol
+        )
+        receipt = write_system_result(args.output, result)
+        print(json.dumps(receipt, sort_keys=True))
+        return 0
+    if args.command == "run-formal":
+        if not args.execute_authorized_gpu_plan:
+            raise RuntimeError(
+                "run-formal requires --execute-authorized-gpu-plan"
+            )
+        from .formal_dispatch import dispatch_formal_run
+        from .pilot_runner import SubprocessStageExecutor, load_run_context
+
+        context = load_run_context(args.plan, args.preparation, args.run_id)
+        profile_path = args.profile
+        if not profile_path.is_absolute():
+            profile_path = args.repo_root / profile_path
+        suite_path = args.suite
+        if not suite_path.is_absolute():
+            suite_path = args.repo_root / suite_path
+        try:
+            profile = build_preflight_spec(
+                profile_path, repo_root=args.repo_root
+            )
+            protocol = json.loads(
+                (suite_path / "quality_protocol.json").read_text(encoding="utf-8")
+            )
+            authorization = json.loads(
+                args.authorization.read_text(encoding="utf-8")
+            )
+        except (OSError, json.JSONDecodeError) as exc:
+            raise RuntimeError("cannot load formal run profile/protocol/authorization") from exc
+        if (suite_path / "suite.json").resolve() != Path(profile["suite_path"]).resolve():
+            raise RuntimeError("formal run suite does not match the frozen H100 profile")
+        lease_files = authorization.get("lease_files")
+        if not isinstance(lease_files, dict):
+            raise RuntimeError("launch authorization has no lease_files mapping")
+        outcomes = dispatch_formal_run(
+            context,
+            SubprocessStageExecutor(),
+            args.state_root,
+            authorization_path=args.authorization.resolve(),
+            lease_files=lease_files,
+            profile=profile,
+            quality_protocol=protocol,
+        )
+        print(
+            json.dumps(
+                {
+                    "status": "COMPLETED",
+                    "run_id": args.run_id,
+                    "unit_outcome_count": len(outcomes),
+                    "performance_claim": False,
+                },
+                sort_keys=True,
+            )
+        )
+        return 0
     if args.command == "prepare-experiment":
         payload = prepare_experiment(
             args.plan,
@@ -171,12 +349,14 @@ def main(argv: list[str] | None = None) -> int:
             json.dumps(
                 {
                     "query_status": payload["query_status"],
+                    "technical_ready": payload["technical_ready"],
+                    "launch_authorized": payload["launch_authorized"],
                     "pilot_ready": payload["pilot_ready"],
                 },
                 sort_keys=True,
             )
         )
-        return 0 if payload["pilot_ready"] else 1
+        return 0 if payload["query_status"] == "PASS" and payload["technical_ready"] else 1
     if args.command == "cpu-acceptance":
         payload = run_cpu_acceptance(
             args.suite,

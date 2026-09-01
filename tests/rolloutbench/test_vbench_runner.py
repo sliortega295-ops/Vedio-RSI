@@ -67,6 +67,7 @@ class VBenchPairContractTests(unittest.TestCase):
             "vbench_cache_path": cache,
             "python_bin": python,
             "output_path": output,
+            "gpu_uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3",
             "source_verification": "NON_FORMAL_TEST_ONLY",
         }
 
@@ -123,6 +124,10 @@ class VBenchPairContractTests(unittest.TestCase):
         self.assertFalse(first["performance_claim"])
         self.assertEqual(VBENCH_REF, first["vbench_source_ref"])
         self.assertEqual(self.pair["metrics"], first["metrics"])
+        self.assertEqual(
+            fixture["gpu_uuid"],
+            first["invocations"]["dense"]["env"]["CUDA_VISIBLE_DEVICES"],
+        )
         self.assertEqual({"dense", "candidate"}, set(first["invocations"]))
         for role, invocation in first["invocations"].items():
             with self.subTest(role=role):

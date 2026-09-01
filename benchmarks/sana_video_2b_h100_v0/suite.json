@@ -28,7 +28,7 @@
     "torch": "2.11.0+cu128",
     "triton": "3.6.0"
   },
-  "episodes_sha256": "0e0a142faa8a7260b03f5809b02fc551d2b23bb2b7cfd71692f47e1dce514a3f",
+  "episodes_sha256": "d2b7901a0e6956c9aa33457625e4a29bb54db053cf1a0a0a82c02ff7a1860962",
   "file_hashes": {
     "artifacts.json": {
       "hash_scope": "raw_file_bytes",
@@ -36,11 +36,11 @@
     },
     "episodes.jsonl": {
       "hash_scope": "raw_file_bytes",
-      "sha256": "0e0a142faa8a7260b03f5809b02fc551d2b23bb2b7cfd71692f47e1dce514a3f"
+      "sha256": "d2b7901a0e6956c9aa33457625e4a29bb54db053cf1a0a0a82c02ff7a1860962"
     },
     "quality_protocol.json": {
       "hash_scope": "raw_file_bytes",
-      "sha256": "43ecc16dbc7638677560fd78ad7c53fdcf3aaa9841989a3328c6f9c5e012688b"
+      "sha256": "2d1de93b6ec8b62c0cd5a8ad28da6fce2e5ae9f4421dc3b51c96bcc3f444ec8c"
     }
   },
   "frontier_contracts": {
@@ -79,7 +79,7 @@
     "C09",
     "C12"
   ],
-  "quality_protocol_sha256": "43ecc16dbc7638677560fd78ad7c53fdcf3aaa9841989a3328c6f9c5e012688b",
+  "quality_protocol_sha256": "2d1de93b6ec8b62c0cd5a8ad28da6fce2e5ae9f4421dc3b51c96bcc3f444ec8c",
   "schema_version": 2,
   "scope_boundaries": {
     "excluded": [

@@ -10,6 +10,11 @@ from pathlib import Path
 from typing import Any
 
 from .quality_contract import (
+    DENSE_CONFIG_PATH,
+    DENSE_CONFIG_SHA256,
+    DENSE_REFERENCE_ID,
+    DENSE_RUNTIME_PARENT_REF,
+    DENSE_RUNTIME_REF,
     EXCLUDED_CACHE_IDS,
     FORMAL_CACHE_IDS,
     MAX_MEAN_RELATIVE_DROP,
@@ -17,6 +22,7 @@ from .quality_contract import (
     QUALITY_DIMENSIONS,
     QUALITY_METRICS_BY_SUITE,
     QUALITY_SEEDS,
+    K22_FAILURE_CONTRACT,
     VBENCH_REF,
 )
 
@@ -256,11 +262,7 @@ def _validate_episode_contracts(episodes: list[dict[str, Any]], repo_root: Path)
         if golden.get("scheduler_visible") is not False or golden.get("role") != "acceptance_oracle_only":
             raise SuiteValidationError(f"{episode_id} golden oracle must be hidden from scheduler")
         expected_failure = (
-            {
-                "kind": "real_fail_closed_layout_mismatch",
-                "stage": "generate",
-                "deterministic": True,
-            }
+            dict(K22_FAILURE_CONTRACT)
             if episode_id == "K22"
             else None
         )
@@ -269,6 +271,26 @@ def _validate_episode_contracts(episodes: list[dict[str, Any]], repo_root: Path)
 
 
 def _validate_quality(quality: dict[str, Any]) -> None:
+    if quality.get("dense_reference") != {
+        "episode_id": DENSE_REFERENCE_ID,
+        "authority_ref": DENSE_RUNTIME_REF,
+        "runtime_ref": DENSE_RUNTIME_REF,
+        "runtime_parent_ref": DENSE_RUNTIME_PARENT_REF,
+        "config_path": DENSE_CONFIG_PATH,
+        "config_sha256": DENSE_CONFIG_SHA256,
+        "semantics": "cache-capable SANA runtime with every optimization switch disabled",
+        "reuse_scope": "same prompt and seed within one benchmark run",
+    }:
+        raise SuiteValidationError("quality dense reference is not exactly frozen")
+    if quality.get("dense_measurement_reuse") != {
+        "video_generation": "once_per_prompt_seed_per_benchmark_run",
+        "vbench_scoring": "rerun_for_each_candidate_pair",
+        "reason": (
+            "v0 keeps every dense/candidate VBench execution receipt inside "
+            "one candidate-specific pair plan; cross-candidate score reuse is disabled"
+        ),
+    }:
+        raise SuiteValidationError("quality dense measurement reuse contract mismatch")
     formal = quality.get("formal_cache_candidates")
     excluded = quality.get("excluded_cache_candidates")
     if not isinstance(formal, list) or not isinstance(excluded, dict):

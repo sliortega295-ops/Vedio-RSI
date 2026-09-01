@@ -97,12 +97,12 @@ class ExperimentPreparationTests(unittest.TestCase):
                 )
 
             pilot_ids = list(self.plan["runs"][0]["episodes"])
-            expected_ids = [episode["episode_id"] for episode in pilot_ids]
+            expected_ids = ["DENSE"] + [episode["episode_id"] for episode in pilot_ids]
             self.assertEqual(expected_ids * 2, runtime_calls)
             self.assertEqual(expected_ids * 2, artifact_calls)
             self.assertEqual("READY", first["status"])
             self.assertEqual(first, second)
-            self.assertEqual(10, first["unique_episode_count"])
+            self.assertEqual(11, first["unique_episode_count"])
             self.assertEqual(12, first["run_count"])
             self.assertFalse(first["gpu_execution"])
             self.assertFalse(first["vbench_execution"])

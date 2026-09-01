@@ -24,6 +24,8 @@ GPU_UUIDS = (
     "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3",
     "GPU-847305ce-670b-91ee-e0a9-aa3b7833df23",
 )
+PLAN_SHA256 = "a" * 64
+RUN_SHA256 = "b" * 64
 PLAN_SOURCE = {
     "revision": subprocess.check_output(
         ["git", "rev-parse", "HEAD"], cwd=REPO_ROOT, text=True
@@ -85,6 +87,8 @@ class EpisodeInvocationTests(unittest.TestCase):
                 repo_root=REPO_ROOT,
                 experiment_root=root,
                 plan_id="plan-123",
+                plan_sha256=PLAN_SHA256,
+                run_sha256=RUN_SHA256,
                 run=run,
                 episode=episode,
                 worker=worker,
@@ -101,6 +105,7 @@ class EpisodeInvocationTests(unittest.TestCase):
                 invocation["argv"][1],
             )
             self.assertEqual("1", invocation["env"]["SANA_ENABLE_COMPILE"])
+            self.assertEqual(worker["gpu_uuid"], invocation["env"]["CUDA_VISIBLE_DEVICES"])
             self.assertEqual("42", invocation["env"]["SANA_WORKLOAD_SEED"])
             self.assertEqual(
                 str(REPO_ROOT / "external/sol_runtime"),
@@ -123,6 +128,8 @@ class EpisodeInvocationTests(unittest.TestCase):
                 repo_root=REPO_ROOT,
                 experiment_root=root,
                 plan_id="plan-123",
+                plan_sha256=PLAN_SHA256,
+                run_sha256=RUN_SHA256,
                 run=run,
                 episode=episode,
                 worker=worker,
@@ -156,6 +163,8 @@ class EpisodeInvocationTests(unittest.TestCase):
                 repo_root=REPO_ROOT,
                 experiment_root=root,
                 plan_id="plan-123",
+                plan_sha256=PLAN_SHA256,
+                run_sha256=RUN_SHA256,
                 run=run,
                 episode=episode,
                 worker=worker,
@@ -174,6 +183,44 @@ class EpisodeInvocationTests(unittest.TestCase):
             )
             self.assertEqual("12345", invocation["env"]["SANA_WORKLOAD_SEED"])
             self.assertEqual(pair["pair_id"], invocation["quality_pair_id"])
+            self.assertEqual("candidate", invocation["quality_role"])
+            self.assertEqual(
+                pair["candidate_artifact_id"], invocation["quality_artifact_id"]
+            )
+
+    def test_dense_quality_invocation_uses_frozen_reference(self) -> None:
+        run = _pilot_run()
+        dense = run["quality_dense_reference"]
+        worker = run["workers"][1]
+        pair = _episode(run, "C02")["quality_pairs"][0]
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            derived = root / "derived"
+            materialized = materialize_candidate_artifacts(
+                dense, derived, repo_root=REPO_ROOT
+            )
+            invocation = build_episode_invocation(
+                repo_root=REPO_ROOT,
+                experiment_root=root,
+                plan_id="plan-123",
+                plan_sha256=PLAN_SHA256,
+                run_sha256=RUN_SHA256,
+                run=run,
+                episode=dense,
+                worker=worker,
+                materialized_root=derived,
+                materialization_receipt=materialized,
+                runtime_receipt=_runtime_receipt(dense),
+                lease_files={worker["gpu_uuid"]: root / "lease-1.json"},
+                plan_source=PLAN_SOURCE,
+                quality_pair=pair,
+                require_clean_harness=False,
+            )
+            self.assertEqual("dense", invocation["quality_role"])
+            self.assertEqual(pair["dense_artifact_id"], invocation["quality_artifact_id"])
+            self.assertEqual("0", invocation["env"]["SANA_ENABLE_COMPILE"])
+            self.assertEqual("0", invocation["env"]["SANA_EASYCACHE_THRESH"])
+            self.assertIn("/DENSE/quality-v1/", invocation["output_path"])
 
     def test_probe_invocation_uses_guard_lease_and_candidate_runtime(self) -> None:
         run = _pilot_run()
@@ -189,6 +236,8 @@ class EpisodeInvocationTests(unittest.TestCase):
                 repo_root=REPO_ROOT,
                 experiment_root=root,
                 plan_id="plan-123",
+                plan_sha256=PLAN_SHA256,
+                run_sha256=RUN_SHA256,
                 run=run,
                 episode=episode,
                 worker=worker,
@@ -204,6 +253,39 @@ class EpisodeInvocationTests(unittest.TestCase):
             self.assertIn("--guard-dir", invocation["argv"])
             self.assertIn("--runtime-python-root", invocation["argv"])
             self.assertTrue(invocation["output_path"].endswith("probe-result.json"))
+
+    def test_k22_expected_failure_routes_to_a_benchmark_receipt(self) -> None:
+        run = _pilot_run()
+        episode = _episode(run, "K22")
+        worker = run["workers"][0]
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            derived = root / "derived"
+            materialized = materialize_candidate_artifacts(
+                episode, derived, repo_root=REPO_ROOT
+            )
+            invocation = build_episode_invocation(
+                repo_root=REPO_ROOT,
+                experiment_root=root,
+                plan_id="plan-123",
+                plan_sha256=PLAN_SHA256,
+                run_sha256=RUN_SHA256,
+                run=run,
+                episode=episode,
+                worker=worker,
+                materialized_root=derived,
+                materialization_receipt=materialized,
+                runtime_receipt=_runtime_receipt(episode),
+                lease_files={worker["gpu_uuid"]: root / "lease-0.json"},
+                plan_source=PLAN_SOURCE,
+                require_clean_harness=False,
+            )
+        self.assertEqual("expected_fail_closed_generation", invocation["kind"])
+        self.assertTrue(invocation["output_path"].endswith("benchmark.json"))
+        self.assertEqual(
+            episode["expected_failure_contract"],
+            invocation["expected_failure_contract"],
+        )
 
     def test_prompt_and_runtime_mismatches_fail_closed(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
@@ -222,6 +304,8 @@ class EpisodeInvocationTests(unittest.TestCase):
                     repo_root=REPO_ROOT,
                     experiment_root=Path(directory),
                     plan_id="plan-123",
+                    plan_sha256=PLAN_SHA256,
+                    run_sha256=RUN_SHA256,
                     run=run,
                     episode=episode,
                     worker=worker,
@@ -252,6 +336,8 @@ class EpisodeInvocationTests(unittest.TestCase):
                     repo_root=REPO_ROOT,
                     experiment_root=root,
                     plan_id="plan-123",
+                    plan_sha256=PLAN_SHA256,
+                    run_sha256=RUN_SHA256,
                     run=run,
                     episode=episode,
                     worker=worker,
@@ -280,6 +366,8 @@ class EpisodeInvocationTests(unittest.TestCase):
                     repo_root=REPO_ROOT,
                     experiment_root=root,
                     plan_id="plan-123",
+                    plan_sha256=PLAN_SHA256,
+                    run_sha256=RUN_SHA256,
                     run=run,
                     episode=episode,
                     worker=worker,

@@ -251,6 +251,7 @@ def build_vbench_pair_plan(
     vbench_cache_path: str | Path,
     python_bin: str | Path,
     output_path: str | Path,
+    gpu_uuid: str,
     source_verification: str = _FORMAL_SOURCE_VERIFICATION,
 ) -> dict[str, Any]:
     """Build two deterministic, unexecuted VBench custom-input invocations."""
@@ -278,6 +279,8 @@ def build_vbench_pair_plan(
     if not python.is_file():
         raise VBenchContractError("VBench Python path is not a regular file")
     output = _absolute_path(output_path, "VBench output path")
+    if not isinstance(gpu_uuid, str) or not gpu_uuid.startswith("GPU-"):
+        raise VBenchContractError("VBench GPU UUID is invalid")
 
     dense_path, dense_sha = _validated_video(
         role="dense",
@@ -318,6 +321,8 @@ def build_vbench_pair_plan(
             "argv": argv,
             "cwd": str(source),
             "env": {
+                "CUDA_DEVICE_ORDER": "PCI_BUS_ID",
+                "CUDA_VISIBLE_DEVICES": gpu_uuid,
                 "VBENCH_CACHE_DIR": str(cache),
                 "HF_HUB_OFFLINE": "1",
                 "TRANSFORMERS_OFFLINE": "1",
@@ -351,6 +356,7 @@ def build_vbench_pair_plan(
         "quality_protocol_fingerprint": _protocol_fingerprint(quality_protocol),
         "vbench_cache_path": str(cache),
         "python_bin": str(python),
+        "gpu_uuid": gpu_uuid,
         "output_path": str(output),
         "videos": {
             "dense": {

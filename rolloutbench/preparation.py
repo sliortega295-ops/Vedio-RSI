@@ -105,33 +105,38 @@ def _validate_canonical_plan(
 
 def _unique_episodes(plan: Mapping[str, Any]) -> list[dict[str, Any]]:
     unique: dict[str, dict[str, Any]] = {}
+
+    def add_episode(episode_value: Any) -> None:
+        if not isinstance(episode_value, dict):
+            raise PreparationError("experiment plan contains a malformed episode")
+        episode_id = str(episode_value.get("episode_id", ""))
+        if not episode_id:
+            raise PreparationError("experiment plan contains an empty episode ID")
+        previous = unique.get(episode_id)
+        if previous is None:
+            unique[episode_id] = episode_value
+            return
+        stable_fields = (
+            "candidate",
+            "runtime_checkout",
+            "validation",
+            "quality_pairs",
+            "cache_scope_key",
+        )
+        if any(
+            _canonical(previous.get(field)) != _canonical(episode_value.get(field))
+            for field in stable_fields
+        ):
+            raise PreparationError(
+                f"episode {episode_id} changes authority across system runs"
+            )
+
     for run in plan.get("runs", []):
         if not isinstance(run, Mapping) or not isinstance(run.get("episodes"), list):
             raise PreparationError("experiment plan contains a malformed run")
+        add_episode(run.get("quality_dense_reference"))
         for episode_value in run["episodes"]:
-            if not isinstance(episode_value, dict):
-                raise PreparationError("experiment plan contains a malformed episode")
-            episode_id = str(episode_value.get("episode_id", ""))
-            if not episode_id:
-                raise PreparationError("experiment plan contains an empty episode ID")
-            previous = unique.get(episode_id)
-            if previous is None:
-                unique[episode_id] = episode_value
-                continue
-            stable_fields = (
-                "candidate",
-                "runtime_checkout",
-                "validation",
-                "quality_pairs",
-                "cache_scope_key",
-            )
-            if any(
-                _canonical(previous.get(field)) != _canonical(episode_value.get(field))
-                for field in stable_fields
-            ):
-                raise PreparationError(
-                    f"episode {episode_id} changes authority across system runs"
-                )
+            add_episode(episode_value)
     return list(unique.values())
 
 

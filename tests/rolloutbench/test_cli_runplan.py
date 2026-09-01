@@ -67,6 +67,78 @@ class ExperimentPlanCliTests(unittest.TestCase):
             with self.assertRaises(FileExistsError):
                 main(args)
 
+    def test_summarize_can_use_first_three_runs_from_predeclared_five(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            plan_path = root / "plan.json"
+            plan_path.write_text(
+                json.dumps(
+                    {
+                        "repetitions": 5,
+                        "runs": [
+                            {
+                                "run_id": f"full-serial1-repeat-{index:02d}",
+                                "system": "serial1",
+                                "repeat_index": index,
+                            }
+                            for index in range(1, 6)
+                        ],
+                    }
+                )
+                + "\n",
+                encoding="utf-8",
+            )
+            loaded_ids: list[str] = []
+
+            def load_context(_plan: Path, _preparation: Path, run_id: str) -> str:
+                loaded_ids.append(run_id)
+                return run_id
+
+            with (
+                mock.patch(
+                    "rolloutbench.pilot_runner.load_run_context",
+                    side_effect=load_context,
+                ),
+                mock.patch(
+                    "rolloutbench.aggregation.aggregate_system",
+                    return_value={"status": "FULL_AGGREGATED"},
+                ) as aggregate,
+                mock.patch(
+                    "rolloutbench.aggregation.write_system_result",
+                    return_value={"status": "WRITTEN"},
+                ),
+                contextlib.redirect_stdout(io.StringIO()),
+            ):
+                self.assertEqual(
+                    0,
+                    main(
+                        [
+                            "summarize-system",
+                            "--plan",
+                            str(plan_path),
+                            "--preparation",
+                            str(root / "preparation.json"),
+                            "--state-root",
+                            str(root / "state"),
+                            "--system",
+                            "serial1",
+                            "--completed-repetitions",
+                            "3",
+                            "--suite",
+                            str(SUITE_DIR),
+                            "--repo-root",
+                            str(REPO_ROOT),
+                            "--output",
+                            str(root / "result.json"),
+                        ]
+                    ),
+                )
+            self.assertEqual(
+                [f"full-serial1-repeat-{index:02d}" for index in range(1, 4)],
+                loaded_ids,
+            )
+            self.assertEqual(3, len(aggregate.call_args.args[0]))
+
 
 if __name__ == "__main__":
     unittest.main()

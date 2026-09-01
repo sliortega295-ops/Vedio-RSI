@@ -125,6 +125,7 @@ def _remote_success(spec: dict) -> dict:
                 "imports": {
                     module: "PASS" for module in spec["vbench_imports"]
                 },
+                "lpips_model": "PASS",
                 "error": None,
             },
         },
@@ -160,7 +161,7 @@ class H100PreflightTests(unittest.TestCase):
             "db5f398b13ca086d09a50ce156c20527773841b1", spec["model_revision"]
         )
         self.assertEqual([6, 7], [item["index"] for item in spec["target_gpus"]])
-        self.assertEqual(8, len(spec["vbench_weights"]))
+        self.assertEqual(10, len(spec["vbench_weights"]))
         self.assertEqual(
             "/home/jiangzhikun/yongyan_liu/Experiments/SolRolloutBench/"
             "20260901-v0/envs/vbench-py312-cu128/bin/python",
@@ -228,7 +229,9 @@ class H100PreflightTests(unittest.TestCase):
         self.assertTrue(receipt["runtime_ready"])
         self.assertTrue(receipt["two_gpu_idle_point_in_time"])
         self.assertTrue(receipt["quality_ready"])
-        self.assertTrue(receipt["pilot_ready"])
+        self.assertTrue(receipt["technical_ready"])
+        self.assertFalse(receipt["launch_authorized"])
+        self.assertFalse(receipt["pilot_ready"])
         self.assertFalse(receipt["gpu_idle_scope"]["ownership_verified"])
         self.assertIn("symbolic-ref", remote_script)
         self.assertIn("--no-optional-locks", remote_script)
@@ -300,16 +303,19 @@ class H100PreflightTests(unittest.TestCase):
 
     def test_vbench_runtime_version_or_import_failure_fails_quality_closed(self) -> None:
         spec = build_preflight_spec(PROFILE, repo_root=REPO_ROOT)
-        for mutation in ("version", "import"):
+        for mutation in ("version", "import", "lpips"):
             with self.subTest(mutation=mutation):
                 payload = _remote_success(spec)
                 runtime = payload["vbench"]["runtime"]
                 if mutation == "version":
                     runtime["versions"]["numpy"] = "2.5.2"
-                else:
+                elif mutation == "import":
                     runtime["imports"]["vbench.imaging_quality"] = (
                         "ModuleNotFoundError: missing"
                     )
+                else:
+                    runtime["lpips_model"] = "RuntimeError: offline weight missing"
+                    runtime["ok"] = False
                 receipt = run_h100_preflight(
                     PROFILE, repo_root=REPO_ROOT, runner=RecordingRunner(payload)
                 )

@@ -322,11 +322,18 @@ def _run_logged(
     env: dict[str, str],
     log_path: Path,
     gpu_uuid: str,
-) -> tuple[int, float, list[dict[str, object]], str]:
+) -> tuple[
+    int,
+    float,
+    list[dict[str, object]],
+    str,
+    list[dict[str, object]],
+]:
     samples: list[dict[str, object]] = []
     stop = threading.Event()
     started = time.perf_counter()
     transcript: list[str] = []
+    timeline: list[dict[str, object]] = []
     with log_path.open("w") as log_handle:
         process = subprocess.Popen(
             command,
@@ -346,6 +353,30 @@ def _run_logged(
         assert process.stdout is not None
         for line in process.stdout:
             transcript.append(line)
+            marker = next(
+                (
+                    name
+                    for token, name in (
+                        ("==== STAGE 1:", "import_started"),
+                        ("IMPORT_OK", "import_completed"),
+                        ("==== STAGE 2:", "registry_started"),
+                        ("==== STAGE 3:", "model_build_started"),
+                        ("BUILD_OK", "model_build_completed"),
+                        ("==== STAGE 4:", "generation_started"),
+                        ("GENERATE_OK", "generation_completed"),
+                        ("RUN_COMPLETE_MARKER", "runtime_completed"),
+                    )
+                    if token in line
+                ),
+                None,
+            )
+            if marker is not None:
+                timeline.append(
+                    {
+                        "marker": marker,
+                        "elapsed_s": time.perf_counter() - started,
+                    }
+                )
             log_handle.write(line)
             log_handle.flush()
             sys.stdout.write(line)
@@ -353,7 +384,95 @@ def _run_logged(
         returncode = process.wait()
         stop.set()
         monitor.join(timeout=5)
-    return returncode, time.perf_counter() - started, samples, "".join(transcript)
+    return (
+        returncode,
+        time.perf_counter() - started,
+        samples,
+        "".join(transcript),
+        timeline,
+    )
+
+
+def _phase_timings(
+    timeline: list[dict[str, object]], process_wall_s: float
+) -> dict[str, object]:
+    """Expose honest phase envelopes from the archived runtime markers.
+
+    Model loading, optional compilation, and the one-step warmup all happen
+    inside ``from_pretrained``.  The archived runtime does not expose enough
+    markers to split those three costs, so this receipt keeps them combined.
+    """
+
+    by_marker = {
+        str(row["marker"]): float(row["elapsed_s"])
+        for row in timeline
+        if isinstance(row.get("marker"), str)
+        and isinstance(row.get("elapsed_s"), (int, float))
+    }
+
+    def delta(start: str, end: str) -> float | None:
+        if start not in by_marker or end not in by_marker:
+            return None
+        value = by_marker[end] - by_marker[start]
+        return value if value >= 0 else None
+
+    return {
+        "marker_timeline": timeline,
+        "process_wall_s": process_wall_s,
+        "import_s": delta("import_started", "import_completed"),
+        "registry_to_model_build_s": delta(
+            "registry_started", "model_build_started"
+        ),
+        "model_load_compile_warmup_s": delta(
+            "model_build_started", "model_build_completed"
+        ),
+        "measured_generation_envelope_s": delta(
+            "generation_started", "generation_completed"
+        ),
+        "separately_observed": {
+            "model_load": False,
+            "compile": False,
+            "warmup": False,
+        },
+    }
+
+
+def _structural_invariants(
+    workload: dict[str, object],
+    knobs: dict[str, object],
+    cache_summary: dict[str, object] | None,
+) -> dict[str, object]:
+    """Derive measured-request structure from the frozen scheduler contract.
+
+    These are contract-derived counters, not profiler counters.  For exact
+    Kernel candidates the same clean harness records that all cache/skip
+    controls were disabled.  Cache candidates still make every logical DiT
+    call but may bypass the transformer block stack within selected calls.
+    """
+
+    steps = int(workload["steps"])
+    cfg_branches = 2 if float(workload["guidance_scale"]) > 1.0 else 1
+    logical_dit_calls = steps * cfg_branches
+    cache_hits = 0
+    if cache_summary is not None:
+        raw_hits = cache_summary.get("hits")
+        if isinstance(raw_hits, int) and not isinstance(raw_hits, bool):
+            cache_hits = raw_hits
+    skipped_block_stacks = cache_hits * cfg_branches
+    cache_family = str(knobs["cache_family"])
+    return {
+        "evidence_basis": (
+            "successful_fixed_scheduler_request_plus_clean_harness_runtime_config"
+        ),
+        "counter_kind": "contract_derived_not_profiler_observed",
+        "denoising_steps": steps,
+        "cfg_branches": cfg_branches,
+        "logical_dit_calls": logical_dit_calls,
+        "transformer_blocks": 20,
+        "skipped_operations": 0 if cache_family == "off" else skipped_block_stacks,
+        "skipped_transformer_block_stacks": skipped_block_stacks,
+        "cache_family": cache_family,
+    }
 
 
 def _ffprobe(video: Path) -> dict[str, object]:
@@ -453,6 +572,22 @@ def main() -> int:
     ).resolve()
     lease_file = Path(_required_env("SANA_GPU_LEASE_FILE")).resolve()
     config_id = _required_env("AUTOVIDEO_CONFIG_ID")
+    expected_failure = None
+    expected_failure_code = os.environ.get("ROLLOUTBENCH_EXPECTED_FAILURE_CODE")
+    if expected_failure_code is not None:
+        expected_failure = {
+            "episode_id": _required_env("ROLLOUTBENCH_EXPECTED_FAILURE_EPISODE"),
+            "failure_code": expected_failure_code,
+            "expected_log_marker": _required_env(
+                "ROLLOUTBENCH_EXPECTED_FAILURE_MARKER"
+            ),
+            "config_sha256": _required_env(
+                "ROLLOUTBENCH_EXPECTED_FAILURE_CONFIG_SHA256"
+            ),
+            "runtime_ref": _required_env(
+                "ROLLOUTBENCH_EXPECTED_FAILURE_RUNTIME_REF"
+            ),
+        }
 
     required_paths = [
         runtime_root / "scripts/sana/sana_video_sglang_run.py",
@@ -532,6 +667,7 @@ def main() -> int:
             "workload": workload_receipt,
             "workload_fingerprint": _fingerprint(workload_receipt),
             "optimization_knobs": knobs,
+            "expected_failure_contract": expected_failure,
             "source": {
                 "harness_archival_parent": _required_env("SANA_HARNESS_ARCHIVE_SHA"),
                 "runtime_authority_sha": _required_env("SANA_RUNTIME_AUTHORITY_SHA"),
@@ -557,7 +693,7 @@ def main() -> int:
         atomic_write_json(out_dir / "run_config.json", run_config)
         (out_dir / "command.txt").write_text(" ".join(command) + "\n")
 
-        returncode, wall_s, samples, transcript = _run_logged(
+        returncode, wall_s, samples, transcript, timeline = _run_logged(
             command,
             cwd=runtime_root,
             env=child_env,
@@ -584,6 +720,41 @@ def main() -> int:
         cache_summary = (
             json.loads(cache_summary_matches[-1]) if cache_summary_matches else None
         )
+        phase_timings = _phase_timings(timeline, wall_s)
+        structural_invariants = _structural_invariants(
+            workload, knobs, cache_summary
+        )
+        failure_receipt = None
+        if returncode != 0 and expected_failure is not None:
+            marker = str(expected_failure["expected_log_marker"])
+            marker_count = transcript.count(marker)
+            timeline_markers = {
+                str(row.get("marker")) for row in timeline if isinstance(row, dict)
+            }
+            observed_stage = (
+                "generate"
+                if "generation_started" in timeline_markers
+                and "generation_completed" not in timeline_markers
+                else "before_generate"
+                if "generation_started" not in timeline_markers
+                else "after_generate"
+            )
+            failure_receipt = {
+                "episode_id": expected_failure["episode_id"],
+                "failure_code": expected_failure["failure_code"],
+                "stage": observed_stage,
+                "expected_log_marker": marker,
+                "observed_marker_count": marker_count,
+                "marker_matched": marker_count == 1,
+                "child_returncode": returncode,
+                "config_id": config_id,
+                "config_sha256": expected_failure["config_sha256"],
+                "runtime_ref": _required_env("ROLLOUTBENCH_RUNTIME_REF"),
+                "run_log": {
+                    "path": str(out_dir / "run.log"),
+                    "sha256": _sha256(out_dir / "run.log"),
+                },
+            }
         benchmark: dict[str, object] = {
             "schema_version": 1,
             "status": "FAILED" if returncode else "PARTIAL",
@@ -596,6 +767,7 @@ def main() -> int:
                 "vae_decode_and_video_write_excluding_model_load_and_one_step_warmup"
             ),
             "process_wall_s": wall_s,
+            "phase_timings": phase_timings,
             "runtime_peak_memory_mb": runtime_peak_memory_mb,
             "nvidia_smi_peak_memory_mib": telemetry_peak,
             "max_device_memory_used_mib": authoritative_peak_mib,
@@ -612,6 +784,8 @@ def main() -> int:
             "gpu_after": query_gpu(lease.gpu_uuid),
             "residual_compute_apps": residual,
             "cache": cache_summary,
+            "structural_invariants": structural_invariants,
+            "failure": failure_receipt,
         }
         atomic_write_json(out_dir / "benchmark.json", benchmark)
         if returncode != 0:
