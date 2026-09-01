@@ -868,7 +868,7 @@ def _replay_system_result(
         plan.get("plan_id") != result.get("plan_id")
         or plan_receipt["sha256"] != result.get("plan_sha256")
         or type(plan_repetitions) is not int
-        or plan_repetitions not in {3, 5}
+        or plan_repetitions != 5
         or type(repetitions) is not int
         or repetitions not in {3, 5}
         or repetitions > plan_repetitions

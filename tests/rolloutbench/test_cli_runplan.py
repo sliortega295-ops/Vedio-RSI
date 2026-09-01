@@ -46,7 +46,7 @@ class ExperimentPlanCliTests(unittest.TestCase):
                 "--phase",
                 "pilot",
                 "--repetitions",
-                "3",
+                "5",
             ]
             stdout = io.StringIO()
             with contextlib.redirect_stdout(stdout):
@@ -54,11 +54,11 @@ class ExperimentPlanCliTests(unittest.TestCase):
             receipt = json.loads(stdout.getvalue())
             self.assertEqual("WRITTEN", receipt["status"])
             self.assertEqual("pilot", receipt["phase"])
-            self.assertEqual(3, receipt["repetitions"])
+            self.assertEqual(5, receipt["repetitions"])
 
             plan = json.loads(output.read_text(encoding="utf-8"))
             self.assertEqual("pilot", plan["scope"])
-            self.assertEqual(12, len(plan["runs"]))
+            self.assertEqual(20, len(plan["runs"]))
             self.assertEqual("NOT_RUN", plan["execution_status"])
 
             with contextlib.redirect_stdout(io.StringIO()):

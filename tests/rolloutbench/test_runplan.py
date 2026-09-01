@@ -28,11 +28,11 @@ def _json(path: Path) -> dict:
 
 
 class H100RunPlanTests(unittest.TestCase):
-    def test_pilot_expands_four_systems_three_repetitions_without_golden(self) -> None:
+    def test_pilot_predeclares_four_systems_five_repetitions_without_golden(self) -> None:
         plan = build_experiment_plan(
             SUITE_DIR,
             scope="pilot",
-            repetitions=3,
+            repetitions=5,
             gpu_uuids=GPU_UUIDS,
             repo_root=REPO_ROOT,
         )
@@ -75,7 +75,7 @@ class H100RunPlanTests(unittest.TestCase):
             "parent_for_preflight_rejection", k15["runtime_checkout"]["ref_role"]
         )
         self.assertEqual(4, len(plan["suite_file_sha256"]))
-        self.assertEqual(12, len(plan["runs"]))
+        self.assertEqual(20, len(plan["runs"]))
         expected_ids = _json(SUITE_DIR / "suite.json")["pilot_episodes"]
         namespaces: set[str] = set()
         for run in plan["runs"]:
@@ -120,7 +120,7 @@ class H100RunPlanTests(unittest.TestCase):
         plan = build_experiment_plan(
             SUITE_DIR,
             scope="pilot",
-            repetitions=3,
+            repetitions=5,
             gpu_uuids=GPU_UUIDS,
             repo_root=REPO_ROOT,
         )
@@ -146,7 +146,7 @@ class H100RunPlanTests(unittest.TestCase):
         plan = build_experiment_plan(
             SUITE_DIR,
             scope="full",
-            repetitions=3,
+            repetitions=5,
             gpu_uuids=GPU_UUIDS,
             repo_root=REPO_ROOT,
         )
@@ -167,7 +167,7 @@ class H100RunPlanTests(unittest.TestCase):
         plan = build_experiment_plan(
             SUITE_DIR,
             scope="pilot",
-            repetitions=3,
+            repetitions=5,
             gpu_uuids=GPU_UUIDS,
             repo_root=REPO_ROOT,
         )
@@ -195,6 +195,16 @@ class H100RunPlanTests(unittest.TestCase):
                     require_clean=False,
                     repo_root=REPO_ROOT,
                 )
+
+    def test_formal_plan_rejects_only_three_predeclared_repetitions(self) -> None:
+        with self.assertRaisesRegex(ValueError, "predeclare five"):
+            build_experiment_plan(
+                SUITE_DIR,
+                scope="pilot",
+                repetitions=3,
+                gpu_uuids=GPU_UUIDS,
+                repo_root=REPO_ROOT,
+            )
 
 
 if __name__ == "__main__":

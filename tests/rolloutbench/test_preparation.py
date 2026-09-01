@@ -29,7 +29,7 @@ class ExperimentPreparationTests(unittest.TestCase):
         cls.plan = build_experiment_plan(
             SUITE_DIR,
             scope="pilot",
-            repetitions=3,
+            repetitions=5,
             gpu_uuids=GPU_UUIDS,
             repo_root=REPO_ROOT,
         )
@@ -103,7 +103,7 @@ class ExperimentPreparationTests(unittest.TestCase):
             self.assertEqual("READY", first["status"])
             self.assertEqual(first, second)
             self.assertEqual(11, first["unique_episode_count"])
-            self.assertEqual(12, first["run_count"])
+            self.assertEqual(20, first["run_count"])
             self.assertFalse(first["gpu_execution"])
             self.assertFalse(first["vbench_execution"])
             receipt_path = root / "experiment" / "state" / "preparation.json"

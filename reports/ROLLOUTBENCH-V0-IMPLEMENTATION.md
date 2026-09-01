@@ -51,7 +51,7 @@ this report contains no new performance claim.
 ## Validation completed locally
 
 - `python3 -m rolloutbench validate-suite ...`: 35 episodes, valid.
-- `python3 -m unittest discover -s tests/rolloutbench -v`: 148/148 pass.
+- `python3 -m unittest discover -s tests/rolloutbench -v`: 149/149 pass.
 - `python3 -m compileall -q ...`: pass.
 - Targeted adversarial tests cover missing/duplicate systems, cross-plan input,
   partial repetitions, missing episodes, forged/unreplayable results, changed
@@ -61,7 +61,7 @@ this report contains no new performance claim.
 
 The repository-root Cache controller test was not rerun in the current local
 Python because PyTorch is absent. Its historical 9/9 result remains recorded in
-`FINAL-REPORT.md`; it is not counted in the 144 tests above.
+`FINAL-REPORT.md`; it is not counted in the 149 tests above.
 
 ## Important design boundaries
 

@@ -22,7 +22,7 @@ class PreparationCliTests(unittest.TestCase):
             expected = {
                 "status": "READY",
                 "plan_id": "abc",
-                "run_count": 12,
+                "run_count": 20,
                 "unique_episode_count": 10,
                 "gpu_execution": False,
                 "vbench_execution": False,
@@ -57,7 +57,7 @@ class PreparationCliTests(unittest.TestCase):
             self.assertEqual(
                 {
                     "plan_id": "abc",
-                    "run_count": 12,
+                    "run_count": 20,
                     "status": "READY",
                     "unique_episode_count": 10,
                 },

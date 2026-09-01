@@ -38,7 +38,7 @@ def _pilot_run(system: str = "optroll2") -> dict:
     plan = build_experiment_plan(
         SUITE_DIR,
         scope="pilot",
-        repetitions=3,
+        repetitions=5,
         gpu_uuids=GPU_UUIDS,
         repo_root=REPO_ROOT,
     )

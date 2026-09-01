@@ -259,8 +259,10 @@ def build_experiment_plan(
 
     if scope not in {"pilot", "full"}:
         raise ValueError("scope must be pilot or full")
-    if repetitions not in {3, 5}:
-        raise ValueError("formal plans require exactly three or five repetitions")
+    if repetitions != 5:
+        raise ValueError(
+            "formal plans must predeclare five repetitions for the frozen 3+2 rule"
+        )
     normalized_gpu_uuids = tuple(str(value) for value in gpu_uuids)
     if (
         len(normalized_gpu_uuids) != 2

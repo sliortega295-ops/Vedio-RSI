@@ -96,7 +96,13 @@ def _parser() -> argparse.ArgumentParser:
     experiment_plan.add_argument("--repo-root", type=Path, default=Path.cwd())
     experiment_plan.add_argument("--output", type=Path, required=True)
     experiment_plan.add_argument("--phase", choices=("pilot", "full"), required=True)
-    experiment_plan.add_argument("--repetitions", type=int, choices=(3, 5), required=True)
+    experiment_plan.add_argument(
+        "--repetitions",
+        type=int,
+        choices=(5,),
+        required=True,
+        help="formal plans predeclare five runs; summarize the first three before 4-5",
+    )
 
     preparation = subparsers.add_parser(
         "prepare-experiment",
