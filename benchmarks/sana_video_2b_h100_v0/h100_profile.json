@@ -1,0 +1,30 @@
+{
+  "dino_source": {
+    "git_ref": "7c446df5b9f45747937fb0d72314eb9f7b66930a",
+    "path": "/home/jiangzhikun/yongyan_liu/Experiments/SolRolloutBench/20260901-v0/sources/dino",
+    "repository_url": "https://github.com/facebookresearch/dino.git"
+  },
+  "gpu_targets": [
+    {"index": 6, "uuid": "GPU-83ed65f8-62e5-2a01-3471-8bfc752971d3"},
+    {"index": 7, "uuid": "GPU-847305ce-670b-91ee-e0a9-aa3b7833df23"}
+  ],
+  "model_profile": "models/sana_video_2b_h100.toml",
+  "persistent_path": "/home/jiangzhikun/yongyan_liu",
+  "remote_benchmark_root": "/home/jiangzhikun/yongyan_liu/Experiments/SolRolloutBench/20260901-v0",
+  "remote_repo_path": "/home/jiangzhikun/yongyan_liu/Experiments/SolRolloutBench/20260901-v0/repo",
+  "schema_version": 1,
+  "ssh_host": "BAAI",
+  "suite": "benchmarks/sana_video_2b_h100_v0/suite.json",
+  "vbench_cache_path": "/home/jiangzhikun/yongyan_liu/Experiments/SolRolloutBench/20260901-v0/cache/vbench",
+  "vbench_source_path": "/home/jiangzhikun/yongyan_liu/Experiments/SolRolloutBench/20260901-v0/sources/VBench",
+  "vbench_weights": [
+    {"id": "subject_dino_vitb16", "relative_path": "dino_model/dino_vitbase16_pretrain.pth"},
+    {"id": "background_clip_vit_b32", "relative_path": "clip_model/ViT-B-32.pt"},
+    {"id": "motion_amt_s", "relative_path": "amt_model/amt-s.pth"},
+    {"id": "aesthetic_clip_vit_l14", "relative_path": "clip_model/ViT-L-14.pt"},
+    {"id": "aesthetic_linear", "relative_path": "aesthetic_model/emb_reader/sa_0_4_vit_l_14_linear.pth"},
+    {"id": "imaging_musiq_spaq", "relative_path": "pyiqa_model/musiq_spaq_ckpt-358bb6af.pth"},
+    {"id": "overall_viclip", "relative_path": "ViCLIP/ViClip-InternVid-10M-FLT.pth"},
+    {"id": "overall_viclip_tokenizer", "relative_path": "ViCLIP/bpe_simple_vocab_16e6.txt.gz"}
+  ]
+}
