@@ -6,6 +6,7 @@ import json
 from pathlib import Path
 from typing import Any, Mapping
 
+from .acceptance import run_cpu_acceptance, verify_cpu_acceptance_pack
 from .freeze import freeze_suite
 from .scheduler import SYSTEMS, simulate
 from .schema import validate_suite_directory
@@ -56,11 +57,49 @@ def _parser() -> argparse.ArgumentParser:
     acceptance.add_argument("--simulation", type=Path, required=True)
     acceptance.add_argument("--output", type=Path)
     acceptance.add_argument("--repo-root", type=Path, default=Path.cwd())
+
+    cpu_acceptance = subparsers.add_parser(
+        "cpu-acceptance", help="write the four-system CPU contract evidence pack"
+    )
+    cpu_acceptance.add_argument("--suite", type=Path, default=DEFAULT_SUITE_DIR)
+    cpu_acceptance.add_argument("--output-dir", type=Path, required=True)
+    cpu_acceptance.add_argument("--repo-root", type=Path, default=Path.cwd())
+    cpu_acceptance.add_argument(
+        "--allow-dirty",
+        action="store_true",
+        help="development only: emit a PASS_DIRTY_NONREPRODUCIBLE pack",
+    )
+
+    verify_pack = subparsers.add_parser(
+        "verify-evidence-pack", help="verify a CPU acceptance evidence pack"
+    )
+    verify_pack.add_argument("--pack-dir", type=Path, required=True)
+    verify_pack.add_argument("--suite", type=Path, default=DEFAULT_SUITE_DIR)
+    verify_pack.add_argument("--repo-root", type=Path, default=Path.cwd())
+    verify_pack.add_argument("--allow-dirty", action="store_true")
     return parser
 
 
 def main(argv: list[str] | None = None) -> int:
     args = _parser().parse_args(argv)
+    if args.command == "cpu-acceptance":
+        payload = run_cpu_acceptance(
+            args.suite,
+            args.output_dir,
+            repo_root=args.repo_root,
+            require_clean=not args.allow_dirty,
+        )
+        print(json.dumps({"status": payload["status"]}, sort_keys=True))
+        return 0 if payload["cpu_contract_status"] == "PASS" else 1
+    if args.command == "verify-evidence-pack":
+        payload = verify_cpu_acceptance_pack(
+            args.pack_dir,
+            args.suite,
+            repo_root=args.repo_root,
+            allow_dirty=args.allow_dirty,
+        )
+        print(json.dumps(payload, sort_keys=True))
+        return 0
     if args.command == "quality-plan":
         validate_suite_directory(args.suite, repo_root=args.repo_root)
         protocol_bytes = (args.suite / "quality_protocol.json").read_bytes()
