@@ -22,6 +22,20 @@ _DINO_REPOSITORY_URL = "https://github.com/facebookresearch/dino.git"
 _FULL_GIT_SHA_RE = re.compile(r"[0-9a-f]{40}\Z")
 _SHA256_RE = re.compile(r"[0-9a-f]{64}\Z")
 _REMOTE_QUERY_TIMEOUT_S = 600
+_VBENCH_IMPORTS = (
+    "vbench",
+    "vbench.subject_consistency",
+    "vbench.motion_smoothness",
+    "vbench.background_consistency",
+    "vbench.temporal_flickering",
+    "vbench.aesthetic_quality",
+    "vbench.imaging_quality",
+    "vbench.overall_consistency",
+)
+_VBENCH_ENVIRONMENT_KEYS = (
+    "python", "torch", "cuda", "torchvision", "numpy", "scipy",
+    "decord", "timm", "pyiqa", "omegaconf",
+)
 _MODEL_ENV_PATHS = {
     "python_bin": ("SANA_PYTHON_BIN", "file"),
     "dependency_overlay": ("SANA_DEPENDENCY_OVERLAY", "dir"),
@@ -156,6 +170,28 @@ def build_preflight_spec(
     persistent = path_values["persistent_path"]
     for name in path_names[1:]:
         _under(path_values[name], persistent, name)
+
+    vbench_python = profile.get("vbench_python_bin")
+    if not isinstance(vbench_python, str) or not vbench_python:
+        raise ValueError("VBench Python path must be nonempty")
+    _under(vbench_python, path_values["remote_benchmark_root"], "vbench_python_bin")
+    vbench_environment = profile.get("vbench_environment")
+    if (
+        not isinstance(vbench_environment, dict)
+        or tuple(sorted(vbench_environment)) != tuple(sorted(_VBENCH_ENVIRONMENT_KEYS))
+        or any(
+            not isinstance(vbench_environment.get(key), str)
+            or not vbench_environment[key]
+            for key in _VBENCH_ENVIRONMENT_KEYS
+        )
+    ):
+        raise ValueError("VBench environment must declare the exact frozen version set")
+    for key in ("python", "torch", "cuda"):
+        if vbench_environment[key] != str(expected_environment[key]):
+            raise ValueError(f"VBench environment {key} must match the frozen SANA runtime")
+    imports = profile.get("vbench_imports")
+    if not isinstance(imports, list) or tuple(imports) != _VBENCH_IMPORTS:
+        raise ValueError("VBench imports must equal the frozen seven-dimension module set")
 
     dino_source = profile.get("dino_source")
     if not isinstance(dino_source, dict) or set(dino_source) != {
@@ -306,6 +342,11 @@ def build_preflight_spec(
         "target_gpus": sorted(normalized_gpus, key=lambda item: item["index"]),
         "runtime_paths": runtime_paths,
         "python_bin": str(env["SANA_PYTHON_BIN"]),
+        "vbench_python_bin": vbench_python,
+        "vbench_environment": {
+            key: vbench_environment[key] for key in _VBENCH_ENVIRONMENT_KEYS
+        },
+        "vbench_imports": list(_VBENCH_IMPORTS),
         "model_path": str(env["SANA_MODEL_PATH"]),
         "model_revision": str(official["revision"]),
         "model_class_name": str(official["pipeline_class_name"]),
@@ -417,7 +458,80 @@ if model_index_exists:
         pass
 
 vbench_source = SPEC["vbench_source_path"]
-git_rc, git_out, git_err = run(["git", "-C", vbench_source, "rev-parse", "HEAD"]) if os.path.isdir(vbench_source) else (1, "", "source missing")
+if os.path.isdir(vbench_source):
+    git_rc, git_out, git_err = run(
+        ["git", "--no-optional-locks", "-C", vbench_source, "rev-parse", "--verify", "HEAD^{{commit}}"]
+    )
+    git_symbolic_rc, git_symbolic_out, git_symbolic_err = run(
+        ["git", "--no-optional-locks", "-C", vbench_source, "symbolic-ref", "-q", "HEAD"]
+    )
+    git_status_rc, git_status_out, git_status_err = run(
+        ["git", "--no-optional-locks", "-C", vbench_source, "status", "--porcelain", "--untracked-files=all"]
+    )
+else:
+    git_rc, git_out, git_err = 1, "", "source missing"
+    git_symbolic_rc, git_symbolic_out, git_symbolic_err = 1, "", "source missing"
+    git_status_rc, git_status_out, git_status_err = 1, "", "source missing"
+
+quality_code = """
+import importlib
+import json
+import platform
+
+modules = {list(_VBENCH_IMPORTS)!r}
+imports = {{}}
+for module in modules:
+    try:
+        importlib.import_module(module)
+        imports[module] = "PASS"
+    except Exception as error:
+        imports[module] = type(error).__name__ + ": " + str(error)
+try:
+    import decord, numpy, omegaconf, pyiqa, scipy, timm, torch, torchvision
+    versions = {{
+        "python": platform.python_version(),
+        "torch": torch.__version__,
+        "cuda": torch.version.cuda,
+        "torchvision": torchvision.__version__,
+        "numpy": numpy.__version__,
+        "scipy": scipy.__version__,
+        "decord": decord.__version__,
+        "timm": timm.__version__,
+        "pyiqa": pyiqa.__version__,
+        "omegaconf": omegaconf.__version__,
+    }}
+    version_error = None
+except Exception as error:
+    versions = {{}}
+    version_error = type(error).__name__ + ": " + str(error)
+print(json.dumps({{
+    "ok": version_error is None and all(value == "PASS" for value in imports.values()),
+    "versions": versions,
+    "imports": imports,
+    "error": version_error,
+}}, sort_keys=True))
+"""
+quality_rc, quality_out, quality_err = run([
+    "env", "-i",
+    "CUDA_VISIBLE_DEVICES=",
+    "HF_HUB_OFFLINE=1",
+    "TRANSFORMERS_OFFLINE=1",
+    "PYTHONNOUSERSITE=1",
+    "PYTHONDONTWRITEBYTECODE=1",
+    "PYTHONPATH=" + vbench_source,
+    "VBENCH_CACHE_DIR=" + SPEC["vbench_cache_path"],
+    SPEC["vbench_python_bin"], "-c", quality_code,
+])
+try:
+    quality_runtime = json.loads(quality_out) if quality_rc == 0 else {{}}
+except Exception:
+    quality_runtime = {{}}
+if not isinstance(quality_runtime, dict):
+    quality_runtime = {{}}
+quality_runtime.setdefault("ok", False)
+quality_runtime.setdefault("versions", {{}})
+quality_runtime.setdefault("imports", {{}})
+quality_runtime.setdefault("error", quality_err or "invalid quality runtime output")
 weights = []
 for item in SPEC["vbench_weights"]:
     path = item["path"]
@@ -492,8 +606,14 @@ payload = {{
         "source_path": vbench_source, "source_exists": os.path.exists(vbench_source),
         "source_is_dir": os.path.isdir(vbench_source), "git_ok": git_rc == 0,
         "git_ref": git_out if git_rc == 0 else None,
-        "git_error": git_err if git_rc != 0 else None,
+        "source_detached": git_symbolic_rc == 1 and not git_symbolic_out,
+        "source_clean": git_status_rc == 0 and not git_status_out,
+        "git_error": "; ".join(
+            item for item in (git_err, git_symbolic_err, git_status_err)
+            if item and item != "source missing"
+        ) or ("source missing" if not os.path.isdir(vbench_source) else None),
         "cache_path": SPEC["vbench_cache_path"], "weights": weights,
+        "runtime": quality_runtime,
         "dino_source": {{
             "path": dino_path,
             "exists": os.path.exists(dino_path),
@@ -659,9 +779,27 @@ def _evaluate(spec: Mapping[str, Any], observation: Any) -> dict[str, Any]:
         vbench.get("source_path") != spec["vbench_source_path"]
         or vbench.get("source_exists") is not True or vbench.get("source_is_dir") is not True
         or vbench.get("git_ok") is not True or vbench.get("git_ref") != spec["vbench_git_ref"]
+        or vbench.get("source_detached") is not True
+        or vbench.get("source_clean") is not True
         or vbench.get("cache_path") != spec["vbench_cache_path"]
     ):
-        quality_errors.append("VBench source path or pinned Git revision mismatch")
+        quality_errors.append("VBench source must be the exact detached clean pinned Git revision")
+    quality_runtime = _mapping(vbench.get("runtime"), "vbench.runtime", quality_errors)
+    quality_versions = _mapping(
+        quality_runtime.get("versions"), "vbench.runtime.versions", quality_errors
+    )
+    quality_imports = _mapping(
+        quality_runtime.get("imports"), "vbench.runtime.imports", quality_errors
+    )
+    if quality_runtime.get("ok") is not True:
+        quality_errors.append("VBench runtime import probe failed")
+    if dict(quality_versions) != spec["vbench_environment"]:
+        quality_errors.append("VBench runtime version set mismatch")
+    if (
+        set(quality_imports) != set(spec["vbench_imports"])
+        or any(quality_imports.get(module) != "PASS" for module in spec["vbench_imports"])
+    ):
+        quality_errors.append("VBench runtime frozen module imports failed")
     weight_rows = vbench.get("weights")
     if not isinstance(weight_rows, list):
         quality_errors.append("VBench weight rows are missing")

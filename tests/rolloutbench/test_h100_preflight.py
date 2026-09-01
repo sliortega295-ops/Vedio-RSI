@@ -88,6 +88,8 @@ def _remote_success(spec: dict) -> dict:
             "source_is_dir": True,
             "git_ok": True,
             "git_ref": spec["vbench_git_ref"],
+            "source_detached": True,
+            "source_clean": True,
             "cache_path": spec["vbench_cache_path"],
             "weights": [
                 {
@@ -116,6 +118,14 @@ def _remote_success(spec: dict) -> dict:
                     "readable": True,
                     "size_bytes": 1024,
                 },
+            },
+            "runtime": {
+                "ok": True,
+                "versions": dict(spec["vbench_environment"]),
+                "imports": {
+                    module: "PASS" for module in spec["vbench_imports"]
+                },
+                "error": None,
             },
         },
     }
@@ -151,6 +161,14 @@ class H100PreflightTests(unittest.TestCase):
         )
         self.assertEqual([6, 7], [item["index"] for item in spec["target_gpus"]])
         self.assertEqual(8, len(spec["vbench_weights"]))
+        self.assertEqual(
+            "/home/jiangzhikun/yongyan_liu/Experiments/SolRolloutBench/"
+            "20260901-v0/envs/vbench-py312-cu128/bin/python",
+            spec["vbench_python_bin"],
+        )
+        self.assertEqual("1.26.4", spec["vbench_environment"]["numpy"])
+        self.assertEqual("1.14.1", spec["vbench_environment"]["scipy"])
+        self.assertEqual(8, len(spec["vbench_imports"]))
         self.assertTrue(
             all(
                 len(item["sha256"]) == 64
@@ -218,6 +236,9 @@ class H100PreflightTests(unittest.TestCase):
         self.assertIn('dino_spec["required_file"]', remote_script)
         self.assertIn("def file_sha256(path):", remote_script)
         self.assertIn('handle.read(1024 * 1024)', remote_script)
+        self.assertIn('"env", "-i"', remote_script)
+        self.assertIn('CUDA_VISIBLE_DEVICES=', remote_script)
+        self.assertIn('SPEC["vbench_python_bin"]', remote_script)
         self.assertNotIn("os.environ", remote_script)
         self.assertNotIn("printenv", remote_script)
         self.assertNotIn("mkdir", remote_script)
@@ -274,6 +295,28 @@ class H100PreflightTests(unittest.TestCase):
                 self.assertFalse(receipt["pilot_ready"])
                 self.assertIn(
                     "subject_dino_vitb16",
+                    " ".join(receipt["checks"]["quality"]["errors"]),
+                )
+
+    def test_vbench_runtime_version_or_import_failure_fails_quality_closed(self) -> None:
+        spec = build_preflight_spec(PROFILE, repo_root=REPO_ROOT)
+        for mutation in ("version", "import"):
+            with self.subTest(mutation=mutation):
+                payload = _remote_success(spec)
+                runtime = payload["vbench"]["runtime"]
+                if mutation == "version":
+                    runtime["versions"]["numpy"] = "2.5.2"
+                else:
+                    runtime["imports"]["vbench.imaging_quality"] = (
+                        "ModuleNotFoundError: missing"
+                    )
+                receipt = run_h100_preflight(
+                    PROFILE, repo_root=REPO_ROOT, runner=RecordingRunner(payload)
+                )
+                self.assertFalse(receipt["quality_ready"])
+                self.assertFalse(receipt["pilot_ready"])
+                self.assertIn(
+                    "runtime",
                     " ".join(receipt["checks"]["quality"]["errors"]),
                 )
 
