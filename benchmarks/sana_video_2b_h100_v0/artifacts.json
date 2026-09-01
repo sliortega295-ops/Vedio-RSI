@@ -1,0 +1,61 @@
+{
+  "artifacts": [
+    {
+      "artifact_id": "authority_trajectory_git_objects",
+      "availability": "git_available",
+      "digests": {
+        "cache_DELIVERY.json": "fdd0cfbad81b6162b3746dc123d558f6cf284165db18870bf8b84bdb9e588b85",
+        "cache_TRAJECTORY.jsonl": "5b0a183370f40311ff2667563b8ae7c9bc8ef83088d4cf1b7bc126fae9d98500",
+        "integration_INTEGRATED-DELIVERY.json": "159b50878a54fc21ff26ba89cd57b7d52e7d190afd609fec28121c392d884cbb",
+        "kernel_DELIVERY.json": "2704e014dcf9920ab35eab1ccafa7a9b55e29162038d303f1592fd3f849b42c2",
+        "kernel_TRAJECTORY.jsonl": "f6e63b657096eabd9c7a9aa2bc6d048d693148b77d9728222b65b960b84c8768"
+      },
+      "refs": [
+        "e8684f3fa9077d1387de44bbb0521a38ac6b7097",
+        "e7cf11c877a91220af2f2ea2cc5e38000c0765f8",
+        "8b066889950b638b59b5703c39909b4ac0bf9cca"
+      ]
+    },
+    {
+      "artifact_id": "historical_remote_run_outputs",
+      "availability": "remote_only_verified",
+      "remote_host": "original H100 experiment host",
+      "roots": {
+        "baseline": "/home/jiangzhikun/yongyan_liu/Experiments/SolAgent/20260831-sana-video-2b-full-exploration/artifacts/baseline/sana2b-baseline_bl-0001/worktree/runs/20260831-091727-sana_video_2b_h100_dense_baseline-formal-dense-retry3",
+        "cache": "/home/jiangzhikun/yongyan_liu/Experiments/SolAgent/20260831-sana-video-2b-full-exploration/artifacts/executors/sana2b-cache_ca-0001/worktree",
+        "integration": "/home/jiangzhikun/yongyan_liu/Experiments/SolAgent/20260831-sana-video-2b-full-exploration/artifacts/integration/sana2b-kernel-cache-final/worktree",
+        "kernel": "/home/jiangzhikun/yongyan_liu/Experiments/SolAgent/20260831-sana-video-2b-full-exploration/artifacts/executors/sana2b-kernel_aw-0001/worktree"
+      },
+      "storage_type": "Ustor_file_posix",
+      "verified_at": "2026-09-01",
+      "verified_counts": {
+        "cache_assess_verdict": 12,
+        "cache_mp4": 12,
+        "cache_visual_verdict": 12,
+        "kernel_mp4": 17
+      }
+    },
+    {
+      "artifact_id": "vbench_pinned_source_checkout",
+      "availability": "local_source_verified",
+      "git_ref": "fd18b3d055cb0fc6f066ca90fe2c3c8cbb698490",
+      "local_path": "/home/lyy/Experiments/SolRolloutBench/20260901-v0/sources/VBench",
+      "repository": "https://github.com/Vchitect/VBench.git",
+      "verified_at": "2026-09-01"
+    },
+    {
+      "artifact_id": "vbench_metric_weights_and_runtime_receipt",
+      "availability": "missing",
+      "required_before_quality_run": true
+    },
+    {
+      "artifact_id": "quality_v1_dense_and_candidate_videos",
+      "availability": "regenerate",
+      "local_outputs_present": false,
+      "reason": "The eight-pair mini VBench gate was not part of the historical 35-round search."
+    }
+  ],
+  "large_artifacts_local": false,
+  "policy": "Git objects and explicitly counted remote outputs were verified on 2026-09-01; they were not copied into this repository. Unprobed quality dependencies and new outputs remain missing or regenerate.",
+  "schema_version": 1
+}

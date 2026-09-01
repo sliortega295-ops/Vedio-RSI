@@ -1,0 +1,109 @@
+{
+  "acceptance": {
+    "both_thresholds_required": true,
+    "comparison": "candidate relative drop from matched dense output",
+    "max_mean_relative_drop": 0.005,
+    "max_single_dimension_drop": 0.02
+  },
+  "blinded_visual_check": {
+    "inside_deterministic_ttvf": false,
+    "required_for_final_publication": true
+  },
+  "dimensions": [
+    "subject_consistency",
+    "motion_smoothness",
+    "background_consistency",
+    "temporal_flickering",
+    "aesthetic_quality",
+    "imaging_quality",
+    "overall_consistency"
+  ],
+  "excluded_cache_candidates": {
+    "C01": "provenance_failed",
+    "C05": "calibration_only",
+    "C08": "calibration_only"
+  },
+  "formal_cache_candidates": [
+    "C02",
+    "C03",
+    "C04",
+    "C06",
+    "C07",
+    "C09",
+    "C10",
+    "C11",
+    "C12"
+  ],
+  "lpips": {
+    "alignment": "all corresponding decoded frames",
+    "frames": 81,
+    "hard_threshold": null,
+    "role": "secondary_ranking_only"
+  },
+  "matched_pairs_per_candidate": 8,
+  "prompt_selection": {
+    "method": "For each source file, compute SHA256(utf8(source_relative_path) + NUL + utf8(exact_prompt_text)) for every nonempty line and select the lexicographically smallest digest.",
+    "prompt_suites": [
+      {
+        "metrics": [
+          "subject_consistency",
+          "motion_smoothness"
+        ],
+        "prompt": "a person washing the dishes",
+        "selected_line_number_one_based": 3,
+        "selection_sha256": "0388d9179df4da12015f44777e6c56016d42bb83915d5e099e240703e0a1ab3f",
+        "source_path": "prompts/prompts_per_dimension/subject_consistency.txt",
+        "source_sha256": "b6b72ab4799acd7fa9bee99c34b938df0c49ca303a0abf38f17ebe15c8085c49",
+        "suite": "subject_consistency"
+      },
+      {
+        "metrics": [
+          "background_consistency"
+        ],
+        "prompt": "bedroom",
+        "selected_line_number_one_based": 13,
+        "selection_sha256": "024d5d57f16e1c00291a5477cf75798fb9215703a64a1650b381a9b24a0725f9",
+        "source_path": "prompts/prompts_per_dimension/scene.txt",
+        "source_sha256": "87572cdb4b2d3d15bedd63edc5ac0326999fc6182d28494e02d11d41579f0bd5",
+        "suite": "scene"
+      },
+      {
+        "metrics": [
+          "temporal_flickering"
+        ],
+        "prompt": "a toilet, frozen in time",
+        "selected_line_number_one_based": 2,
+        "selection_sha256": "04175c2dacc00b9a608873b11c815adb59ec4ed5e44b7238c08879536564e2d5",
+        "source_path": "prompts/prompts_per_dimension/temporal_flickering.txt",
+        "source_sha256": "9dac1e50d27f8a44f9329113183db36b61dfc41393b86fbf3ec5e07391f0cda6",
+        "suite": "temporal_flickering"
+      },
+      {
+        "metrics": [
+          "aesthetic_quality",
+          "imaging_quality",
+          "overall_consistency"
+        ],
+        "prompt": "A cute fluffy panda eating Chinese food in a restaurant",
+        "selected_line_number_one_based": 73,
+        "selection_sha256": "02369a8b9987de43da8a8a246f421a20211baea835a61e9d9cfc77c4d8c928a2",
+        "source_path": "prompts/prompts_per_dimension/overall_consistency.txt",
+        "source_sha256": "98989092f921763a33517fd11105702a7fe63dacee6a260bb260d9759da4e29f",
+        "suite": "overall_consistency"
+      }
+    ],
+    "selected_before_candidate_scores": true
+  },
+  "protocol_id": "VBench-7D-mini-quality-v1",
+  "schema_version": 1,
+  "seeds": [
+    42,
+    12345
+  ],
+  "status": "predeclared_not_run",
+  "vbench": {
+    "claim_boundary": "paper-inspired mini gate; not official full VBench",
+    "git_ref": "fd18b3d055cb0fc6f066ca90fe2c3c8cbb698490",
+    "repository": "https://github.com/Vchitect/VBench.git"
+  }
+}

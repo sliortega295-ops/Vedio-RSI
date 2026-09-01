@@ -1,0 +1,143 @@
+{
+  "artifacts_sha256": "6f1bb16c8ff872ac0a2a9f5d0e9d19903d6a79548b0098162c1ee749a78d511a",
+  "authority": {
+    "baseline_sha256": "3fdafdf00554ae4bafc91bc7729c3ba3e96af4edebac809782e6d6122ed23954",
+    "cache_ref": "e7cf11c877a91220af2f2ea2cc5e38000c0765f8",
+    "historical_harness_ref": "d2c6407cc9b9133f3fff49fe4b561f14980d3f8b",
+    "integration_ref": "8b066889950b638b59b5703c39909b4ac0bf9cca",
+    "kernel_ref": "e8684f3fa9077d1387de44bbb0521a38ac6b7097",
+    "trajectory_path": "TRAJECTORY.jsonl"
+  },
+  "counts": {
+    "components": {
+      "cache": 12,
+      "kernel": 23
+    },
+    "historical_status": {
+      "failed": 2,
+      "not_run": 4,
+      "validated": 29
+    },
+    "total": 35
+  },
+  "description": "Frozen 35-episode replay of the SANA-Video 2B H100 Kernel and Cache searches.",
+  "environment": {
+    "cuda": "12.8",
+    "gpu": "NVIDIA H100 80GB HBM3",
+    "python": "3.12.14",
+    "torch": "2.11.0+cu128",
+    "triton": "3.6.0"
+  },
+  "episodes_sha256": "17f3bcb66988664f1252649be3d11d346d3e4887337da41f0cfd356d9889fefd",
+  "file_hashes": {
+    "artifacts.json": {
+      "hash_scope": "raw_file_bytes",
+      "sha256": "6f1bb16c8ff872ac0a2a9f5d0e9d19903d6a79548b0098162c1ee749a78d511a"
+    },
+    "episodes.jsonl": {
+      "hash_scope": "raw_file_bytes",
+      "sha256": "17f3bcb66988664f1252649be3d11d346d3e4887337da41f0cfd356d9889fefd"
+    },
+    "quality_protocol.json": {
+      "hash_scope": "raw_file_bytes",
+      "sha256": "43ecc16dbc7638677560fd78ad7c53fdcf3aaa9841989a3328c6f9c5e012688b"
+    }
+  },
+  "frontier_contracts": {
+    "legacy_oracle": {
+      "cache": "C12",
+      "kernel": "K20"
+    },
+    "quality_v1": {
+      "must_be_derived_from_quality_protocol": true,
+      "winner": null
+    }
+  },
+  "hash_design": "The three SHA-256 receipts cover each named file's raw bytes. suite.json is intentionally excluded to avoid a self-referential hash cycle.",
+  "model": {
+    "id": "SANA-Video 2B",
+    "revision": "db5f398b13ca086d09a50ce156c20527773841b1",
+    "runtime_authority_ref": "b0b7eb4d0a7f1f46118a356485f4523cf52e96dd",
+    "runtime_compat_ref": "5bc0c43fb7fe548af4119a8831c4e286c982c71f"
+  },
+  "oracle_policy": "golden fields are acceptance-only and MUST NOT be exposed to any scheduler",
+  "ordering": {
+    "episodes_file_order": "K01-K23_then_C01-C12",
+    "global_fifo_expansion": "K01,C01,K02,C02,...,K12,C12,K13,...,K23",
+    "global_fifo_index_base": 0,
+    "global_fifo_rule": "round_robin_K_then_C_through_round_12_then_K13_to_K23"
+  },
+  "pilot_episodes": [
+    "K01",
+    "K02",
+    "K15",
+    "K19",
+    "K20",
+    "K22",
+    "C01",
+    "C02",
+    "C09",
+    "C12"
+  ],
+  "quality_protocol_sha256": "43ecc16dbc7638677560fd78ad7c53fdcf3aaa9841989a3328c6f9c5e012688b",
+  "schema_version": 2,
+  "scope_boundaries": {
+    "excluded": [
+      "FP8",
+      "Memory",
+      "second model",
+      "B200",
+      "B300",
+      "official full VBench"
+    ],
+    "included": [
+      "H100 trace replay",
+      "exact Kernel candidates",
+      "lossy Cache candidates"
+    ]
+  },
+  "suite_id": "sana_video_2b_h100_v0",
+  "systems": [
+    "serial1",
+    "fifo2",
+    "optroll1",
+    "optroll2"
+  ],
+  "timing": {
+    "blinded_visual_check_inside_ttvf_q": false,
+    "historical_candidate_scope": "warm_single_prompt_gen.generate_including_text_encoder_denoise_vae_decode_and_video_write_excluding_model_load_and_one_step_warmup",
+    "ttvf_q_end": "after_all_35_decisions_and_quality_v1_frontier_are_atomically_sealed",
+    "ttvf_q_includes": [
+      "worker_bootstrap",
+      "build",
+      "compile",
+      "model_load",
+      "warmup",
+      "generate",
+      "collect",
+      "quality",
+      "decision",
+      "queue_idle"
+    ],
+    "ttvf_q_start": "after_atomic_GPU_lease_acquired_and_before_worker_bootstrap"
+  },
+  "workload": {
+    "cfg_branches_per_step": 2,
+    "denoising_steps": 50,
+    "flow_shift": 8,
+    "fps": 16,
+    "frames": 81,
+    "guidance_scale": 6,
+    "height": 480,
+    "logical_dit_calls": 100,
+    "motion_score": 30,
+    "prompt_sha256": "870a3daedac57a0654d62de074a480daa3d7bee82b26988ec17b75496fb2643c",
+    "seed": 42,
+    "text_encoder_dtype": "bfloat16",
+    "transformer_blocks_per_call": 20,
+    "transformer_dtype": "bfloat16",
+    "vae_dtype": "float32",
+    "width": 832,
+    "workload_fingerprint": "9af9057207c33a3608c2fdd2047ef313c364dec6a785aa823b4d9338c555a40f"
+  }
+}
