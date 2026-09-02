@@ -150,6 +150,7 @@ class VBenchPairContractTests(unittest.TestCase):
                     "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
                     invocation["env"]["PATH"],
                 )
+                self.assertEqual("1", invocation["env"]["PYTHONDONTWRITEBYTECODE"])
                 self.assertIn(role, invocation["output_path"])
 
     def test_incomplete_pair_and_video_receipt_fail_closed(self) -> None:

@@ -330,6 +330,7 @@ def build_vbench_pair_plan(
                 "HF_HUB_OFFLINE": "1",
                 "TRANSFORMERS_OFFLINE": "1",
                 "PYTHONNOUSERSITE": "1",
+                "PYTHONDONTWRITEBYTECODE": "1",
             },
             "output_path": str(role_output),
             "result_glob": str(role_output / "results_*_eval_results.json"),
