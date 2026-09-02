@@ -80,6 +80,13 @@ def _shape(frame: Any) -> tuple[int, ...]:
     return tuple(int(item) for item in value)
 
 
+def _torch_frame_input(frame: Any) -> Any:
+    """Return a NumPy-compatible value for Torch, including Decord NDArrays."""
+
+    asnumpy = getattr(frame, "asnumpy", None)
+    return asnumpy() if callable(asnumpy) else frame
+
+
 class PyiqaLPIPSRuntime:
     """Offline pyiqa LPIPS-v0.1/AlexNet runtime, loaded only in the child process."""
 
@@ -102,14 +109,14 @@ class PyiqaLPIPSRuntime:
     def score(self, dense_frame: Any, candidate_frame: Any) -> float:
         torch = self._torch
         dense = (
-            torch.as_tensor(dense_frame, device="cuda")
+            torch.as_tensor(_torch_frame_input(dense_frame), device="cuda")
             .permute(2, 0, 1)
             .unsqueeze(0)
             .float()
             .div_(255.0)
         )
         candidate = (
-            torch.as_tensor(candidate_frame, device="cuda")
+            torch.as_tensor(_torch_frame_input(candidate_frame), device="cuda")
             .permute(2, 0, 1)
             .unsqueeze(0)
             .float()

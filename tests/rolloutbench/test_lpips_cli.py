@@ -7,11 +7,21 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from rolloutbench.lpips_cli import compute_lpips
+from rolloutbench.lpips_cli import _torch_frame_input, compute_lpips
 
 
 class _Frame:
     shape = (480, 832, 3)
+
+
+class _DecordFrame(_Frame):
+    def __init__(self, array: object):
+        self.array = array
+        self.calls = 0
+
+    def asnumpy(self) -> object:
+        self.calls += 1
+        return self.array
 
 
 class _Runtime:
@@ -30,6 +40,14 @@ class _Runtime:
 
 
 class LPIPSCLITests(unittest.TestCase):
+    def test_decord_ndarray_is_converted_before_torch_tensor_construction(self) -> None:
+        array = object()
+        frame = _DecordFrame(array)
+        self.assertIs(array, _torch_frame_input(frame))
+        self.assertEqual(1, frame.calls)
+        plain = _Frame()
+        self.assertIs(plain, _torch_frame_input(plain))
+
     def test_all_81_frames_and_both_video_hashes_are_bound(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
