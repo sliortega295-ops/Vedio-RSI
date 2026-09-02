@@ -17,6 +17,7 @@ from typing import Any, Mapping
 
 from models.sana_video_2b_h100.baseline.gpu_guard import locked_idle_lease
 
+from .environment import SYSTEM_EXECUTABLE_PATH
 from .invocation import InvocationError, build_episode_invocation
 from .quality_contract import DENSE_REFERENCE_ID, K22_FAILURE_CONTRACT
 from .pilot_runner import (
@@ -466,7 +467,7 @@ def build_formal_invocation(
         gpu_uuid = str(worker.get("gpu_uuid", ""))
         if gpu_uuid not in lease_files:
             raise FormalRunnerError("LPIPS stage has no exact GPU lease file")
-        return {"argv": [_profile_value(profile, "vbench_python_bin"), "-m", "rolloutbench.lpips_cli", "--dense-video", str(dense_video), "--candidate-video", str(candidate_video), "--output", str(output), "--pair-id", unit.quality_pair["pair_id"]], "cwd": str(Path(__file__).resolve().parents[1]), "env": {"PYTHONPATH": str(Path(__file__).resolve().parents[1]), "CUDA_VISIBLE_DEVICES": gpu_uuid, "CUDA_DEVICE_ORDER": "PCI_BUS_ID", "TORCH_HOME": str(Path(cache) / "torch_home"), "HF_HUB_OFFLINE": "1", "TRANSFORMERS_OFFLINE": "1", "PYTHONNOUSERSITE": "1"}, "output_path": str(output), "unit_id": unit.unit_id, "unit_kind": unit.unit_kind, "episode_id": unit.episode_id, "run_id": context.run["run_id"], "quality_pair_id": unit.quality_pair["pair_id"], "preparation_episode_ids": list(unit.preparation_episode_ids), "gpu_uuid": gpu_uuid, "lease_file": str(Path(lease_files[gpu_uuid]).resolve()), "executor_gpu_lock": True, "formal_lpips": True}
+        return {"argv": [_profile_value(profile, "vbench_python_bin"), "-m", "rolloutbench.lpips_cli", "--dense-video", str(dense_video), "--candidate-video", str(candidate_video), "--output", str(output), "--pair-id", unit.quality_pair["pair_id"]], "cwd": str(Path(__file__).resolve().parents[1]), "env": {"PATH": SYSTEM_EXECUTABLE_PATH, "PYTHONPATH": str(Path(__file__).resolve().parents[1]), "CUDA_VISIBLE_DEVICES": gpu_uuid, "CUDA_DEVICE_ORDER": "PCI_BUS_ID", "TORCH_HOME": str(Path(cache) / "torch_home"), "HF_HUB_OFFLINE": "1", "TRANSFORMERS_OFFLINE": "1", "PYTHONNOUSERSITE": "1"}, "output_path": str(output), "unit_id": unit.unit_id, "unit_kind": unit.unit_kind, "episode_id": unit.episode_id, "run_id": context.run["run_id"], "quality_pair_id": unit.quality_pair["pair_id"], "preparation_episode_ids": list(unit.preparation_episode_ids), "gpu_uuid": gpu_uuid, "lease_file": str(Path(lease_files[gpu_uuid]).resolve()), "executor_gpu_lock": True, "formal_lpips": True}
     raise FormalRunnerError("unknown formal unit kind")
 
 

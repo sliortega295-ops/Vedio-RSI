@@ -142,6 +142,10 @@ class VBenchPairContractTests(unittest.TestCase):
                     first["vbench_cache_path"],
                     invocation["env"]["VBENCH_CACHE_DIR"],
                 )
+                self.assertEqual(
+                    "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+                    invocation["env"]["PATH"],
+                )
                 self.assertIn(role, invocation["output_path"])
 
     def test_incomplete_pair_and_video_receipt_fail_closed(self) -> None:

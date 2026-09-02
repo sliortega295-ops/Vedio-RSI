@@ -13,6 +13,7 @@ import subprocess
 from pathlib import Path
 from typing import Any, Mapping
 
+from .environment import SYSTEM_EXECUTABLE_PATH
 from .quality_contract import (
     FORMAL_CACHE_IDS,
     QUALITY_METRICS_BY_SUITE,
@@ -321,6 +322,7 @@ def build_vbench_pair_plan(
             "argv": argv,
             "cwd": str(source),
             "env": {
+                "PATH": SYSTEM_EXECUTABLE_PATH,
                 "CUDA_DEVICE_ORDER": "PCI_BUS_ID",
                 "CUDA_VISIBLE_DEVICES": gpu_uuid,
                 "VBENCH_CACHE_DIR": str(cache),

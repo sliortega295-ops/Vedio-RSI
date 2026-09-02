@@ -158,6 +158,82 @@ class FormalRunnerTests(unittest.TestCase):
         self.assertEqual(expected, result)
         self.assertEqual("GPU-1", builder.call_args.kwargs["gpu_uuid"])
 
+    def test_lpips_invocation_preserves_system_executable_path(self) -> None:
+        from rolloutbench.formal_runner import build_formal_invocation
+
+        pair = {
+            "pair_id": "C02:scene:seed-42",
+            "dense_artifact_id": "dense/quality_v1/scene/seed-42",
+            "candidate_artifact_id": "candidate/C02/quality_v1/scene/seed-42",
+        }
+        dense = Unit(
+            "DENSE:quality:C02:scene:seed-42:dense_generate",
+            DENSE_REFERENCE_ID,
+            "cache",
+            0,
+            (),
+            0,
+            "quality_dense_generate",
+            (),
+            pair,
+            (DENSE_REFERENCE_ID,),
+        )
+        candidate = Unit(
+            "C02:quality:C02:scene:seed-42:candidate_generate",
+            "C02",
+            "cache",
+            0,
+            (),
+            0,
+            "quality_candidate_generate",
+            (),
+            pair,
+            ("C02",),
+        )
+        lpips = Unit(
+            "C02:quality:C02:scene:seed-42:lpips",
+            "C02",
+            "cache",
+            0,
+            (dense.unit_id, candidate.unit_id),
+            0,
+            "quality_lpips",
+            (),
+            pair,
+            (DENSE_REFERENCE_ID, "C02"),
+        )
+        with (
+            patch(
+                "rolloutbench.formal_runner.expand_run_units",
+                return_value=(dense, candidate, lpips),
+            ),
+            patch(
+                "rolloutbench.formal_runner._completed_invocation",
+                side_effect=({}, {}),
+            ),
+            patch(
+                "rolloutbench.formal_runner._completed_video",
+                side_effect=((Path("/dense.mp4"), {}), (Path("/candidate.mp4"), {})),
+            ),
+        ):
+            invocation = build_formal_invocation(
+                self.context,
+                lpips,
+                self.context.run["workers"][0],
+                lease_files={"GPU-1": "/lease.json"},
+                profile={
+                    "vbench_cache_path": "/cache",
+                    "vbench_python_bin": "/python",
+                },
+                quality_protocol={},
+                ledger=object(),
+            )
+
+        self.assertEqual(
+            "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+            invocation["env"]["PATH"],
+        )
+
     def test_compare_builds_a_parser_verified_receipt_and_checks_lpips_mean(self) -> None:
         from rolloutbench.formal_runner import FormalRunnerError, FormalStageExecutor
 
