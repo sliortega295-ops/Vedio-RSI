@@ -3,10 +3,12 @@ from __future__ import annotations
 import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 from rolloutbench.decisions import DecisionError, finalize_run_decisions
 from rolloutbench.events import EventLedger
 from rolloutbench.pilot_runner import RunContext
+from rolloutbench.quality_contract import K22_FAILURE_CONTRACT
 
 
 class FreshDecisionTests(unittest.TestCase):
@@ -115,6 +117,75 @@ class FreshDecisionTests(unittest.TestCase):
                     {"frontier_contracts": {"legacy_oracle": {}}},
                     evidence,
                 )
+
+    def test_k22_decision_reuses_shared_validator_with_frozen_runtime_source(self):
+        from rolloutbench.decisions import _expected_failure_evidence
+
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            output = root / "benchmark.json"
+            output.write_text("{}")
+            worktree = root / "worktree"
+            expected_source = {
+                "harness_archival_parent": "d" * 40,
+                "runtime_authority_sha": "a" * 40,
+                "runtime_compat_sha": "c" * 40,
+                "runtime_root": str(worktree / "external" / "sol_runtime"),
+                "required_runtime_paths": ["python/runtime.py"],
+                "critical_file_sha256": {"python/runtime.py": "f" * 64},
+            }
+            context = RunContext(
+                **{
+                    **self._context(root).__dict__,
+                    "preparation": {
+                        "experiment_root": str(root / "experiment"),
+                        "runtime_receipts": {
+                            "K22": {
+                                "worktree_path": str(worktree),
+                                "required_runtime_paths": expected_source[
+                                    "required_runtime_paths"
+                                ],
+                                "critical_runtime_file_sha256": expected_source[
+                                    "critical_file_sha256"
+                                ],
+                            }
+                        },
+                    },
+                }
+            )
+            suite = {
+                "authority": {
+                    "historical_harness_ref": expected_source[
+                        "harness_archival_parent"
+                    ]
+                },
+                "model": {
+                    "runtime_authority_ref": expected_source[
+                        "runtime_authority_sha"
+                    ],
+                    "runtime_compat_ref": expected_source["runtime_compat_sha"],
+                },
+            }
+            with patch(
+                "rolloutbench.decisions.validate_k22_failure_artifacts",
+                return_value={
+                    "benchmark": {"process_wall_s": 2.0},
+                    "child_returncode": 4,
+                },
+            ) as validator:
+                result = _expected_failure_evidence(
+                    context,
+                    {
+                        "episode_id": "K22",
+                        "expected_failure_contract": dict(K22_FAILURE_CONTRACT),
+                    },
+                    {"output_path": str(output)},
+                    suite,
+                )
+            validator.assert_called_once_with(
+                output, expected_source=expected_source
+            )
+            self.assertEqual("EXPECTED_FAILURE_VALIDATED", result["execution_status"])
 
 
 if __name__ == "__main__":

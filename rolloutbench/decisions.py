@@ -9,6 +9,7 @@ from pathlib import Path
 from typing import Any, Mapping
 
 from .events import EventLedger
+from .failure_evidence import K22EvidenceError, validate_k22_failure_artifacts
 from .pilot_runner import RunContext, Unit
 from .quality_contract import K22_FAILURE_CONTRACT
 from .validators import validate_kernel_structure
@@ -335,68 +336,51 @@ def _probe_evidence(completion: Mapping[str, Any]) -> dict[str, Any]:
     }
 
 
+def _expected_k22_runtime_source(
+    context: RunContext, suite: Mapping[str, Any]
+) -> dict[str, Any]:
+    runtime_receipts = context.preparation.get("runtime_receipts")
+    receipt = runtime_receipts.get("K22") if isinstance(runtime_receipts, Mapping) else None
+    authority = suite.get("authority")
+    model = suite.get("model")
+    if (
+        not isinstance(receipt, Mapping)
+        or not isinstance(authority, Mapping)
+        or not isinstance(model, Mapping)
+    ):
+        raise DecisionError("K22 runtime source authority is missing")
+    worktree = Path(str(receipt.get("worktree_path", "")))
+    return {
+        "harness_archival_parent": authority.get("historical_harness_ref"),
+        "runtime_authority_sha": model.get("runtime_authority_ref"),
+        "runtime_compat_sha": model.get("runtime_compat_ref"),
+        "runtime_root": str(worktree / "external" / "sol_runtime"),
+        "required_runtime_paths": receipt.get("required_runtime_paths"),
+        "critical_file_sha256": receipt.get("critical_runtime_file_sha256"),
+    }
+
+
 def _expected_failure_evidence(
-    episode: Mapping[str, Any], completion: Mapping[str, Any]
+    context: RunContext,
+    episode: Mapping[str, Any],
+    completion: Mapping[str, Any],
+    suite: Mapping[str, Any],
 ) -> dict[str, Any]:
     contract = episode.get("expected_failure_contract")
     if dict(contract or {}) != dict(K22_FAILURE_CONTRACT) or episode.get("episode_id") != "K22":
         raise DecisionError("expected failure contract is not the frozen K22 contract")
     output = Path(str(completion["output_path"]))
-    benchmark = _regular_json(output, "expected failure benchmark")
-    child_returncode = benchmark.get("returncode")
-    failure = benchmark.get("failure")
-    run_log = output.parent / "run.log"
-    run_config = _regular_json(
-        output.parent / "run_config.json", "expected failure run configuration"
-    )
-    expected_failure = {
-        "episode_id": K22_FAILURE_CONTRACT["episode_id"],
-        "failure_code": K22_FAILURE_CONTRACT["failure_code"],
-        "stage": K22_FAILURE_CONTRACT["stage"],
-        "expected_log_marker": K22_FAILURE_CONTRACT["expected_log_marker"],
-        "observed_marker_count": 1,
-        "marker_matched": True,
-        "child_returncode": K22_FAILURE_CONTRACT["child_returncode"],
-        "config_id": K22_FAILURE_CONTRACT["config_id"],
-        "config_sha256": K22_FAILURE_CONTRACT["config_sha256"],
-        "runtime_ref": K22_FAILURE_CONTRACT["runtime_ref"],
-        "run_log": {
-            "path": str(run_log),
-            "sha256": _sha256(run_log) if run_log.is_file() else None,
-        },
-    }
-    if (
-        output.name != "benchmark.json"
-        or benchmark.get("status") != "FAILED"
-        or not isinstance(child_returncode, int)
-        or isinstance(child_returncode, bool)
-        or child_returncode != K22_FAILURE_CONTRACT["child_returncode"]
-        or benchmark.get("generation_s") is not None
-        or benchmark.get("residual_compute_apps") != []
-        or (output.parent / "out.mp4").exists()
-        or failure != expected_failure
-        or not run_log.is_file()
-        or run_log.is_symlink()
-        or run_log.read_bytes().count(
-            K22_FAILURE_CONTRACT["expected_log_marker"].encode("utf-8")
+    try:
+        validated = validate_k22_failure_artifacts(
+            output,
+            expected_source=_expected_k22_runtime_source(context, suite),
         )
-        != 1
-        or run_config.get("config_id") != K22_FAILURE_CONTRACT["config_id"]
-        or run_config.get("source", {}).get("runtime_authority_sha")
-        != K22_FAILURE_CONTRACT["runtime_ref"]
-        or run_config.get("expected_failure_contract")
-        != {
-            key: K22_FAILURE_CONTRACT[key]
-            for key in (
-                "episode_id",
-                "failure_code",
-                "expected_log_marker",
-                "config_sha256",
-                "runtime_ref",
-            )
-        }
-    ):
-        raise DecisionError("candidate did not match its expected fail-closed contract")
+    except K22EvidenceError as exc:
+        raise DecisionError(
+            "candidate did not match its expected fail-closed contract"
+        ) from exc
+    benchmark = validated["benchmark"]
+    child_returncode = validated["child_returncode"]
     return {
         "execution_status": "EXPECTED_FAILURE_VALIDATED",
         "evidence_kind": "expected_fail_closed_generation",
@@ -437,7 +421,9 @@ def collect_primary_evidence(
         if not isinstance(candidate, Mapping):
             raise DecisionError("planned candidate is missing")
         if episode.get("expected_failure_contract") is not None:
-            evidence = _expected_failure_evidence(episode, completion)
+            evidence = _expected_failure_evidence(
+                context, episode, completion, suite
+            )
         elif candidate.get("probe") is not None:
             evidence = _probe_evidence(completion)
         else:

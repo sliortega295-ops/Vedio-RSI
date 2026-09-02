@@ -13,6 +13,122 @@ from rolloutbench.validators import build_quality_plan
 from rolloutbench.vbench_runner import build_vbench_pair_plan
 
 
+def _k22_test_invocation(root: Path) -> tuple[dict, dict]:
+    runtime_root = root / "runtime"
+    critical = runtime_root / "python" / "runtime.py"
+    critical.parent.mkdir(parents=True)
+    critical.write_text("# pinned runtime\n")
+    relative = "python/runtime.py"
+    source = {
+        "harness_archival_parent": "d2c6407cc9b9133f3fff49fe4b561f14980d3f8b",
+        "runtime_authority_sha": "b0b7eb4d0a7f1f46118a356485f4523cf52e96dd",
+        "runtime_compat_sha": "5bc0c43fb7fe548af4119a8831c4e286c982c71f",
+        "runtime_root": str(runtime_root),
+        "required_runtime_paths": [relative],
+        "critical_file_sha256": {
+            relative: hashlib.sha256(critical.read_bytes()).hexdigest()
+        },
+    }
+    invocation = {
+        "output_path": str(root / "benchmark.json"),
+        "episode_id": "K22",
+        "runtime_ref": K22_FAILURE_CONTRACT["runtime_ref"],
+        "expected_failure_contract": dict(K22_FAILURE_CONTRACT),
+        "env": {
+            "SANA_HARNESS_ARCHIVE_SHA": source["harness_archival_parent"],
+            "SANA_RUNTIME_AUTHORITY_SHA": source["runtime_authority_sha"],
+            "SANA_RUNTIME_COMPAT_SHA": source["runtime_compat_sha"],
+            "SANA_RUNTIME_ROOT": source["runtime_root"],
+            "ROLLOUTBENCH_REQUIRED_RUNTIME_PATHS_JSON": json.dumps([relative]),
+        },
+    }
+    return invocation, source
+
+
+def _write_k22_test_evidence(
+    output: Path,
+    source: dict,
+    *,
+    generation_extra: str = "",
+    post_sentinel_extra: str = "",
+) -> None:
+    output.parent.mkdir(parents=True, exist_ok=True)
+    marker = K22_FAILURE_CONTRACT["expected_log_marker"]
+    terminal_exception = f"Exception: Error executing request None: {marker}"
+    generate_fail_sentinel = "GENERATE_FAIL: no result returned (res=None)"
+    run_log = output.parent / "run.log"
+    run_log.write_text(
+        "ModuleNotFoundError: No module named 'optional_startup_backend'\n"
+        "==== STAGE 4: generate ====\n"
+        + (f"ValueError: {marker}\n" * 12)
+        + terminal_exception
+        + "\n"
+        + generation_extra
+        + generate_fail_sentinel
+        + "\n"
+        + post_sentinel_extra
+    )
+    run_config = {
+        "schema_version": 1,
+        "config_id": K22_FAILURE_CONTRACT["config_id"],
+        "source": source,
+        "expected_failure_contract": {
+            key: K22_FAILURE_CONTRACT[key]
+            for key in (
+                "episode_id",
+                "failure_code",
+                "expected_log_marker",
+                "config_sha256",
+                "runtime_ref",
+            )
+        },
+    }
+    (output.parent / "run_config.json").write_text(json.dumps(run_config))
+    marker_count = run_log.read_bytes().count(marker.encode())
+    post_sentinel_line_count = len(
+        [line for line in post_sentinel_extra.splitlines() if line.strip()]
+    )
+    failure = {
+        "episode_id": K22_FAILURE_CONTRACT["episode_id"],
+        "failure_code": K22_FAILURE_CONTRACT["failure_code"],
+        "stage": K22_FAILURE_CONTRACT["stage"],
+        "expected_log_marker": marker,
+        "observed_marker_count": marker_count,
+        "marker_matched": True,
+        "generate_fail_sentinel": generate_fail_sentinel,
+        "generate_fail_sentinel_count": 1,
+        "post_sentinel_line_count": post_sentinel_line_count,
+        "post_sentinel_cleanup_only": True,
+        "terminal_exception": terminal_exception,
+        "terminal_exception_matched": True,
+        "child_returncode": K22_FAILURE_CONTRACT["child_returncode"],
+        "config_id": K22_FAILURE_CONTRACT["config_id"],
+        "config_sha256": K22_FAILURE_CONTRACT["config_sha256"],
+        "runtime_ref": K22_FAILURE_CONTRACT["runtime_ref"],
+        "run_log": {
+            "path": str(run_log),
+            "sha256": hashlib.sha256(run_log.read_bytes()).hexdigest(),
+        },
+    }
+    output.write_text(
+        json.dumps(
+            {
+                "schema_version": 1,
+                "status": "FAILED",
+                "returncode": 4,
+                "generation_s": None,
+                "total_s": None,
+                "process_wall_s": 2.0,
+                "phase_timings": {
+                    "marker_timeline": [{"marker": "generation_started"}]
+                },
+                "residual_compute_apps": [],
+                "failure": failure,
+            }
+        )
+    )
+
+
 class FormalRunnerTests(unittest.TestCase):
     def setUp(self) -> None:
         self.context = RunContext(
@@ -369,57 +485,18 @@ class FormalRunnerTests(unittest.TestCase):
         class Delegate:
             def execute(self, invocation, *, log_dir):
                 output = Path(invocation["output_path"])
-                output.parent.mkdir(parents=True, exist_ok=True)
-                run_log = output.parent / "run.log"
-                run_log.write_text(
-                    K22_FAILURE_CONTRACT["expected_log_marker"] + "\n"
-                )
-                run_config = {
-                    "config_id": K22_FAILURE_CONTRACT["config_id"],
-                    "source": {
-                        "runtime_authority_sha": K22_FAILURE_CONTRACT["runtime_ref"]
-                    },
-                    "expected_failure_contract": {
-                        key: K22_FAILURE_CONTRACT[key]
-                        for key in (
-                            "episode_id",
-                            "failure_code",
-                            "expected_log_marker",
-                            "config_sha256",
-                            "runtime_ref",
-                        )
-                    },
-                }
-                (output.parent / "run_config.json").write_text(json.dumps(run_config))
-                failure = {
-                    "episode_id": K22_FAILURE_CONTRACT["episode_id"],
-                    "failure_code": K22_FAILURE_CONTRACT["failure_code"],
-                    "stage": K22_FAILURE_CONTRACT["stage"],
-                    "expected_log_marker": K22_FAILURE_CONTRACT[
-                        "expected_log_marker"
-                    ],
-                    "observed_marker_count": 1,
-                    "marker_matched": True,
-                    "child_returncode": K22_FAILURE_CONTRACT["child_returncode"],
-                    "config_id": K22_FAILURE_CONTRACT["config_id"],
-                    "config_sha256": K22_FAILURE_CONTRACT["config_sha256"],
-                    "runtime_ref": K22_FAILURE_CONTRACT["runtime_ref"],
-                    "run_log": {
-                        "path": str(run_log),
-                        "sha256": hashlib.sha256(run_log.read_bytes()).hexdigest(),
-                    },
-                }
-                output.write_text(
-                    json.dumps(
-                        {
-                            "status": "FAILED",
-                            "returncode": 4,
-                            "generation_s": None,
-                            "process_wall_s": 2.0,
-                            "residual_compute_apps": [],
-                            "failure": failure,
-                        }
-                    )
+                _write_k22_test_evidence(
+                    output,
+                    source,
+                    post_sentinel_extra=(
+                        "[09-02 15:16:34] Generator was garbage collected without "
+                        "being shut down. Attempting to shut down the local server "
+                        "and client.\n"
+                        "/runtime/python3.12/multiprocessing/resource_tracker.py:279: "
+                        "UserWarning: resource_tracker: There appear to be 1 leaked "
+                        "semaphore objects to clean up at shutdown\n"
+                        "warnings.warn('resource_tracker: There appear to be %d ')\n"
+                    ),
                 )
                 log_dir.mkdir(parents=True)
                 stdout = log_dir / "stdout.log"
@@ -439,16 +516,98 @@ class FormalRunnerTests(unittest.TestCase):
 
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
+            invocation, source = _k22_test_invocation(root)
             result = FormalStageExecutor(Delegate()).execute(
-                {
-                    "output_path": str(root / "benchmark.json"),
-                    "episode_id": "K22",
-                    "runtime_ref": K22_FAILURE_CONTRACT["runtime_ref"],
-                    "expected_failure_contract": dict(K22_FAILURE_CONTRACT),
-                },
+                invocation,
                 log_dir=root / "logs",
             )
         self.assertEqual(0, result.returncode)
+
+    def test_k22_rejects_unrelated_fatal_errors_after_generation_starts(self) -> None:
+        from rolloutbench.formal_runner import FormalRunnerError, FormalStageExecutor
+        from rolloutbench.pilot_runner import ProcessResult
+
+        class MixedFailureDelegate:
+            def execute(self, invocation, *, log_dir):
+                output = Path(invocation["output_path"])
+                _write_k22_test_evidence(
+                    output,
+                    source,
+                    generation_extra=generation_extra,
+                )
+                log_dir.mkdir(parents=True)
+                stdout, stderr = log_dir / "stdout.log", log_dir / "stderr.log"
+                stdout.write_text("")
+                stderr.write_text("")
+                return ProcessResult(
+                    1,
+                    2.0,
+                    stdout,
+                    stderr,
+                    hashlib.sha256(stdout.read_bytes()).hexdigest(),
+                    0,
+                    hashlib.sha256(stderr.read_bytes()).hexdigest(),
+                    0,
+                )
+
+        extras = (
+            "torch.OutOfMemoryError: CUDA out of memory\n",
+            "ModuleNotFoundError: No module named 'runtime_dependency'\n",
+            "AssertionError\n",
+            "KeyboardInterrupt\n",
+            "SystemExit: 1\n",
+            "GeneratorExit\n",
+            "ExceptionGroup: unrelated terminal failure (1 sub-exception)\n",
+            "Segmentation fault (core dumped)\n",
+            "Bus error (core dumped)\n",
+            "unclassified terminal footer\n",
+        )
+        for generation_extra in extras:
+            with self.subTest(extra=generation_extra), tempfile.TemporaryDirectory() as directory:
+                root = Path(directory)
+                invocation, source = _k22_test_invocation(root)
+                with self.assertRaisesRegex(FormalRunnerError, "fail closed"):
+                    FormalStageExecutor(MixedFailureDelegate()).execute(
+                        invocation, log_dir=root / "logs"
+                    )
+
+    def test_k22_rejects_unknown_content_after_the_generate_fail_sentinel(self) -> None:
+        from rolloutbench.formal_runner import FormalRunnerError, FormalStageExecutor
+        from rolloutbench.pilot_runner import ProcessResult
+
+        class PostSentinelDelegate:
+            def execute(self, invocation, *, log_dir):
+                output = Path(invocation["output_path"])
+                _write_k22_test_evidence(
+                    output, source, post_sentinel_extra=post_sentinel_extra
+                )
+                log_dir.mkdir(parents=True)
+                stdout, stderr = log_dir / "stdout.log", log_dir / "stderr.log"
+                stdout.write_text("")
+                stderr.write_text("")
+                return ProcessResult(
+                    1,
+                    2.0,
+                    stdout,
+                    stderr,
+                    hashlib.sha256(stdout.read_bytes()).hexdigest(),
+                    0,
+                    hashlib.sha256(stderr.read_bytes()).hexdigest(),
+                    0,
+                )
+
+        for post_sentinel_extra in (
+            "unclassified fatal after sentinel\n",
+            "torch.OutOfMemoryError: CUDA out of memory\n",
+            "Bus error (core dumped)\n",
+        ):
+            with self.subTest(extra=post_sentinel_extra), tempfile.TemporaryDirectory() as directory:
+                root = Path(directory)
+                invocation, source = _k22_test_invocation(root)
+                with self.assertRaisesRegex(FormalRunnerError, "fail closed"):
+                    FormalStageExecutor(PostSentinelDelegate()).execute(
+                        invocation, log_dir=root / "logs"
+                    )
 
     def test_rejected_probe_is_a_completed_preflight_decision(self) -> None:
         from rolloutbench.formal_runner import FormalStageExecutor
@@ -676,14 +835,10 @@ class FormalRunnerTests(unittest.TestCase):
         for failure_text in ("CUDA out of memory", "ModuleNotFoundError: torch"):
             with self.subTest(failure=failure_text), tempfile.TemporaryDirectory() as directory:
                 root = Path(directory)
+                invocation, _source = _k22_test_invocation(root)
                 with self.assertRaisesRegex(FormalRunnerError, "fail closed"):
                     FormalStageExecutor(WrongFailureDelegate(failure_text)).execute(
-                        {
-                            "output_path": str(root / "benchmark.json"),
-                            "episode_id": "K22",
-                            "runtime_ref": K22_FAILURE_CONTRACT["runtime_ref"],
-                            "expected_failure_contract": dict(K22_FAILURE_CONTRACT),
-                        },
+                        invocation,
                         log_dir=root / "logs",
                     )
 

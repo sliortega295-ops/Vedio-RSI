@@ -18,6 +18,7 @@ from typing import Any, Mapping
 from models.sana_video_2b_h100.baseline.gpu_guard import locked_idle_lease
 
 from .environment import SYSTEM_EXECUTABLE_PATH
+from .failure_evidence import K22EvidenceError, validate_k22_failure_artifacts
 from .invocation import InvocationError, build_episode_invocation
 from .quality_contract import DENSE_REFERENCE_ID, K22_FAILURE_CONTRACT
 from .pilot_runner import (
@@ -86,6 +87,31 @@ def _sha256(path: Path) -> str:
         for chunk in iter(lambda: handle.read(1024 * 1024), b""):
             digest.update(chunk)
     return digest.hexdigest()
+
+
+def _expected_k22_runtime_source(invocation: Mapping[str, Any]) -> dict[str, Any]:
+    environment = invocation.get("env")
+    if not isinstance(environment, Mapping):
+        raise FormalRunnerError("K22 invocation environment is missing")
+    try:
+        required_paths = json.loads(
+            str(environment["ROLLOUTBENCH_REQUIRED_RUNTIME_PATHS_JSON"])
+        )
+        runtime_root = Path(str(environment["SANA_RUNTIME_ROOT"]))
+        expected = {
+            "harness_archival_parent": str(environment["SANA_HARNESS_ARCHIVE_SHA"]),
+            "runtime_authority_sha": str(environment["SANA_RUNTIME_AUTHORITY_SHA"]),
+            "runtime_compat_sha": str(environment["SANA_RUNTIME_COMPAT_SHA"]),
+            "runtime_root": str(runtime_root),
+            "required_runtime_paths": required_paths,
+            "critical_file_sha256": {
+                relative: _sha256(runtime_root / relative)
+                for relative in required_paths
+            },
+        }
+    except (KeyError, TypeError, OSError, json.JSONDecodeError) as exc:
+        raise FormalRunnerError("K22 runtime source contract is invalid") from exc
+    return expected
 
 
 def _write_atomic(path: Path, payload: bytes) -> None:
@@ -617,74 +643,20 @@ class FormalStageExecutor:
             dict(failure_contract) != dict(K22_FAILURE_CONTRACT)
             or invocation.get("episode_id") != "K22"
             or invocation.get("runtime_ref") != K22_FAILURE_CONTRACT["runtime_ref"]
-            or result.returncode == 0
+            or type(result.returncode) is not int
+            or result.returncode != 1
         ):
             raise FormalRunnerError("deterministic failure did not fail as declared")
         output = Path(str(invocation.get("output_path", "")))
-        if (
-            output.name != "benchmark.json"
-            or not output.is_file()
-            or output.is_symlink()
-            or (output.parent / "out.mp4").exists()
-        ):
-            raise FormalRunnerError("expected failure artifacts are unsafe or inconsistent")
         try:
-            benchmark = json.loads(output.read_text(encoding="utf-8"))
-        except (OSError, UnicodeError, json.JSONDecodeError) as exc:
-            raise FormalRunnerError("expected failure benchmark is invalid") from exc
-        if not isinstance(benchmark, Mapping):
-            raise FormalRunnerError("expected failure benchmark must be an object")
-        child_returncode = benchmark.get("returncode")
-        failure = benchmark.get("failure")
-        run_log = output.parent / "run.log"
-        run_config_path = output.parent / "run_config.json"
-        run_config = _load_regular_json(run_config_path, "K22 run configuration")
-        expected_failure = {
-            "episode_id": K22_FAILURE_CONTRACT["episode_id"],
-            "failure_code": K22_FAILURE_CONTRACT["failure_code"],
-            "stage": K22_FAILURE_CONTRACT["stage"],
-            "expected_log_marker": K22_FAILURE_CONTRACT["expected_log_marker"],
-            "observed_marker_count": 1,
-            "marker_matched": True,
-            "child_returncode": K22_FAILURE_CONTRACT["child_returncode"],
-            "config_id": K22_FAILURE_CONTRACT["config_id"],
-            "config_sha256": K22_FAILURE_CONTRACT["config_sha256"],
-            "runtime_ref": K22_FAILURE_CONTRACT["runtime_ref"],
-            "run_log": {
-                "path": str(run_log),
-                "sha256": _sha256(run_log) if run_log.is_file() else None,
-            },
-        }
-        if (
-            benchmark.get("status") != "FAILED"
-            or not isinstance(child_returncode, int)
-            or isinstance(child_returncode, bool)
-            or child_returncode != K22_FAILURE_CONTRACT["child_returncode"]
-            or benchmark.get("generation_s") is not None
-            or benchmark.get("residual_compute_apps") != []
-            or failure != expected_failure
-            or not run_log.is_file()
-            or run_log.is_symlink()
-            or run_log.read_bytes().count(
-                K22_FAILURE_CONTRACT["expected_log_marker"].encode("utf-8")
+            validate_k22_failure_artifacts(
+                output,
+                expected_source=_expected_k22_runtime_source(invocation),
             )
-            != 1
-            or run_config.get("config_id") != K22_FAILURE_CONTRACT["config_id"]
-            or run_config.get("source", {}).get("runtime_authority_sha")
-            != K22_FAILURE_CONTRACT["runtime_ref"]
-            or run_config.get("expected_failure_contract")
-            != {
-                key: K22_FAILURE_CONTRACT[key]
-                for key in (
-                    "episode_id",
-                    "failure_code",
-                    "expected_log_marker",
-                    "config_sha256",
-                    "runtime_ref",
-                )
-            }
-        ):
-            raise FormalRunnerError("expected failure did not fail closed during generation")
+        except K22EvidenceError as exc:
+            raise FormalRunnerError(
+                "expected failure did not fail closed during generation"
+            ) from exc
         from .pilot_runner import ProcessResult
 
         return ProcessResult(

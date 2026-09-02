@@ -728,6 +728,46 @@ def main() -> int:
         if returncode != 0 and expected_failure is not None:
             marker = str(expected_failure["expected_log_marker"])
             marker_count = transcript.count(marker)
+            generate_fail_sentinel = "GENERATE_FAIL: no result returned (res=None)"
+            clean_transcript = re.sub(
+                r"\x1b\[[0-?]*[ -/]*[@-~]", "", transcript
+            )
+            sentinel_count = clean_transcript.count(generate_fail_sentinel)
+            before_sentinel = clean_transcript.rsplit(generate_fail_sentinel, 1)[0]
+            after_sentinel = clean_transcript.rsplit(generate_fail_sentinel, 1)[-1]
+            terminal_lines = [
+                line.strip()
+                for line in before_sentinel.splitlines()
+                if line.strip()
+            ]
+            post_sentinel_lines = [
+                line.strip()
+                for line in after_sentinel.splitlines()
+                if line.strip()
+            ]
+            cleanup_patterns = (
+                re.compile(
+                    r"^\[\d{2}-\d{2} \d{2}:\d{2}:\d{2}\] Generator was garbage "
+                    r"collected without being shut down\. Attempting to shut down "
+                    r"the local server and client\.$"
+                ),
+                re.compile(
+                    r"^/.+/multiprocessing/resource_tracker\.py:\d+: UserWarning: "
+                    r"resource_tracker: There appear to be \d+ leaked semaphore "
+                    r"objects to clean up at shutdown$"
+                ),
+                re.compile(
+                    r"^warnings\.warn\('resource_tracker: There appear to be %d '\)$"
+                ),
+            )
+            cleanup_only = all(
+                any(pattern.fullmatch(line) for pattern in cleanup_patterns)
+                for line in post_sentinel_lines
+            )
+            terminal_exception = terminal_lines[-1] if terminal_lines else None
+            expected_terminal_exception = (
+                f"Exception: Error executing request None: {marker}"
+            )
             timeline_markers = {
                 str(row.get("marker")) for row in timeline if isinstance(row, dict)
             }
@@ -745,7 +785,21 @@ def main() -> int:
                 "stage": observed_stage,
                 "expected_log_marker": marker,
                 "observed_marker_count": marker_count,
-                "marker_matched": marker_count == 1,
+                # SGLang propagates the same exception through several logging
+                # layers, so a genuine fail-closed marker can occur more than
+                # once in the captured traceback.  Presence, not uniqueness,
+                # is the semantic check; the exact count remains in evidence.
+                "marker_matched": marker_count > 0,
+                "generate_fail_sentinel": generate_fail_sentinel,
+                "generate_fail_sentinel_count": sentinel_count,
+                "post_sentinel_line_count": len(post_sentinel_lines),
+                "post_sentinel_cleanup_only": cleanup_only,
+                "terminal_exception": terminal_exception,
+                "terminal_exception_matched": (
+                    sentinel_count == 1
+                    and terminal_exception == expected_terminal_exception
+                    and cleanup_only
+                ),
                 "child_returncode": returncode,
                 "config_id": config_id,
                 "config_sha256": expected_failure["config_sha256"],
