@@ -126,6 +126,7 @@ def _remote_success(spec: dict) -> dict:
                     module: "PASS" for module in spec["vbench_imports"]
                 },
                 "lpips_model": "PASS",
+                "subject_dino_model": "PASS",
                 "error": None,
             },
         },
@@ -177,6 +178,16 @@ class H100PreflightTests(unittest.TestCase):
                 and item["source_url"].startswith("https://")
                 for item in spec["vbench_weights"]
             )
+        )
+        subject_weight = next(
+            item
+            for item in spec["vbench_weights"]
+            if item["id"] == "subject_dino_vitb16"
+        )
+        self.assertEqual(
+            f'{spec["vbench_cache_path"]}/torch_home/hub/checkpoints/'
+            "dino_vitbase16_pretrain.pth",
+            subject_weight["path"],
         )
         self.assertEqual(
             {
@@ -247,6 +258,8 @@ class H100PreflightTests(unittest.TestCase):
         self.assertIn('CUDA_VISIBLE_DEVICES=', remote_script)
         self.assertIn('SPEC["vbench_python_bin"]', remote_script)
         self.assertIn("contextlib.redirect_stdout(lpips_stdout)", remote_script)
+        self.assertIn("torch.hub.load(", remote_script)
+        self.assertIn('"subject_dino_model": subject_dino_model', remote_script)
         self.assertNotIn("os.environ", remote_script)
         self.assertNotIn("printenv", remote_script)
         self.assertNotIn("mkdir", remote_script)
@@ -308,7 +321,7 @@ class H100PreflightTests(unittest.TestCase):
 
     def test_vbench_runtime_version_or_import_failure_fails_quality_closed(self) -> None:
         spec = build_preflight_spec(PROFILE, repo_root=REPO_ROOT)
-        for mutation in ("version", "import", "lpips"):
+        for mutation in ("version", "import", "lpips", "dino"):
             with self.subTest(mutation=mutation):
                 payload = _remote_success(spec)
                 runtime = payload["vbench"]["runtime"]
@@ -318,16 +331,20 @@ class H100PreflightTests(unittest.TestCase):
                     runtime["imports"]["vbench.imaging_quality"] = (
                         "ModuleNotFoundError: missing"
                     )
-                else:
+                elif mutation == "lpips":
                     runtime["lpips_model"] = "RuntimeError: offline weight missing"
                     runtime["ok"] = False
+                else:
+                    runtime["subject_dino_model"] = (
+                        "RuntimeError: offline weight missing"
+                    )
                 receipt = run_h100_preflight(
                     PROFILE, repo_root=REPO_ROOT, runner=RecordingRunner(payload)
                 )
                 self.assertFalse(receipt["quality_ready"])
                 self.assertFalse(receipt["pilot_ready"])
                 self.assertIn(
-                    "runtime",
+                    "DINO" if mutation == "dino" else "runtime",
                     " ".join(receipt["checks"]["quality"]["errors"]),
                 )
 

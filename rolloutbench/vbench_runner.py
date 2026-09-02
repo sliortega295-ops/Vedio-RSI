@@ -326,6 +326,7 @@ def build_vbench_pair_plan(
                 "CUDA_DEVICE_ORDER": "PCI_BUS_ID",
                 "CUDA_VISIBLE_DEVICES": gpu_uuid,
                 "VBENCH_CACHE_DIR": str(cache),
+                "TORCH_HOME": str(cache / "torch_home"),
                 "HF_HUB_OFFLINE": "1",
                 "TRANSFORMERS_OFFLINE": "1",
                 "PYTHONNOUSERSITE": "1",

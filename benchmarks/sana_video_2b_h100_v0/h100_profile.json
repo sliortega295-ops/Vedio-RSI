@@ -43,7 +43,7 @@
   "vbench_weights": [
     {
       "id": "subject_dino_vitb16",
-      "relative_path": "dino_model/dino_vitbase16_pretrain.pth",
+      "relative_path": "torch_home/hub/checkpoints/dino_vitbase16_pretrain.pth",
       "sha256": "bf34ad0f424b9029b593e8dc3ed553bf26e88bcba0d32bf3e62a6209cb64c85e",
       "size_bytes": 343242485,
       "source_url": "https://dl.fbaipublicfiles.com/dino/dino_vitbase16_pretrain/dino_vitbase16_pretrain.pth"

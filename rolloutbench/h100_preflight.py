@@ -516,12 +516,27 @@ try:
     lpips_model = "PASS"
 except Exception as error:
     lpips_model = type(error).__name__ + ": " + str(error)
+dino_stdout = io.StringIO()
+try:
+    with contextlib.redirect_stdout(dino_stdout):
+        dino_model = torch.hub.load(
+            {spec["dino_source"]["path"]!r},
+            "dino_vitb16",
+            source="local",
+            pretrained=True,
+        )
+        del dino_model
+    subject_dino_model = "PASS"
+except Exception as error:
+    subject_dino_model = type(error).__name__ + ": " + str(error)
 print(json.dumps({{
-    "ok": version_error is None and lpips_model == "PASS" and all(value == "PASS" for value in imports.values()),
+    "ok": version_error is None and lpips_model == "PASS" and subject_dino_model == "PASS" and all(value == "PASS" for value in imports.values()),
     "versions": versions,
     "imports": imports,
     "lpips_model": lpips_model,
     "lpips_stdout": lpips_stdout.getvalue(),
+    "subject_dino_model": subject_dino_model,
+    "subject_dino_stdout": dino_stdout.getvalue(),
     "error": version_error,
 }}, sort_keys=True))
 """
@@ -813,6 +828,10 @@ def _evaluate(spec: Mapping[str, Any], observation: Any) -> dict[str, Any]:
         quality_errors.append("VBench runtime import probe failed")
     if quality_runtime.get("lpips_model") != "PASS":
         quality_errors.append("LPIPS model failed to load from the frozen offline cache")
+    if quality_runtime.get("subject_dino_model") != "PASS":
+        quality_errors.append(
+            "subject-consistency DINO model failed to load from the frozen offline cache"
+        )
     if dict(quality_versions) != spec["vbench_environment"]:
         quality_errors.append("VBench runtime version set mismatch")
     if (

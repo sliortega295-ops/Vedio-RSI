@@ -143,6 +143,10 @@ class VBenchPairContractTests(unittest.TestCase):
                     invocation["env"]["VBENCH_CACHE_DIR"],
                 )
                 self.assertEqual(
+                    str(Path(first["vbench_cache_path"]) / "torch_home"),
+                    invocation["env"]["TORCH_HOME"],
+                )
+                self.assertEqual(
                     "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
                     invocation["env"]["PATH"],
                 )
