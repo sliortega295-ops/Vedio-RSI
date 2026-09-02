@@ -387,6 +387,8 @@ def build_formal_invocation(
             )
         except (KeyError, InvocationError, TypeError, ValueError) as exc:
             raise FormalRunnerError("cannot build canonical generation invocation") from exc
+        # A pinned preflight probe acquires locked_idle_lease in its child process;
+        # wrapping it in executor_gpu_lock here would deadlock on the same lease.
         return _wrap(unit, base)
 
     if unit.unit_kind in {"quality_dense_vbench", "quality_candidate_vbench"}:
@@ -540,6 +542,8 @@ class FormalStageExecutor:
         plan = invocation.get("formal_vbench_plan")
         if not isinstance(plan, Mapping):
             result = self._delegate.execute(invocation, log_dir=log_dir)
+            if invocation.get("kind") == "gpu_preflight_probe":
+                return self._accept_preflight_probe(invocation, result)
             failure_contract = invocation.get("expected_failure_contract")
             if isinstance(failure_contract, Mapping):
                 return self._accept_expected_failure(
@@ -559,6 +563,47 @@ class FormalStageExecutor:
         source = matches[0]
         _write_atomic(Path(str(invocation["output_path"])), source.read_bytes())
         return result
+
+    def _accept_preflight_probe(self, invocation: Mapping[str, Any], result: Any):
+        """Normalize a verified probe decision without hiding runtime failures."""
+
+        output = Path(str(invocation.get("output_path", "")))
+        try:
+            payload = _load_regular_json(output, "preflight probe result")
+        except FormalRunnerError as exc:
+            raise FormalRunnerError("preflight probe did not produce valid evidence") from exc
+        status = payload.get("status")
+        expected_returncode = {"passed": 0, "rejected": 2}.get(status)
+        gpu = payload.get("gpu")
+        gpu_uuid = invocation.get("gpu_uuid")
+        schema_version = payload.get("schema_version")
+        if (
+            output.name != "probe-result.json"
+            or not isinstance(schema_version, int)
+            or isinstance(schema_version, bool)
+            or schema_version != 1
+            or expected_returncode is None
+            or type(result.returncode) is not int
+            or result.returncode != expected_returncode
+            or not isinstance(gpu_uuid, str)
+            or not gpu_uuid
+            or not isinstance(gpu, Mapping)
+            or gpu.get("uuid") != gpu_uuid
+            or payload.get("lease_uuid") != gpu_uuid
+        ):
+            raise FormalRunnerError("preflight probe result does not match its contract")
+        from .pilot_runner import ProcessResult
+
+        return ProcessResult(
+            0,
+            result.wall_s,
+            result.stdout_path,
+            result.stderr_path,
+            result.stdout_sha256,
+            result.stdout_size_bytes,
+            result.stderr_sha256,
+            result.stderr_size_bytes,
+        )
 
     def _accept_expected_failure(
         self,

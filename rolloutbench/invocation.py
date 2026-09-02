@@ -435,9 +435,19 @@ def build_episode_invocation(
         )
         with (repository / "models" / "sana_video_2b_h100.toml").open("rb") as handle:
             profile = tomllib.load(handle)
-        runtime_python = str(profile.get("env", {}).get("SANA_PYTHON_BIN", ""))
-        if not runtime_python:
-            raise InvocationError("SANA runtime Python is missing from the model profile")
+        profile_env = profile.get("env")
+        if not isinstance(profile_env, Mapping):
+            raise InvocationError("SANA runtime environment is missing from the model profile")
+        runtime_python = str(profile_env.get("SANA_PYTHON_BIN", ""))
+        dependency_overlay = str(profile_env.get("SANA_DEPENDENCY_OVERLAY", ""))
+        kernel_staging = str(profile_env.get("SANA_KERNEL_STAGING", ""))
+        if not all((runtime_python, dependency_overlay, kernel_staging)) or not all(
+            Path(value).is_absolute()
+            for value in (runtime_python, dependency_overlay, kernel_staging)
+        ):
+            raise InvocationError(
+                "SANA probe runtime paths are missing or non-absolute in the model profile"
+            )
         output_path = output_dir / "probe-result.json"
         guard_dir = repository / "models" / "sana_video_2b_h100" / "baseline"
         argv = [
@@ -453,6 +463,13 @@ def build_episode_invocation(
         argv.extend(["--out", str(output_path)])
         environment = {
             **common_env,
+            "PYTHONPATH": os.pathsep.join(
+                (
+                    str(runtime_root / "python"),
+                    dependency_overlay,
+                    kernel_staging,
+                )
+            ),
             "ROLLOUTBENCH_RUNTIME_REF": str(runtime_ref),
         }
         kind = "gpu_preflight_probe"

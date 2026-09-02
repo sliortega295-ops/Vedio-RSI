@@ -450,6 +450,174 @@ class FormalRunnerTests(unittest.TestCase):
             )
         self.assertEqual(0, result.returncode)
 
+    def test_rejected_probe_is_a_completed_preflight_decision(self) -> None:
+        from rolloutbench.formal_runner import FormalStageExecutor
+        from rolloutbench.pilot_runner import ProcessResult
+
+        class RejectedProbeDelegate:
+            def execute(self, invocation, *, log_dir):
+                output = Path(invocation["output_path"])
+                output.parent.mkdir(parents=True, exist_ok=True)
+                output.write_text(
+                    json.dumps(
+                        {
+                            "schema_version": 1,
+                            "status": "rejected",
+                            "gpu": {"uuid": "GPU-1"},
+                            "lease_uuid": "GPU-1",
+                        }
+                    )
+                )
+                log_dir.mkdir(parents=True)
+                stdout = log_dir / "stdout.log"
+                stderr = log_dir / "stderr.log"
+                stdout.write_text("probe rejected\n")
+                stderr.write_text("")
+                return ProcessResult(
+                    2,
+                    1.0,
+                    stdout,
+                    stderr,
+                    hashlib.sha256(stdout.read_bytes()).hexdigest(),
+                    stdout.stat().st_size,
+                    hashlib.sha256(stderr.read_bytes()).hexdigest(),
+                    stderr.stat().st_size,
+                )
+
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            result = FormalStageExecutor(RejectedProbeDelegate()).execute(
+                {
+                    "kind": "gpu_preflight_probe",
+                    "output_path": str(root / "probe-result.json"),
+                    "episode_id": "K15",
+                    "gpu_uuid": "GPU-1",
+                },
+                log_dir=root / "logs",
+            )
+        self.assertEqual(0, result.returncode)
+
+    def test_probe_status_requires_the_exact_integer_returncode(self) -> None:
+        from rolloutbench.formal_runner import FormalRunnerError, FormalStageExecutor
+        from rolloutbench.pilot_runner import ProcessResult
+
+        class ProbeDelegate:
+            def __init__(self, status, returncode):
+                self.status = status
+                self.returncode = returncode
+
+            def execute(self, invocation, *, log_dir):
+                output = Path(invocation["output_path"])
+                output.parent.mkdir(parents=True, exist_ok=True)
+                output.write_text(
+                    json.dumps(
+                        {
+                            "schema_version": 1,
+                            "status": self.status,
+                            "gpu": {"uuid": "GPU-1"},
+                            "lease_uuid": "GPU-1",
+                        }
+                    )
+                )
+                log_dir.mkdir(parents=True)
+                stdout = log_dir / "stdout.log"
+                stderr = log_dir / "stderr.log"
+                stdout.write_text("")
+                stderr.write_text("")
+                return ProcessResult(
+                    self.returncode,
+                    1.0,
+                    stdout,
+                    stderr,
+                    hashlib.sha256(stdout.read_bytes()).hexdigest(),
+                    stdout.stat().st_size,
+                    hashlib.sha256(stderr.read_bytes()).hexdigest(),
+                    stderr.stat().st_size,
+                )
+
+        cases = (
+            ("passed", 0, True),
+            ("passed", 2, False),
+            ("rejected", 0, False),
+            ("passed", False, False),
+        )
+        for status, returncode, accepted in cases:
+            with self.subTest(status=status, returncode=returncode):
+                with tempfile.TemporaryDirectory() as directory:
+                    root = Path(directory)
+                    invocation = {
+                        "kind": "gpu_preflight_probe",
+                        "output_path": str(root / "probe-result.json"),
+                        "episode_id": "K15",
+                        "gpu_uuid": "GPU-1",
+                    }
+                    executor = FormalStageExecutor(
+                        ProbeDelegate(status, returncode)
+                    )
+                    if accepted:
+                        result = executor.execute(invocation, log_dir=root / "logs")
+                        self.assertEqual(0, result.returncode)
+                    else:
+                        with self.assertRaisesRegex(
+                            FormalRunnerError, "preflight probe"
+                        ):
+                            executor.execute(invocation, log_dir=root / "logs")
+
+    def test_probe_does_not_accept_import_failure_or_wrong_gpu(self) -> None:
+        from rolloutbench.formal_runner import FormalRunnerError, FormalStageExecutor
+        from rolloutbench.pilot_runner import ProcessResult
+
+        class BadProbeDelegate:
+            def __init__(self, payload):
+                self.payload = payload
+
+            def execute(self, invocation, *, log_dir):
+                output = Path(invocation["output_path"])
+                output.parent.mkdir(parents=True, exist_ok=True)
+                if self.payload is not None:
+                    output.write_text(json.dumps(self.payload))
+                log_dir.mkdir(parents=True)
+                stdout = log_dir / "stdout.log"
+                stderr = log_dir / "stderr.log"
+                stdout.write_text("")
+                stderr.write_text("ModuleNotFoundError: requests\n")
+                return ProcessResult(
+                    1 if self.payload is None else 2,
+                    1.0,
+                    stdout,
+                    stderr,
+                    hashlib.sha256(stdout.read_bytes()).hexdigest(),
+                    stdout.stat().st_size,
+                    hashlib.sha256(stderr.read_bytes()).hexdigest(),
+                    stderr.stat().st_size,
+                )
+
+        cases = (
+            (None, "missing output"),
+            (
+                {
+                    "schema_version": 1,
+                    "status": "rejected",
+                    "gpu": {"uuid": "GPU-other"},
+                    "lease_uuid": "GPU-other",
+                },
+                "wrong GPU",
+            ),
+        )
+        for payload, label in cases:
+            with self.subTest(label=label), tempfile.TemporaryDirectory() as directory:
+                root = Path(directory)
+                with self.assertRaisesRegex(FormalRunnerError, "preflight probe"):
+                    FormalStageExecutor(BadProbeDelegate(payload)).execute(
+                        {
+                            "kind": "gpu_preflight_probe",
+                            "output_path": str(root / "probe-result.json"),
+                            "episode_id": "K15",
+                            "gpu_uuid": "GPU-1",
+                        },
+                        log_dir=root / "logs",
+                    )
+
     def test_k22_does_not_accept_oom_or_import_failures(self) -> None:
         from rolloutbench.formal_runner import FormalRunnerError, FormalStageExecutor
         from rolloutbench.pilot_runner import ProcessResult

@@ -2,8 +2,10 @@ from __future__ import annotations
 
 import json
 import copy
+import os
 import subprocess
 import tempfile
+import tomllib
 import unittest
 from pathlib import Path
 from unittest import mock
@@ -257,6 +259,28 @@ class EpisodeInvocationTests(unittest.TestCase):
             self.assertIn("--guard-dir", invocation["argv"])
             self.assertIn("--runtime-python-root", invocation["argv"])
             self.assertTrue(invocation["output_path"].endswith("probe-result.json"))
+            with (REPO_ROOT / "models/sana_video_2b_h100.toml").open("rb") as handle:
+                profile_env = tomllib.load(handle)["env"]
+            self.assertEqual(
+                os.pathsep.join(
+                    (
+                        str(REPO_ROOT / "external/sol_runtime/python"),
+                        profile_env["SANA_DEPENDENCY_OVERLAY"],
+                        profile_env["SANA_KERNEL_STAGING"],
+                    )
+                ),
+                invocation["env"]["PYTHONPATH"],
+            )
+            self.assertEqual(
+                "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+                invocation["env"]["PATH"],
+            )
+            self.assertEqual(
+                worker["gpu_uuid"], invocation["env"]["CUDA_VISIBLE_DEVICES"]
+            )
+            self.assertEqual("1", invocation["env"]["HF_HUB_OFFLINE"])
+            self.assertEqual("1", invocation["env"]["TRANSFORMERS_OFFLINE"])
+            self.assertEqual("1", invocation["env"]["PYTHONNOUSERSITE"])
 
     def test_k22_expected_failure_routes_to_a_benchmark_receipt(self) -> None:
         run = _pilot_run()
