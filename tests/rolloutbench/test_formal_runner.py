@@ -483,6 +483,9 @@ class FormalRunnerTests(unittest.TestCase):
         from rolloutbench.pilot_runner import ProcessResult
 
         class Delegate:
+            def __init__(self, warning_source_line: str) -> None:
+                self.warning_source_line = warning_source_line
+
             def execute(self, invocation, *, log_dir):
                 output = Path(invocation["output_path"])
                 _write_k22_test_evidence(
@@ -495,7 +498,7 @@ class FormalRunnerTests(unittest.TestCase):
                         "/runtime/python3.12/multiprocessing/resource_tracker.py:279: "
                         "UserWarning: resource_tracker: There appear to be 1 leaked "
                         "semaphore objects to clean up at shutdown\n"
-                        "warnings.warn('resource_tracker: There appear to be %d ')\n"
+                        + self.warning_source_line
                     ),
                 )
                 log_dir.mkdir(parents=True)
@@ -514,14 +517,21 @@ class FormalRunnerTests(unittest.TestCase):
                     0,
                 )
 
-        with tempfile.TemporaryDirectory() as directory:
-            root = Path(directory)
-            invocation, source = _k22_test_invocation(root)
-            result = FormalStageExecutor(Delegate()).execute(
-                invocation,
-                log_dir=root / "logs",
-            )
-        self.assertEqual(0, result.returncode)
+        for warning_source_line in (
+            "warnings.warn('resource_tracker: There appear to be %d '\n",
+            "warnings.warn('resource_tracker: There appear to be %d ')\n",
+        ):
+            with (
+                self.subTest(warning_source_line=warning_source_line),
+                tempfile.TemporaryDirectory() as directory,
+            ):
+                root = Path(directory)
+                invocation, source = _k22_test_invocation(root)
+                result = FormalStageExecutor(Delegate(warning_source_line)).execute(
+                    invocation,
+                    log_dir=root / "logs",
+                )
+                self.assertEqual(0, result.returncode)
 
     def test_k22_rejects_unrelated_fatal_errors_after_generation_starts(self) -> None:
         from rolloutbench.formal_runner import FormalRunnerError, FormalStageExecutor

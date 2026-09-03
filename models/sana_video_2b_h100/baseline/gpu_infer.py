@@ -75,6 +75,19 @@ OPTIONAL_HISTORICAL_RUNTIME_FILES = (
     "python/sglang/multimodal_gen/runtime/cache/sana_video_cache.py",
 )
 CRITICAL_RUNTIME_FILES = COMMON_RUNTIME_FILES + OPTIONAL_HISTORICAL_RUNTIME_FILES
+_CLEANUP_POSTLUDE = (
+    re.compile(
+        r"^\[\d{2}-\d{2} \d{2}:\d{2}:\d{2}\] Generator was garbage collected "
+        r"without being shut down\. Attempting to shut down the local server and "
+        r"client\.$"
+    ),
+    re.compile(
+        r"^/.+/multiprocessing/resource_tracker\.py:\d+: UserWarning: "
+        r"resource_tracker: There appear to be \d+ leaked semaphore objects "
+        r"to clean up at shutdown$"
+    ),
+    re.compile(r"^warnings\.warn\('resource_tracker: There appear to be %d '\)?$"),
+)
 
 
 def _required_env(name: str) -> str:
@@ -82,6 +95,13 @@ def _required_env(name: str) -> str:
     if not value:
         raise RuntimeError(f"required environment variable is empty: {name}")
     return value
+
+
+def _post_sentinel_cleanup_only(lines: list[str]) -> bool:
+    return all(
+        any(pattern.fullmatch(line) for pattern in _CLEANUP_POSTLUDE)
+        for line in lines
+    )
 
 
 def _runtime_visible_device(gpu_uuid: str, gpu: dict[str, object]) -> str:
@@ -745,25 +765,7 @@ def main() -> int:
                 for line in after_sentinel.splitlines()
                 if line.strip()
             ]
-            cleanup_patterns = (
-                re.compile(
-                    r"^\[\d{2}-\d{2} \d{2}:\d{2}:\d{2}\] Generator was garbage "
-                    r"collected without being shut down\. Attempting to shut down "
-                    r"the local server and client\.$"
-                ),
-                re.compile(
-                    r"^/.+/multiprocessing/resource_tracker\.py:\d+: UserWarning: "
-                    r"resource_tracker: There appear to be \d+ leaked semaphore "
-                    r"objects to clean up at shutdown$"
-                ),
-                re.compile(
-                    r"^warnings\.warn\('resource_tracker: There appear to be %d '\)$"
-                ),
-            )
-            cleanup_only = all(
-                any(pattern.fullmatch(line) for pattern in cleanup_patterns)
-                for line in post_sentinel_lines
-            )
+            cleanup_only = _post_sentinel_cleanup_only(post_sentinel_lines)
             terminal_exception = terminal_lines[-1] if terminal_lines else None
             expected_terminal_exception = (
                 f"Exception: Error executing request None: {marker}"

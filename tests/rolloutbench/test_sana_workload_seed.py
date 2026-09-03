@@ -106,6 +106,33 @@ class SanaWorkloadSeedTests(unittest.TestCase):
             with self.assertRaisesRegex(RuntimeError, "runtime manifest"):
                 self.runner._runtime_receipt_paths()
 
+    def test_k22_cleanup_accepts_exact_python_warning_source_variants(self) -> None:
+        common = [
+            "[09-02 17:59:23] Generator was garbage collected without being "
+            "shut down. Attempting to shut down the local server and client.",
+            "/runtime/python3.12/multiprocessing/resource_tracker.py:279: "
+            "UserWarning: resource_tracker: There appear to be 1 leaked semaphore "
+            "objects to clean up at shutdown",
+        ]
+        for warning_source_line in (
+            "warnings.warn('resource_tracker: There appear to be %d '",
+            "warnings.warn('resource_tracker: There appear to be %d ')",
+        ):
+            with self.subTest(warning_source_line=warning_source_line):
+                self.assertTrue(
+                    self.runner._post_sentinel_cleanup_only(
+                        [*common, warning_source_line]
+                    )
+                )
+        self.assertFalse(
+            self.runner._post_sentinel_cleanup_only(
+                [
+                    *common,
+                    "warnings.warn('resource_tracker: There appear to be %d ') extra",
+                ]
+            )
+        )
+
 
 if __name__ == "__main__":
     unittest.main()

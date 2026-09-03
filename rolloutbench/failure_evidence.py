@@ -29,7 +29,7 @@ _CLEANUP_POSTLUDE = (
         r"resource_tracker: There appear to be \d+ leaked semaphore objects "
         r"to clean up at shutdown$"
     ),
-    re.compile(r"^warnings\.warn\('resource_tracker: There appear to be %d '\)$"),
+    re.compile(r"^warnings\.warn\('resource_tracker: There appear to be %d '\)?$"),
 )
 
 
