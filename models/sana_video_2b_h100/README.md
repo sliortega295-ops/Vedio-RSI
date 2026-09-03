@@ -15,6 +15,11 @@ and then fails closed if `nvidia-smi` reports a compute application on the
 leased UUID. Foreign processes are never stopped. `lease_gpu.py` creates the
 lease only after the selected UUID is idle; `probe_h100.py` is the minimal
 import plus BF16 RMSNorm gate; `gpu_infer.py` runs and receipts a full video.
+Formal runs also assign each worker a deterministic, non-overlapping SGLang
+port namespace. `port_isolated_exec.py` injects that namespace into the one
+archived `DiffGenerator.from_pretrained` call at execution time, while leaving
+the candidate file unchanged and recording both source hashes in the run
+receipt. An unexpected runner shape fails closed.
 
 Candidate configs may enable the exposed switches or edit the experiment-local
 `external/sol_runtime`. They must retain the same workload and must launch only

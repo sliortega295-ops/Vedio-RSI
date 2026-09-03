@@ -112,6 +112,7 @@ class EpisodeInvocationTests(unittest.TestCase):
                 invocation["env"]["PATH"],
             )
             self.assertEqual(worker["gpu_uuid"], invocation["env"]["CUDA_VISIBLE_DEVICES"])
+            self.assertEqual("0", invocation["env"]["ROLLOUTBENCH_PORT_SLOT"])
             self.assertEqual("42", invocation["env"]["SANA_WORKLOAD_SEED"])
             self.assertEqual(
                 str(REPO_ROOT / "external/sol_runtime"),
@@ -188,6 +189,7 @@ class EpisodeInvocationTests(unittest.TestCase):
                 prompt.read_text(),
             )
             self.assertEqual("12345", invocation["env"]["SANA_WORKLOAD_SEED"])
+            self.assertEqual("1", invocation["env"]["ROLLOUTBENCH_PORT_SLOT"])
             self.assertEqual(pair["pair_id"], invocation["quality_pair_id"])
             self.assertEqual("candidate", invocation["quality_role"])
             self.assertEqual(
@@ -281,6 +283,7 @@ class EpisodeInvocationTests(unittest.TestCase):
             self.assertEqual("1", invocation["env"]["HF_HUB_OFFLINE"])
             self.assertEqual("1", invocation["env"]["TRANSFORMERS_OFFLINE"])
             self.assertEqual("1", invocation["env"]["PYTHONNOUSERSITE"])
+            self.assertEqual("0", invocation["env"]["ROLLOUTBENCH_PORT_SLOT"])
 
     def test_k22_expected_failure_routes_to_a_benchmark_receipt(self) -> None:
         run = _pilot_run()
@@ -341,6 +344,34 @@ class EpisodeInvocationTests(unittest.TestCase):
                     materialization_receipt=materialized,
                     runtime_receipt=bad_runtime,
                     lease_files={worker["gpu_uuid"]: Path(directory) / "lease.json"},
+                    plan_source=PLAN_SOURCE,
+                    require_clean_harness=False,
+                )
+
+    def test_unknown_worker_port_slot_fails_closed(self) -> None:
+        run = _pilot_run()
+        episode = _episode(run, "K01")
+        worker = {**run["workers"][0], "worker_id": 2}
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            derived = root / "derived"
+            materialized = materialize_candidate_artifacts(
+                episode, derived, repo_root=REPO_ROOT
+            )
+            with self.assertRaisesRegex(InvocationError, "worker_id"):
+                build_episode_invocation(
+                    repo_root=REPO_ROOT,
+                    experiment_root=root,
+                    plan_id="plan-123",
+                    plan_sha256=PLAN_SHA256,
+                    run_sha256=RUN_SHA256,
+                    run=run,
+                    episode=episode,
+                    worker=worker,
+                    materialized_root=derived,
+                    materialization_receipt=materialized,
+                    runtime_receipt=_runtime_receipt(episode),
+                    lease_files={worker["gpu_uuid"]: root / "lease.json"},
                     plan_source=PLAN_SOURCE,
                     require_clean_harness=False,
                 )

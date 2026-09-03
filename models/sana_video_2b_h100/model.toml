@@ -22,6 +22,7 @@ include = [
   "models/sana_video_2b_h100/prompts/model_card_long_motion30.txt",
   "models/sana_video_2b_h100/baseline/gpu_guard.py",
   "models/sana_video_2b_h100/baseline/gpu_infer.py",
+  "models/sana_video_2b_h100/baseline/port_isolated_exec.py",
   "models/sana_video_2b_h100/baseline/lease_gpu.py",
   "models/sana_video_2b_h100/baseline/probe_h100.py",
   "models/sana_video_2b_h100/baseline/scripts/run_sana_video_2b_gpu.sh",

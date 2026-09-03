@@ -40,6 +40,27 @@ WORKLOAD = {
     "flow_shift": 8.0,
 }
 _FORMAL_WORKLOAD_SEEDS = frozenset({42, 12345})
+_PORT_ARGUMENTS = ("port", "master_port", "scheduler_port", "nccl_port")
+_PORT_ASSIGNMENTS = {
+    "0": {
+        "slot": 0,
+        "reserved_port_block": {"start": 16000, "end": 19999},
+        "port": 19500,
+        "master_port": 18000,
+        "scheduler_port": 16000,
+        "nccl_port": 17000,
+        "strict_ports": True,
+    },
+    "1": {
+        "slot": 1,
+        "reserved_port_block": {"start": 26000, "end": 29999},
+        "port": 29500,
+        "master_port": 28000,
+        "scheduler_port": 26000,
+        "nccl_port": 27000,
+        "strict_ports": True,
+    },
+}
 TECHNIQUE_ENV = (
     "SGLANG_SANA_LINATTN_BF16",
     "SGLANG_SANA_QKV_MERGE",
@@ -158,6 +179,101 @@ def _workload_from_env() -> dict[str, object]:
     return {**WORKLOAD, "seed": seed}
 
 
+def _port_assignment_from_env() -> dict[str, object]:
+    raw = os.environ.get("ROLLOUTBENCH_PORT_SLOT")
+    if raw not in _PORT_ASSIGNMENTS:
+        raise RuntimeError(
+            "ROLLOUTBENCH_PORT_SLOT must be exactly 0 or 1 for this two-worker benchmark"
+        )
+    return dict(_PORT_ASSIGNMENTS[raw])
+
+
+def _port_isolation_contract(
+    adapter: Path, target: Path, assignment: dict[str, object]
+) -> dict[str, object]:
+    ports = {name: int(assignment[name]) for name in _PORT_ARGUMENTS}
+    expected_adapter_receipt = {
+        "schema_version": 1,
+        "adapter": str(adapter.resolve()),
+        "adapter_sha256": _sha256(adapter),
+        "target": str(target.resolve()),
+        "target_sha256": _sha256(target),
+        "ports": ports,
+        "strict_ports": True,
+        "port_preflight": {
+            "status": "AVAILABLE",
+            "checked_ports": [ports[name] for name in _PORT_ARGUMENTS],
+            "check_scope": "simultaneous_ipv4_bind_before_strict_runtime_launch",
+        },
+        "injected_call_count": 1,
+    }
+    server_args = {**ports, "strict_ports": True}
+    expected_effective_receipt = {
+        "schema_version": 1,
+        "server_args": server_args,
+        "port_args": {
+            "master_port": ports["master_port"],
+            "nccl_port": ports["nccl_port"],
+        },
+    }
+    return {
+        "contract": "worker_slot_strict_v2",
+        "slot": int(assignment["slot"]),
+        "reserved_port_block": dict(assignment["reserved_port_block"]),
+        "execution_mode": "sglang_local_monolithic_one_gpu_no_http_server",
+        "active_effective_ports": {
+            "scheduler": ports["scheduler_port"],
+            "master": ports["master_port"],
+            "nccl": ports["nccl_port"],
+        },
+        "strict_checked_unlaunched_http_port": ports["port"],
+        "server_args": server_args,
+        "expected_adapter_receipt": expected_adapter_receipt,
+        "expected_effective_receipt": expected_effective_receipt,
+    }
+
+
+def _verify_port_isolation_transcript(
+    transcript: str, contract: dict[str, object]
+) -> dict[str, object]:
+    matches = re.findall(
+        r"^ROLLOUTBENCH_PORT_ISOLATION (\{.*\})$", transcript, flags=re.MULTILINE
+    )
+    effective_matches = re.findall(
+        r"^ROLLOUTBENCH_EFFECTIVE_PORTS (\{.*\})$",
+        transcript,
+        flags=re.MULTILINE,
+    )
+    try:
+        observed = json.loads(matches[0]) if len(matches) == 1 else None
+        effective = (
+            json.loads(effective_matches[0]) if len(effective_matches) == 1 else None
+        )
+        expected = contract["expected_adapter_receipt"]
+        expected_effective = contract["expected_effective_receipt"]
+        scheduler_port = int(contract["active_effective_ports"]["scheduler"])
+    except (KeyError, TypeError, ValueError, json.JSONDecodeError) as exc:
+        raise RuntimeError("port-isolation receipt is malformed") from exc
+    scheduler_matches = re.findall(
+        r"Scheduler bind at endpoint: tcp://[^:\s]+:(\d+)", transcript
+    )
+    if (
+        observed != expected
+        or effective != expected_effective
+        or len(scheduler_matches) != 1
+        or int(scheduler_matches[0]) != scheduler_port
+    ):
+        raise RuntimeError(
+            "port-isolation receipt or effective scheduler endpoint mismatched"
+        )
+    return {
+        "status": "VERIFIED",
+        "adapter_receipt": observed,
+        "effective_port_receipt": effective,
+        "effective_scheduler_port": scheduler_port,
+    }
+
+
 def _workload_receipt(workload: dict[str, object], prompt: str, prompt_sha256: str) -> dict[str, object]:
     return {
         **workload,
@@ -252,10 +368,25 @@ def _command(
     output_basename: str,
     knobs: dict[str, object],
     workload: dict[str, object],
+    port_assignment: dict[str, object],
 ) -> list[str]:
+    runtime_runner = runtime_root / "scripts/sana/sana_video_sglang_run.py"
+    port_adapter = Path(__file__).resolve().with_name("port_isolated_exec.py")
     command = [
         str(python_bin),
-        str(runtime_root / "scripts/sana/sana_video_sglang_run.py"),
+        str(port_adapter),
+        "--target",
+        str(runtime_runner),
+        "--port",
+        str(port_assignment["port"]),
+        "--master-port",
+        str(port_assignment["master_port"]),
+        "--scheduler-port",
+        str(port_assignment["scheduler_port"]),
+        "--nccl-port",
+        str(port_assignment["nccl_port"]),
+        "--strict-ports",
+        "--",
         "--model",
         str(model_path),
         "--prompt-file",
@@ -611,6 +742,7 @@ def main() -> int:
 
     required_paths = [
         runtime_root / "scripts/sana/sana_video_sglang_run.py",
+        Path(__file__).resolve().with_name("port_isolated_exec.py"),
         python_bin,
         model_path / "model_index.json",
         prompt_file,
@@ -633,8 +765,21 @@ def main() -> int:
     if runtime_video.exists() or final_video.exists():
         raise RuntimeError("refusing to overwrite an existing output video")
 
+    port_assignment = _port_assignment_from_env()
+    port_adapter = Path(__file__).resolve().with_name("port_isolated_exec.py")
+    runtime_runner = runtime_root / "scripts/sana/sana_video_sglang_run.py"
+    port_isolation = _port_isolation_contract(
+        port_adapter, runtime_runner, port_assignment
+    )
     command = _command(
-        python_bin, runtime_root, model_path, prompt_file, output_basename, knobs, workload
+        python_bin,
+        runtime_root,
+        model_path,
+        prompt_file,
+        output_basename,
+        knobs,
+        workload,
+        port_assignment,
     )
     required_runtime_paths = _runtime_receipt_paths()
     critical_hashes = {
@@ -687,6 +832,7 @@ def main() -> int:
             "workload": workload_receipt,
             "workload_fingerprint": _fingerprint(workload_receipt),
             "optimization_knobs": knobs,
+            "port_isolation": port_isolation,
             "expected_failure_contract": expected_failure,
             "source": {
                 "harness_archival_parent": _required_env("SANA_HARNESS_ARCHIVE_SHA"),
@@ -721,6 +867,9 @@ def main() -> int:
             gpu_uuid=lease.gpu_uuid,
         )
         residual = _wait_for_no_compute_apps(lease.gpu_uuid)
+        port_isolation_verification = _verify_port_isolation_transcript(
+            transcript, port_isolation
+        )
         generation_match = re.search(r"GENERATE_OK in ([0-9.]+)s", transcript)
         runtime_peak_match = re.search(r"Max peak: ([0-9.]+) MB", transcript)
         cache_summary_matches = re.findall(r"SANA_CACHE_SUMMARY (\{.*\})", transcript)
@@ -839,6 +988,7 @@ def main() -> int:
             "gpu_before": gpu_before,
             "gpu_after": query_gpu(lease.gpu_uuid),
             "residual_compute_apps": residual,
+            "port_isolation": port_isolation_verification,
             "cache": cache_summary,
             "structural_invariants": structural_invariants,
             "failure": failure_receipt,

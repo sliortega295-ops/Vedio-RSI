@@ -176,6 +176,7 @@ def _validate_harness(
         "models/sana_video_2b_h100/baseline/scripts/run_sana_video_2b_gpu.sh",
         "models/sana_video_2b_h100/baseline/gpu_infer.py",
         "models/sana_video_2b_h100/baseline/gpu_guard.py",
+        "models/sana_video_2b_h100/baseline/port_isolated_exec.py",
     )
     hashes: dict[str, str] = {}
     for relative in relative_paths:
@@ -246,6 +247,9 @@ def build_episode_invocation(
     gpu_uuid = str(worker.get("gpu_uuid", ""))
     if gpu_uuid not in lease_files:
         raise InvocationError(f"no cooperative lease is declared for {gpu_uuid}")
+    worker_id = worker.get("worker_id")
+    if type(worker_id) is not int or worker_id not in {0, 1}:
+        raise InvocationError("worker_id must be exactly 0 or 1")
     lease_file = Path(lease_files[gpu_uuid]).resolve()
     cache_namespace = Path(str(run.get("cache_namespace", "")))
     if cache_namespace.is_absolute() or ".." in cache_namespace.parts:
@@ -327,6 +331,7 @@ def build_episode_invocation(
         "TRANSFORMERS_OFFLINE": "1",
         "PYTHONDONTWRITEBYTECODE": "1",
         "PYTHONNOUSERSITE": "1",
+        "ROLLOUTBENCH_PORT_SLOT": str(worker_id),
     }
     prompt_receipt: dict[str, Any] | None = None
 

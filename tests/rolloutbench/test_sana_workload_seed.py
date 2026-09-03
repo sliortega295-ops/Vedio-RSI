@@ -59,10 +59,38 @@ class SanaWorkloadSeedTests(unittest.TestCase):
             "cache_family": "off",
             "warmup_disabled": False,
         }
+        assignment = {
+            "slot": 1,
+            "reserved_port_block": {"start": 26000, "end": 29999},
+            "port": 29500,
+            "master_port": 28000,
+            "scheduler_port": 26000,
+            "nccl_port": 27000,
+            "strict_ports": True,
+        }
         command = self.runner._command(
-            Path("/python"), Path("/runtime"), Path("/model"), Path("/prompt"), "out", knobs, workload
+            Path("/python"),
+            Path("/runtime"),
+            Path("/model"),
+            Path("/prompt"),
+            "out",
+            knobs,
+            workload,
+            assignment,
         )
         self.assertEqual("12345", command[command.index("--seed") + 1])
+        self.assertTrue(command[1].endswith("port_isolated_exec.py"))
+        self.assertEqual(
+            "/runtime/scripts/sana/sana_video_sglang_run.py",
+            command[command.index("--target") + 1],
+        )
+        self.assertEqual("29500", command[command.index("--port") + 1])
+        self.assertEqual("28000", command[command.index("--master-port") + 1])
+        self.assertEqual(
+            "26000", command[command.index("--scheduler-port") + 1]
+        )
+        self.assertEqual("27000", command[command.index("--nccl-port") + 1])
+        self.assertIn("--strict-ports", command)
         receipt = self.runner._workload_receipt(workload, "prompt", "prompt-hash")
         self.assertEqual(12345, receipt["seed"])
         self.assertNotEqual(
@@ -88,6 +116,99 @@ class SanaWorkloadSeedTests(unittest.TestCase):
             ), mock.patch.object(self.runner.subprocess, "run", side_effect=fake_ffmpeg):
                 validity = self.runner._validate_video(video, root / "frames", explicit)
         self.assertEqual("VALIDATED", validity["status"])
+
+    def test_port_assignment_is_exact_and_fails_closed_for_unknown_slots(self) -> None:
+        expected = {
+            "0": {
+                "slot": 0,
+                "reserved_port_block": {"start": 16000, "end": 19999},
+                "port": 19500,
+                "master_port": 18000,
+                "scheduler_port": 16000,
+                "nccl_port": 17000,
+                "strict_ports": True,
+            },
+            "1": {
+                "slot": 1,
+                "reserved_port_block": {"start": 26000, "end": 29999},
+                "port": 29500,
+                "master_port": 28000,
+                "scheduler_port": 26000,
+                "nccl_port": 27000,
+                "strict_ports": True,
+            },
+        }
+        for raw, assignment in expected.items():
+            with self.subTest(raw=raw), mock.patch.dict(
+                os.environ, {"ROLLOUTBENCH_PORT_SLOT": raw}, clear=True
+            ):
+                self.assertEqual(assignment, self.runner._port_assignment_from_env())
+        for raw in ("", "2", "01", "+1", " 1", "worker-1"):
+            with self.subTest(raw=raw), mock.patch.dict(
+                os.environ, {"ROLLOUTBENCH_PORT_SLOT": raw}, clear=True
+            ):
+                with self.assertRaisesRegex(RuntimeError, "ROLLOUTBENCH_PORT_SLOT"):
+                    self.runner._port_assignment_from_env()
+        first, second = expected["0"], expected["1"]
+        self.assertLess(
+            first["reserved_port_block"]["end"],
+            second["reserved_port_block"]["start"],
+        )
+        for assignment in expected.values():
+            block = assignment["reserved_port_block"]
+            self.assertNotEqual(5555, assignment["scheduler_port"])
+            for name in ("port", "master_port", "scheduler_port", "nccl_port"):
+                self.assertLessEqual(block["start"], assignment[name])
+                self.assertLessEqual(assignment[name], block["end"])
+
+    def test_port_receipt_revalidation_checks_marker_and_effective_scheduler(self) -> None:
+        assignment = {
+            "slot": 1,
+            "reserved_port_block": {"start": 26000, "end": 29999},
+            "port": 29500,
+            "master_port": 28000,
+            "scheduler_port": 26000,
+            "nccl_port": 27000,
+            "strict_ports": True,
+        }
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            adapter = root / "port_isolated_exec.py"
+            target = root / "sana_video_sglang_run.py"
+            adapter.write_bytes(b"adapter")
+            target.write_bytes(b"target")
+            contract = self.runner._port_isolation_contract(
+                adapter, target, assignment
+            )
+            marker = json.dumps(
+                contract["expected_adapter_receipt"],
+                sort_keys=True,
+                separators=(",", ":"),
+            )
+            effective = json.dumps(
+                contract["expected_effective_receipt"],
+                sort_keys=True,
+                separators=(",", ":"),
+            )
+            transcript = (
+                f"ROLLOUTBENCH_PORT_ISOLATION {marker}\n"
+                f"ROLLOUTBENCH_EFFECTIVE_PORTS {effective}\n"
+                "[runtime] Scheduler bind at endpoint: tcp://127.0.0.1:26000\n"
+            )
+            verified = self.runner._verify_port_isolation_transcript(
+                transcript, contract
+            )
+            self.assertEqual("VERIFIED", verified["status"])
+            self.assertEqual(26000, verified["effective_scheduler_port"])
+            for bad in (
+                transcript + f"ROLLOUTBENCH_PORT_ISOLATION {marker}\n",
+                transcript.replace(":26000", ":26042"),
+                transcript.replace('"nccl_port":27000', '"nccl_port":27001'),
+                "not-json\n",
+            ):
+                with self.subTest(bad=bad[:80]):
+                    with self.assertRaisesRegex(RuntimeError, "port-isolation"):
+                        self.runner._verify_port_isolation_transcript(bad, contract)
 
     def test_runtime_receipt_paths_are_candidate_aware_and_fail_closed(self) -> None:
         early = list(self.runner.COMMON_RUNTIME_FILES)
