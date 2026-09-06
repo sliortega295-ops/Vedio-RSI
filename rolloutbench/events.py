@@ -57,6 +57,15 @@ class LedgerState:
     interrupted_stages: set[tuple[str, str, int]]
 
 
+@dataclass(frozen=True)
+class LedgerSnapshot:
+    """One lock-consistent ledger state and receipt over the same bytes."""
+
+    state: LedgerState
+    sha256: str
+    size_bytes: int
+
+
 def _canonical(value: Any) -> bytes:
     return json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode(
         "utf-8"
@@ -76,21 +85,25 @@ def _boot_id() -> str:
 class EventLedger:
     """A locked, append-only JSONL ledger with idempotent decision sealing."""
 
-    def __init__(self, path: Path | str):
+    def __init__(self, path: Path | str, *, create_parent: bool = True):
         self.path = Path(path)
-        self.path.parent.mkdir(parents=True, exist_ok=True)
+        if create_parent:
+            self.path.parent.mkdir(parents=True, exist_ok=True)
 
-    def _read_locked(self, handle: Any, *, repair_tail: bool) -> list[dict[str, Any]]:
+    def _read_locked(
+        self, handle: Any, *, repair_tail: bool
+    ) -> tuple[list[dict[str, Any]], bytes]:
         handle.seek(0)
         raw = handle.read()
         if raw and not raw.endswith(b"\n"):
+            if not repair_tail:
+                raise CorruptLedgerError("incomplete trailing JSON record")
             last_newline = raw.rfind(b"\n")
             complete_size = last_newline + 1 if last_newline >= 0 else 0
-            if repair_tail:
-                handle.seek(complete_size)
-                handle.truncate()
-                handle.flush()
-                os.fsync(handle.fileno())
+            handle.seek(complete_size)
+            handle.truncate()
+            handle.flush()
+            os.fsync(handle.fileno())
             raw = raw[:complete_size]
 
         events: list[dict[str, Any]] = []
@@ -114,13 +127,14 @@ class EventLedger:
                 raise CorruptLedgerError(f"invalid or duplicate event_id at line {line_number}")
             event_ids.add(event_id)
             events.append(event)
-        return events
+        return events, raw
 
     def read(self, *, repair_tail: bool = True) -> list[dict[str, Any]]:
         with self.path.open("a+b") as handle:
             fcntl.flock(handle.fileno(), fcntl.LOCK_EX)
             try:
-                return self._read_locked(handle, repair_tail=repair_tail)
+                events, _raw = self._read_locked(handle, repair_tail=repair_tail)
+                return events
             finally:
                 fcntl.flock(handle.fileno(), fcntl.LOCK_UN)
 
@@ -143,7 +157,7 @@ class EventLedger:
         with self.path.open("a+b") as handle:
             fcntl.flock(handle.fileno(), fcntl.LOCK_EX)
             try:
-                events = self._read_locked(handle, repair_tail=True)
+                events, _raw = self._read_locked(handle, repair_tail=True)
                 if idempotency_key is not None:
                     for event in events:
                         if event.get("idempotency_key") != idempotency_key:
@@ -191,8 +205,8 @@ class EventLedger:
             idempotency_key=f"decision:{episode_id}",
         )
 
-    def reconstruct(self) -> LedgerState:
-        events = self.read()
+    @staticmethod
+    def _reconstruct_events(events: list[dict[str, Any]]) -> LedgerState:
         decisions: dict[str, dict[str, Any]] = {}
         stage_states: dict[tuple[str, str, int], str] = {}
         for event in events:
@@ -214,6 +228,30 @@ class EventLedger:
         for key in interrupted:
             stage_states[key] = "interrupted"
         return LedgerState(tuple(events), decisions, stage_states, interrupted)
+
+    def snapshot(self, *, repair_tail: bool = True) -> LedgerSnapshot:
+        """Return reconstructed state and a receipt from one locked read."""
+
+        mode = "a+b" if repair_tail else "rb"
+        lock = fcntl.LOCK_EX if repair_tail else fcntl.LOCK_SH
+        try:
+            handle = self.path.open(mode)
+        except OSError as exc:
+            raise CorruptLedgerError("cannot open ledger snapshot") from exc
+        with handle:
+            fcntl.flock(handle.fileno(), lock)
+            try:
+                events, raw = self._read_locked(handle, repair_tail=repair_tail)
+                return LedgerSnapshot(
+                    state=self._reconstruct_events(events),
+                    sha256=hashlib.sha256(raw).hexdigest(),
+                    size_bytes=len(raw),
+                )
+            finally:
+                fcntl.flock(handle.fileno(), fcntl.LOCK_UN)
+
+    def reconstruct(self, *, repair_tail: bool = True) -> LedgerState:
+        return self.snapshot(repair_tail=repair_tail).state
 
 
 def atomic_write_stage_output(

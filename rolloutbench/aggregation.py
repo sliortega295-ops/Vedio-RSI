@@ -257,10 +257,15 @@ def _generation_phase_receipt(path_value: Any) -> dict[str, Any] | None:
 def _run_record(
     context: RunContext,
     state_root: Path | str,
+    *,
+    repair_ledger_tail: bool = True,
 ) -> dict[str, Any]:
-    ledger = open_run_ledger(context, state_root)
-    events = ledger.read()
-    decisions = ledger.reconstruct().decisions
+    ledger = open_run_ledger(
+        context, state_root, create_parent=repair_ledger_tail
+    )
+    ledger_snapshot = ledger.snapshot(repair_tail=repair_ledger_tail)
+    events = list(ledger_snapshot.state.events)
+    decisions = ledger_snapshot.state.decisions
     episode_ids = {
         str(row["episode_id"])
         for row in context.run.get("episodes", [])
@@ -316,7 +321,11 @@ def _run_record(
         decision_count=len(decisions),
     )
     frontier_file = Path(str(frontier_path))
-    ledger_receipt = _file_receipt(ledger.path, "run event ledger")
+    ledger_receipt = {
+        "path": str(ledger.path),
+        "sha256": ledger_snapshot.sha256,
+        "size_bytes": ledger_snapshot.size_bytes,
+    }
     intervals = _stage_intervals(events)
     worker_count = len(context.run.get("workers", []))
     worker_intervals: dict[tuple[int, str], list[tuple[float, float]]] = defaultdict(list)

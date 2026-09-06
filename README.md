@@ -5,8 +5,9 @@ deterministic rollout-infrastructure benchmark. It replays the same 23 Kernel
 and 12 Cache candidates under four execution systems and measures how long each
 system takes to reach the same validated frontier.
 
-This branch contains the benchmark runtime and its CPU-validated contracts. It
-does **not** contain fresh H100 benchmark measurements yet.
+This branch contains the benchmark runtime, its CPU-validated contracts and the
+first exploratory H100 pilot. The pilot is deliberately smaller than the formal
+benchmark and is not a publication-grade result.
 
 ## Frozen benchmark
 
@@ -47,10 +48,15 @@ unimplemented persistent-worker speedup.
   [reports/ROLLOUTBENCH-V0-IMPLEMENTATION.md](reports/ROLLOUTBENCH-V0-IMPLEMENTATION.md)).
 - Read-only H100 readiness: `TECHNICAL_READY`; the pinned CUDA/Python runtime,
   model, VBench/DINO sources, ten quality weights and offline LPIPS load pass.
-- Formal H100 pilot, candidate VBench/LPIPS outputs and four-system TTVF
-  comparison: `NOT_RUN`.
-- GPU ownership: not authorized by this repository. Point-in-time idleness is
-  never treated as ownership.
+- Adaptive H100 pilot: `COMPLETE` for 10 representative candidates and a
+  user-approved 3/3/2/2 repetition policy; see
+  [reports/ADAPTIVE-PILOT-REPORT.md](reports/ADAPTIVE-PILOT-REPORT.md).
+- Pilot median TTVF: serial1 6987.23 s, fifo2 6337.06 s, optroll1 7145.46 s and
+  optroll2 6362.41 s. The two-GPU systems are about 1.10x faster than serial;
+  OptRoll2 does not beat FIFO in this pilot.
+- Formal 3+2 H100 comparison and full 35-episode execution: `NOT_RUN`.
+- All pilot GPU leases were released after independent replay and two idle
+  samples. Point-in-time idleness is never treated as future ownership.
 
 The earlier two-prompt Sol-Video reproduction remains documented in
 [reports/FINAL-REPORT.md](reports/FINAL-REPORT.md); its 1.83-2.11x results are
@@ -99,6 +105,27 @@ silently optimized away.
 ledgers, independently re-aggregates them, and requires byte-canonical object
 agreement before it ranks TTVF. A self-consistent hand-written result JSON is
 therefore not accepted as benchmark evidence.
+
+The completed exploratory pilot uses a separate fail-closed reader so it cannot
+be mistaken for the formal result:
+
+```bash
+python3 -m rolloutbench summarize-adaptive-pilot \
+  --plan /path/to/pilot.json \
+  --preparation /path/to/preparation.json \
+  --state-root /path/to/formal-state \
+  --completed serial1=3 --completed fifo2=3 \
+  --completed optroll1=2 --completed optroll2=2 \
+  --ttvf-relative-range-threshold 0.05 \
+  --output /path/to/adaptive-pilot.json
+```
+
+This command replays every selected ledger and reports semantic decision
+agreement, raw and median-selected frontiers, TTVF spread, GPU-hours and the
+formal-policy boundary. Replay uses a non-repairing ledger snapshot, binds the
+plan to the exact suite files, and separately fingerprints on-disk source and
+the live loaded Python callables. Its output is explicitly incompatible with
+`compare-systems`.
 
 Large videos, weights, environments, logs and run ledgers stay in persistent
 experiment storage and are not committed to Git.

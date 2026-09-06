@@ -18,3 +18,18 @@ The benchmark implementation is published on
 `benchmark/sol-rolloutbench-v0`. Large videos, weights, environments, runtime
 logs and H100 ledgers are not uploaded to GitHub; their absence is not evidence
 that the corresponding `NOT_RUN` benchmark stages were executed.
+
+## Adaptive pilot publication
+
+An authorized exploratory H100 pilot was subsequently completed from frozen
+execution commit `6340c3ed250d271b09f91d396e2ee1efaf756e9d`. Its public report
+and compact machine-readable summary are `reports/ADAPTIVE-PILOT-REPORT.md` and
+`reports/PILOT-6340C3E.json`.
+
+The pilot used 10 representative candidates and a later user-approved 3/3/2/2
+repetition policy. It did not execute the full 35-episode trace and does not
+satisfy the original formal 3+2 policy, so the formal four-system comparison
+remains `NOT_RUN`. The full derived result is retained outside Git with SHA-256
+`4b88ac260a9be541883714b1dff4bcd486e6fc43acae6e1a7b152029eff6aa12`.
+It binds the exact suite files and separately records the on-disk source and
+live loaded-code receipts observed during replay.

@@ -171,11 +171,64 @@ def _parser() -> argparse.ArgumentParser:
     compare.add_argument("--suite", type=Path, default=DEFAULT_SUITE_DIR)
     compare.add_argument("--repo-root", type=Path, default=Path.cwd())
     compare.add_argument("--output", type=Path, required=True)
+
+    adaptive = subparsers.add_parser(
+        "summarize-adaptive-pilot",
+        help="replay the exploratory 3/3/2/2 pilot without issuing a formal claim",
+    )
+    adaptive.add_argument("--plan", type=Path, required=True)
+    adaptive.add_argument("--preparation", type=Path, required=True)
+    adaptive.add_argument("--state-root", type=Path, required=True)
+    adaptive.add_argument(
+        "--completed",
+        action="append",
+        required=True,
+        help="completed run prefix as SYSTEM=N; provide all four systems",
+    )
+    adaptive.add_argument(
+        "--ttvf-relative-range-threshold", type=float, default=0.05
+    )
+    adaptive.add_argument("--suite", type=Path, default=DEFAULT_SUITE_DIR)
+    adaptive.add_argument("--repo-root", type=Path, default=Path.cwd())
+    adaptive.add_argument("--output", type=Path, required=True)
     return parser
 
 
 def main(argv: list[str] | None = None) -> int:
     args = _parser().parse_args(argv)
+    if args.command == "summarize-adaptive-pilot":
+        from .adaptive_pilot import (
+            analyze_adaptive_pilot,
+            load_contexts_by_system,
+            parse_completed_repetitions,
+            write_adaptive_pilot_result,
+        )
+
+        completed = parse_completed_repetitions(args.completed)
+        suite_path = args.suite
+        if not suite_path.is_absolute():
+            suite_path = args.repo_root / suite_path
+        validate_suite_directory(suite_path, repo_root=args.repo_root)
+        suite = json.loads(
+            (suite_path / "suite.json").read_text(encoding="utf-8")
+        )
+        protocol = json.loads(
+            (suite_path / "quality_protocol.json").read_text(encoding="utf-8")
+        )
+        contexts = load_contexts_by_system(
+            args.plan, args.preparation, completed
+        )
+        result = analyze_adaptive_pilot(
+            contexts,
+            args.state_root,
+            suite,
+            protocol,
+            suite_path=suite_path,
+            ttvf_relative_range_threshold=args.ttvf_relative_range_threshold,
+        )
+        receipt = write_adaptive_pilot_result(args.output, result)
+        print(json.dumps(receipt, sort_keys=True))
+        return 0
     if args.command == "compare-systems":
         from .aggregation import compare_system_results, write_system_comparison
 

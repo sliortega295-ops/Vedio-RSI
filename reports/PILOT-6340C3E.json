@@ -1,0 +1,112 @@
+{
+  "schema_version": 1,
+  "record_type": "sol_rolloutbench_adaptive_pilot_public_summary",
+  "generated_at_utc": "2026-09-06T01:45:16Z",
+  "status": "EXPLORATORY_ADAPTIVE_PILOT_COMPLETE",
+  "claim_scope": "engineering_pilot_not_publication_grade",
+  "performance_claim": false,
+  "frozen_execution_head": "6340c3ed250d271b09f91d396e2ee1efaf756e9d",
+  "frozen_execution_tree": "68fda20b364bdfebc25792eb6981d4b64d33a89f",
+  "plan_id": "23da91169c2043b0b77bf2439a854a5fae908c7b4895adbbd3b17ff7fb4ea932",
+  "plan_sha256": "3155bb8f3849799a6dd07b9dde213707808e1242fd718ddef85b84efbce2215d",
+  "preparation_sha256": "38a6a54c346ecc34c0c703cde8a0548bd29a640165d52b6404d9f124b886f0a5",
+  "scope": {
+    "phase": "pilot",
+    "candidate_count": 10,
+    "candidate_ids": [
+      "K01",
+      "K02",
+      "K15",
+      "K19",
+      "K20",
+      "K22",
+      "C01",
+      "C02",
+      "C09",
+      "C12"
+    ],
+    "full_35_episode_trace_executed": false,
+    "valid_run_count": 10,
+    "validated_decision_count": 100,
+    "gpu_busy_hours_total": 13.32493348231733
+  },
+  "adaptive_policy": {
+    "completed_repetitions": {
+      "serial1": 3,
+      "fifo2": 3,
+      "optroll1": 2,
+      "optroll2": 2
+    },
+    "optroll_ttvf_relative_range_threshold": 0.05,
+    "optroll1_relative_range": 0.004351275927195334,
+    "optroll2_relative_range": 0.02176795856634298,
+    "optroll_repeat_3_included": false,
+    "stop_after_two": true
+  },
+  "systems": {
+    "serial1": {
+      "ttvf_s": [6509.841102464, 6987.227969926, 7232.24083844],
+      "median_ttvf_s": 6987.227969926,
+      "speedup_vs_serial1": 1.0,
+      "gpu_hours_per_repetition": 1.3215388941002097,
+      "scheduler_gpu_utilization": 0.68852364684005,
+      "raw_frontiers": ["K20+C09", "K19+C09", "K20+C09"]
+    },
+    "fifo2": {
+      "ttvf_s": [5749.466081104, 6360.656758635, 6337.055581647],
+      "median_ttvf_s": 6337.055581647,
+      "speedup_vs_serial1": 1.1025984986090371,
+      "gpu_hours_per_repetition": 1.3511086852452718,
+      "scheduler_gpu_utilization": 0.39550692976797774,
+      "raw_frontiers": ["K20+C09", "K20+C09", "K20+C12"]
+    },
+    "optroll1": {
+      "ttvf_s": [7129.9155403, 7161.007414816],
+      "median_ttvf_s": 7145.461477558,
+      "speedup_vs_serial1": 0.9778553830107447,
+      "gpu_hours_per_repetition": 1.32604534277977,
+      "scheduler_gpu_utilization": 0.6680832650207823,
+      "raw_frontiers": ["K20+C09", "K20+C09"]
+    },
+    "optroll2": {
+      "ttvf_s": [6431.655023016, 6293.158417151],
+      "median_ttvf_s": 6362.4067200835,
+      "speedup_vs_serial1": 1.098205172559968,
+      "speedup_vs_fifo2": 0.9960154797466064,
+      "gpu_hours_per_repetition": 1.3274500293606737,
+      "scheduler_gpu_utilization": 0.37555129025417827,
+      "raw_frontiers": ["K20+C09", "K20+C09"]
+    }
+  },
+  "decision_result": {
+    "semantic_candidate_decision_agreement_across_all_runs": true,
+    "median_selected_frontier_agreement_across_systems": true,
+    "median_selected_frontier": {
+      "kernel": "K20",
+      "cache": "C09"
+    },
+    "raw_frontier_agreement_across_all_runs": false,
+    "raw_frontier_disagreements": [
+      "pilot-serial1-repeat-02 selected K19+C09",
+      "pilot-fifo2-repeat-03 selected K20+C12"
+    ]
+  },
+  "formal_boundary": {
+    "formal_compare_systems_compatible": false,
+    "formal_comparison_status": "NOT_RUN",
+    "serial1_first_three_status": "NEEDS_TWO_ADDITIONAL_REPETITIONS",
+    "fifo2_first_three_status": "NEEDS_TWO_ADDITIONAL_REPETITIONS",
+    "optroll_formal_status": "NOT_EVALUABLE_FEWER_THAN_THREE_REPETITIONS",
+    "reason": "the user-approved exploratory 3/3/2/2 rule replaced the frozen formal 3+2 policy for this pilot"
+  },
+  "evidence": {
+    "full_adaptive_result_sha256": "4b88ac260a9be541883714b1dff4bcd486e6fc43acae6e1a7b152029eff6aa12",
+    "analysis_implementation_manifest_sha256": "712ac2e3de63ce1815b49c0f2467dc22f2fa5ec4558b168cea745f9e073473fc",
+    "analysis_disk_source_manifest_sha256": "eda110a17f328a47eb1ffe6a252a4801374cd3c07984cd97e87f9a5820fb78f4",
+    "analysis_loaded_code_manifest_sha256": "667ac898df3663b516bd4a7f0745f0f06cf70acf21f4ef0a32f1f0d726a61935",
+    "serial1_first_three_sha256": "c1509e890fc149bb1622b223f76b5cfaa22f51e6d01f906f04d16d8b88ea089d",
+    "fifo2_first_three_sha256": "3d2113c81e4331f80723c683bd7e66501d84eddc50f1242a7bfb58e493a3358b",
+    "remote_result_path": "/home/jiangzhikun/yongyan_liu/Experiments/SolRolloutBench/20260901-v0/runs/pilot-6340c3e/results/adaptive-pilot-3-3-2-2-v5.json",
+    "large_videos_weights_logs_and_ledgers_uploaded_to_github": false
+  }
+}

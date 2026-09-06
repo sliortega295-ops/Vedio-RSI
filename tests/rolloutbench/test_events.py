@@ -66,6 +66,32 @@ class EventLedgerTests(unittest.TestCase):
             with self.assertRaises(CorruptLedgerError):
                 ledger.read()
 
+    def test_strict_snapshot_rejects_partial_tail_without_mutation(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "events.jsonl"
+            ledger = EventLedger(path)
+            ledger.append("run_started", {"run_id": "r"}, idempotency_key="run:r")
+            with path.open("ab") as handle:
+                handle.write(b'{"sequence": 2, "event_type":')
+            before = path.read_bytes()
+
+            with self.assertRaisesRegex(
+                CorruptLedgerError, "incomplete trailing JSON record"
+            ):
+                ledger.snapshot(repair_tail=False)
+
+            self.assertEqual(before, path.read_bytes())
+
+    def test_strict_snapshot_does_not_create_a_missing_ledger(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "missing" / "events.jsonl"
+            ledger = EventLedger(path, create_parent=False)
+
+            with self.assertRaisesRegex(CorruptLedgerError, "cannot open"):
+                ledger.snapshot(repair_tail=False)
+
+            self.assertFalse(path.parent.exists())
+
     def test_idempotent_replay_and_conflict_fail_closed(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             ledger = EventLedger(Path(directory) / "events.jsonl")

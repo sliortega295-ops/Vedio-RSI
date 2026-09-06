@@ -307,11 +307,19 @@ def _run_namespace(context: RunContext, state_root: Path | str) -> Path:
     return Path(state_root).resolve() / "plans" / context.plan_id / context.plan_sha256 / run_id / context.run_sha256
 
 
-def open_run_ledger(context: RunContext, state_root: Path | str) -> EventLedger:
+def open_run_ledger(
+    context: RunContext,
+    state_root: Path | str,
+    *,
+    create_parent: bool = True,
+) -> EventLedger:
     """Return the plan-hash and run-hash isolated ledger for this context."""
 
     _revalidate_context(context)
-    return EventLedger(_run_namespace(context, state_root) / "events.jsonl")
+    return EventLedger(
+        _run_namespace(context, state_root) / "events.jsonl",
+        create_parent=create_parent,
+    )
 
 
 def _validate_quality_pair(pair: Any, episode_id: str) -> dict[str, Any]:

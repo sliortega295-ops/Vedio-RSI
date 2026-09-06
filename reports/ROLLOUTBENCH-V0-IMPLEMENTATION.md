@@ -115,3 +115,26 @@ five repetitions; execute and summarize runs 1-3 first. If any candidate exceeds
 3% sample latency CV, execute its already planned runs 4-5 for all four systems;
 otherwise stop at three. Then use `compare-systems` to issue the first
 performance-bearing comparison.
+
+## Post-implementation pilot update
+
+The `NOT_RUN` statements above describe the 2026-09-01 implementation
+checkpoint. An authorized exploratory H100 pilot was later completed on
+2026-09-05 EDT from commit `6340c3ed250d271b09f91d396e2ee1efaf756e9d`.
+
+That pilot executed 10 representative candidates for 3/3/2/2 repetitions. It
+measured median TTVF of 6987.23 s for serial1, 6337.06 s for fifo2, 7145.46 s
+for optroll1 and 6362.41 s for optroll2. See
+[ADAPTIVE-PILOT-REPORT.md](ADAPTIVE-PILOT-REPORT.md) for the evidence and claim
+boundary.
+
+This update does not retroactively turn the pilot into the formal benchmark:
+the full 35 episodes were not run, the frozen 3+2 rule was not completed, and
+`compare-systems` remains `NOT_RUN`.
+
+The post-pilot analyzer uses a strict, non-repairing ledger snapshot, rejects
+plan/suite/hash mismatches and incomplete eligible latency series, and records
+the exact suite-file receipts plus separate on-disk-source and live-loaded-code
+manifests. Its adaptive
+result states that OptRoll repeat 3 is not included; launch absence remains a
+separately checked operational fact rather than an inference from missing input.
