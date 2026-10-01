@@ -1,0 +1,25 @@
+name: FastRoll CPU contracts
+on:
+  pull_request:
+    paths:
+      - 'fastroll/**'
+      - 'tests/**'
+      - 'examples/**'
+      - '.github/workflows/fastroll-cpu.yml'
+  push:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  cpu:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python: ['3.11', '3.12']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '${{ matrix.python }}'
+      - run: python -m compileall -q fastroll examples tests
+      - run: python -m unittest discover -s tests -v

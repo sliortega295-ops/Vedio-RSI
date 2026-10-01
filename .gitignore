@@ -1,0 +1,12 @@
+__pycache__/
+*.py[cod]
+*.egg-info/
+.fastroll/
+build/
+dist/
+.venv/
+*.mp4
+*.safetensors
+.env
+.env.*
+authorization*.json
