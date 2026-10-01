@@ -1,0 +1,9 @@
+{
+  "schema_version": 1,
+  "batch_id": "demo",
+  "tasks": [
+    {"id": "a", "role": "reference_generate", "resource": "gpu", "session": {"backend": "demo"}, "payload": {"prompt": "A", "seed": 42, "sleep_s": 0.1}, "mode": "resident", "reuse": true},
+    {"id": "b", "role": "generate", "resource": "gpu", "session": {"backend": "demo"}, "payload": {"prompt": "B", "seed": 7, "sleep_s": 0.1}, "mode": "resident"},
+    {"id": "a-again", "role": "reference_generate", "resource": "gpu", "session": {"backend": "demo"}, "payload": {"prompt": "A", "seed": 42, "sleep_s": 0.1}, "mode": "resident", "reuse": true, "depends_on": ["a"], "device": "SIM-0"}
+  ]
+}
