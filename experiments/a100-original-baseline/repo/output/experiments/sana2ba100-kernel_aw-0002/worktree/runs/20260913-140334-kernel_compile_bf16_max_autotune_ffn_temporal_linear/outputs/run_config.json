@@ -1,0 +1,45 @@
+{
+  "allocated_gpus": 1,
+  "available_gpus": 8,
+  "gpu_slots": [
+    0
+  ],
+  "gpu_uuids": [
+    "GPU-cad55364-e014-c35f-337e-db899afd1c6a"
+  ],
+  "model_id": "sana_video_2b_a100",
+  "model_manifest_sha256": "033a76f5484fce570a69795a8a7b66e87222d9ab3ba34af9a1061865593b8adb",
+  "model_path": "/share/project/shuchenweng/yongyan_liu/Experiments/SolRolloutBench/20260912-a100-eight/models/sana-video-2b/db5f398b13ca086d09a50ce156c20527773841b1",
+  "model_revision": "db5f398b13ca086d09a50ce156c20527773841b1",
+  "optimizations": {
+    "compile": true,
+    "compile_mode": "max-autotune-no-cudagraphs",
+    "easycache_threshold": 0.0,
+    "ffn_inverted_linear": false,
+    "ffn_temporal_linear": true,
+    "linattn_bf16": true,
+    "max_autotune": true,
+    "qkv_merge": false
+  },
+  "schema_version": 1,
+  "source_commit": "16af862a135e27d55bf8e574d786db595a8e0654",
+  "source_hashes": {
+    "python/sglang/multimodal_gen/runtime/models/dits/sana_video.py": "309b56ec78bbd92e29726274501c08798f15c7734c0da6d043dca6b64a62fc2c",
+    "python/sglang/multimodal_gen/runtime/pipelines/sana_video.py": "7c92dddb0be14a21e3dff9a173b5c4f9aedc3f5a4ac5808aaf2b35bd3b28618e",
+    "scripts/sana/sana_video_sglang_run.py": "eb648e25475dc2d0dfcc8bb123ceda24721ae1c65e88ecd1bbfc49e838e7d9e9"
+  },
+  "support_kernel_backend": "torch_fallback",
+  "timing_scope": "five_prompt_sum_sglang_request_metrics_excluding_model_load_internal_one_step_warmup_and_video_export",
+  "workload": {
+    "fps": 16,
+    "guidance_scale": 6.0,
+    "height": 480,
+    "num_frames": 81,
+    "num_inference_steps": 50,
+    "prompt_count": 5,
+    "prompt_sha256": "de249238cd19dd5b77de61eb69fd114228d4813a0335a1c794e366bbcd00e7e0",
+    "seed": 42,
+    "width": 832
+  },
+  "world_size": 1
+}

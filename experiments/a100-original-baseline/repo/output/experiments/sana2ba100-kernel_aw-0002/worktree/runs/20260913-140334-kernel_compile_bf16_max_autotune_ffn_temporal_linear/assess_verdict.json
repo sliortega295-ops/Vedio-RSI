@@ -1,0 +1,25 @@
+{
+  "run_dir": "runs/20260913-140334-kernel_compile_bf16_max_autotune_ffn_temporal_linear",
+  "baseline_total_s": 578.02,
+  "config_total_s": 358.39,
+  "speedup": 1.6128,
+  "gemini_overall": null,
+  "max_artifact_severity": null,
+  "quality_status": "blocked_quality",
+  "quality_blockers": [
+    "baseline_frames_missing",
+    "lpips:baseline_frame_missing",
+    "nvidia_gemini:baseline_frame_missing",
+    "pixel_metrics:baseline_frame_missing"
+  ],
+  "collector_quality_status": "blocked_quality",
+  "collector_quality_blockers": [
+    "baseline_frames_missing",
+    "lpips:baseline_frame_missing",
+    "nvidia_gemini:baseline_frame_missing",
+    "pixel_metrics:baseline_frame_missing"
+  ],
+  "lpips_max": null,
+  "tier": null,
+  "note": "missing or blocked quality evidence: baseline_frames_missing, lpips:baseline_frame_missing, nvidia_gemini:baseline_frame_missing, pixel_metrics:baseline_frame_missing -> retain/backfill frontier evidence, but do not select final profile yet"
+}

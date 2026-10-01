@@ -1,0 +1,192 @@
+{
+  "schema_version": 1,
+  "recorded_at_utc": "2026-09-13T16:12:49Z",
+  "status": "partial_blocked_resumable",
+  "phase": "phase2_cpu_only",
+  "model_id": "sana_video_2b_a100",
+  "experiment_sequence": "0002",
+  "visual_evidence_correction": {
+    "superseded_self_report_at_utc": "2026-09-13T16:00:43Z",
+    "superseded_claim": "candidate_and_baseline_viewed_side_by_side",
+    "classification": "self_report_only_not_accepted_as_evidence",
+    "reason": "The earlier trace created and identified contact sheets but did not pass their pixels to a multimodal image-view tool.",
+    "resolved_in_this_record": true,
+    "resolution": "Five newly generated prompt-paired sheets covering all 80 R9 frames and all 80 baseline frames were opened through the local view_image tool with detail=original; exact paths and SHA256 values are recorded below."
+  },
+  "baseline": {
+    "path": "/home/lyy/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/orchestrated/sana2ba100-20260913-093521/BASELINE.json",
+    "rerun": false,
+    "total_s": 578.02,
+    "timing_scope": "five_prompt_sum_sglang_request_metrics_excluding_model_load_internal_one_step_warmup_and_video_export"
+  },
+  "phase2_actions": {
+    "gpu_jobs_submitted": 0,
+    "baseline_runs_submitted": 0,
+    "network_or_browser_used": false,
+    "packages_or_weights_downloaded": false,
+    "memory_or_prior_experiment_results_read": false
+  },
+  "components": {
+    "kernel": {
+      "experiment_uid": "sana2ba100-kernel_aw-0002",
+      "workflow_uid": "kernel_aw",
+      "correctness": "lossless",
+      "poll": {
+        "alive": false,
+        "delivered": true,
+        "delivery_status": "complete",
+        "delivery_path": "/home/lyy/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-kernel_aw-0002/worktree/DELIVERY.json"
+      },
+      "master_verdict": "verified_clean",
+      "frontier_point": {
+        "config_id": "kernel_compile_bf16_max_autotune_ffn_temporal_linear",
+        "run_dir": "/home/lyy/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-kernel_aw-0002/worktree/runs/20260913-140334-kernel_compile_bf16_max_autotune_ffn_temporal_linear",
+        "objective_ok": true,
+        "objective_issues": [],
+        "baseline_total_s": 578.02,
+        "config_total_s": 358.39,
+        "authoritative_speedup": 1.6128240185273026,
+        "timing_scope_match": true,
+        "lossless_required": true,
+        "topology_required": false
+      },
+      "provenance_and_authenticity": {
+        "status": "pass",
+        "remote_worker_pid": 2816391,
+        "remote_exit_code": 0,
+        "remote_started_at_utc": "2026-09-13T14:05:34.081181Z",
+        "remote_finished_at_utc": "2026-09-13T14:27:56.942567Z",
+        "single_flight_grant": "no_active_kernel_run",
+        "gpu_uuid": "GPU-cad55364-e014-c35f-337e-db899afd1c6a",
+        "allocated_gpus": 1,
+        "world_size": 1,
+        "prompt_count": 5,
+        "per_prompt_video_contract": {
+          "frame_count": 81,
+          "width": 832,
+          "height": 480,
+          "fps": 16
+        },
+        "visual_inspection": {
+          "purpose": "authenticity_only",
+          "result": "pass",
+          "candidate_and_baseline_viewed_side_by_side": true,
+          "pixel_visible_tool": "view_image",
+          "pixel_visible_detail": "original",
+          "candidate_frames_path": "/home/lyy/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-kernel_aw-0002/worktree/runs/20260913-140334-kernel_compile_bf16_max_autotune_ffn_temporal_linear/outputs/frames",
+          "baseline_frames_path": "/home/lyy/Experiments/SolAgent/20260913-a100-original-baseline/repo/runs/20260913-091006-sana_video_2b_a100_dense/outputs/frames",
+          "candidate_frame_count": 80,
+          "baseline_frame_count": 80,
+          "coverage": "all_16_exported_samples_for_each_of_five_prompts_for_both_r9_and_frozen_baseline",
+          "contact_sheets": [
+            {
+              "prompt_index": 1,
+              "path": "/tmp/sana-r9-auth-JgWEeN/pair-p1.png",
+              "sha256": "9a1811871f1fbc06604dd7ce0504da75ba9363ef206d5f797decc37bbda2a643"
+            },
+            {
+              "prompt_index": 2,
+              "path": "/tmp/sana-r9-auth-JgWEeN/pair-p2.png",
+              "sha256": "5a6a2b51e01ace81eaf7a4c1b767d92417455465ff077fdb6a9c0908b45d7145"
+            },
+            {
+              "prompt_index": 3,
+              "path": "/tmp/sana-r9-auth-JgWEeN/pair-p3.png",
+              "sha256": "7f9e90282f517ebf40d359837aa5ae1f160e3d65ed9e896f6cbd007bffde7e24"
+            },
+            {
+              "prompt_index": 4,
+              "path": "/tmp/sana-r9-auth-JgWEeN/pair-p4.png",
+              "sha256": "3ca7ce77623bc8c6e0284d914d3a0b73be8083e600e464daf9de3b672a761a6e"
+            },
+            {
+              "prompt_index": 5,
+              "path": "/tmp/sana-r9-auth-JgWEeN/pair-p5.png",
+              "sha256": "748e90d46714c5b45087481a4fa1d2f364922fb756838d07ccd40328db6c53e2"
+            }
+          ],
+          "candidate_content_sequence_sha256": "4a4b5d49300d5d29999c8f5ba82975686a0806e5b0bb93b54d3b98427fcf4072",
+          "baseline_content_sequence_sha256": "728ddacbaa5c9656cf7952e60c835192de70f64a5db8c903f192fd148ed4c964",
+          "reason": "Pixel-visible inspection shows five nonempty, temporally varying, prompt-specific R9 sequences: forest portrait, dish washing, bedroom, frozen toilet, and panda dining. Together with the immutable job/config/source receipts, this authenticates a real claimed-config run rather than a mismatched clip or baseline resubmission. No visual-quality, similarity, or numeric-output gate was applied."
+        }
+      },
+      "structural_correctness": {
+        "status": "pass",
+        "denoising_steps": 250,
+        "global_logical_dit_calls": 500,
+        "transformer_blocks_per_dit_call": 20,
+        "global_transformer_block_calls": 10000,
+        "model_calls_per_step": 2,
+        "prompt_count": 5,
+        "steps_per_prompt": 50
+      },
+      "master_method_reasoning": {
+        "status": "pass",
+        "argument": "TorchInductor compilation with max-autotune lowers and fuses the unchanged dense graph. The linear-attention path retains every Q, K, V feature, normalization, and dense aggregation matmul while changing FP32 aggregation arithmetic to BF16; the kernel contract expressly permits reducing 32-bit arithmetic to 16-bit and the config uses no sub-16-bit quantization. In each GLUMBTempConv block, the bias-free 1x1 conv_point is exactly the same per-token linear map as F.linear with weight[:, :, 0, 0]. The bias-free (3,1) conv_temp with temporal padding one is exactly W0*x[f-1] + W1*x[f] + W2*x[f+1]; the replacement evaluates all three full-rank dense maps and restores the two boundary zeros with padding. It omits only W0*x[-1] and W2*x[F], whose operands are the original explicit zero padding and whose contributions are identically zero. Packed temporal weights are created after checkpoint loading and the model-wide BF16 cast and are invariant during inference. No step, DiT call, block, token, channel, parameter, attention entry, or rank is skipped or reduced.",
+        "forbidden_methods_used": false,
+        "output_difference_gate_used": false,
+        "active_methods": [
+          "torch_compile_max_autotune_no_cudagraphs",
+          "dense_linear_attention_bf16_aggregation",
+          "exact_ffn_point_and_temporal_linear_rewrite"
+        ],
+        "inactive_approximations": {
+          "easycache_threshold": 0.0,
+          "qkv_merge": false,
+          "rope_bf16": false,
+          "ffn_inverted_linear": false
+        },
+        "topology_preserved": true
+      },
+      "verified_hashes": {
+        "baseline_json_sha256": "cdcf7036432bb60cc51df38d3a1f497cafdb7bdf0f4df32cd68f27cffcba7613",
+        "config_manifest_sha256": "66c8f3ed14f1e0c46f020e2273c0c64fa33a29465b23dfb3ea8126860d82d199",
+        "transformer_source_sha256": "309b56ec78bbd92e29726274501c08798f15c7734c0da6d043dca6b64a62fc2c",
+        "runner_source_sha256": "eb648e25475dc2d0dfcc8bb123ceda24721ae1c65e88ecd1bbfc49e838e7d9e9",
+        "benchmark_sha256": "bb046af2e7906bc97bc9b16aaf3c2a1bd8d950108935729e750c30b3185d8657",
+        "run_config_sha256": "dbb7964310515a4ddef8f8e3a337af5c3be726797492b6b5e6013bcf68abfb36",
+        "equivalence_sha256": "277e08abd625fbbf8922d7348b2d8003612f92326da6c10fbd29bf19a2d19cfc"
+      },
+      "quality_metrics": {
+        "applicable": false,
+        "lpips_computed": false,
+        "visual_quality_gated": false,
+        "reason": "Kernel is lossless and is accepted by structural and mathematical method correctness, not output comparison."
+      }
+    },
+    "cache": {
+      "experiment_uid": "sana2ba100-cache_ca-0002",
+      "workflow_uid": "cache_ca",
+      "correctness": "quality_gated",
+      "poll": {
+        "alive": false,
+        "delivered": false,
+        "delivery_status": null,
+        "delivery_path": "/home/lyy/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-cache_ca-0002/worktree/DELIVERY.json"
+      },
+      "master_verdict": "blocked_not_accepted",
+      "blocking_gate": "exact aligned LPIPS using the approved LPIPS package and AlexNet LPIPS weights",
+      "blocker_receipt": "/home/lyy/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-cache_ca-0002/worktree/state/cache_ca_blocked_state_receipt.json",
+      "reason": "The exact LPIPS/AlexNet judge is unavailable in approved offline assets. Cache has no DELIVERY.json and no quality-gated frontier point. Speed-only results are ineligible.",
+      "resume_condition": "Make user-authorized existing exact LPIPS package and AlexNet LPIPS weights available, resume this same Cache seq0002 identity, backfill aligned LPIPS for its existing runs, and return candidate points for independent Master objective and visual gating."
+    }
+  },
+  "integration": {
+    "status": "blocked_not_run",
+    "integrated_delivery_path": "/home/lyy/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/orchestrated/sana2ba100-20260913-093521/INTEGRATED-DELIVERY.json",
+    "integrated_delivery_present": false,
+    "composed_gpu_run_measured": false,
+    "reasons": [
+      "Cache is not independently verifiable or accepted because exact aligned LPIPS is unavailable.",
+      "The archived integration contract requires every listed component to pass before composition.",
+      "Phase 2 is CPU-only and no fresh GPU window has been activated."
+    ],
+    "next_steps": [
+      "Resolve the approved offline exact LPIPS/AlexNet asset availability.",
+      "Resume and independently verify the existing Cache seq0002 executor without respawning it.",
+      "Activate a fresh authorized GPU window.",
+      "Run and gate the measured Kernel plus Cache composition against the same frozen baseline.",
+      "Write INTEGRATED-DELIVERY.json only from independently accepted composed points."
+    ]
+  }
+}

@@ -1,0 +1,543 @@
+{
+  "approved_predecessor": {
+    "assess_verdict.json": "6313b3c8b9b186c7a21ba5857ec59976ea6a87778d56f349b0656ff0fab4da29",
+    "launch.sh": "6c8f610c4e1f6a0085cde0bb56f7b80f0133f57725f8d6375d2f54644823271f",
+    "manifest.resolved.toml": "7b77a2d868e1257da3635901b46c8ae552c762b3e10532d555e700ca39c1ece9",
+    "metadata.json": "3a609fa4ac789375b4e33db8ca3d7dccfa9e9b37e2f0f4570db1806eb7f76d78",
+    "original_judge_receipt_relative": "phase3_quality_attempts/20260914T091442.857077+0000_3058273/receipt.json",
+    "original_judge_receipt_sha256": "e83d0c0b31e4b5d770154f6633b1e7212291c5df23945d2ca7c114d0e30caa19",
+    "outputs/benchmark.json": "870b56d54408b480881d663697e7be19960b4e4248c724a46f24761866aa3576",
+    "outputs/collection.json": "d545aa8be651ea7149a4fb3c9f711352a29c8023bb769637db62d2afea600e32",
+    "outputs/quality.json": "f709caabd587b6b49155dc2511f00389a5a19393d2d75e704ebd2fd82ec48672",
+    "remote_reverify_predecessor_sha256": null
+  },
+  "blocked_network_attempts": [],
+  "collect": {
+    "child_system_s_lower_bound": 16.190834,
+    "child_user_s_lower_bound": 303.06311000000005,
+    "command": [
+      "/tmp/distillschedule-helios-official-torch210/bin/python",
+      "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/scripts/collect_run.py",
+      "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-cache_ca-0002/worktree/runs/20260914-083326-cache_ca_r08_taylorseer_t0180_w30_o1",
+      "--baseline-run-dir",
+      "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/runs/20260913-091006-sana_video_2b_a100_dense"
+    ],
+    "exit_code": 0,
+    "finished_at_utc": "2026-09-14T10:32:36.070764+00:00",
+    "started_at_utc": "2026-09-14T10:32:21.495628+00:00",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_sha256": "0326618dbe53b65a1eb3cad2911ef9b5c089458f39c4bc2765495b86352f219e",
+    "timed_out": false,
+    "wall_s": 14.57515313
+  },
+  "finished_at_utc": "2026-09-14T10:32:38.203221+00:00",
+  "finished_monotonic_ns": 1890308426894310,
+  "host": "job-c6cfcde5-db4b-4527-8eb8-7518319a0277-master-0",
+  "kind": "phase3_original_cpu_reverify",
+  "lpips_pair_audit": {
+    "available_aligned_pairs": 80,
+    "per_prompt": {
+      "p01": {
+        "max": 0.016873452812433243,
+        "mean": 0.012862155080905982,
+        "n": 7
+      },
+      "p02": {
+        "max": 0.026091445237398148,
+        "mean": 0.023824625415727496,
+        "n": 16
+      },
+      "p03": {
+        "max": 0.013025873340666294,
+        "mean": 0.012454048575212559,
+        "n": 6
+      },
+      "p04": {
+        "max": 0.013594023883342743,
+        "mean": 0.011134775821119547,
+        "n": 6
+      },
+      "p05": {
+        "max": 0.009471405297517776,
+        "mean": 0.008267015085688658,
+        "n": 7
+      }
+    },
+    "selected_pair_count": 42,
+    "selected_pairs": [
+      {
+        "baseline": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/runs/20260913-091006-sana_video_2b_a100_dense/outputs/frames/f_001.png",
+        "config": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-cache_ca-0002/worktree/runs/20260914-083326-cache_ca_r08_taylorseer_t0180_w30_o1/outputs/frames/f_001.png",
+        "frame_index": 1,
+        "lpips": 0.012096060439944267,
+        "prompt_index": 1
+      },
+      {
+        "baseline": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/runs/20260913-091006-sana_video_2b_a100_dense/outputs/frames/f_004.png",
+        "config": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-cache_ca-0002/worktree/runs/20260914-083326-cache_ca_r08_taylorseer_t0180_w30_o1/outputs/frames/f_004.png",
+        "frame_index": 4,
+        "lpips": 0.011642317287623882,
+        "prompt_index": 1
+      },
+      {
+        "baseline": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/runs/20260913-091006-sana_video_2b_a100_dense/outputs/frames/f_006.png",
+        "config": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-cache_ca-0002/worktree/runs/20260914-083326-cache_ca_r08_taylorseer_t0180_w30_o1/outputs/frames/f_006.png",
+        "frame_index": 6,
+        "lpips": 0.012370504438877106,
+        "prompt_index": 1
+      },
+      {
+        "baseline": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/runs/20260913-091006-sana_video_2b_a100_dense/outputs/frames/f_009.png",
+        "config": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-cache_ca-0002/worktree/runs/20260914-083326-cache_ca_r08_taylorseer_t0180_w30_o1/outputs/frames/f_009.png",
+        "frame_index": 9,
+        "lpips": 0.012755856849253178,
+        "prompt_index": 1
+      },
+      {
+        "baseline": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/runs/20260913-091006-sana_video_2b_a100_dense/outputs/frames/f_011.png",
+        "config": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-cache_ca-0002/worktree/runs/20260914-083326-cache_ca_r08_taylorseer_t0180_w30_o1/outputs/frames/f_011.png",
+        "frame_index": 11,
+        "lpips": 0.011604176834225655,
+        "prompt_index": 1
+      },
+      {
+        "baseline": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/runs/20260913-091006-sana_video_2b_a100_dense/outputs/frames/f_014.png",
+        "config": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-cache_ca-0002/worktree/runs/20260914-083326-cache_ca_r08_taylorseer_t0180_w30_o1/outputs/frames/f_014.png",
+        "frame_index": 14,
+        "lpips": 0.012692716903984547,
+        "prompt_index": 1
+      },
+      {
+        "baseline": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/runs/20260913-091006-sana_video_2b_a100_dense/outputs/frames/f_016.png",
+        "config": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-cache_ca-0002/worktree/runs/20260914-083326-cache_ca_r08_taylorseer_t0180_w30_o1/outputs/frames/f_016.png",
+        "frame_index": 16,
+        "lpips": 0.016873452812433243,
+        "prompt_index": 1
+      },
+      {
+        "baseline": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/runs/20260913-091006-sana_video_2b_a100_dense/outputs/frames/f_019.png",
+        "config": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-cache_ca-0002/worktree/runs/20260914-083326-cache_ca_r08_taylorseer_t0180_w30_o1/outputs/frames/f_019.png",
+        "frame_index": 19,
+        "lpips": 0.023797379806637764,
+        "prompt_index": 2
+      },
+      {
+        "baseline": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/runs/20260913-091006-sana_video_2b_a100_dense/outputs/frames/f_021.png",
+        "config": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-cache_ca-0002/worktree/runs/20260914-083326-cache_ca_r08_taylorseer_t0180_w30_o1/outputs/frames/f_021.png",
+        "frame_index": 21,
+        "lpips": 0.02443574368953705,
+        "prompt_index": 2
+      },
+      {
+        "baseline": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/runs/20260913-091006-sana_video_2b_a100_dense/outputs/frames/f_024.png",
+        "config": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-cache_ca-0002/worktree/runs/20260914-083326-cache_ca_r08_taylorseer_t0180_w30_o1/outputs/frames/f_024.png",
+        "frame_index": 24,
+        "lpips": 0.02466096729040146,
+        "prompt_index": 2
+      },
+      {
+        "baseline": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/runs/20260913-091006-sana_video_2b_a100_dense/outputs/frames/f_026.png",
+        "config": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-cache_ca-0002/worktree/runs/20260914-083326-cache_ca_r08_taylorseer_t0180_w30_o1/outputs/frames/f_026.png",
+        "frame_index": 26,
+        "lpips": 0.024410292506217957,
+        "prompt_index": 2
+      },
+      {
+        "baseline": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/runs/20260913-091006-sana_video_2b_a100_dense/outputs/frames/f_029.png",
+        "config": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-cache_ca-0002/worktree/runs/20260914-083326-cache_ca_r08_taylorseer_t0180_w30_o1/outputs/frames/f_029.png",
+        "frame_index": 29,
+        "lpips": 0.025881167501211166,
+        "prompt_index": 2
+      },
+      {
+        "baseline": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/runs/20260913-091006-sana_video_2b_a100_dense/outputs/frames/f_032.png",
+        "config": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-cache_ca-0002/worktree/runs/20260914-083326-cache_ca_r08_taylorseer_t0180_w30_o1/outputs/frames/f_032.png",
+        "frame_index": 32,
+        "lpips": 0.02344679646193981,
+        "prompt_index": 2
+      },
+      {
+        "baseline": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/runs/20260913-091006-sana_video_2b_a100_dense/outputs/frames/f_034.png",
+        "config": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-cache_ca-0002/worktree/runs/20260914-083326-cache_ca_r08_taylorseer_t0180_w30_o1/outputs/frames/f_034.png",
+        "frame_index": 34,
+        "lpips": 0.013025873340666294,
+        "prompt_index": 3
+      },
+      {
+        "baseline": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/runs/20260913-091006-sana_video_2b_a100_dense/outputs/frames/f_037.png",
+        "config": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-cache_ca-0002/worktree/runs/20260914-083326-cache_ca_r08_taylorseer_t0180_w30_o1/outputs/frames/f_037.png",
+        "frame_index": 37,
+        "lpips": 0.011843204498291016,
+        "prompt_index": 3
+      },
+      {
+        "baseline": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/runs/20260913-091006-sana_video_2b_a100_dense/outputs/frames/f_039.png",
+        "config": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-cache_ca-0002/worktree/runs/20260914-083326-cache_ca_r08_taylorseer_t0180_w30_o1/outputs/frames/f_039.png",
+        "frame_index": 39,
+        "lpips": 0.012663953006267548,
+        "prompt_index": 3
+      },
+      {
+        "baseline": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/runs/20260913-091006-sana_video_2b_a100_dense/outputs/frames/f_042.png",
+        "config": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-cache_ca-0002/worktree/runs/20260914-083326-cache_ca_r08_taylorseer_t0180_w30_o1/outputs/frames/f_042.png",
+        "frame_index": 42,
+        "lpips": 0.01280524954199791,
+        "prompt_index": 3
+      },
+      {
+        "baseline": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/runs/20260913-091006-sana_video_2b_a100_dense/outputs/frames/f_044.png",
+        "config": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-cache_ca-0002/worktree/runs/20260914-083326-cache_ca_r08_taylorseer_t0180_w30_o1/outputs/frames/f_044.png",
+        "frame_index": 44,
+        "lpips": 0.01229763962328434,
+        "prompt_index": 3
+      },
+      {
+        "baseline": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/runs/20260913-091006-sana_video_2b_a100_dense/outputs/frames/f_047.png",
+        "config": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-cache_ca-0002/worktree/runs/20260914-083326-cache_ca_r08_taylorseer_t0180_w30_o1/outputs/frames/f_047.png",
+        "frame_index": 47,
+        "lpips": 0.012088371440768242,
+        "prompt_index": 3
+      },
+      {
+        "baseline": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/runs/20260913-091006-sana_video_2b_a100_dense/outputs/frames/f_049.png",
+        "config": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-cache_ca-0002/worktree/runs/20260914-083326-cache_ca_r08_taylorseer_t0180_w30_o1/outputs/frames/f_049.png",
+        "frame_index": 49,
+        "lpips": 0.013594023883342743,
+        "prompt_index": 4
+      },
+      {
+        "baseline": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/runs/20260913-091006-sana_video_2b_a100_dense/outputs/frames/f_052.png",
+        "config": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-cache_ca-0002/worktree/runs/20260914-083326-cache_ca_r08_taylorseer_t0180_w30_o1/outputs/frames/f_052.png",
+        "frame_index": 52,
+        "lpips": 0.011769759468734264,
+        "prompt_index": 4
+      },
+      {
+        "baseline": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/runs/20260913-091006-sana_video_2b_a100_dense/outputs/frames/f_055.png",
+        "config": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-cache_ca-0002/worktree/runs/20260914-083326-cache_ca_r08_taylorseer_t0180_w30_o1/outputs/frames/f_055.png",
+        "frame_index": 55,
+        "lpips": 0.010137229226529598,
+        "prompt_index": 4
+      },
+      {
+        "baseline": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/runs/20260913-091006-sana_video_2b_a100_dense/outputs/frames/f_057.png",
+        "config": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-cache_ca-0002/worktree/runs/20260914-083326-cache_ca_r08_taylorseer_t0180_w30_o1/outputs/frames/f_057.png",
+        "frame_index": 57,
+        "lpips": 0.010654263198375702,
+        "prompt_index": 4
+      },
+      {
+        "baseline": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/runs/20260913-091006-sana_video_2b_a100_dense/outputs/frames/f_060.png",
+        "config": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-cache_ca-0002/worktree/runs/20260914-083326-cache_ca_r08_taylorseer_t0180_w30_o1/outputs/frames/f_060.png",
+        "frame_index": 60,
+        "lpips": 0.010354406200349331,
+        "prompt_index": 4
+      },
+      {
+        "baseline": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/runs/20260913-091006-sana_video_2b_a100_dense/outputs/frames/f_062.png",
+        "config": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-cache_ca-0002/worktree/runs/20260914-083326-cache_ca_r08_taylorseer_t0180_w30_o1/outputs/frames/f_062.png",
+        "frame_index": 62,
+        "lpips": 0.010298972949385643,
+        "prompt_index": 4
+      },
+      {
+        "baseline": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/runs/20260913-091006-sana_video_2b_a100_dense/outputs/frames/f_065.png",
+        "config": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-cache_ca-0002/worktree/runs/20260914-083326-cache_ca_r08_taylorseer_t0180_w30_o1/outputs/frames/f_065.png",
+        "frame_index": 65,
+        "lpips": 0.009471405297517776,
+        "prompt_index": 5
+      },
+      {
+        "baseline": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/runs/20260913-091006-sana_video_2b_a100_dense/outputs/frames/f_067.png",
+        "config": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-cache_ca-0002/worktree/runs/20260914-083326-cache_ca_r08_taylorseer_t0180_w30_o1/outputs/frames/f_067.png",
+        "frame_index": 67,
+        "lpips": 0.008401261642575264,
+        "prompt_index": 5
+      },
+      {
+        "baseline": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/runs/20260913-091006-sana_video_2b_a100_dense/outputs/frames/f_070.png",
+        "config": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-cache_ca-0002/worktree/runs/20260914-083326-cache_ca_r08_taylorseer_t0180_w30_o1/outputs/frames/f_070.png",
+        "frame_index": 70,
+        "lpips": 0.008133064024150372,
+        "prompt_index": 5
+      },
+      {
+        "baseline": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/runs/20260913-091006-sana_video_2b_a100_dense/outputs/frames/f_072.png",
+        "config": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-cache_ca-0002/worktree/runs/20260914-083326-cache_ca_r08_taylorseer_t0180_w30_o1/outputs/frames/f_072.png",
+        "frame_index": 72,
+        "lpips": 0.007622618228197098,
+        "prompt_index": 5
+      },
+      {
+        "baseline": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/runs/20260913-091006-sana_video_2b_a100_dense/outputs/frames/f_075.png",
+        "config": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-cache_ca-0002/worktree/runs/20260914-083326-cache_ca_r08_taylorseer_t0180_w30_o1/outputs/frames/f_075.png",
+        "frame_index": 75,
+        "lpips": 0.007166932336986065,
+        "prompt_index": 5
+      },
+      {
+        "baseline": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/runs/20260913-091006-sana_video_2b_a100_dense/outputs/frames/f_077.png",
+        "config": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-cache_ca-0002/worktree/runs/20260914-083326-cache_ca_r08_taylorseer_t0180_w30_o1/outputs/frames/f_077.png",
+        "frame_index": 77,
+        "lpips": 0.0077185677364468575,
+        "prompt_index": 5
+      },
+      {
+        "baseline": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/runs/20260913-091006-sana_video_2b_a100_dense/outputs/frames/f_080.png",
+        "config": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-cache_ca-0002/worktree/runs/20260914-083326-cache_ca_r08_taylorseer_t0180_w30_o1/outputs/frames/f_080.png",
+        "frame_index": 80,
+        "lpips": 0.009355256333947182,
+        "prompt_index": 5
+      },
+      {
+        "baseline": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/runs/20260913-091006-sana_video_2b_a100_dense/outputs/frames/f_022.png",
+        "config": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-cache_ca-0002/worktree/runs/20260914-083326-cache_ca_r08_taylorseer_t0180_w30_o1/outputs/frames/f_022.png",
+        "frame_index": 22,
+        "lpips": 0.02396000735461712,
+        "prompt_index": 2
+      },
+      {
+        "baseline": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/runs/20260913-091006-sana_video_2b_a100_dense/outputs/frames/f_023.png",
+        "config": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-cache_ca-0002/worktree/runs/20260914-083326-cache_ca_r08_taylorseer_t0180_w30_o1/outputs/frames/f_023.png",
+        "frame_index": 23,
+        "lpips": 0.0233792532235384,
+        "prompt_index": 2
+      },
+      {
+        "baseline": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/runs/20260913-091006-sana_video_2b_a100_dense/outputs/frames/f_027.png",
+        "config": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-cache_ca-0002/worktree/runs/20260914-083326-cache_ca_r08_taylorseer_t0180_w30_o1/outputs/frames/f_027.png",
+        "frame_index": 27,
+        "lpips": 0.026091445237398148,
+        "prompt_index": 2
+      },
+      {
+        "baseline": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/runs/20260913-091006-sana_video_2b_a100_dense/outputs/frames/f_028.png",
+        "config": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-cache_ca-0002/worktree/runs/20260914-083326-cache_ca_r08_taylorseer_t0180_w30_o1/outputs/frames/f_028.png",
+        "frame_index": 28,
+        "lpips": 0.02319597452878952,
+        "prompt_index": 2
+      },
+      {
+        "baseline": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/runs/20260913-091006-sana_video_2b_a100_dense/outputs/frames/f_025.png",
+        "config": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-cache_ca-0002/worktree/runs/20260914-083326-cache_ca_r08_taylorseer_t0180_w30_o1/outputs/frames/f_025.png",
+        "frame_index": 25,
+        "lpips": 0.02458074688911438,
+        "prompt_index": 2
+      },
+      {
+        "baseline": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/runs/20260913-091006-sana_video_2b_a100_dense/outputs/frames/f_030.png",
+        "config": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-cache_ca-0002/worktree/runs/20260914-083326-cache_ca_r08_taylorseer_t0180_w30_o1/outputs/frames/f_030.png",
+        "frame_index": 30,
+        "lpips": 0.02330169826745987,
+        "prompt_index": 2
+      },
+      {
+        "baseline": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/runs/20260913-091006-sana_video_2b_a100_dense/outputs/frames/f_018.png",
+        "config": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-cache_ca-0002/worktree/runs/20260914-083326-cache_ca_r08_taylorseer_t0180_w30_o1/outputs/frames/f_018.png",
+        "frame_index": 18,
+        "lpips": 0.024742532521486282,
+        "prompt_index": 2
+      },
+      {
+        "baseline": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/runs/20260913-091006-sana_video_2b_a100_dense/outputs/frames/f_020.png",
+        "config": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-cache_ca-0002/worktree/runs/20260914-083326-cache_ca_r08_taylorseer_t0180_w30_o1/outputs/frames/f_020.png",
+        "frame_index": 20,
+        "lpips": 0.021674735471606255,
+        "prompt_index": 2
+      },
+      {
+        "baseline": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/runs/20260913-091006-sana_video_2b_a100_dense/outputs/frames/f_031.png",
+        "config": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-cache_ca-0002/worktree/runs/20260914-083326-cache_ca_r08_taylorseer_t0180_w30_o1/outputs/frames/f_031.png",
+        "frame_index": 31,
+        "lpips": 0.021643711254000664,
+        "prompt_index": 2
+      },
+      {
+        "baseline": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/runs/20260913-091006-sana_video_2b_a100_dense/outputs/frames/f_017.png",
+        "config": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-cache_ca-0002/worktree/runs/20260914-083326-cache_ca_r08_taylorseer_t0180_w30_o1/outputs/frames/f_017.png",
+        "frame_index": 17,
+        "lpips": 0.021991554647684097,
+        "prompt_index": 2
+      }
+    ],
+    "selection": "archived select_stratified_and_worst_pairs(32,16,48)"
+  },
+  "network_guard_loaded_pids": [
+    3076792,
+    3076870,
+    3077141
+  ],
+  "plan_eval": {
+    "child_system_s_lower_bound": 0.02010699999999943,
+    "child_user_s_lower_bound": 0.03446999999999889,
+    "command": [
+      "/tmp/distillschedule-helios-official-torch210/bin/python",
+      "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/search/plan_eval.py",
+      "--model",
+      "sana_video_2b_a100",
+      "--no-gemini",
+      "--no-refresh-collection",
+      "--assess",
+      "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-cache_ca-0002/worktree/runs/20260914-083326-cache_ca_r08_taylorseer_t0180_w30_o1",
+      "--baseline-frames",
+      "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/runs/20260913-091006-sana_video_2b_a100_dense/outputs/frames",
+      "--out",
+      "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-cache_ca-0002/worktree/runs/20260914-083326-cache_ca_r08_taylorseer_t0180_w30_o1/reverify_verdict.json"
+    ],
+    "exit_code": 0,
+    "finished_at_utc": "2026-09-14T10:32:36.354133+00:00",
+    "started_at_utc": "2026-09-14T10:32:36.146506+00:00",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_sha256": "6313b3c8b9b186c7a21ba5857ec59976ea6a87778d56f349b0656ff0fab4da29",
+    "timed_out": false,
+    "wall_s": 0.207629089
+  },
+  "post_snapshot": {
+    "assess_verdict.json": {
+      "sha256": "6313b3c8b9b186c7a21ba5857ec59976ea6a87778d56f349b0656ff0fab4da29",
+      "size_bytes": 808
+    },
+    "metadata.json": {
+      "sha256": "d2be5886a81eb81c59a7fe883a867f9746ac28febd3d3ce06d9fd669c530532f",
+      "size_bytes": 5444
+    },
+    "outputs/benchmark.json": {
+      "sha256": "d9cb1eb4e84c51085e6875acf5719319d526d77766af9e475f13a09c8f8f8f07",
+      "size_bytes": 18726
+    },
+    "outputs/collection.json": {
+      "sha256": "ee812f5f0f3bd96f29b5810e7e47a669c3815459d129247c138ddc1d4fb8f506",
+      "size_bytes": 9320
+    },
+    "outputs/quality.json": {
+      "sha256": "035b11f204c7c62c5e852bd46f21399c2279a51f71f33d0df6f80359d767daa9",
+      "size_bytes": 6043
+    },
+    "reverify_verdict.json": {
+      "sha256": "6313b3c8b9b186c7a21ba5857ec59976ea6a87778d56f349b0656ff0fab4da29",
+      "size_bytes": 808
+    }
+  },
+  "pre_snapshot": {
+    "assess_verdict.json": {
+      "sha256": "6313b3c8b9b186c7a21ba5857ec59976ea6a87778d56f349b0656ff0fab4da29",
+      "size_bytes": 808
+    },
+    "metadata.json": {
+      "sha256": "3a609fa4ac789375b4e33db8ca3d7dccfa9e9b37e2f0f4570db1806eb7f76d78",
+      "size_bytes": 5444
+    },
+    "outputs/benchmark.json": {
+      "sha256": "870b56d54408b480881d663697e7be19960b4e4248c724a46f24761866aa3576",
+      "size_bytes": 18726
+    },
+    "outputs/collection.json": {
+      "sha256": "d545aa8be651ea7149a4fb3c9f711352a29c8023bb769637db62d2afea600e32",
+      "size_bytes": 9320
+    },
+    "outputs/quality.json": {
+      "sha256": "f709caabd587b6b49155dc2511f00389a5a19393d2d75e704ebd2fd82ec48672",
+      "size_bytes": 6043
+    }
+  },
+  "preflight": {
+    "baseline_frame_count": 80,
+    "benchmark": {
+      "per_prompt_frames": 16,
+      "prompt_count": 5,
+      "sum_request_s": 480.96000000000004,
+      "timing_scope": "five_prompt_sum_sglang_request_metrics_excluding_model_load_internal_one_step_warmup_and_video_export",
+      "total_s": 480.96000000000004
+    },
+    "candidate_frame_count": 80,
+    "candidate_frames_digest": "586be1f2c9c97bbb2f87ebd43e8d7bae9e2889b7db6680f6bc62ab9b85bab88c",
+    "dense_frames_digest": "728ddacbaa5c9656cf7952e60c835192de70f64a5db8c903f192fd148ed4c964",
+    "files": {
+      "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/deps/phase3/lpips_target/lpips/weights/v0.1/alex.pth": {
+        "sha256": "df73285e35b22355a2df87cdb6b70b343713b667eddbda73e1977e0c860835c0",
+        "size_bytes": 6009
+      },
+      "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/deps/phase3/lpips_wheel/lpips-0.1.4-py3-none-any.whl": {
+        "sha256": "fd537af5828b69d2e6ffc0a397bd506dbc28ca183543617690844c08e102ec5e",
+        "size_bytes": 53763
+      },
+      "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/deps/phase3/torch_home/hub/checkpoints/alexnet-owt-7be5be79.pth": {
+        "sha256": "7be5be791159472b1fbf3c69796f7cb30dca7ad8466c2df70058c37116cdee02",
+        "size_bytes": 244408911
+      },
+      "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/orchestration/site_quality_guard/sitecustomize.py": {
+        "sha256": "f2d1a27030f0456380f410d4bb7e118e628d543730718f74c038ddf292e71fe2",
+        "size_bytes": 1790
+      },
+      "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-cache_ca-0002/worktree/runs/20260914-083326-cache_ca_r08_taylorseer_t0180_w30_o1/launch.sh": {
+        "sha256": "6c8f610c4e1f6a0085cde0bb56f7b80f0133f57725f8d6375d2f54644823271f",
+        "size_bytes": 3039
+      },
+      "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-cache_ca-0002/worktree/runs/20260914-083326-cache_ca_r08_taylorseer_t0180_w30_o1/manifest.resolved.toml": {
+        "sha256": "7b77a2d868e1257da3635901b46c8ae552c762b3e10532d555e700ca39c1ece9",
+        "size_bytes": 5728
+      },
+      "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-cache_ca-0002/worktree/runs/20260914-083326-cache_ca_r08_taylorseer_t0180_w30_o1/metadata.json": {
+        "sha256": "3a609fa4ac789375b4e33db8ca3d7dccfa9e9b37e2f0f4570db1806eb7f76d78",
+        "size_bytes": 5444
+      },
+      "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-cache_ca-0002/worktree/runs/20260914-083326-cache_ca_r08_taylorseer_t0180_w30_o1/outputs/benchmark.json": {
+        "sha256": "870b56d54408b480881d663697e7be19960b4e4248c724a46f24761866aa3576",
+        "size_bytes": 18726
+      },
+      "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-cache_ca-0002/worktree/runs/20260914-083326-cache_ca_r08_taylorseer_t0180_w30_o1/outputs/run_config.json": {
+        "sha256": "2eac08b00536f71a6f0d5359f91114d198f7cd71c496bccad18a6d37c54d0989",
+        "size_bytes": 2052
+      },
+      "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/scripts/collect_run.py": {
+        "sha256": "34d85bf04eb5ee603c6c05964d0137a426c6710e9cd828ae04b54b66c05e158f",
+        "size_bytes": 47399
+      },
+      "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/search/plan_eval.py": {
+        "sha256": "a06d9e8f845cd269cd80f3b085c5c03675129f145801ed77e9fe1e5d48ad4840",
+        "size_bytes": 20198
+      },
+      "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/tools/vision/lpips_judge.py": {
+        "sha256": "f68f7c72f31ec8018176e7b9be7047eba97524b73053842d99ba69ed3e1570bc",
+        "size_bytes": 8767
+      },
+      "/tmp/distillschedule-helios-official-torch210/bin/python3.10": {
+        "sha256": "7c9e72ea1f06138ed5f52f49894c62f29e51e302f0d02f8fb18490e90e994331",
+        "size_bytes": 17331920,
+        "venv_link": "/tmp/distillschedule-helios-official-torch210/bin/python"
+      }
+    }
+  },
+  "quality_blockers": [
+    "nvidia_gemini:api_key_missing"
+  ],
+  "quality_status": "blocked_quality",
+  "reverify_verdict": {
+    "baseline_total_s": null,
+    "collector_quality_blockers": [
+      "nvidia_gemini:api_key_missing"
+    ],
+    "collector_quality_status": "blocked_quality",
+    "config_total_s": 480.96000000000004,
+    "gemini_overall": null,
+    "lpips_max": 0.026091445237398148,
+    "max_artifact_severity": null,
+    "note": "missing or blocked quality evidence: nvidia_gemini:api_key_missing -> retain/backfill frontier evidence, but do not select final profile yet",
+    "quality_blockers": [
+      "nvidia_gemini:api_key_missing"
+    ],
+    "quality_status": "blocked_quality",
+    "run_dir": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-cache_ca-0002/worktree/runs/20260914-083326-cache_ca_r08_taylorseer_t0180_w30_o1",
+    "speedup": null,
+    "tier": null
+  },
+  "reverify_verdict_sha256": "6313b3c8b9b186c7a21ba5857ec59976ea6a87778d56f349b0656ff0fab4da29",
+  "run_dir": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-cache_ca-0002/worktree/runs/20260914-083326-cache_ca_r08_taylorseer_t0180_w30_o1",
+  "run_key": "R08",
+  "schema_version": 1,
+  "site_transport_not_quality_decision": true,
+  "started_at_utc": "2026-09-14T10:32:21.412243+00:00",
+  "started_monotonic_ns": 1890291635879065,
+  "status": "original_remote_reverify_complete",
+  "wall_s": 16.791015245
+}

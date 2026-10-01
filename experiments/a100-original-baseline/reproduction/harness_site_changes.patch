@@ -1,0 +1,320 @@
+diff --git a/orchestration/bin/poll_executor.py b/orchestration/bin/poll_executor.py
+index 3d4176a..eded916 100755
+--- a/orchestration/bin/poll_executor.py
++++ b/orchestration/bin/poll_executor.py
+@@ -9,6 +9,7 @@ from __future__ import annotations
+ 
+ import argparse
+ import json
++import os
+ import subprocess
+ import sys
+ from pathlib import Path
+@@ -17,6 +18,12 @@ from pathlib import Path
+ ROOT = Path(__file__).resolve().parents[2]
+ 
+ 
++def goal_session_script() -> str:
++    return ("tools/symposium/site_codex_goal_session.py"
++            if os.environ.get("SOL_SITE_CODEX_BROKER") == "1"
++            else "tools/symposium/codex_goal_session.py")
++
++
+ def main() -> int:
+     ap = argparse.ArgumentParser(description=__doc__)
+     ap.add_argument("--worktree", required=True)
+@@ -39,7 +46,7 @@ def main() -> int:
+     goal_dir = args.goal_dir or str(Path(args.worktree) / "goals")
+     try:
+         st = subprocess.run(
+-            [sys.executable, "tools/symposium/codex_goal_session.py", "status",
++            [sys.executable, goal_session_script(), "status",
+              goal_dir, "--name", args.name, "--worktree", args.worktree],
+             cwd=ROOT, text=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, timeout=60,
+         )
+diff --git a/orchestration/bin/resume_executor.py b/orchestration/bin/resume_executor.py
+index 14b0d26..6bb334f 100755
+--- a/orchestration/bin/resume_executor.py
++++ b/orchestration/bin/resume_executor.py
+@@ -9,6 +9,7 @@ also drops a STOP_HOOK_RESUME.md marker, and restarts the detached session
+ from __future__ import annotations
+ 
+ import argparse
++import os
+ import subprocess
+ import sys
+ from datetime import datetime, timezone
+@@ -18,6 +19,12 @@ from pathlib import Path
+ ROOT = Path(__file__).resolve().parents[2]
+ 
+ 
++def goal_session_script() -> str:
++    return ("tools/symposium/site_codex_goal_session.py"
++            if os.environ.get("SOL_SITE_CODEX_BROKER") == "1"
++            else "tools/symposium/codex_goal_session.py")
++
++
+ def main() -> int:
+     ap = argparse.ArgumentParser(description=__doc__)
+     ap.add_argument("--worktree", required=True)
+@@ -56,7 +63,7 @@ def main() -> int:
+     (goal_dir / "STOP_HOOK_RESUME.md").write_text(block)
+ 
+     launch = subprocess.run(
+-        [sys.executable, "tools/symposium/codex_goal_session.py", "start",
++        [sys.executable, goal_session_script(), "start",
+          str(goal_dir), "--name", args.name, "--worktree", args.worktree, "--force"],
+         cwd=ROOT, text=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
+     )
+diff --git a/orchestration/bin/spawn_executor.py b/orchestration/bin/spawn_executor.py
+index cd65229..323d963 100755
+--- a/orchestration/bin/spawn_executor.py
++++ b/orchestration/bin/spawn_executor.py
+@@ -24,6 +24,12 @@ ROOT = Path(__file__).resolve().parents[2]
+ LITE = ROOT / "orchestration"
+ 
+ 
++def goal_session_script() -> str:
++    return ("tools/symposium/site_codex_goal_session.py"
++            if os.environ.get("SOL_SITE_CODEX_BROKER") == "1"
++            else "tools/symposium/codex_goal_session.py")
++
++
+ def load_techniques() -> dict[str, dict[str, str]]:
+     path = LITE / "techniques.toml"
+     with path.open("rb") as handle:
+@@ -215,6 +221,8 @@ def main() -> int:
+         + json.dumps(baseline, indent=2) + "\n```\n"
+     )
+     prompt = "\n\n".join(p for p in (seed_goal, scope, contract, frozen_block) if p.strip())
++    if model_id == "sana_video_2b_a100" and os.environ.get("SOL_SITE_CODEX_BROKER") == "1":
++        prompt += "\n\n" + read(LITE / "prompts/site_a100_appendix.md")
+     goal_dir.mkdir(parents=True, exist_ok=True)
+     (goal_dir / "goal.md").write_text(prompt)
+     context_path = goal_dir / "context.json"
+@@ -244,7 +252,7 @@ def main() -> int:
+     launch_env = {**os.environ}
+     launch_env.pop("SYMPOSIUM_AUTORUN_BYPASS", None)
+     launch = subprocess.run(
+-        [sys.executable, "tools/symposium/codex_goal_session.py", "start",
++        [sys.executable, goal_session_script(), "start",
+          str(goal_dir), "--name", args.experiment_uid, "--worktree", str(worktree)],
+         cwd=ROOT, text=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
+         env=launch_env,
+diff --git a/orchestration/run_orchestrated_experiment.py b/orchestration/run_orchestrated_experiment.py
+index ca573ae..e231e33 100644
+--- a/orchestration/run_orchestrated_experiment.py
++++ b/orchestration/run_orchestrated_experiment.py
+@@ -69,6 +69,7 @@ def load_technique_registry() -> tuple[dict[str, dict[str, str]], tuple[str, ...
+ 
+ TECHNIQUES, DEFAULT_TECHNIQUES = load_technique_registry()
+ MODEL_ALIASES = {"sana": "sana_video", "sana_video": "sana_video", "bernini": "bernini",
++                 "sana_video_2b_a100": "sana_video_2b_a100",
+                  "hunyuan": "hunyuan_diffusers", "hunyuan_diffusers": "hunyuan_diffusers",
+                  "wan22_ti2v_5b": "wan22_ti2v_5b", "wan5b": "wan22_ti2v_5b",
+                  "wan22_t2v_a14b": "wan22_t2v_a14b", "wan14b": "wan22_t2v_a14b"}
+@@ -76,9 +77,16 @@ MODEL_ALIASES = {"sana": "sana_video", "sana_video": "sana_video", "bernini": "b
+ # models MUST NOT both fall back to "wan22" (split("_")[0]) or two parallel
+ # masters would share an exp_root + session name and clobber each other.
+ MODEL_PREFIX = {"sana_video": "sana", "bernini": "bernini", "hunyuan_diffusers": "hunyuan",
++                "sana_video_2b_a100": "sana2ba100",
+                 "wan22_ti2v_5b": "wan5b", "wan22_t2v_a14b": "wan14b"}
+ 
+ 
++def goal_session_script() -> str:
++    return ("tools/symposium/site_codex_goal_session.py"
++            if os.environ.get("SOL_SITE_CODEX_BROKER") == "1"
++            else "tools/symposium/codex_goal_session.py")
++
++
+ def utc() -> str:
+     return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+ 
+@@ -228,7 +236,7 @@ def master_alive(goal_dir: Path, name: str) -> bool:
+     """
+     try:
+         st = subprocess.run(
+-            [sys.executable, "tools/symposium/codex_goal_session.py", "status",
++            [sys.executable, goal_session_script(), "status",
+              str(goal_dir), "--name", name, "--worktree", str(ROOT)],
+             cwd=ROOT, text=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, timeout=60,
+         )
+@@ -275,7 +283,7 @@ def clean_stale_arg0() -> int:
+ 
+ def start_master(goal_dir: Path, name: str, force: bool = False) -> None:
+     clean_stale_arg0()  # keep the arg0 pile from blowing codex's 5s health probe
+-    cmd = [sys.executable, "tools/symposium/codex_goal_session.py", "start",
++    cmd = [sys.executable, goal_session_script(), "start",
+            str(goal_dir), "--name", name, "--worktree", str(ROOT)]
+     if force:
+         cmd.append("--force")
+@@ -362,6 +370,8 @@ def main() -> int:
+     )
+     stamp = datetime.now(timezone.utc).strftime("%Y%m%d-%H%M%S")
+     exp_root = ROOT / "output" / "orchestrated" / f"{prefix}-{stamp}"
++    if exp_root.exists() and not args.dry_run:
++        raise SystemExit(f"orchestrated output already exists; refusing overwrite: {exp_root}")
+     baseline_json = exp_root / "BASELINE.json"
+     integrated = exp_root / "INTEGRATED-DELIVERY.json"
+     master_goal = exp_root / "master"
+@@ -407,6 +417,8 @@ def main() -> int:
+     unresolved = [placeholder for placeholder in replacements if placeholder in tpl]
+     if unresolved:
+         raise RuntimeError(f"unresolved master prompt placeholders: {', '.join(unresolved)}")
++    if model_id == "sana_video_2b_a100" and os.environ.get("SOL_SITE_CODEX_BROKER") == "1":
++        tpl += "\n\n" + (LITE / "prompts/site_a100_appendix.md").read_text()
+     (master_goal / "goal.md").write_text(tpl)
+     # codex_goal_session requires BOTH goal.md and context.json in the goal dir.
+     (master_goal / "context.json").write_text(json.dumps({
+diff --git a/scripts/collect_run.py b/scripts/collect_run.py
+index 237519d..8f6c8a6 100755
+--- a/scripts/collect_run.py
++++ b/scripts/collect_run.py
+@@ -62,6 +62,13 @@ PRESERVED_RUNNER_BENCHMARK_FIELDS = (
+     "max_device_memory_used_mib",
+     "config",
+     "aggregate",
++    # Site SANA 2B runner writes five sequential request records plus export
++    # and budget provenance.  Collection must not erase this raw timing ledger.
++    "per_prompt",
++    "export",
++    "first_gpu_budget",
++    "sample_mean_s",
++    "includes_video_write",
+ )
+ ANSI_ESCAPE = re.compile(r"\x1b\[[0-?]*[ -/]*[@-~]")
+ LOG_TIMING_PATTERNS = {
+@@ -1128,6 +1135,16 @@ def collect(args: argparse.Namespace) -> dict[str, Any]:
+     if not metadata:
+         raise SystemExit(f"Missing or invalid metadata.json: {metadata_path}")
+ 
++    if metadata.get("site_remote"):
++        root = project_root()
++        if str(root) not in sys.path:
++            sys.path.insert(0, str(root))
++        from orchestration import site_remote
++        remote_state = site_remote.sync_run(run_dir)
++        if not remote_state.get("finished"):
++            return {"status": remote_state.get("status", "running"),
++                    "run_dir": str(run_dir), "site_remote": remote_state}
++
+     manifest = load_toml(run_dir / "manifest.resolved.toml")
+     artifacts = manifest.get("artifacts", {})
+     output_dir = run_dir / artifacts.get("output_dir", "outputs")
+diff --git a/scripts/create_model_experiment.py b/scripts/create_model_experiment.py
+index aa19616..2afe2a9 100755
+--- a/scripts/create_model_experiment.py
++++ b/scripts/create_model_experiment.py
+@@ -110,7 +110,12 @@ def sorted_unique(paths: list[Path]) -> list[Path]:
+ def expand_include(root: Path, pattern: str) -> list[Path]:
+     pattern = validate_repo_relative_pattern(pattern)
+     if has_glob_magic(pattern):
+-        matches = [path for path in root.glob(pattern) if path.is_file()]
++        # ``Path.glob("dir/**")`` yields the matched directories themselves,
++        # not the files below them. Model contracts use the conventional
++        # trailing ``/**`` spelling to mean every file recursively, so append
++        # the final wildcard that pathlib requires for that interpretation.
++        glob_pattern = f"{pattern}/*" if pattern.endswith("/**") else pattern
++        matches = [path for path in root.glob(glob_pattern) if path.is_file()]
+     else:
+         path = root / pattern
+         if path.is_file():
+@@ -346,6 +351,9 @@ def copy_external_files(worktree: Path, plans: list[dict[str, Any]]) -> None:
+             dst = dest_root / rel
+             dst.parent.mkdir(parents=True, exist_ok=True)
+             shutil.copy2(src, dst)
++            # External reference snapshots may be intentionally read-only. The
++            # experiment receives an isolated editable copy, not a shared tree.
++            dst.chmod(dst.stat().st_mode | 0o200)
+ 
+ 
+ def copy_overlay_files(worktree: Path, specs: list[dict[str, Any]]) -> None:
+diff --git a/scripts/launch_config.py b/scripts/launch_config.py
+index fabff2d..e6bad8f 100755
+--- a/scripts/launch_config.py
++++ b/scripts/launch_config.py
+@@ -433,14 +433,13 @@ def write_resolved_manifest(
+     (run_dir / "manifest.resolved.toml").write_text("\n".join(lines) + "\n")
+ 
+ 
+-def write_launch_script(
++def render_launch_script(
+     run_dir: Path,
+     sol_root: Path,
+     run_script: Path,
+     env: dict[str, Any],
+     output_dir: Path,
+-) -> Path:
+-    launch_path = run_dir / "launch.sh"
++) -> str:
+     started_path = run_dir / "job-started.json"
+     lines = [
+         "#!/usr/bin/env bash",
+@@ -458,7 +457,18 @@ def write_launch_script(
+         lines.append(shell_export(key, env[key]))
+     lines.append(shell_export("OUT_DIR", output_dir))
+     lines.append(f"bash {shlex.quote(str(run_script))}")
+-    launch_path.write_text("\n".join(lines) + "\n")
++    return "\n".join(lines) + "\n"
++
++
++def write_launch_script(
++    run_dir: Path,
++    sol_root: Path,
++    run_script: Path,
++    env: dict[str, Any],
++    output_dir: Path,
++) -> Path:
++    launch_path = run_dir / "launch.sh"
++    launch_path.write_text(render_launch_script(run_dir, sol_root, run_script, env, output_dir))
+     launch_path.chmod(0o755)
+     return launch_path
+ 
+@@ -664,11 +674,15 @@ def resolve_runtime_python(data: dict[str, Any], env: dict[str, Any]) -> str:
+     return sys.executable
+ 
+ 
+-def validate_runtime_python(value: str, mode: str) -> None:
++def validate_runtime_python(value: str, mode: str, *, remote_site: bool = False) -> None:
+     if not value:
+         return
+     path = Path(value).expanduser()
+     if path.is_absolute() or "/" in value:
++        if remote_site and mode == "sbatch":
++            # The authorized A100 interpreter exists on the SSH target only.
++            # The site submission shim validates it remotely before GPU work.
++            return
+         if not path.exists():
+             if mode == "dry-run":
+                 print(f"Warning: runtime python does not exist yet: {path}", file=sys.stderr)
+@@ -813,7 +827,8 @@ def prepare_run(
+     # the same config label.
+     env["AUTOVIDEO_CONFIG_ID"] = config_id(data)
+     runtime_python = resolve_runtime_python(data, env)
+-    validate_runtime_python(runtime_python, args.mode)
++    validate_runtime_python(runtime_python, args.mode,
++                            remote_site=env.get("SOL_SITE_REMOTE") == "1")
+ 
+     source_commit = run_git_commit(source_root) or vendored_snapshot_identity(source_root)
+     runtime_commit = run_git_commit(runtime_root) or vendored_snapshot_identity(runtime_root)
+@@ -927,6 +942,20 @@ def main() -> int:
+             print("status: prepared (sbatch script rendered; no job submitted)")
+             print("hint: pass --confirm-submit to submit the job")
+             return 0
++        if data.get("env", {}).get("SOL_SITE_REMOTE") == "1":
++            from orchestration import site_remote
++            try:
++                receipt = site_remote.submit(run_dir, launch_script)
++            except Exception as exc:
++                update_metadata(run_dir, {"status": "submission_failed",
++                                          "site_remote_error": f"{type(exc).__name__}: {exc}",
++                                          "submission_failed_at_utc": datetime.now(timezone.utc).isoformat()})
++                raise
++            update_metadata(run_dir, {"status": "submitted", "site_remote": receipt,
++                                      "submitted_at_utc": receipt["submitted_at_utc"],
++                                      "slurm_job_id": f"site-pid-{receipt['remote_job_pid']}"})
++            print(json.dumps({"status": "submitted", "site_remote": receipt}, sort_keys=True))
++            return 0
+         proc = subprocess.run(
+             ["sbatch", str(job_script)],
+             text=True,

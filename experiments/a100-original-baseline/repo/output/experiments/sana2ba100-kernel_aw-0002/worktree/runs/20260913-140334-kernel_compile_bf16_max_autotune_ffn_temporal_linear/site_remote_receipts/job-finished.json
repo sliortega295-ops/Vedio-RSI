@@ -1,0 +1,10 @@
+{
+  "duration_s": 1342.793233365,
+  "exit_code": 0,
+  "finished": true,
+  "finished_at_utc": "2026-09-13T14:27:56.942567+00:00",
+  "finished_monotonic_ns": 1818027166213295,
+  "schema_version": 1,
+  "timed_out_budget": false,
+  "worker_pid": 2816391
+}

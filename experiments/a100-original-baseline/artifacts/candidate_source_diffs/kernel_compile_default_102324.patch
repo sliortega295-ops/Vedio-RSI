@@ -1,0 +1,50 @@
+diff --git a/source/sol_runtime/scripts/sana/sana_video_sglang_run.py b/repo/output/experiments/sana2ba100-kernel_aw-0002/worktree/external/sol_runtime/scripts/sana/sana_video_sglang_run.py
+index 4820850..be669b8 100644
+--- a/source/sol_runtime/scripts/sana/sana_video_sglang_run.py
++++ b/repo/output/experiments/sana2ba100-kernel_aw-0002/worktree/external/sol_runtime/scripts/sana/sana_video_sglang_run.py
+@@ -218,20 +218,32 @@ def main():
+     print(f"==== STAGE 4: generate ====", flush=True)
+     try:
+         t = time.time()
+-        res = gen.generate(
+-            sampling_params_kwargs=dict(
+-                prompt=args.prompt,
+-                num_frames=args.frames,
+-                num_inference_steps=args.steps,
+-                height=args.height,
+-                width=args.width,
+-                guidance_scale=args.guidance_scale,
+-                seed=args.seed,
+-                output_file_name=args.output,
+-                save_output=True,
+-                fps=16,
+-            )
++        sampling_params_kwargs = dict(
++            prompt=args.prompt,
++            num_frames=args.frames,
++            num_inference_steps=args.steps,
++            height=args.height,
++            width=args.width,
++            guidance_scale=args.guidance_scale,
++            seed=args.seed,
++            output_file_name=args.output,
++            save_output=True,
++            fps=16,
+         )
++        # Experiment-local, env-gated diagnostic only. The native profiler
++        # profiles complete warm denoising timesteps (both unbatched CFG DiT
++        # calls plus step glue) without changing the step or model-call count.
++        # gpu_infer.py restricts this to prompt 1 and places the trace in that
++        # prompt's output directory. Scored configs leave the env off.
++        if _os.environ.get("SGLANG_SANA_REQUEST_PROFILE", "0") == "1":
++            sampling_params_kwargs.update(
++                profile=True,
++                num_profiled_timesteps=int(
++                    _os.environ.get("SGLANG_SANA_PROFILE_TIMESTEPS", "3")
++                ),
++                profile_all_stages=False,
++            )
++        res = gen.generate(sampling_params_kwargs=sampling_params_kwargs)
+         # Guard against silent failure: a swallowed worker-side error (e.g. a
+         # failed JIT build) can return None / write no file while still exiting 0.
+         # Trust GenerationResult.output_file_path (the runtime sanitizes/prefixes

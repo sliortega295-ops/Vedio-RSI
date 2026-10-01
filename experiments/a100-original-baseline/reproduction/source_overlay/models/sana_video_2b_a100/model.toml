@@ -1,0 +1,60 @@
+schema_version = 1
+id = "sana_video_2b_a100"
+display_name = "SANA-Video 2B 480p81 SGLang on A100"
+legacy_profile = "models/sana_video_2b_a100.toml"
+contract_kind = "site_adapted_model_baseline_minimal_copy"
+
+[baseline]
+manifest = "config/sana_video_2b_a100/baseline.toml"
+runtime_root = "models/sana_video_2b_a100/baseline"
+eval_profile = "evals/profiles/official_video_t2v_sana_video_2b_a100.toml"
+description = "Site-adapted SGLang SANA-Video 2B dense A100 runnable closure."
+
+[baseline.copy]
+paths_are_repo_relative = true
+include = [
+  "AGENTS.md",
+  "models/sana_video_2b_a100.toml",
+  "models/sana_video_2b_a100/**",
+  "config/sana_video_2b_a100/**",
+  "evals/profiles/official_video_t2v_sana_video_2b_a100.toml",
+  "evals/rubrics/gemini_visual_artifact_gate.md",
+  "evals/tiers.toml",
+  "scripts/launch_config.py",
+  "scripts/collect_run.py",
+  "search/plan_eval.py",
+  "orchestration/site_remote.py",
+  "orchestration/site_job.py",
+  "orchestration/site_transfer.py",
+  "orchestration/site_observer.py",
+  "orchestration/site_job_broker.py",
+  "tools/vision/README.md",
+  "tools/vision/lpips_judge.py",
+  "techniques/config_manifest.py",
+]
+exclude = [".git/**", "**/__pycache__/**", "**/*.pyc", "runs/**", "output/**"]
+
+[[baseline.external_copy]]
+name = "clean_sglang_sana_source"
+source = "../source/sol_runtime"
+dest = "external/sol_runtime"
+reason = "Copy the fixed clean SGLang source snapshot into each editable executor; model weights and dependency overlay remain read-only."
+exclude = [".git/**", "**/__pycache__/**", "**/*.pyc", "**/.claude/**", "**/.github/**", "**/tests/**", "**/docs/**", "**/site_docs/**", "**/examples/**", "**/benchmarks/**", "**/test_*.py"]
+
+[[baseline.reference_only]]
+name = "sana_video_2b_model"
+path = "/share/project/shuchenweng/yongyan_liu/Experiments/SolRolloutBench/20260912-a100-eight/models/sana-video-2b/db5f398b13ca086d09a50ce156c20527773841b1"
+reason = "Read-only model snapshot, no transfer or copy."
+
+[[baseline.reference_only]]
+name = "sglang_dependency_overlay"
+path = "/share/project/shuchenweng/yongyan_liu/Experiments/SolRolloutBench/20260912-a100-eight/envs/sglang-overlay"
+reason = "Read-only Python dependency overlay."
+
+[experiment_defaults]
+worktree_mode = "model_baseline_minimal_copy"
+experiments_root = "output/experiments"
+state_dir = "state"
+runs_dir = "runs"
+logs_dir = "logs"
+caches = ["tmp", "triton", "torch_extensions", "python_deps"]

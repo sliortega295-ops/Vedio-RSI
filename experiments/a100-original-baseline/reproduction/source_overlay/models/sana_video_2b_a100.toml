@@ -1,0 +1,75 @@
+id = "sana_video_2b_a100"
+spec = "SanaVideo2BSGLangA100SiteAdapter"
+display_name = "SANA-Video 2B 480p81 SGLang on A100"
+family = "video_t2v"
+submodule = "models/sana_video_2b_a100/baseline"
+base_commit = "16af862a135e27d55bf8e574d786db595a8e0654"
+run_script = "scripts/run_sana_video_2b_gpu.sh"
+eval_profile = "evals/profiles/official_video_t2v_sana_video_2b_a100.toml"
+
+[official_config]
+model = "sana_video_2b"
+model_revision = "db5f398b13ca086d09a50ce156c20527773841b1"
+width = 832
+height = 480
+frames = 81
+fps = 16
+steps = 50
+guidance_scale = 6.0
+num_gpus = 1
+prompt_count = 5
+seed = 42
+transformer_precision = "bf16"
+vae_precision = "fp32"
+
+[baseline]
+run_id = "20260913-091006-sana_video_2b_a100_dense"
+total_s = 578.02
+sample_mean_s = 115.604
+denoise_s = 546.3913
+decode_s = 28.1129
+wall_total_s = 991.3501065080054
+prompt_count = 5
+warmup_requests = 5
+includes_process_startup_and_model_load = false
+includes_video_write = false
+status = "measured_dense_five_prompt_sequential_sglang_request_total"
+hardware = "NVIDIA A100-SXM4-40GB"
+manifest = "config/sana_video_2b_a100/baseline.toml"
+timing_scope = "five_prompt_sum_sglang_request_metrics_excluding_model_load_internal_one_step_warmup_and_video_export"
+
+[orchestration]
+inference_world_size = 1
+available_gpu_count = 8
+gpu_pool = "node-0 UUID slots 0-7, one video per GPU"
+
+[env]
+SOL_SITE_REMOTE = "1"
+SOL_A100_BUDGET_PHASE = "phase2"
+PYTHON_BIN = "/tmp/distillschedule-helios-official-torch210/bin/python"
+SOL_A100_PYTHON = "/tmp/distillschedule-helios-official-torch210/bin/python"
+SOL_A100_MODEL_PATH = "/share/project/shuchenweng/yongyan_liu/Experiments/SolRolloutBench/20260912-a100-eight/models/sana-video-2b/db5f398b13ca086d09a50ce156c20527773841b1"
+SOL_A100_DEP_OVERLAY = "/share/project/shuchenweng/yongyan_liu/Experiments/SolRolloutBench/20260912-a100-eight/envs/sglang-overlay"
+SOL_A100_PROMPTS_FILE = "models/sana_video_2b_a100/prompts/validation_first5.txt"
+SOL_A100_SEED = "42"
+SOL_A100_EXPECTED_PROMPTS = "5"
+SOL_A100_SGL_KERNEL_BACKEND = "torch_fallback"
+SGLANG_SANA_LINATTN_BF16 = "0"
+SGLANG_SANA_QKV_MERGE = "0"
+SGLANG_SANA_EASYCACHE_THRESH = "0"
+HF_HUB_OFFLINE = "1"
+TRANSFORMERS_OFFLINE = "1"
+HF_DATASETS_OFFLINE = "1"
+HF_HUB_DISABLE_TELEMETRY = "1"
+PYTHONNOUSERSITE = "1"
+PYTHONDONTWRITEBYTECODE = "1"
+PYTHONUNBUFFERED = "1"
+
+[slurm]
+nodes = 1
+gpus_per_node = 1
+cpus_per_task = 64
+mem = "512G"
+time = "06:00:00"
+job_name = "sol-original-sana2b-a100"
+exclusive = false

@@ -1,0 +1,32 @@
+{
+  "host": "job-c6cfcde5-db4b-4527-8eb8-7518319a0277-master-0",
+  "monotonic_ns": 1873064794521725,
+  "phase": "phase2",
+  "phase2_budget": {
+    "authorization_sha256": "b2a827a8d2fd65486987155f826fd23bd59a03ed16602bec8604d214954bec5c",
+    "authorized": true,
+    "checked_at_unix_ns": 1789364714569309823,
+    "checked_at_utc": "2026-09-14T05:45:14.569402+00:00",
+    "deadline_unix_ns": 1789383230441475703,
+    "first_gpu_budget": {
+      "authorization_sha256": "b2a827a8d2fd65486987155f826fd23bd59a03ed16602bec8604d214954bec5c",
+      "deadline_unix_ns": 1789383230441475703,
+      "first_gpu_monotonic_ns": 1869980665151486,
+      "first_gpu_unix_ns": 1789361630441475703,
+      "first_gpu_utc": "2026-09-14T04:53:50.441482+00:00",
+      "first_run_dir": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-cache_ca-0002/worktree/runs/20260914-045221-cache_ca_r03_teacache_t0016",
+      "host": "job-c6cfcde5-db4b-4527-8eb8-7518319a0277-master-0",
+      "limit_s": 21600,
+      "phase": "phase2",
+      "schema_version": 1
+    },
+    "first_gpu_budget_exists": true,
+    "latest_submit_unix_ns": 1789381970441475703,
+    "new_submit_open": true,
+    "phase": "phase2"
+  },
+  "pid": 2955458,
+  "schema_version": 1,
+  "status": "started",
+  "utc": "2026-09-14T05:45:14.570870+00:00"
+}

@@ -1,0 +1,813 @@
+{
+  "completed_run_windows": {
+    "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/runs/20260913-091006-sana_video_2b_a100_dense": {
+      "node_gpu_context_by_uuid_unattributed": {
+        "GPU-01fff32a-1dd6-93a7-1aae-60d378382961": {
+          "observed_compute_app_pids": [],
+          "sample_count": 992,
+          "sampled_gpu_memory_peak_mib": 0.0,
+          "sampled_gpu_nonzero_util_samples": 0,
+          "sampled_gpu_power_mean_w": 53.45507056451613,
+          "sampled_gpu_util_equivalent_s_estimate": 0.0,
+          "sampled_gpu_util_fraction_mean": 0.0
+        },
+        "GPU-44bddf94-7411-b3ad-f195-fdbdd12fa73e": {
+          "observed_compute_app_pids": [],
+          "sample_count": 992,
+          "sampled_gpu_memory_peak_mib": 0.0,
+          "sampled_gpu_nonzero_util_samples": 0,
+          "sampled_gpu_power_mean_w": 57.92685483870968,
+          "sampled_gpu_util_equivalent_s_estimate": 0.0,
+          "sampled_gpu_util_fraction_mean": 0.0
+        },
+        "GPU-5edaa614-d5f8-8a3f-11ec-b128f8d029f3": {
+          "observed_compute_app_pids": [],
+          "sample_count": 992,
+          "sampled_gpu_memory_peak_mib": 0.0,
+          "sampled_gpu_nonzero_util_samples": 0,
+          "sampled_gpu_power_mean_w": 55.89663306451613,
+          "sampled_gpu_util_equivalent_s_estimate": 0.0,
+          "sampled_gpu_util_fraction_mean": 0.0
+        },
+        "GPU-79ab3e5e-e382-1f9c-bede-1900666e9283": {
+          "observed_compute_app_pids": [],
+          "sample_count": 992,
+          "sampled_gpu_memory_peak_mib": 0.0,
+          "sampled_gpu_nonzero_util_samples": 0,
+          "sampled_gpu_power_mean_w": 53.5992439516129,
+          "sampled_gpu_util_equivalent_s_estimate": 0.0,
+          "sampled_gpu_util_fraction_mean": 0.0
+        },
+        "GPU-a904c6f6-6410-dc0f-c7c3-efc068004617": {
+          "observed_compute_app_pids": [],
+          "sample_count": 992,
+          "sampled_gpu_memory_peak_mib": 0.0,
+          "sampled_gpu_nonzero_util_samples": 0,
+          "sampled_gpu_power_mean_w": 53.80245967741936,
+          "sampled_gpu_util_equivalent_s_estimate": 0.0,
+          "sampled_gpu_util_fraction_mean": 0.0
+        },
+        "GPU-af8dba1f-f74e-6a55-bb9e-6c8961edbd6e": {
+          "observed_compute_app_pids": [],
+          "sample_count": 992,
+          "sampled_gpu_memory_peak_mib": 0.0,
+          "sampled_gpu_nonzero_util_samples": 0,
+          "sampled_gpu_power_mean_w": 53.701028225806446,
+          "sampled_gpu_util_equivalent_s_estimate": 0.0,
+          "sampled_gpu_util_fraction_mean": 0.0
+        },
+        "GPU-bab43db0-a051-0419-39f7-e33effa9445b": {
+          "observed_compute_app_pids": [],
+          "sample_count": 992,
+          "sampled_gpu_memory_peak_mib": 0.0,
+          "sampled_gpu_nonzero_util_samples": 0,
+          "sampled_gpu_power_mean_w": 55.0135685483871,
+          "sampled_gpu_util_equivalent_s_estimate": 0.0,
+          "sampled_gpu_util_fraction_mean": 0.0
+        },
+        "GPU-cad55364-e014-c35f-337e-db899afd1c6a": {
+          "observed_compute_app_pids": [
+            2632187,
+            2639261,
+            2646335,
+            2653024,
+            2659779
+          ],
+          "sample_count": 992,
+          "sampled_gpu_memory_peak_mib": 23466.0,
+          "sampled_gpu_nonzero_util_samples": 761,
+          "sampled_gpu_power_mean_w": 258.4048185483871,
+          "sampled_gpu_util_equivalent_s_estimate": 622.9,
+          "sampled_gpu_util_fraction_mean": 0.6279233870967742
+        }
+      },
+      "observed_wall_s": 991.354479738,
+      "run_allocated_gpu_s_sum": 984.5899698339999,
+      "run_allocated_gpu_uuids": [
+        "GPU-cad55364-e014-c35f-337e-db899afd1c6a"
+      ],
+      "run_status": "PASS",
+      "utc_end": "2026-09-13T09:26:49.878164+00:00",
+      "utc_start": "2026-09-13T09:10:18.523678+00:00"
+    }
+  },
+  "event_rows": 87,
+  "jobs": [
+    {
+      "allocated_gpu_s": 11.02938086,
+      "attempt": 1,
+      "exit_code": 0,
+      "gpu_index": 0,
+      "gpu_uuid": "GPU-cad55364-e014-c35f-337e-db899afd1c6a",
+      "host": "job-c6cfcde5-db4b-4527-8eb8-7518319a0277-master-0",
+      "kind": "import",
+      "monotonic_end_ns": 1798941100997802,
+      "monotonic_start_ns": 1798930071616942,
+      "observed_compute_app_pids": [],
+      "observed_phase_s": {},
+      "observed_phase_sampled_resources_estimate": {},
+      "output": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/artifacts/gpu_import_preflight/attempt-01",
+      "pid": 2587640,
+      "prompt_index": null,
+      "run_dir": null,
+      "sample_count": 11,
+      "sampled_gpu_memory_peak_mib": 3.0,
+      "sampled_gpu_nonzero_util_samples": 0,
+      "sampled_gpu_power_mean_w": 50.29454545454546,
+      "sampled_gpu_util_equivalent_s_estimate": 0.0,
+      "sampled_gpu_util_fraction_mean": 0.0,
+      "sampled_process_cpu_system_s_lower_bound": 1.25,
+      "sampled_process_cpu_user_s_lower_bound": 13.34,
+      "sampled_process_io_read_bytes_lower_bound": 0,
+      "sampled_process_io_write_bytes_lower_bound": 8192,
+      "sampled_process_rss_peak_bytes": 926978048,
+      "source_reported_stage_s_not_independent": {},
+      "utc_end": "2026-09-13T09:09:50.877325+00:00",
+      "utc_start": "2026-09-13T09:09:39.847968+00:00"
+    },
+    {
+      "allocated_gpu_s": 202.673090156,
+      "attempt": null,
+      "exit_code": 0,
+      "gpu_index": 0,
+      "gpu_uuid": "GPU-cad55364-e014-c35f-337e-db899afd1c6a",
+      "host": "job-c6cfcde5-db4b-4527-8eb8-7518319a0277-master-0",
+      "kind": "inference",
+      "monotonic_end_ns": 1799172081509504,
+      "monotonic_start_ns": 1798969408419348,
+      "observed_compute_app_pids": [
+        2632187
+      ],
+      "observed_phase_s": {
+        "build_including_model_load_s": 49.890291978,
+        "generate_call_including_internal_warmup_and_file_save_s": 133.970916485,
+        "import_marker_to_registry_marker_s": 0.233704256,
+        "post_generate_until_process_exit_s": 8.417920187,
+        "python_startup_to_import_marker_s": 10.158782468,
+        "registry_marker_to_build_marker_s": 0.001474782
+      },
+      "observed_phase_sampled_resources_estimate": {
+        "build_including_model_load_s": {
+          "sample_count": 50,
+          "sampled_gpu_memory_peak_mib": 10886.0,
+          "sampled_gpu_nonzero_util_samples": 23,
+          "sampled_gpu_util_equivalent_s_estimate": 0.42,
+          "sampled_gpu_util_fraction_mean": 0.0084,
+          "sampled_process_cpu_system_s_lower_bound": 1711.47,
+          "sampled_process_cpu_user_s_lower_bound": 431.22,
+          "sampled_process_io_read_bytes_lower_bound": 0,
+          "sampled_process_io_write_bytes_lower_bound": 4096,
+          "sampled_process_rss_peak_bytes": 13563813888
+        },
+        "generate_call_including_internal_warmup_and_file_save_s": {
+          "sample_count": 134,
+          "sampled_gpu_memory_peak_mib": 23466.0,
+          "sampled_gpu_nonzero_util_samples": 126,
+          "sampled_gpu_util_equivalent_s_estimate": 124.33,
+          "sampled_gpu_util_fraction_mean": 0.9278358208955224,
+          "sampled_process_cpu_system_s_lower_bound": 68.03999999999999,
+          "sampled_process_cpu_user_s_lower_bound": 64.52999999999999,
+          "sampled_process_io_read_bytes_lower_bound": 0,
+          "sampled_process_io_write_bytes_lower_bound": 30617600,
+          "sampled_process_rss_peak_bytes": 12791484416
+        },
+        "import_marker_to_registry_marker_s": {
+          "sample_count": 0,
+          "sampled_gpu_memory_peak_mib": null,
+          "sampled_gpu_nonzero_util_samples": 0,
+          "sampled_gpu_util_equivalent_s_estimate": 0,
+          "sampled_gpu_util_fraction_mean": null,
+          "sampled_process_cpu_system_s_lower_bound": 0,
+          "sampled_process_cpu_user_s_lower_bound": 0,
+          "sampled_process_io_read_bytes_lower_bound": 0,
+          "sampled_process_io_write_bytes_lower_bound": 0,
+          "sampled_process_rss_peak_bytes": 0
+        },
+        "post_generate_until_process_exit_s": {
+          "sample_count": 9,
+          "sampled_gpu_memory_peak_mib": 10706.0,
+          "sampled_gpu_nonzero_util_samples": 5,
+          "sampled_gpu_util_equivalent_s_estimate": 0.9800000000000001,
+          "sampled_gpu_util_fraction_mean": 0.10888888888888888,
+          "sampled_process_cpu_system_s_lower_bound": 1.36,
+          "sampled_process_cpu_user_s_lower_bound": 1.61,
+          "sampled_process_io_read_bytes_lower_bound": 0,
+          "sampled_process_io_write_bytes_lower_bound": 14340096,
+          "sampled_process_rss_peak_bytes": 12373323776
+        },
+        "python_startup_to_import_marker_s": {
+          "sample_count": 10,
+          "sampled_gpu_memory_peak_mib": 3.0,
+          "sampled_gpu_nonzero_util_samples": 0,
+          "sampled_gpu_util_equivalent_s_estimate": 0.0,
+          "sampled_gpu_util_fraction_mean": 0.0,
+          "sampled_process_cpu_system_s_lower_bound": 1.35,
+          "sampled_process_cpu_user_s_lower_bound": 13.19,
+          "sampled_process_io_read_bytes_lower_bound": 0,
+          "sampled_process_io_write_bytes_lower_bound": 4096,
+          "sampled_process_rss_peak_bytes": 918482944
+        },
+        "registry_marker_to_build_marker_s": {
+          "sample_count": 0,
+          "sampled_gpu_memory_peak_mib": null,
+          "sampled_gpu_nonzero_util_samples": 0,
+          "sampled_gpu_util_equivalent_s_estimate": 0,
+          "sampled_gpu_util_fraction_mean": null,
+          "sampled_process_cpu_system_s_lower_bound": 0,
+          "sampled_process_cpu_user_s_lower_bound": 0,
+          "sampled_process_io_read_bytes_lower_bound": 0,
+          "sampled_process_io_write_bytes_lower_bound": 0,
+          "sampled_process_rss_peak_bytes": 0
+        }
+      },
+      "output": null,
+      "pid": 2589180,
+      "prompt_index": 1,
+      "run_dir": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/runs/20260913-091006-sana_video_2b_a100_dense",
+      "sample_count": 203,
+      "sampled_gpu_memory_peak_mib": 23466.0,
+      "sampled_gpu_nonzero_util_samples": 154,
+      "sampled_gpu_power_mean_w": 252.2604433497537,
+      "sampled_gpu_util_equivalent_s_estimate": 125.73,
+      "sampled_gpu_util_fraction_mean": 0.6193596059113301,
+      "sampled_process_cpu_system_s_lower_bound": 1782.69,
+      "sampled_process_cpu_user_s_lower_bound": 511.87,
+      "sampled_process_io_read_bytes_lower_bound": 0,
+      "sampled_process_io_write_bytes_lower_bound": 45490176,
+      "sampled_process_rss_peak_bytes": 13563813888,
+      "source_reported_stage_s_not_independent": {
+        "DecodingStage": [
+          5.6181
+        ],
+        "DenoisingStage": [
+          109.6676
+        ],
+        "InputValidationStage": [
+          0.0001
+        ],
+        "LatentPreparationStage": [
+          0.0002
+        ],
+        "TextEncodingStage": [
+          0.6956
+        ],
+        "TimestepPreparationStage": [
+          0.0006
+        ]
+      },
+      "utc_end": "2026-09-13T09:13:41.857844+00:00",
+      "utc_start": "2026-09-13T09:10:19.184770+00:00"
+    },
+    {
+      "allocated_gpu_s": 195.560023046,
+      "attempt": null,
+      "exit_code": 0,
+      "gpu_index": 0,
+      "gpu_uuid": "GPU-cad55364-e014-c35f-337e-db899afd1c6a",
+      "host": "job-c6cfcde5-db4b-4527-8eb8-7518319a0277-master-0",
+      "kind": "inference",
+      "monotonic_end_ns": 1799368113350155,
+      "monotonic_start_ns": 1799172553327109,
+      "observed_compute_app_pids": [
+        2639261
+      ],
+      "observed_phase_s": {
+        "build_including_model_load_s": 50.884834323,
+        "generate_call_including_internal_warmup_and_file_save_s": 125.786823865,
+        "import_marker_to_registry_marker_s": 0.174252922,
+        "post_generate_until_process_exit_s": 9.059054659,
+        "python_startup_to_import_marker_s": 9.653280574,
+        "registry_marker_to_build_marker_s": 0.001776703
+      },
+      "observed_phase_sampled_resources_estimate": {
+        "build_including_model_load_s": {
+          "sample_count": 51,
+          "sampled_gpu_memory_peak_mib": 10886.0,
+          "sampled_gpu_nonzero_util_samples": 24,
+          "sampled_gpu_util_equivalent_s_estimate": 0.36,
+          "sampled_gpu_util_fraction_mean": 0.007058823529411765,
+          "sampled_process_cpu_system_s_lower_bound": 1812.84,
+          "sampled_process_cpu_user_s_lower_bound": 431.98,
+          "sampled_process_io_read_bytes_lower_bound": 0,
+          "sampled_process_io_write_bytes_lower_bound": 4096,
+          "sampled_process_rss_peak_bytes": 14117822464
+        },
+        "generate_call_including_internal_warmup_and_file_save_s": {
+          "sample_count": 126,
+          "sampled_gpu_memory_peak_mib": 23450.0,
+          "sampled_gpu_nonzero_util_samples": 124,
+          "sampled_gpu_util_equivalent_s_estimate": 123.0,
+          "sampled_gpu_util_fraction_mean": 0.9761904761904762,
+          "sampled_process_cpu_system_s_lower_bound": 67.07,
+          "sampled_process_cpu_user_s_lower_bound": 60.88,
+          "sampled_process_io_read_bytes_lower_bound": 0,
+          "sampled_process_io_write_bytes_lower_bound": 966656,
+          "sampled_process_rss_peak_bytes": 12376231936
+        },
+        "import_marker_to_registry_marker_s": {
+          "sample_count": 0,
+          "sampled_gpu_memory_peak_mib": null,
+          "sampled_gpu_nonzero_util_samples": 0,
+          "sampled_gpu_util_equivalent_s_estimate": 0,
+          "sampled_gpu_util_fraction_mean": null,
+          "sampled_process_cpu_system_s_lower_bound": 0,
+          "sampled_process_cpu_user_s_lower_bound": 0,
+          "sampled_process_io_read_bytes_lower_bound": 0,
+          "sampled_process_io_write_bytes_lower_bound": 0,
+          "sampled_process_rss_peak_bytes": 0
+        },
+        "post_generate_until_process_exit_s": {
+          "sample_count": 9,
+          "sampled_gpu_memory_peak_mib": 10318.0,
+          "sampled_gpu_nonzero_util_samples": 4,
+          "sampled_gpu_util_equivalent_s_estimate": 0.34,
+          "sampled_gpu_util_fraction_mean": 0.03777777777777778,
+          "sampled_process_cpu_system_s_lower_bound": 1.31,
+          "sampled_process_cpu_user_s_lower_bound": 1.55,
+          "sampled_process_io_read_bytes_lower_bound": 0,
+          "sampled_process_io_write_bytes_lower_bound": 970752,
+          "sampled_process_rss_peak_bytes": 12513439744
+        },
+        "python_startup_to_import_marker_s": {
+          "sample_count": 10,
+          "sampled_gpu_memory_peak_mib": 3.0,
+          "sampled_gpu_nonzero_util_samples": 0,
+          "sampled_gpu_util_equivalent_s_estimate": 0.0,
+          "sampled_gpu_util_fraction_mean": 0.0,
+          "sampled_process_cpu_system_s_lower_bound": 1.13,
+          "sampled_process_cpu_user_s_lower_bound": 13.31,
+          "sampled_process_io_read_bytes_lower_bound": 0,
+          "sampled_process_io_write_bytes_lower_bound": 4096,
+          "sampled_process_rss_peak_bytes": 925679616
+        },
+        "registry_marker_to_build_marker_s": {
+          "sample_count": 0,
+          "sampled_gpu_memory_peak_mib": null,
+          "sampled_gpu_nonzero_util_samples": 0,
+          "sampled_gpu_util_equivalent_s_estimate": 0,
+          "sampled_gpu_util_fraction_mean": null,
+          "sampled_process_cpu_system_s_lower_bound": 0,
+          "sampled_process_cpu_user_s_lower_bound": 0,
+          "sampled_process_io_read_bytes_lower_bound": 0,
+          "sampled_process_io_write_bytes_lower_bound": 0,
+          "sampled_process_rss_peak_bytes": 0
+        }
+      },
+      "output": null,
+      "pid": 2591136,
+      "prompt_index": 2,
+      "run_dir": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/runs/20260913-091006-sana_video_2b_a100_dense",
+      "sample_count": 196,
+      "sampled_gpu_memory_peak_mib": 23450.0,
+      "sampled_gpu_nonzero_util_samples": 152,
+      "sampled_gpu_power_mean_w": 262.2757142857143,
+      "sampled_gpu_util_equivalent_s_estimate": 123.7,
+      "sampled_gpu_util_fraction_mean": 0.6311224489795918,
+      "sampled_process_cpu_system_s_lower_bound": 1882.69,
+      "sampled_process_cpu_user_s_lower_bound": 508.33,
+      "sampled_process_io_read_bytes_lower_bound": 0,
+      "sampled_process_io_write_bytes_lower_bound": 1945600,
+      "sampled_process_rss_peak_bytes": 14117822464,
+      "source_reported_stage_s_not_independent": {
+        "DecodingStage": [
+          5.6246
+        ],
+        "DenoisingStage": [
+          109.1712
+        ],
+        "InputValidationStage": [
+          0.0002
+        ],
+        "LatentPreparationStage": [
+          0.0002
+        ],
+        "TextEncodingStage": [
+          0.6963
+        ],
+        "TimestepPreparationStage": [
+          0.0006
+        ]
+      },
+      "utc_end": "2026-09-13T09:16:57.889677+00:00",
+      "utc_start": "2026-09-13T09:13:42.329678+00:00"
+    },
+    {
+      "allocated_gpu_s": 195.426494554,
+      "attempt": null,
+      "exit_code": 0,
+      "gpu_index": 0,
+      "gpu_uuid": "GPU-cad55364-e014-c35f-337e-db899afd1c6a",
+      "host": "job-c6cfcde5-db4b-4527-8eb8-7518319a0277-master-0",
+      "kind": "inference",
+      "monotonic_end_ns": 1799564010908900,
+      "monotonic_start_ns": 1799368584414346,
+      "observed_compute_app_pids": [
+        2646335
+      ],
+      "observed_phase_s": {
+        "build_including_model_load_s": 51.045463153,
+        "generate_call_including_internal_warmup_and_file_save_s": 125.612771995,
+        "import_marker_to_registry_marker_s": 0.167908672,
+        "post_generate_until_process_exit_s": 9.087481824,
+        "python_startup_to_import_marker_s": 9.511349343,
+        "registry_marker_to_build_marker_s": 0.001519567
+      },
+      "observed_phase_sampled_resources_estimate": {
+        "build_including_model_load_s": {
+          "sample_count": 51,
+          "sampled_gpu_memory_peak_mib": 10886.0,
+          "sampled_gpu_nonzero_util_samples": 24,
+          "sampled_gpu_util_equivalent_s_estimate": 0.47000000000000003,
+          "sampled_gpu_util_fraction_mean": 0.009215686274509804,
+          "sampled_process_cpu_system_s_lower_bound": 1785.93,
+          "sampled_process_cpu_user_s_lower_bound": 434.13,
+          "sampled_process_io_read_bytes_lower_bound": 0,
+          "sampled_process_io_write_bytes_lower_bound": 4096,
+          "sampled_process_rss_peak_bytes": 13929046016
+        },
+        "generate_call_including_internal_warmup_and_file_save_s": {
+          "sample_count": 126,
+          "sampled_gpu_memory_peak_mib": 23450.0,
+          "sampled_gpu_nonzero_util_samples": 124,
+          "sampled_gpu_util_equivalent_s_estimate": 123.27,
+          "sampled_gpu_util_fraction_mean": 0.9783333333333334,
+          "sampled_process_cpu_system_s_lower_bound": 66.85,
+          "sampled_process_cpu_user_s_lower_bound": 59.78,
+          "sampled_process_io_read_bytes_lower_bound": 0,
+          "sampled_process_io_write_bytes_lower_bound": 352256,
+          "sampled_process_rss_peak_bytes": 12376530944
+        },
+        "import_marker_to_registry_marker_s": {
+          "sample_count": 0,
+          "sampled_gpu_memory_peak_mib": null,
+          "sampled_gpu_nonzero_util_samples": 0,
+          "sampled_gpu_util_equivalent_s_estimate": 0,
+          "sampled_gpu_util_fraction_mean": null,
+          "sampled_process_cpu_system_s_lower_bound": 0,
+          "sampled_process_cpu_user_s_lower_bound": 0,
+          "sampled_process_io_read_bytes_lower_bound": 0,
+          "sampled_process_io_write_bytes_lower_bound": 0,
+          "sampled_process_rss_peak_bytes": 0
+        },
+        "post_generate_until_process_exit_s": {
+          "sample_count": 9,
+          "sampled_gpu_memory_peak_mib": 10316.0,
+          "sampled_gpu_nonzero_util_samples": 4,
+          "sampled_gpu_util_equivalent_s_estimate": 0.3,
+          "sampled_gpu_util_fraction_mean": 0.03333333333333333,
+          "sampled_process_cpu_system_s_lower_bound": 1.44,
+          "sampled_process_cpu_user_s_lower_bound": 1.49,
+          "sampled_process_io_read_bytes_lower_bound": 0,
+          "sampled_process_io_write_bytes_lower_bound": 356352,
+          "sampled_process_rss_peak_bytes": 12376002560
+        },
+        "python_startup_to_import_marker_s": {
+          "sample_count": 10,
+          "sampled_gpu_memory_peak_mib": 3.0,
+          "sampled_gpu_nonzero_util_samples": 0,
+          "sampled_gpu_util_equivalent_s_estimate": 0.0,
+          "sampled_gpu_util_fraction_mean": 0.0,
+          "sampled_process_cpu_system_s_lower_bound": 1.12,
+          "sampled_process_cpu_user_s_lower_bound": 13.43,
+          "sampled_process_io_read_bytes_lower_bound": 0,
+          "sampled_process_io_write_bytes_lower_bound": 4096,
+          "sampled_process_rss_peak_bytes": 927404032
+        },
+        "registry_marker_to_build_marker_s": {
+          "sample_count": 0,
+          "sampled_gpu_memory_peak_mib": null,
+          "sampled_gpu_nonzero_util_samples": 0,
+          "sampled_gpu_util_equivalent_s_estimate": 0,
+          "sampled_gpu_util_fraction_mean": null,
+          "sampled_process_cpu_system_s_lower_bound": 0,
+          "sampled_process_cpu_user_s_lower_bound": 0,
+          "sampled_process_io_read_bytes_lower_bound": 0,
+          "sampled_process_io_write_bytes_lower_bound": 0,
+          "sampled_process_rss_peak_bytes": 0
+        }
+      },
+      "output": null,
+      "pid": 2592928,
+      "prompt_index": 3,
+      "run_dir": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/runs/20260913-091006-sana_video_2b_a100_dense",
+      "sample_count": 196,
+      "sampled_gpu_memory_peak_mib": 23450.0,
+      "sampled_gpu_nonzero_util_samples": 152,
+      "sampled_gpu_power_mean_w": 259.9641836734694,
+      "sampled_gpu_util_equivalent_s_estimate": 124.04,
+      "sampled_gpu_util_fraction_mean": 0.6328571428571429,
+      "sampled_process_cpu_system_s_lower_bound": 1855.64,
+      "sampled_process_cpu_user_s_lower_bound": 509.51,
+      "sampled_process_io_read_bytes_lower_bound": 0,
+      "sampled_process_io_write_bytes_lower_bound": 716800,
+      "sampled_process_rss_peak_bytes": 13929046016,
+      "source_reported_stage_s_not_independent": {
+        "DecodingStage": [
+          5.6244
+        ],
+        "DenoisingStage": [
+          109.1708
+        ],
+        "InputValidationStage": [
+          0.0001
+        ],
+        "LatentPreparationStage": [
+          0.0002
+        ],
+        "TextEncodingStage": [
+          0.6974
+        ],
+        "TimestepPreparationStage": [
+          0.0006
+        ]
+      },
+      "utc_end": "2026-09-13T09:20:13.787233+00:00",
+      "utc_start": "2026-09-13T09:16:58.360765+00:00"
+    },
+    {
+      "allocated_gpu_s": 195.5160082,
+      "attempt": null,
+      "exit_code": 0,
+      "gpu_index": 0,
+      "gpu_uuid": "GPU-cad55364-e014-c35f-337e-db899afd1c6a",
+      "host": "job-c6cfcde5-db4b-4527-8eb8-7518319a0277-master-0",
+      "kind": "inference",
+      "monotonic_end_ns": 1799759928680663,
+      "monotonic_start_ns": 1799564412672463,
+      "observed_compute_app_pids": [
+        2653024
+      ],
+      "observed_phase_s": {
+        "build_including_model_load_s": 51.57775323,
+        "generate_call_including_internal_warmup_and_file_save_s": 125.659753062,
+        "import_marker_to_registry_marker_s": 0.177281565,
+        "post_generate_until_process_exit_s": 8.349147379,
+        "python_startup_to_import_marker_s": 9.750552122,
+        "registry_marker_to_build_marker_s": 0.001520842
+      },
+      "observed_phase_sampled_resources_estimate": {
+        "build_including_model_load_s": {
+          "sample_count": 52,
+          "sampled_gpu_memory_peak_mib": 11006.0,
+          "sampled_gpu_nonzero_util_samples": 23,
+          "sampled_gpu_util_equivalent_s_estimate": 0.39,
+          "sampled_gpu_util_fraction_mean": 0.0075,
+          "sampled_process_cpu_system_s_lower_bound": 1865.9,
+          "sampled_process_cpu_user_s_lower_bound": 439.23,
+          "sampled_process_io_read_bytes_lower_bound": 0,
+          "sampled_process_io_write_bytes_lower_bound": 4096,
+          "sampled_process_rss_peak_bytes": 13520240640
+        },
+        "generate_call_including_internal_warmup_and_file_save_s": {
+          "sample_count": 125,
+          "sampled_gpu_memory_peak_mib": 23450.0,
+          "sampled_gpu_nonzero_util_samples": 125,
+          "sampled_gpu_util_equivalent_s_estimate": 124.33,
+          "sampled_gpu_util_fraction_mean": 0.99464,
+          "sampled_process_cpu_system_s_lower_bound": 67.02,
+          "sampled_process_cpu_user_s_lower_bound": 57.4,
+          "sampled_process_io_read_bytes_lower_bound": 0,
+          "sampled_process_io_write_bytes_lower_bound": 0,
+          "sampled_process_rss_peak_bytes": 12532133888
+        },
+        "import_marker_to_registry_marker_s": {
+          "sample_count": 0,
+          "sampled_gpu_memory_peak_mib": null,
+          "sampled_gpu_nonzero_util_samples": 0,
+          "sampled_gpu_util_equivalent_s_estimate": 0,
+          "sampled_gpu_util_fraction_mean": null,
+          "sampled_process_cpu_system_s_lower_bound": 0,
+          "sampled_process_cpu_user_s_lower_bound": 0,
+          "sampled_process_io_read_bytes_lower_bound": 0,
+          "sampled_process_io_write_bytes_lower_bound": 0,
+          "sampled_process_rss_peak_bytes": 0
+        },
+        "post_generate_until_process_exit_s": {
+          "sample_count": 9,
+          "sampled_gpu_memory_peak_mib": 10706.0,
+          "sampled_gpu_nonzero_util_samples": 4,
+          "sampled_gpu_util_equivalent_s_estimate": 1.1300000000000001,
+          "sampled_gpu_util_fraction_mean": 0.12555555555555556,
+          "sampled_process_cpu_system_s_lower_bound": 0.67,
+          "sampled_process_cpu_user_s_lower_bound": 1.7,
+          "sampled_process_io_read_bytes_lower_bound": 0,
+          "sampled_process_io_write_bytes_lower_bound": 282624,
+          "sampled_process_rss_peak_bytes": 12404711424
+        },
+        "python_startup_to_import_marker_s": {
+          "sample_count": 10,
+          "sampled_gpu_memory_peak_mib": 3.0,
+          "sampled_gpu_nonzero_util_samples": 0,
+          "sampled_gpu_util_equivalent_s_estimate": 0.0,
+          "sampled_gpu_util_fraction_mean": 0.0,
+          "sampled_process_cpu_system_s_lower_bound": 1.33,
+          "sampled_process_cpu_user_s_lower_bound": 13.33,
+          "sampled_process_io_read_bytes_lower_bound": 0,
+          "sampled_process_io_write_bytes_lower_bound": 4096,
+          "sampled_process_rss_peak_bytes": 925413376
+        },
+        "registry_marker_to_build_marker_s": {
+          "sample_count": 0,
+          "sampled_gpu_memory_peak_mib": null,
+          "sampled_gpu_nonzero_util_samples": 0,
+          "sampled_gpu_util_equivalent_s_estimate": 0,
+          "sampled_gpu_util_fraction_mean": null,
+          "sampled_process_cpu_system_s_lower_bound": 0,
+          "sampled_process_cpu_user_s_lower_bound": 0,
+          "sampled_process_io_read_bytes_lower_bound": 0,
+          "sampled_process_io_write_bytes_lower_bound": 0,
+          "sampled_process_rss_peak_bytes": 0
+        }
+      },
+      "output": null,
+      "pid": 2594486,
+      "prompt_index": 4,
+      "run_dir": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/runs/20260913-091006-sana_video_2b_a100_dense",
+      "sample_count": 196,
+      "sampled_gpu_memory_peak_mib": 23450.0,
+      "sampled_gpu_nonzero_util_samples": 152,
+      "sampled_gpu_power_mean_w": 263.3879081632653,
+      "sampled_gpu_util_equivalent_s_estimate": 125.85,
+      "sampled_gpu_util_fraction_mean": 0.6420918367346938,
+      "sampled_process_cpu_system_s_lower_bound": 1935.19,
+      "sampled_process_cpu_user_s_lower_bound": 514.11,
+      "sampled_process_io_read_bytes_lower_bound": 0,
+      "sampled_process_io_write_bytes_lower_bound": 569344,
+      "sampled_process_rss_peak_bytes": 13520240640,
+      "source_reported_stage_s_not_independent": {
+        "DecodingStage": [
+          5.6178
+        ],
+        "DenoisingStage": [
+          109.1791
+        ],
+        "InputValidationStage": [
+          0.0001
+        ],
+        "LatentPreparationStage": [
+          0.0002
+        ],
+        "TextEncodingStage": [
+          0.6948
+        ],
+        "TimestepPreparationStage": [
+          0.0006
+        ]
+      },
+      "utc_end": "2026-09-13T09:23:29.705013+00:00",
+      "utc_start": "2026-09-13T09:20:14.189023+00:00"
+    },
+    {
+      "allocated_gpu_s": 195.414353878,
+      "attempt": null,
+      "exit_code": 0,
+      "gpu_index": 0,
+      "gpu_uuid": "GPU-cad55364-e014-c35f-337e-db899afd1c6a",
+      "host": "job-c6cfcde5-db4b-4527-8eb8-7518319a0277-master-0",
+      "kind": "inference",
+      "monotonic_end_ns": 1799955798788190,
+      "monotonic_start_ns": 1799760384434312,
+      "observed_compute_app_pids": [
+        2659779
+      ],
+      "observed_phase_s": {
+        "build_including_model_load_s": 51.025611693,
+        "generate_call_including_internal_warmup_and_file_save_s": 125.820990741,
+        "import_marker_to_registry_marker_s": 0.191845505,
+        "post_generate_until_process_exit_s": 8.697175352,
+        "python_startup_to_import_marker_s": 9.677085012,
+        "registry_marker_to_build_marker_s": 0.001645575
+      },
+      "observed_phase_sampled_resources_estimate": {
+        "build_including_model_load_s": {
+          "sample_count": 51,
+          "sampled_gpu_memory_peak_mib": 10886.0,
+          "sampled_gpu_nonzero_util_samples": 22,
+          "sampled_gpu_util_equivalent_s_estimate": 0.35000000000000003,
+          "sampled_gpu_util_fraction_mean": 0.006862745098039216,
+          "sampled_process_cpu_system_s_lower_bound": 1796.27,
+          "sampled_process_cpu_user_s_lower_bound": 450.6,
+          "sampled_process_io_read_bytes_lower_bound": 0,
+          "sampled_process_io_write_bytes_lower_bound": 4096,
+          "sampled_process_rss_peak_bytes": 14050709504
+        },
+        "generate_call_including_internal_warmup_and_file_save_s": {
+          "sample_count": 126,
+          "sampled_gpu_memory_peak_mib": 23450.0,
+          "sampled_gpu_nonzero_util_samples": 124,
+          "sampled_gpu_util_equivalent_s_estimate": 123.01,
+          "sampled_gpu_util_fraction_mean": 0.9762698412698413,
+          "sampled_process_cpu_system_s_lower_bound": 66.58,
+          "sampled_process_cpu_user_s_lower_bound": 59.83,
+          "sampled_process_io_read_bytes_lower_bound": 0,
+          "sampled_process_io_write_bytes_lower_bound": 262144,
+          "sampled_process_rss_peak_bytes": 12374265856
+        },
+        "import_marker_to_registry_marker_s": {
+          "sample_count": 0,
+          "sampled_gpu_memory_peak_mib": null,
+          "sampled_gpu_nonzero_util_samples": 0,
+          "sampled_gpu_util_equivalent_s_estimate": 0,
+          "sampled_gpu_util_fraction_mean": null,
+          "sampled_process_cpu_system_s_lower_bound": 0,
+          "sampled_process_cpu_user_s_lower_bound": 0,
+          "sampled_process_io_read_bytes_lower_bound": 0,
+          "sampled_process_io_write_bytes_lower_bound": 0,
+          "sampled_process_rss_peak_bytes": 0
+        },
+        "post_generate_until_process_exit_s": {
+          "sample_count": 8,
+          "sampled_gpu_memory_peak_mib": 10318.0,
+          "sampled_gpu_nonzero_util_samples": 5,
+          "sampled_gpu_util_equivalent_s_estimate": 0.22000000000000003,
+          "sampled_gpu_util_fraction_mean": 0.0275,
+          "sampled_process_cpu_system_s_lower_bound": 0.63,
+          "sampled_process_cpu_user_s_lower_bound": 1.7400000000000002,
+          "sampled_process_io_read_bytes_lower_bound": 0,
+          "sampled_process_io_write_bytes_lower_bound": 266240,
+          "sampled_process_rss_peak_bytes": 12373766144
+        },
+        "python_startup_to_import_marker_s": {
+          "sample_count": 10,
+          "sampled_gpu_memory_peak_mib": 3.0,
+          "sampled_gpu_nonzero_util_samples": 0,
+          "sampled_gpu_util_equivalent_s_estimate": 0.0,
+          "sampled_gpu_util_fraction_mean": 0.0,
+          "sampled_process_cpu_system_s_lower_bound": 1.23,
+          "sampled_process_cpu_user_s_lower_bound": 13.33,
+          "sampled_process_io_read_bytes_lower_bound": 0,
+          "sampled_process_io_write_bytes_lower_bound": 4096,
+          "sampled_process_rss_peak_bytes": 926433280
+        },
+        "registry_marker_to_build_marker_s": {
+          "sample_count": 0,
+          "sampled_gpu_memory_peak_mib": null,
+          "sampled_gpu_nonzero_util_samples": 0,
+          "sampled_gpu_util_equivalent_s_estimate": 0,
+          "sampled_gpu_util_fraction_mean": null,
+          "sampled_process_cpu_system_s_lower_bound": 0,
+          "sampled_process_cpu_user_s_lower_bound": 0,
+          "sampled_process_io_read_bytes_lower_bound": 0,
+          "sampled_process_io_write_bytes_lower_bound": 0,
+          "sampled_process_rss_peak_bytes": 0
+        }
+      },
+      "output": null,
+      "pid": 2596042,
+      "prompt_index": 5,
+      "run_dir": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/runs/20260913-091006-sana_video_2b_a100_dense",
+      "sample_count": 195,
+      "sampled_gpu_memory_peak_mib": 23450.0,
+      "sampled_gpu_nonzero_util_samples": 151,
+      "sampled_gpu_power_mean_w": 260.5693846153846,
+      "sampled_gpu_util_equivalent_s_estimate": 123.58,
+      "sampled_gpu_util_fraction_mean": 0.6337435897435898,
+      "sampled_process_cpu_system_s_lower_bound": 1865.02,
+      "sampled_process_cpu_user_s_lower_bound": 526.28,
+      "sampled_process_io_read_bytes_lower_bound": 0,
+      "sampled_process_io_write_bytes_lower_bound": 536576,
+      "sampled_process_rss_peak_bytes": 14050709504,
+      "source_reported_stage_s_not_independent": {
+        "DecodingStage": [
+          5.628
+        ],
+        "DenoisingStage": [
+          109.2026
+        ],
+        "InputValidationStage": [
+          0.0001
+        ],
+        "LatentPreparationStage": [
+          0.0002
+        ],
+        "TextEncodingStage": [
+          0.6974
+        ],
+        "TimestepPreparationStage": [
+          0.0006
+        ]
+      },
+      "utc_end": "2026-09-13T09:26:45.575111+00:00",
+      "utc_start": "2026-09-13T09:23:30.160785+00:00"
+    }
+  ],
+  "limitations": [
+    "GPU nonzero-util sample counts and utilization-weighted seconds are one-second NVML estimates, not exact kernel execution or SM occupancy.",
+    "Process CPU and I/O totals are lower bounds: processes exiting between samples are missed.",
+    "Stage 3 to Stage 4 independently measures build/model load. This runtime performs its one-step warmup after Stage 4 starts, within generate(). Its exact subwindow is only source-log-timestamped, not monotonic-instrumented.",
+    "Source-reported runtime stage durations are labeled separately and are not substituted for independent event windows.",
+    "Remote monotonic timestamps are comparable only within the remote host. Never subtract them from local-host Codex/broker monotonic timestamps; cross-host UTC is only a join key with unmeasured clock-sync error.",
+    "NVML compute-app PIDs on this node can be host-namespace IDs absent from the visible /proc namespace. GPU jobs are attributed by UUID, run event, and exclusive allocation; process CPU uses visible run-command ancestry only. Do not directly join an unmatched NVML PID to /proc CPU.",
+    "When candidate runs overlap on different UUIDs, a run window's eight-GPU node context includes the other run's activity. Only per-job UUID assignments and summed allocated_gpu_s belong to a particular run."
+  ],
+  "malformed_event_rows": 0,
+  "malformed_sample_rows": 0,
+  "method": "monotonic_remote_event_boundaries_plus_passive_1Hz_UUID_GPU_and_proc_samples",
+  "missing_end_count": 0,
+  "observer_error_rows": 0,
+  "observer_incomplete_uuid_rows": 0,
+  "raw_event_path": "../telemetry/baseline_remote_snapshot/events.jsonl",
+  "raw_samples_path": "../telemetry/baseline_remote_snapshot/observer/samples.jsonl",
+  "sample_rows": 2978,
+  "schema_version": 1
+}

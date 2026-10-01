@@ -1,0 +1,17 @@
+# Cache R02 TeaCache: independent timing snapshot (10:43 UTC)
+
+This is an **observed GPU/CPU job** report, not a quality/frontier acceptance. Raw 8-UUID, 1 Hz remote observer/event snapshot is `telemetry/post_cache_r02_1042/` (checked PTY transfer archive SHA256 `45214b83c4a4d09a21b54a7abbbac5163ef0229ede923394e1b5076ea82cf9c5`, 1,025,442 compressed bytes, 5 members). Derived join `reports/timing_post_cache_r02_1042.json` uses remote monotonic timestamps within the same node. The Kernel compile job was still running at this snapshot, so its missing end is expected and **not** a telemetry failure.
+
+| Scope | Independent event/observer measurement |
+|---|---:|
+| Remote run window | 2026-09-13 10:28:21.700–10:39:45.151 UTC, 683.452 s |
+| Actual assigned card | `GPU-a904c6f6-6410-dc0f-c7c3-efc068004617` (slot 1), five sequential prompt processes |
+| Sum of five prompt process allocations | 678.330 GPU-s on that one UUID; other six unoccupied cards were **not** allocated to this run |
+| 1 Hz NVML utilization-equivalent estimate on assigned UUID | 295.24 s over 683 samples, mean 43.23%; 425 samples reported nonzero utilization; peak memory 23,892 MiB; mean power 199.06 W over the full run window |
+| Visible process-ancestry CPU lower bound | user 2596.03 CPU-s, system 9981.46 CPU-s; process-tree RSS peak 14,203,809,792 B |
+| Event-stage sums for five prompt processes | Python startup→import marker 58.135 s; build including model load 270.354 s; generate call including internal one-step warmup and video save 303.674 s; post-generate→exit 44.935 s; other marker gaps about 1.232 s |
+| Source-reported request metric, not independent wall | five requests `50.53 + 50.32 + 50.35 + 50.36 + 50.39 = 251.95 s`; denoise 220.1503 s; decode 28.2645 s |
+
+The request metric excludes repeated model load, internal one-step warmup, and video export, matching the frozen dense timing scope. The five-process site adapter restarts/load/warmup for each prompt; this inflates wall/CPU relative to the archived bundled baseline implementation and must not be called an intrinsic Sol-Agent scheduling inefficiency. The `303.674−251.95 ≈ 51.724 s` generate-call residual **contains** internal warmup, file save, and any timer/scope differences; it is not a source-independent exact warmup duration. `578.02/251.95 = 2.2942×` is a provisional speed ratio only. The current `assess_verdict.json` and collector `quality.json` are `blocked_quality` because exact LPIPS judge dependencies are absent, and the archived visual gate is not complete; no frontier point is accepted.
+
+Observer coverage through 10:43:05 UTC: 7,343 samples, all eight fixed UUIDs per sample, zero malformed/error/incomplete rows. Four inter-sample gaps exceed 1.5 s (max 1.857 s): two at 09:34 UTC before candidate work and two at 10:34:54–59 UTC during concurrent Kernel/Cache GPU jobs. These are **real coverage gaps**, not backfilled samples. Observer process CPU increased 460.215 CPU-s over ~7342 s (~6.3% of one CPU); mean measured sampling overhead was 0.406 s (max 1.857 s), of which mean GPU query was 0.345 s. NVML utilization is not exact SM occupancy. GPU app PIDs are in a different namespace from visible `/proc` PIDs, so sampled CPU process-ancestry totals are lower bounds and unmatched app CPU remains unknown. The node-wide UUID0 activity during this window belongs to overlapping Kernel compile work and is not attributed to Cache R02.

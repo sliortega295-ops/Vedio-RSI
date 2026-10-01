@@ -1,0 +1,19 @@
+{
+  "run_dir": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-cache_ca-0002/worktree/runs/20260914-054324-cache_ca_r05_taylorseer_t0180_w10_o1",
+  "baseline_total_s": null,
+  "config_total_s": 371.36,
+  "speedup": null,
+  "gemini_overall": null,
+  "max_artifact_severity": null,
+  "quality_status": "blocked_quality",
+  "quality_blockers": [
+    "nvidia_gemini:api_key_missing"
+  ],
+  "collector_quality_status": "blocked_quality",
+  "collector_quality_blockers": [
+    "nvidia_gemini:api_key_missing"
+  ],
+  "lpips_max": 0.07933352887630463,
+  "tier": null,
+  "note": "missing or blocked quality evidence: nvidia_gemini:api_key_missing -> retain/backfill frontier evidence, but do not select final profile yet"
+}

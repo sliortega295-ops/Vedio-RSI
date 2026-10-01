@@ -1,0 +1,99 @@
+{
+  "attempts": {
+    "sana2ba100-cache_ca-0002/attempt09": {
+      "first_monotonic_ns": 323821439210918,
+      "first_sample_utc": "2026-09-14T06:47:06.619320+00:00",
+      "last_monotonic_ns": 328715438285010,
+      "last_sample_utc": "2026-09-14T08:08:40.618395+00:00",
+      "observed_sample_span_s": 4893.999074092,
+      "pid_count": 11,
+      "sample_count_with_members": 4895,
+      "sampled_system_cpu_s_lower_bound": 37.940000000000005,
+      "sampled_user_cpu_s_lower_bound": 61.78
+    },
+    "sana2ba100-cache_ca-0002/attempt10": {
+      "first_monotonic_ns": 329630439442345,
+      "first_sample_utc": "2026-09-14T08:23:55.619553+00:00",
+      "last_monotonic_ns": 332960439146924,
+      "last_sample_utc": "2026-09-14T09:19:25.619257+00:00",
+      "observed_sample_span_s": 3329.999704579,
+      "pid_count": 6,
+      "sample_count_with_members": 3331,
+      "sampled_system_cpu_s_lower_bound": 28.88,
+      "sampled_user_cpu_s_lower_bound": 49.91
+    },
+    "sana2ba100-cache_ca-0002/attempt11": {
+      "first_monotonic_ns": 333790442207009,
+      "first_sample_utc": "2026-09-14T09:33:15.622317+00:00",
+      "last_monotonic_ns": 335339439329541,
+      "last_sample_utc": "2026-09-14T09:59:04.619440+00:00",
+      "observed_sample_span_s": 1548.997122532,
+      "pid_count": 7,
+      "sample_count_with_members": 1550,
+      "sampled_system_cpu_s_lower_bound": 13.790000000000001,
+      "sampled_user_cpu_s_lower_bound": 28.939999999999998
+    },
+    "sana2ba100-cache_ca-0002/attempt12": {
+      "first_monotonic_ns": 336835441589024,
+      "first_sample_utc": "2026-09-14T10:24:00.621694+00:00",
+      "last_monotonic_ns": 336905439200113,
+      "last_sample_utc": "2026-09-14T10:25:10.619309+00:00",
+      "observed_sample_span_s": 69.997611089,
+      "pid_count": 6,
+      "sample_count_with_members": 71,
+      "sampled_system_cpu_s_lower_bound": 0.5800000000000001,
+      "sampled_user_cpu_s_lower_bound": 1.17
+    },
+    "sana2ba100-master-0002/attempt11": {
+      "first_monotonic_ns": 323821439210918,
+      "first_sample_utc": "2026-09-14T06:47:06.619320+00:00",
+      "last_monotonic_ns": 335524440276582,
+      "last_sample_utc": "2026-09-14T10:02:09.620385+00:00",
+      "observed_sample_span_s": 11703.001065664,
+      "pid_count": 18,
+      "sample_count_with_members": 11704,
+      "sampled_system_cpu_s_lower_bound": 21.97,
+      "sampled_user_cpu_s_lower_bound": 53.010000000000005
+    },
+    "sana2ba100-master-0002/attempt12": {
+      "first_monotonic_ns": 336307438998071,
+      "first_sample_utc": "2026-09-14T10:15:12.619108+00:00",
+      "last_monotonic_ns": 336906440955029,
+      "last_sample_utc": "2026-09-14T10:25:11.621062+00:00",
+      "observed_sample_span_s": 599.001956958,
+      "pid_count": 5,
+      "sample_count_with_members": 600,
+      "sampled_system_cpu_s_lower_bound": 7.52,
+      "sampled_user_cpu_s_lower_bound": 19.14
+    },
+    "sana2ba100-master-0002/attempt13": {
+      "first_monotonic_ns": 337151439042468,
+      "first_sample_utc": "2026-09-14T10:29:16.619152+00:00",
+      "last_monotonic_ns": 337847439074946,
+      "last_sample_utc": "2026-09-14T10:40:52.619187+00:00",
+      "observed_sample_span_s": 696.000032478,
+      "pid_count": 8,
+      "sample_count_with_members": 697,
+      "sampled_system_cpu_s_lower_bound": 6.05,
+      "sampled_user_cpu_s_lower_bound": 17.14
+    }
+  },
+  "generated_at_utc": "2026-09-14T10:45:47.211222+00:00",
+  "limitations": [
+    "Per-PID max-minus-first sampled CPU is a lower bound; short-lived children can be missed.",
+    "The historical sampler did not record PID start ticks; PID reuse cannot be independently excluded.",
+    "The observer began after the Master11/Cache9 API start; their first part is missing.",
+    "CPU user/system are cumulative across process threads and may exceed wall time.",
+    "Agent API and command wall time are separate measurements, not CPU or thinking time."
+  ],
+  "observer_process_cpu_s": 61.23155540199983,
+  "sample_count": 14246,
+  "scan_error_types": {
+    "FileNotFoundError": 1,
+    "ProcessLookupError": 425
+  },
+  "scan_errors": 426,
+  "schema_version": 1,
+  "source": "../telemetry/phase3/agent_cpu_master11_cache9_from0645_1hz.jsonl",
+  "source_sha256": "81d8cab9a90d213b2404f82f3e2b713e8380626c17a37e4062343d0b7582ecd7"
+}

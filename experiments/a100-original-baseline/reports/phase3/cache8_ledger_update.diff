@@ -1,0 +1,247 @@
+--- cache_search_pre_232bb1
++++ cache_search_post_f36934
+@@ -3,7 +3,7 @@
+   "experiment_uid": "sana2ba100-cache_ca-0002",
+   "model_id": "sana_video_2b_a100",
+   "component": "cache",
+-  "status": "paused_cpu_only_r03_prepared_no_delivery",
++  "status": "paused_cpu_only_r01_visual_pass_r03_prepared_no_delivery",
+   "started_at_utc": "2026-09-13T09:41:55Z",
+   "approval": "explicit user command to run cache_ca",
+   "round_limit": 20,
+@@ -69,7 +69,7 @@
+         "off_path": "SGLANG_SANA_EASYCACHE_THRESH=0 selects the original dense block-stack path"
+       },
+       "run_dir": "runs/20260913-095257-cache_ca_r01_easycache_t010",
+-      "status": "collected_exact_lpips_complete_master_visual_pending",
++      "status": "retained_observed_family_frontier_exact_lpips_codex_visual_pass",
+       "performance": {
+         "baseline_total_s": 578.02,
+         "config_total_s": 375.18,
+@@ -140,12 +140,10 @@
+         "lpips_mean": 0.17365388299633816,
+         "assess_verdict": "runs/20260913-095257-cache_ca_r01_easycache_t010/assess_verdict.json",
+         "assessment_interpreter": "/tmp/distillschedule-helios-official-torch210/bin/python (authorized remote Phase 3 evaluator)",
+-        "quality_status": "exact_lpips_complete_master_visual_pending",
+-        "quality_blockers": [
+-          "master_codex_visual_verdict_pending"
+-        ],
+-        "visual_status": "pending_independent_master_codex_reviewer",
+-        "promotion_eligible": false,
++        "quality_status": "exact_lpips_complete_codex_visual_pass",
++        "quality_blockers": [],
++        "visual_status": "pass_attempt08_approved_sampled_frame_transport",
++        "promotion_eligible": true,
+         "lpips_selected_pair_count": 41,
+         "lpips_prompt_coverage": [
+           "p01",
+@@ -185,6 +183,35 @@
+           ],
+           "note": "All five prompt scenes are present and the candidate frames show small visible deviations from the frozen baseline, consistent with a real approximate-cache run rather than copied baseline output.",
+           "gate_use": "historical observation only; final authenticity and visual gate are Master-owned"
++        },
++        "historical_quality_status_before_attempt08": "exact_lpips_complete_master_visual_pending",
++        "visual_overall": "pass",
++        "visual_max_severity": "low",
++        "visual_verdict": "runs/20260913-095257-cache_ca_r01_easycache_t010/visual_verdict.json",
++        "visual_verdict_sha256": "2c2ff13190a87b086b9b1c85687ce377be0beea8306449913bed8bc36f92b898",
++        "authenticity_status": "pass_within_approved_sampled_frame_transport",
++        "promotion_scope": "observed_easycache_family_frontier_only",
++        "visual_coverage": {
++          "overview_aligned_pairs": 80,
++          "overview_pairs_per_prompt": 16,
++          "overview_tile_resolution": [
++            208,
++            120
++          ],
++          "detail_aligned_pairs": 16,
++          "detail_tile_resolution": [
++            832,
++            480
++          ],
++          "source_video_frames_per_prompt": 81,
++          "continuous_video_playback_reviewed": false,
++          "limitation": "Artifacts confined between transported sampled times can be missed."
++        },
++        "visual_transport": {
++          "attachment_manifest": "/home/lyy/Experiments/SolAgent/20260913-a100-original-baseline/artifacts/phase3/cache_image_transport/attachments/sana2ba100-cache_ca-0002-attempt-08.json",
++          "attachment_manifest_sha256": "d7a3768fc7464b0060866765ab472a3798149155fb1c201f60c66e32210bbd43",
++          "render_manifest_sha256": "a78beed6a1d8af44c59edad5741bfc9da07a9931ecb64f989905f937ca0f2d06",
++          "r02_reviewed": false
+         }
+       }
+     },
+@@ -350,14 +377,77 @@
+       ]
+     }
+   ],
+-  "frontier": [],
++  "frontier": [
++    {
++      "config_id": "cache_ca_r01_easycache_t010",
++      "family": "EasyCache",
++      "run_dir": "runs/20260913-095257-cache_ca_r01_easycache_t010",
++      "status": "retained_observed_family_frontier_not_workflow_delivery",
++      "performance": {
++        "baseline_total_s": 578.02,
++        "config_total_s": 375.18,
++        "denoise_s": 343.5443,
++        "time_ratio": 0.6490778865783191,
++        "time_compression": 0.3509221134216809,
++        "speedup": 1.5406471560317714,
++        "timing_scope": "five_prompt_sum_sglang_request_metrics_excluding_model_load_internal_one_step_warmup_and_video_export"
++      },
++      "quality": {
++        "lpips_mean": 0.17365388299633816,
++        "lpips_max": 0.2642093896865845,
++        "lpips_selected_pair_count": 41,
++        "visual_overall": "pass",
++        "visual_max_severity": "low",
++        "authenticity": "pass_within_approved_sampled_frame_transport",
++        "visual_verdict": "runs/20260913-095257-cache_ca_r01_easycache_t010/visual_verdict.json",
++        "visual_verdict_sha256": "2c2ff13190a87b086b9b1c85687ce377be0beea8306449913bed8bc36f92b898"
++      },
++      "off_path": {
++        "status": "structurally_verified_not_rerun",
++        "activation": "SGLANG_SANA_EASYCACHE_THRESH=0",
++        "evidence": "The source computes any_cache from the three positive thresholds and directly executes the original dense _run_blocks path when all are zero.",
++        "runtime_off_rerun": false,
++        "reason": "The baseline is frozen and this interval is CPU-only."
++      },
++      "activation": {
++        "env": {
++          "SOL_A100_COMPILE": "0",
++          "SGLANG_SANA_LINATTN_BF16": "0",
++          "SGLANG_SANA_QKV_MERGE": "0",
++          "SGLANG_SANA_EASYCACHE_THRESH": "0.10",
++          "SGLANG_SANA_EASYCACHE_WARMUP": "3",
++          "SGLANG_SANA_EASYCACHE_SUBSAMPLE": "8"
++        }
++      },
++      "implementation_manifest": {
++        "path": "config/cache_ca_r01_easycache_t010.toml",
++        "sha256": "02361b1d9f445e762b646b86622a57a427c362e1078d443d6ab3a5ad295df724"
++      },
++      "artifacts": [
++        "runs/20260913-095257-cache_ca_r01_easycache_t010/outputs/out.mp4",
++        "runs/20260913-095257-cache_ca_r01_easycache_t010/outputs/frames",
++        "runs/20260913-095257-cache_ca_r01_easycache_t010/outputs/benchmark.json",
++        "runs/20260913-095257-cache_ca_r01_easycache_t010/assess_verdict.json",
++        "runs/20260913-095257-cache_ca_r01_easycache_t010/visual_verdict.json"
++      ],
++      "workflow_delivery_eligible": false,
++      "workflow_delivery_blockers": [
++        "No matched-time TeaCache full run at this target.",
++        "No TaylorSeer full run at this target.",
++        "No three-family quality winner or complete Pareto assessment."
++      ]
++    }
++  ],
+   "provisional_speed_points": [
+     {
+       "family": "EasyCache",
+       "config_id": "cache_ca_r01_easycache_t010",
+       "time_ratio": 0.649078,
+-      "quality_gate": "exact_lpips_complete_master_visual_pending",
+-      "promotion_eligible": false
++      "quality_gate": "exact_lpips_complete_codex_visual_pass",
++      "promotion_eligible": true,
++      "visual_overall": "pass",
++      "visual_max_severity": "low",
++      "retention": "retained_observed_family_frontier_not_workflow_delivery"
+     },
+     {
+       "family": "TeaCache",
+@@ -372,12 +462,15 @@
+     "EasyCache": {
+       "measured_time_ratio_min": 0.649078,
+       "measured_time_ratio_max": 0.649078,
+-      "quality_promoted": false,
++      "quality_promoted": true,
+       "exact_lpips_available": true,
+       "lpips_mean": 0.17365388299633816,
+       "lpips_max": 0.2642093896865845,
+-      "master_visual_status": "pending",
+-      "rankable_points": 0
++      "master_visual_status": "superseded_for_r01_by_attempt08_approved_codex_transport",
++      "rankable_points": 1,
++      "codex_visual_status": "pass",
++      "codex_visual_max_severity": "low",
++      "retained_config_id": "cache_ca_r01_easycache_t010"
+     },
+     "TeaCache": {
+       "measured_time_ratio_min": 0.4358845715,
+@@ -479,6 +572,7 @@
+     "Run the prepared pure TeaCache threshold-0.016 point after Phase 2 GPU authorization is armed, then judge matching from measured full-run time only.",
+     "If R03 misses the 2% relative time tolerance against R01, tune only TeaCache threshold/window controls from R03 full-run evidence.",
+     "Calibrate the existing pure TaylorSeer implementation at the resulting shared time target using native threshold, history order, correction, error-gain, warmup, tail, and maximum-reuse controls.",
++    "Obtain exact LPIPS and an approved Codex visual review for each retained full run; do not use the unapproved R02 image transport.",
+     "Tune EasyCache only after TeaCache and TaylorSeer establish a measured three-family overlap target.",
+     "Repeat noisy or close retained points and use median full-run time."
+   ],
+@@ -492,13 +586,15 @@
+   "current_pause": {
+     "status": "cpu_only_phase2_gpu_authorization_not_armed",
+     "gpu_actions_allowed": false,
+-    "delivery_json": "must_remain_absent_until_genuine_matched_three_family_evidence_and_master_visual_gate",
+-    "frontier_points_promoted": 0,
+-    "reason": "Existing points are unmatched, TaylorSeer is unmeasured, and Master visual verdicts are pending.",
++    "delivery_json": "must_remain_absent_until_genuine_matched_three_family_evidence_and_complete_codex_visual_gates",
++    "frontier_points_promoted": 1,
++    "reason": "R01 now passes the approved sampled-frame Codex gate, but R02 is unmatched and visually unreviewed, TaylorSeer is unmeasured, and Phase 2 GPU authorization is not armed.",
+     "receipt": "state/cache_ca_phase3_reconciliation.json",
+-    "recorded_at_utc": "2026-09-14T03:33:36.814805Z",
++    "recorded_at_utc": "2026-09-14T04:22:14Z",
+     "rounds_used": 2,
+-    "remaining_round_budget": 18
++    "remaining_round_budget": 18,
++    "observed_family_frontier_points_retained": 1,
++    "latest_receipt": "state/cache_ca_attempt08_resumable_status.json"
+   },
+   "phase3_quality_reconciliation": {
+     "status": "exact_lpips_complete_for_r01_r02",
+@@ -506,18 +602,37 @@
+     "r01_receipt_sha256": "935c31120ce70c3e2079450d6f0dbf039325abf4bc491fee04d170d656963179",
+     "r02_receipt_sha256": "0d3519251e0509b997b7245c93ecc1934ddd4bd7660b558c9021c81d9d19efc0",
+     "raw_assess_fields_preserved": true,
+-    "master_visual_status": "pending",
++    "master_visual_status": "r01_codex_pass_via_approved_attempt08_transport_r02_unreviewed",
+     "matched_time_status": "r01_r02_unmatched",
+-    "recorded_at_utc": "2026-09-14T03:33:36.814805Z"
++    "recorded_at_utc": "2026-09-14T03:33:36.814805Z",
++    "r01_visual_verdict": "runs/20260913-095257-cache_ca_r01_easycache_t010/visual_verdict.json",
++    "r01_visual_verdict_sha256": "2c2ff13190a87b086b9b1c85687ce377be0beea8306449913bed8bc36f92b898",
++    "r01_visual_coverage_limited": true,
++    "recorded_at_utc_latest_update": "2026-09-14T04:22:14Z"
+   },
+   "delivery_state": {
+     "delivery_json_written": false,
+     "genuine_cache_delivery_supported": false,
+-    "frontier_points_promoted": 0,
++    "frontier_points_promoted": 1,
+     "reasons": [
+-      "R01 EasyCache and R02 TeaCache are not matched in measured full-run time.",
+-      "TaylorSeer has no full-run measurement, so there is no three-family overlap or matched-time winner.",
+-      "The Master-owned independent visual quality and authenticity verdict is still pending for both existing points."
+-    ]
++      "R01 EasyCache and R02 TeaCache are not matched in measured full-run time; their relative time-ratio difference is 32.8456%, above the 2% limit.",
++      "TaylorSeer has no full-run measurement, so there is no three-family overlap or matched-time quality winner.",
++      "R02 image transport is not approved and no R02 visual verdict was made.",
++      "The prepared R03 TeaCache matched-time calibration still requires a newly authorized full GPU run, collection, exact LPIPS evaluation, and approved Codex visual review."
++    ],
++    "frontier_point_scope": "observed_easycache_family_only_not_final_delivery"
++  },
++  "attempt_08_visual_reconciliation": {
++    "status": "r01_visual_pass_no_delivery",
++    "recorded_at_utc": "2026-09-14T04:22:14Z",
++    "attachment_manifest_sha256": "d7a3768fc7464b0060866765ab472a3798149155fb1c201f60c66e32210bbd43",
++    "visual_verdict": "runs/20260913-095257-cache_ca_r01_easycache_t010/visual_verdict.json",
++    "visual_verdict_sha256": "2c2ff13190a87b086b9b1c85687ce377be0beea8306449913bed8bc36f92b898",
++    "r01_authenticity": "pass_within_approved_sampled_frame_transport",
++    "r01_overall": "pass",
++    "r01_max_severity": "low",
++    "r02_reviewed": false,
++    "delivery_json_written": false,
++    "resumable_status_receipt": "state/cache_ca_attempt08_resumable_status.json"
+   }
+ }
