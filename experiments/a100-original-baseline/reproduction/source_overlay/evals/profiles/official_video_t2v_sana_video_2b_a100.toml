@@ -1,0 +1,72 @@
+id = "official_video_t2v_sana_video_2b_a100"
+description = "Site-adapted SANA-Video 2B A100 five-prompt fixed workload."
+
+[official_config]
+model = "sana_video_2b"
+width = 832
+height = 480
+frames = 81
+fps = 16
+steps = 50
+guidance_scale = 6.0
+num_gpus = 1
+prompt_count = 5
+seed = 42
+
+[artifacts]
+required = ["outputs/run.log", "outputs/out.mp4", "outputs/benchmark.json", "outputs/quality.json", "outputs/collection.json", "outputs/frames"]
+optional = ["outputs/run_config.json", "outputs/out_2.mp4", "outputs/out_3.mp4", "outputs/out_4.mp4", "outputs/out_5.mp4"]
+
+[performance]
+baseline_config = "sana_video_2b_a100_dense"
+primary_metric = "denoise_s"
+secondary_metric = "total_s"
+min_speedup_for_experimental = 1.03
+min_speedup_for_promotion = 1.10
+warmup_required_for_promotion = true
+record_compile_cache_state = true
+
+[off_identity]
+required_for_kinds = ["patch", "methodology"]
+same_seed_required = true
+same_prompt_required = true
+same_official_config_required = true
+
+[quantitative_quality]
+enabled = true
+metrics = [
+  "frame_count",
+  "duration_s",
+  "mean_abs_pixel_diff",
+  "mse",
+  "psnr",
+  "sharpness_ratio",
+  "patch_boundary_ratio",
+  "temporal_delta_error",
+  "temporal_jitter_ratio",
+]
+frame_count_expected = 81
+duration_tolerance_s = 0.25
+sharpness_ratio_min = 0.95
+sharpness_ratio_max = 1.08
+temporal_jitter_ratio_min = 0.85
+temporal_jitter_ratio_max = 1.20
+
+[visual_artifact]
+enabled = true
+provider = "codex"
+rubric = "evals/rubrics/gemini_visual_artifact_gate.md"
+sample_fps = 2
+side_by_side_required = true
+fail_on_new_artifacts = [
+  "snow_static_speckle",
+  "blur_detail_loss",
+  "mosaic_blocking_patch_artifacts",
+  "patch_boundary_discontinuity",
+  "banding_posterization",
+  "ghosting_smearing",
+  "melting_morphing_structure",
+  "temporal_flicker_popping",
+  "loss_of_temporal_coherence",
+  "composition_or_motion_regression",
+]

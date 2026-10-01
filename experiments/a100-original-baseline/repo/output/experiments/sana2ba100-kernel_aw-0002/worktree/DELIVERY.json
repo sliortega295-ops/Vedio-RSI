@@ -1,0 +1,111 @@
+{
+  "schema_version": 2,
+  "status": "complete",
+  "component": "kernel",
+  "model_id": "sana_video_2b_a100",
+  "baseline": {
+    "total_s": 578.02,
+    "denoise_s": 546.3913,
+    "run_dir": "/home/lyy/Experiments/SolAgent/20260913-a100-original-baseline/repo/runs/20260913-091006-sana_video_2b_a100_dense",
+    "timing_scope": "five_prompt_sum_sglang_request_metrics_excluding_model_load_internal_one_step_warmup_and_video_export",
+    "rerun": false
+  },
+  "frontier_points": [
+    {
+      "config_id": "kernel_compile_bf16_max_autotune_ffn_temporal_linear",
+      "run_dir": "runs/20260913-140334-kernel_compile_bf16_max_autotune_ffn_temporal_linear",
+      "activation": {
+        "env": {
+          "SOL_A100_COMPILE": "1",
+          "SGLANG_SANA_MAX_AUTOTUNE": "1",
+          "SGLANG_SANA_REQUEST_PROFILE": "0",
+          "SGLANG_SANA_LINATTN_BF16": "1",
+          "SGLANG_SANA_ROPE_BF16": "0",
+          "SGLANG_SANA_QKV_MERGE": "0",
+          "SGLANG_SANA_FFN_INVERTED_LINEAR": "0",
+          "SGLANG_SANA_FFN_TEMP_LINEAR": "1",
+          "SGLANG_SANA_EASYCACHE_THRESH": "0"
+        }
+      },
+      "implementation_manifest": {
+        "path": "config/kernel_compile_bf16_max_autotune_ffn_temporal_linear.toml",
+        "sha256": "66c8f3ed14f1e0c46f020e2273c0c64fa33a29465b23dfb3ea8126860d82d199"
+      },
+      "source_manifest": {
+        "path": "external/sol_runtime/python/sglang/multimodal_gen/runtime/models/dits/sana_video.py",
+        "sha256": "309b56ec78bbd92e29726274501c08798f15c7734c0da6d043dca6b64a62fc2c"
+      },
+      "performance": {
+        "frontier_axis": "latency",
+        "baseline_total_s": 578.02,
+        "config_total_s": 358.39,
+        "speedup": 1.612824018527,
+        "baseline_denoise_s": 546.3913,
+        "config_denoise_s": 323.9216,
+        "denoise_speedup": 1.686801065443,
+        "timing_scope": "five_prompt_sum_sglang_request_metrics_excluding_model_load_internal_one_step_warmup_and_video_export",
+        "warmup_policy": "one internal warmup request per prompt process excluded; five measured prompts",
+        "cold_process_wall_s": 1342.0322590440046,
+        "cold_cost_note": "Process wall includes compilation and setup and is reported separately from the warm steady-state request metric."
+      },
+      "quality": {
+        "mode": "not_gated",
+        "lpips_max": null,
+        "lpips_mean": null,
+        "visual_overall": "authenticity_only",
+        "visual_verdict": "runs/20260913-140334-kernel_compile_bf16_max_autotune_ffn_temporal_linear/visual_verdict.json",
+        "relation": "equivalent"
+      },
+      "method_correctness": {
+        "mode": "reasoned_semantics",
+        "argument": "The retained stack compiles and selects equivalent kernels for the same dense graph, performs the unchanged dense linear-attention aggregation at expressly permitted BF16 precision, rewrites the bias-free FFN 1x1 point projection as the identical per-token linear map, and evaluates the same padded temporal cross-correlation as previous/current/next dense BF16 GEMMs. It omits only W0*x[-1] and W2*x[F], whose operands are exactly zero under the original padding, so their contributions are provably zero.",
+        "structural_invariants": {
+          "prompt_count": 5,
+          "steps_per_prompt": 50,
+          "model_calls_per_step": 2,
+          "global_logical_dit_calls": 500,
+          "blocks_per_dit_call": 20,
+          "world_size": 1,
+          "num_frames": 81,
+          "height": 480,
+          "width": 832,
+          "guidance_scale": 6
+        },
+        "forbidden_methods_used": false,
+        "output_difference_gate_used": false,
+        "off_identity": "With SGLANG_SANA_FFN_TEMP_LINEAR=0, the original conv_point, reshape/permute, conv_temp, residual, and output reshape path executes unchanged."
+      },
+      "artifacts": [
+        "runs/20260913-140334-kernel_compile_bf16_max_autotune_ffn_temporal_linear/outputs/out.mp4",
+        "runs/20260913-140334-kernel_compile_bf16_max_autotune_ffn_temporal_linear/outputs/out_2.mp4",
+        "runs/20260913-140334-kernel_compile_bf16_max_autotune_ffn_temporal_linear/outputs/out_3.mp4",
+        "runs/20260913-140334-kernel_compile_bf16_max_autotune_ffn_temporal_linear/outputs/out_4.mp4",
+        "runs/20260913-140334-kernel_compile_bf16_max_autotune_ffn_temporal_linear/outputs/out_5.mp4",
+        "runs/20260913-140334-kernel_compile_bf16_max_autotune_ffn_temporal_linear/outputs/frames",
+        "runs/20260913-140334-kernel_compile_bf16_max_autotune_ffn_temporal_linear/assess_verdict.json",
+        "runs/20260913-140334-kernel_compile_bf16_max_autotune_ffn_temporal_linear/visual_verdict.json",
+        "runs/20260913-140334-kernel_compile_bf16_max_autotune_ffn_temporal_linear/outputs/benchmark.json",
+        "runs/20260913-140334-kernel_compile_bf16_max_autotune_ffn_temporal_linear/outputs/run_config.json"
+      ]
+    }
+  ],
+  "gap_report": {
+    "stretch_target_speedup": 2.5,
+    "stretch_target_total_s": 231.208,
+    "achieved_speedup": 1.612824018527,
+    "gap_to_target_s": 127.182,
+    "remaining_factor_to_target": 1.550076121933,
+    "config_iterations_used": 10,
+    "round_cap": 40,
+    "exit_reason": "The final permitted candidate was non-improving and the fixed six-hour site submission window closed.",
+    "exhausted_or_rejected": [
+      "broad TorchInductor compilation and max-autotune selection",
+      "BF16 dense linear-attention aggregation",
+      "BF16 RoPE execution, which did not improve the canonical stack",
+      "QKV merge compiler paths, which failed to produce an eligible complete benchmark",
+      "FFN inverted 1x1 linear interaction, which regressed the retained stack"
+    ],
+    "remaining_assessment": "The current measured lossless frontier plateaued well below 2.5x. Exact cross-attention K/V and launch replay had sub-percent measured ceilings; static cuDNN algorithm exploration remained unmeasured when the site window closed, so this is the fastest demonstrated frontier rather than a proof of a global theoretical ceiling."
+  },
+  "pareto_assessment": "Exactly one lossless exact_fastest point is delivered: 358.39 s total and 323.9216 s denoise, 1.612824x over the frozen baseline. Round 10 was authentic and method-admissible but slower, so it is excluded."
+}

@@ -1,0 +1,136 @@
+id = "cache_ca_r05_taylorseer_t0180_w10_o1"
+kind = "methodology"
+purpose = "delivery"
+description = "TaylorSeer first-order residual forecasting with dense high-error early steps; round 5 matched-time quality repair."
+model_profile = "sana_video_2b_a100"
+
+[runtime]
+root = "models/sana_video_2b_a100/baseline"
+
+[cache_method]
+family = "TaylorSeer"
+parent_trial = "cache_ca_r04_taylorseer_t0040_o1"
+target_time_ratio = 0.6450468841908584
+signal_source = "accumulated relative L1 movement of subsampled post-patch hidden states, scaled by the measured Taylor forecast error"
+reuse_payload = "per-CFG-branch first-order Taylor forecast of the full transformer-block-stack residual before output norm/projection"
+refresh_rule = "ten-step dense warmup, refresh when error-scaled accumulated movement reaches 0.18, after one forecast step, and for the final two steps"
+off_path = "SGLANG_SANA_TAYLORSEER_THRESH=0 with the other family thresholds at zero selects the original dense block-stack path"
+threshold = 0.18
+warmup_steps = 10
+tail_steps = 2
+max_consecutive_reuse = 1
+history_order = 1
+correction = 1.0
+forecast_error_gain = 4.0
+subsample_stride = 8
+
+[env]
+SOL_A100_COMPILE = "0"
+SGLANG_SANA_LINATTN_BF16 = "0"
+SGLANG_SANA_QKV_MERGE = "0"
+SGLANG_SANA_EASYCACHE_THRESH = "0"
+SGLANG_SANA_TEACACHE_THRESH = "0"
+SGLANG_SANA_TAYLORSEER_THRESH = "0.18"
+SGLANG_SANA_TAYLORSEER_WARMUP = "10"
+SGLANG_SANA_TAYLORSEER_TAIL = "2"
+SGLANG_SANA_TAYLORSEER_MAX_REUSE = "1"
+SGLANG_SANA_TAYLORSEER_ORDER = "1"
+SGLANG_SANA_TAYLORSEER_CORRECTION = "1.0"
+SGLANG_SANA_TAYLORSEER_ERROR_GAIN = "4.0"
+SGLANG_SANA_TAYLORSEER_SUBSAMPLE = "8"
+SGLANG_SANA_TAYLORSEER_DEBUG = "1"
+SGLANG_SANA_CACHE_TOTAL_STEPS = "50"
+
+[artifacts]
+output_dir = "outputs"
+video = "out.mp4"
+log = "run.log"
+benchmark = "benchmark.json"
+frames_dir = "frames"
+quality = "quality.json"
+risk_notes = "risk_notes.md"
+collection = "collection.json"
+patch_summary = "patch_summary.md"
+
+[resolved]
+run_id = "20260914-054324-cache_ca_r05_taylorseer_t0180_w10_o1"
+repo_root = "/home/lyy/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-cache_ca-0002/worktree"
+run_dir = "/home/lyy/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-cache_ca-0002/worktree/runs/20260914-054324-cache_ca_r05_taylorseer_t0180_w10_o1"
+submodule_root = "/home/lyy/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-cache_ca-0002/worktree/models/sana_video_2b_a100/baseline"
+runtime_root = "/home/lyy/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-cache_ca-0002/worktree/models/sana_video_2b_a100/baseline"
+run_script = "/home/lyy/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-cache_ca-0002/worktree/models/sana_video_2b_a100/baseline/scripts/run_sana_video_2b_gpu.sh"
+output_dir = "/home/lyy/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-cache_ca-0002/worktree/runs/20260914-054324-cache_ca_r05_taylorseer_t0180_w10_o1/outputs"
+mode = "sbatch"
+source_commit = ""
+runtime_commit = ""
+current_commit = ""
+
+[resolved_profile]
+model_profile = "sana_video_2b_a100"
+submodule = "models/sana_video_2b_a100/baseline"
+base_commit = "16af862a135e27d55bf8e574d786db595a8e0654"
+run_script = "scripts/run_sana_video_2b_gpu.sh"
+eval_profile = "evals/profiles/official_video_t2v_sana_video_2b_a100.toml"
+
+[resolved_profile.official_config]
+model = "sana_video_2b"
+model_revision = "db5f398b13ca086d09a50ce156c20527773841b1"
+width = 832
+height = 480
+frames = 81
+fps = 16
+steps = 50
+guidance_scale = 6.0
+num_gpus = 1
+prompt_count = 5
+seed = 42
+transformer_precision = "bf16"
+vae_precision = "fp32"
+
+[resolved_profile.env]
+SOL_SITE_REMOTE = "1"
+SOL_A100_BUDGET_PHASE = "phase2"
+PYTHON_BIN = "/tmp/distillschedule-helios-official-torch210/bin/python"
+SOL_A100_PYTHON = "/tmp/distillschedule-helios-official-torch210/bin/python"
+SOL_A100_MODEL_PATH = "/share/project/shuchenweng/yongyan_liu/Experiments/SolRolloutBench/20260912-a100-eight/models/sana-video-2b/db5f398b13ca086d09a50ce156c20527773841b1"
+SOL_A100_DEP_OVERLAY = "/share/project/shuchenweng/yongyan_liu/Experiments/SolRolloutBench/20260912-a100-eight/envs/sglang-overlay"
+SOL_A100_PROMPTS_FILE = "models/sana_video_2b_a100/prompts/validation_first5.txt"
+SOL_A100_SEED = "42"
+SOL_A100_EXPECTED_PROMPTS = "5"
+SOL_A100_SGL_KERNEL_BACKEND = "torch_fallback"
+SGLANG_SANA_LINATTN_BF16 = "0"
+SGLANG_SANA_QKV_MERGE = "0"
+SGLANG_SANA_EASYCACHE_THRESH = "0"
+SGLANG_SANA_TEACACHE_THRESH = "0"
+SGLANG_SANA_TAYLORSEER_THRESH = "0.18"
+HF_HUB_OFFLINE = "1"
+TRANSFORMERS_OFFLINE = "1"
+HF_DATASETS_OFFLINE = "1"
+HF_HUB_DISABLE_TELEMETRY = "1"
+PYTHONNOUSERSITE = "1"
+PYTHONDONTWRITEBYTECODE = "1"
+PYTHONUNBUFFERED = "1"
+SOL_A100_COMPILE = "0"
+SGLANG_SANA_TAYLORSEER_WARMUP = "10"
+SGLANG_SANA_TAYLORSEER_TAIL = "2"
+SGLANG_SANA_TAYLORSEER_MAX_REUSE = "1"
+SGLANG_SANA_TAYLORSEER_ORDER = "1"
+SGLANG_SANA_TAYLORSEER_CORRECTION = "1.0"
+SGLANG_SANA_TAYLORSEER_ERROR_GAIN = "4.0"
+SGLANG_SANA_TAYLORSEER_SUBSAMPLE = "8"
+SGLANG_SANA_TAYLORSEER_DEBUG = "1"
+SGLANG_SANA_CACHE_TOTAL_STEPS = "50"
+AUTOVIDEO_REPO_ROOT = "/home/lyy/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-cache_ca-0002/worktree"
+AUTOVIDEO_RUNTIME_ROOT = "/home/lyy/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-cache_ca-0002/worktree/models/sana_video_2b_a100/baseline"
+AUTOVIDEO_CONFIG_ID = "cache_ca_r05_taylorseer_t0180_w10_o1"
+
+[resolved_profile.slurm]
+account = ""
+partition = "batch"
+nodes = 1
+gpus_per_node = 1
+cpus_per_task = 64
+mem = "512G"
+time = "06:00:00"
+job_name = "sol-original-sana2b-a100"
+exclusive = false

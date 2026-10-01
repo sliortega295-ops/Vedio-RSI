@@ -1,0 +1,256 @@
+{
+  "schema_version": 1,
+  "recorded_at_utc": "2026-09-14T03:42:23Z",
+  "status": "partial_blocked_resumable",
+  "phase": "phase3_cpu_only",
+  "model_id": "sana_video_2b_a100",
+  "experiment_sequence": "0002",
+  "scope": {
+    "existing_executor_identities_only": [
+      "sana2ba100-kernel_aw-0002",
+      "sana2ba100-cache_ca-0002"
+    ],
+    "executors_spawned": 0,
+    "executors_resumed": 1,
+    "resumed_identity": "sana2ba100-cache_ca-0002",
+    "gpu_jobs_submitted": 0,
+    "baseline_runs_submitted": 0,
+    "quality_assessments_rerun_by_master_or_executor": 0,
+    "network_or_browser_used": false,
+    "packages_or_weights_downloaded": false,
+    "model_or_baseline_modified": false,
+    "memory_or_prior_experiment_results_read": false,
+    "integrated_delivery_written": false
+  },
+  "frozen_baseline": {
+    "path": "/home/lyy/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/orchestrated/sana2ba100-20260913-093521/BASELINE.json",
+    "sha256": "cdcf7036432bb60cc51df38d3a1f497cafdb7bdf0f4df32cd68f27cffcba7613",
+    "total_s": 578.02,
+    "timing_scope": "five_prompt_sum_sglang_request_metrics_excluding_model_load_internal_one_step_warmup_and_video_export",
+    "rerun": false
+  },
+  "executor_polling": {
+    "initial": {
+      "kernel": {
+        "delivered": true,
+        "delivery_status": "complete",
+        "alive": false
+      },
+      "cache": {
+        "delivered": false,
+        "delivery_status": null,
+        "alive": false
+      }
+    },
+    "cache_resume": {
+      "attempt": 7,
+      "request_id": "62a8ac666a3244a085191b60dc6d37bb",
+      "request_sha256": "a9dd808e0615653dc40cee4e37360f55058c34ccffe01349c5bf51f554dd5032",
+      "response_sha256": "fa1ea16e0f71857ca25523f50c2dc16aa62ced8c0d450f747164131ab4b2525e"
+    },
+    "final": {
+      "cache": {
+        "delivered": false,
+        "delivery_status": null,
+        "alive": false,
+        "attempt_receipt": "/home/lyy/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-cache_ca-0002/worktree/goals/cache_ca/agent_attempt_07.receipt.json",
+        "attempt_receipt_sha256": "7e03969506fdeb13afbf1266f1e3187134e51f85adabd8a3f97e1c1a29007f7e",
+        "exit_code": 0
+      }
+    },
+    "interpreter_note": "The documented python command name was unavailable locally, so the same archived wrappers were invoked with /usr/bin/python3."
+  },
+  "kernel": {
+    "experiment_uid": "sana2ba100-kernel_aw-0002",
+    "workflow_uid": "kernel_aw",
+    "correctness": "lossless",
+    "phase3_action": "unchanged_prior_same_goal_verification_retained",
+    "prior_verification": "/home/lyy/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/orchestrated/sana2ba100-20260913-093521/PHASE2-CPU-STATUS-IMAGE-RECHECK.json",
+    "prior_verification_sha256": "7e0b64e2de4ca958640a7035991eb820a3f4415040616cba77346eb39ee7f9a4",
+    "delivery": "/home/lyy/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-kernel_aw-0002/worktree/DELIVERY.json",
+    "delivery_sha256": "8d6d91d3f9801174773a91ea99eccf960737416ea2d0dcca48a0b5da8ff89249",
+    "verified_config_id": "kernel_compile_bf16_max_autotune_ffn_temporal_linear",
+    "verified_config_total_s": 358.39,
+    "verified_speedup": 1.6128240185273026,
+    "master_verdict": "verified_clean"
+  },
+  "phase3_exact_lpips_transport": {
+    "master_rerun": false,
+    "network_deny_observed": true,
+    "blocked_network_attempts": [],
+    "r01": {
+      "run_id": "20260913-095257-cache_ca_r01_easycache_t010",
+      "family": "EasyCache",
+      "receipt": "/home/lyy/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-cache_ca-0002/worktree/runs/20260913-095257-cache_ca_r01_easycache_t010/phase3_quality_attempts/20260914T031555.440781+0000_2895069/receipt.json",
+      "receipt_sha256": "935c31120ce70c3e2079450d6f0dbf039325abf4bc491fee04d170d656963179",
+      "available_aligned_pairs": 80,
+      "pairs_scored": 41,
+      "all_five_prompts_covered": true,
+      "lpips_mean": 0.17365388299633816,
+      "lpips_max": 0.2642093896865845,
+      "config_total_s": 375.17999999999995,
+      "authoritative_speedup": 1.5406471560317716,
+      "time_ratio": 0.649077886578319,
+      "quality_json_sha256": "d4e0df1c06bfed90ae381f59f933e0313653b6ddfd86e17f57404db464ab5370",
+      "assess_verdict_sha256": "49eeb0ccf6bb18001ae4320cf99731b1c9e26d39e0f11f813180a41d4f0d8bfc"
+    },
+    "r02": {
+      "run_id": "20260913-102721-cache_ca_r02_teacache_t010",
+      "family": "TeaCache",
+      "receipt": "/home/lyy/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-cache_ca-0002/worktree/runs/20260913-102721-cache_ca_r02_teacache_t010/phase3_quality_attempts/20260914T031917.678076+0000_2896179/receipt.json",
+      "receipt_sha256": "0d3519251e0509b997b7245c93ecc1934ddd4bd7660b558c9021c81d9d19efc0",
+      "available_aligned_pairs": 80,
+      "pairs_scored": 42,
+      "all_five_prompts_covered": true,
+      "lpips_mean": 0.3073704647166388,
+      "lpips_max": 0.4525347948074341,
+      "config_total_s": 251.95,
+      "authoritative_speedup": 2.294185354236952,
+      "time_ratio": 0.43588457146811527,
+      "quality_json_sha256": "5c6a6a224a68ed6578081fecba1a21a5b119f0d916657573090939c4ffd44e9a",
+      "assess_verdict_sha256": "299aea891e61a084300c82a3fa391133c46c2648a19108aab010ec3f93091171"
+    },
+    "raw_field_preservation": {
+      "collector_quality_status": "blocked_quality",
+      "collector_quality_blocker": "nvidia_gemini:api_key_missing",
+      "standalone_plan_eval_baseline_total_s": null,
+      "standalone_plan_eval_speedup": null,
+      "interpretation": "These raw graph and provider fields remain unchanged. Under the archived lite Master contract, frozen BASELINE.json supplies performance and the Master's built-in multimodal review supplies the visual gate; no external Gemini result is substituted."
+    }
+  },
+  "cache_master_visual_review": {
+    "rubric": "/home/lyy/Experiments/SolAgent/20260913-a100-original-baseline/repo/evals/rubrics/gemini_visual_artifact_gate.md",
+    "pixel_visible_tool": "view_image",
+    "detail": "original",
+    "layout": "candidate is the upper two blue-bordered rows; frozen dense baseline is the lower two orange-bordered rows; frame order is left-to-right then next row",
+    "coverage": {
+      "runs": 2,
+      "prompts_per_run": 5,
+      "exported_frames_per_prompt_per_side": 16,
+      "candidate_frames_viewed": 160,
+      "baseline_frames_viewed": 160,
+      "aligned_index_blocks": [
+        "f_001..f_016",
+        "f_017..f_032",
+        "f_033..f_048",
+        "f_049..f_064",
+        "f_065..f_080"
+      ]
+    },
+    "durable_sheets": [
+      {"run": "r01", "prompt": 1, "path": "phase3_cache_visual/r01-p1-pair.png", "sha256": "71a034a4b3d6d9a76a5667b7e8d4576f71f4763a5326a1cbb37984d788259622"},
+      {"run": "r01", "prompt": 2, "path": "phase3_cache_visual/r01-p2-pair.png", "sha256": "73a40047435242949fe6bf717cf78fe291d360f7696234bf03f91bfd6acaa9f1"},
+      {"run": "r01", "prompt": 3, "path": "phase3_cache_visual/r01-p3-pair.png", "sha256": "733b89511b3b1151b57cbad7a556eef3062245e8d036fd2e10ecdd2df49906c6"},
+      {"run": "r01", "prompt": 4, "path": "phase3_cache_visual/r01-p4-pair.png", "sha256": "7332cc958823a5d83bae6ee8df8508ea556af3985fb3cf7a8018c09c1ceed5f6"},
+      {"run": "r01", "prompt": 5, "path": "phase3_cache_visual/r01-p5-pair.png", "sha256": "eb566b9cd00d329735bf3af376d9b89aa09ea435bcb75a871c06cb1bcf12cbd3"},
+      {"run": "r02", "prompt": 1, "path": "phase3_cache_visual/r02-p1-pair.png", "sha256": "9bdf34d7b38f966dacd9421c7b30c4b4e772a6902b571af80898e54ef4256c8b"},
+      {"run": "r02", "prompt": 2, "path": "phase3_cache_visual/r02-p2-pair.png", "sha256": "8ea4842c7909afa21812a9ab2d05a3c968dd400a7c10d068ad483db9f87935db"},
+      {"run": "r02", "prompt": 3, "path": "phase3_cache_visual/r02-p3-pair.png", "sha256": "082ac734ff0ce76738a89f5ce58accc62a5d9aeb375057f09985ae5c5f505a79"},
+      {"run": "r02", "prompt": 4, "path": "phase3_cache_visual/r02-p4-pair.png", "sha256": "4aee46f1e6d8c6d69e985f615af3bf13d61458bb8b6743642f16085027e07385"},
+      {"run": "r02", "prompt": 5, "path": "phase3_cache_visual/r02-p5-pair.png", "sha256": "3f9f45224cbe5ada6ad6a2305d5881b234f5734f0ce0ace662ebb2d68de15f93"}
+    ],
+    "authenticity": {
+      "r01": {
+        "result": "pass",
+        "candidate_frame_count": 80,
+        "byte_identical_frames_vs_baseline": 0,
+        "candidate_frames_digest": "ebebb661eed466d9668fd1a39e3ffc8f855bcb3bd70743f1f7701d21a7a4828c",
+        "baseline_frames_digest": "728ddacbaa5c9656cf7952e60c835192de70f64a5db8c903f192fd148ed4c964",
+        "reason": "Five prompt-specific 81-frame videos, fixed workload provenance, EasyCache activation and 93 recorded reuse decisions anchor the viewed candidate frames to a real non-baseline run."
+      },
+      "r02": {
+        "result": "pass",
+        "candidate_frame_count": 80,
+        "byte_identical_frames_vs_baseline": 0,
+        "candidate_frames_digest": "e427746e6aaf5d3d512ba4a7cc73789b3161025dc5890d3791fd1beefe45df37",
+        "baseline_frames_digest": "728ddacbaa5c9656cf7952e60c835192de70f64a5db8c903f192fd148ed4c964",
+        "reason": "Five prompt-specific 81-frame videos, fixed workload provenance, TeaCache activation and 150 recorded reuse decisions anchor the viewed candidate frames to a real non-baseline run."
+      }
+    },
+    "r01_rubric_verdict": {
+      "overall": "pass",
+      "new_artifacts": [],
+      "temporal_checks": {
+        "flicker_or_popping": "pass",
+        "patch_boundary_stability": "pass",
+        "motion_coherence": "pass",
+        "detail_degradation": "pass"
+      },
+      "baseline_notes": "All five frozen prompts are coherent, including the two intended stable scenes.",
+      "config_notes": "Forest face and lighting, dish and hand motion, stable bedroom and frozen-toilet scenes, and panda eating motion remain coherent across aligned samples. No medium or high new artifact is visible.",
+      "recommendation": "promote",
+      "recommendation_scope": "visual_gate_only"
+    },
+    "r02_rubric_verdict": {
+      "overall": "pass",
+      "new_artifacts": [],
+      "temporal_checks": {
+        "flicker_or_popping": "pass",
+        "patch_boundary_stability": "pass",
+        "motion_coherence": "pass",
+        "detail_degradation": "pass"
+      },
+      "baseline_notes": "All five frozen prompts are coherent, including the two intended stable scenes.",
+      "config_notes": "The dish-washing and panda trajectories differ visibly from dense, but remain prompt-consistent and temporally coherent; the other three prompts are also coherent. No medium or high new artifact is visible.",
+      "recommendation": "promote",
+      "recommendation_scope": "visual_gate_only"
+    },
+    "workflow_effect": "Both existing runs pass the Master visual and authenticity checks, but neither is promoted because the Cache workflow objective and delivery gate remain incomplete."
+  },
+  "cache": {
+    "experiment_uid": "sana2ba100-cache_ca-0002",
+    "workflow_uid": "cache_ca",
+    "correctness": "quality_gated",
+    "objective_verifier": {
+      "status": "not_run_no_delivery",
+      "reason": "verify_delivery.py requires an Executor DELIVERY.json; Cache correctly exited without one."
+    },
+    "executor_reconciliation": "/home/lyy/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-cache_ca-0002/worktree/state/cache_ca_phase3_reconciliation.json",
+    "executor_reconciliation_sha256": "7e951e7d94f9c06d04f6c59cc3432f9ea5b957650a47cabbad82ef09211fb99e",
+    "search_state_sha256": "232bb1d8d86c5bdad77a125a4180ac42df1bea5f048659a2e4fab849e1cc38a5",
+    "rounds_used": 2,
+    "rounds_remaining": 18,
+    "delivery_present": false,
+    "frontier_points_promoted": 0,
+    "master_verdict": "blocked_not_accepted",
+    "blocking_reasons": [
+      "R01 and R02 full-run time ratios differ by 32.8456%, above the 2% matched-time tolerance.",
+      "R02 is calibration-only and non-rankable because its threshold never drove an interior refresh; the two-reuse cap imposed an effectively fixed cadence.",
+      "TaylorSeer has no full-run measurement, so the closed three-family matched-time objective has no supported winner or frontier.",
+      "The next required evidence is a new full GPU run, but the Phase 2 GPU window is not armed."
+    ],
+    "executor_pending_visual_note": "The Executor reconciliation records Master visual as pending because it exited before this separate Master-owned review. This status supplies the later visual verdict without modifying the Executor artifact."
+  },
+  "next_candidate": {
+    "round": 3,
+    "config_id": "cache_ca_r03_teacache_t0016",
+    "family": "TeaCache",
+    "config": "/home/lyy/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-cache_ca-0002/worktree/config/cache_ca_r03_teacache_t0016.toml",
+    "config_sha256": "ec1617abd3bc7574d82fb440af203c649e2f8b108a11605b61a01c1131229767",
+    "selection_replay": "/home/lyy/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-cache_ca-0002/worktree/state/cache_ca_r03_teacache_t0016_replay.json",
+    "selection_replay_sha256": "b7e12bbf7efa3f746e8c540e8d09cc3713e49596071ad590ecfc435a31c8f9ed",
+    "threshold": 0.016,
+    "replayed_reuse_total": 95,
+    "r01_measured_reuse_total": 93,
+    "evidence_class": "cpu_controller_replay_for_candidate_selection_only",
+    "runtime_or_quality_claim": false,
+    "run_directory_present": false,
+    "launch_status": "prepared_not_launched_phase2_gpu_authorization_not_armed"
+  },
+  "required_resume_sequence": [
+    "Wait for explicit authorization that arms the new Phase 2 GPU window.",
+    "Resume the same Cache Executor identity and launch only the prepared R03 config; do not rerun R01 or R02.",
+    "Collect R03 once and use the approved pinned exact LPIPS/AlexNet network-denied path, respecting the typed prehash and posthash controls.",
+    "Apply the 2% measured time-ratio match against R01, then calibrate a pure TaylorSeer point at the same target.",
+    "Require exact LPIPS plus a new Master-owned pixel-visible authenticity and visual-quality gate for every candidate considered for delivery.",
+    "After a genuine Cache DELIVERY exists, run verify_delivery.py and independently gate it before any integration.",
+    "Only then authorize and measure a Kernel plus Cache composed GPU run before writing INTEGRATED-DELIVERY.json."
+  ],
+  "integration": {
+    "status": "blocked_not_run",
+    "integrated_delivery_path": "/home/lyy/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/orchestrated/sana2ba100-20260913-093521/INTEGRATED-DELIVERY.json",
+    "integrated_delivery_present": false,
+    "composed_gpu_run_measured": false,
+    "reason": "Cache has no genuine verified delivery and this interval forbids GPU composition."
+  }
+}

@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "evidence_mode": "reasoned_mathematical_and_algorithmic_semantics",
+  "component": "kernel",
+  "model_id": "sana_video_2b_a100",
+  "config_id": "kernel_compile_bf16_max_autotune_ffn_temporal_linear",
+  "run_id": "20260913-140334-kernel_compile_bf16_max_autotune_ffn_temporal_linear",
+  "count_scope": "aggregate_across_the_frozen_five_prompt_workload",
+  "prompt_count": 5,
+  "steps_per_prompt": 50,
+  "config_steps": 250,
+  "baseline_steps": 250,
+  "steps_match": true,
+  "model_calls_per_step": 2,
+  "config_dit_calls": 500,
+  "baseline_dit_calls": 500,
+  "dit_calls_match": true,
+  "blocks_per_dit_call": 20,
+  "config_transformer_block_calls": 10000,
+  "baseline_transformer_block_calls": 10000,
+  "transformer_block_calls_match": true,
+  "world_size": 1,
+  "world_size_match": true,
+  "method_argument": "The retained R9 stack preserves SANA-Video's dense denoising algorithm. TorchInductor compilation with max-autotune changes graph and kernel lowering, fusion, and permitted floating-point operation ordering while evaluating the same graph. The linear-attention path evaluates the same dense Q/K/V aggregation matmuls and normalization in BF16, which is an expressly allowed 16-bit precision rewrite. In every GLUMBTempConv block, conv_point is bias-free with a 1x1 kernel, so F.linear(x, W[:, :, 0, 0]) applies the identical dense per-token map. The following bias-free Conv2d kernel has shape (3, 1) with temporal padding (1, 0), hence its cross-correlation is y[f] = W0*x[f-1] + W1*x[f] + W2*x[f+1]. The ON path evaluates those same full-rank dense terms as three GEMMs and pads the missing first/last-frame terms; it omits only W0*x[-1] and W2*x[F], whose operands are exactly the original explicit zero padding and whose contributions are identically zero. All activations, tokens, channels, weights, ranks, and 20 transformer-block evaluations per logical DiT call remain. Across five prompts with 50 steps and two model calls per step, baseline and config each execute 250 denoising steps, 500 global logical DiT calls, and 10000 transformer-block calls.",
+  "off_identity": "With SGLANG_SANA_FFN_TEMP_LINEAR=0, GLUMBTempConv executes the original conv_point, reshape/permute, conv_temp, residual-add, and output-reshape path. With SGLANG_SANA_LINATTN_BF16=0, the original FP32 aggregation casts execute. With SOL_A100_COMPILE=0, the unchanged eager DiT graph executes. The retained config also keeps EasyCache, QKV merge, RoPE BF16, and the FFN inverted-linear path disabled.",
+  "structural_invariants": {
+    "scheduler_unchanged": true,
+    "checkpoint_unchanged": true,
+    "prompt_set_unchanged": true,
+    "resolution_unchanged": true,
+    "frame_count_unchanged": true,
+    "guidance_unchanged": true,
+    "denoising_steps_unchanged": true,
+    "global_logical_dit_calls_unchanged": true,
+    "dense_transformer_blocks_unchanged": true,
+    "topology_unchanged": true
+  },
+  "denylist_audit": {
+    "approximation": false,
+    "diffusion_skip_step_cache": false,
+    "stale_denoiser_output_reuse": false,
+    "cross_step_work_reduction": false,
+    "attention_sparsification": false,
+    "ffn_sparsification": false,
+    "rank_reduction": false,
+    "sub_16_bit_quantization": false,
+    "changed_collectives_or_topology": false
+  },
+  "numeric_output_comparison_used": false,
+  "evidence_sources": {
+    "baseline_lock": "BASELINE-LOCK.json",
+    "config_manifest": "config/kernel_compile_bf16_max_autotune_ffn_temporal_linear.toml",
+    "run_config": "runs/20260913-140334-kernel_compile_bf16_max_autotune_ffn_temporal_linear/outputs/run_config.json",
+    "benchmark": "runs/20260913-140334-kernel_compile_bf16_max_autotune_ffn_temporal_linear/outputs/benchmark.json",
+    "transformer_source": "external/sol_runtime/python/sglang/multimodal_gen/runtime/models/dits/sana_video.py"
+  },
+  "evidence_sha256": {
+    "config_manifest": "66c8f3ed14f1e0c46f020e2273c0c64fa33a29465b23dfb3ea8126860d82d199",
+    "run_config": "dbb7964310515a4ddef8f8e3a337af5c3be726797492b6b5e6013bcf68abfb36",
+    "benchmark": "bb046af2e7906bc97bc9b16aaf3c2a1bd8d950108935729e750c30b3185d8657",
+    "transformer_source": "309b56ec78bbd92e29726274501c08798f15c7734c0da6d043dca6b64a62fc2c"
+  }
+}

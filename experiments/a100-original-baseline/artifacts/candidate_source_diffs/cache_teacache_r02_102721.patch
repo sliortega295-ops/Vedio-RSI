@@ -1,0 +1,308 @@
+diff --git a/source/sol_runtime/python/sglang/multimodal_gen/runtime/models/dits/sana_video.py b/repo/output/experiments/sana2ba100-cache_ca-0002/worktree/external/sol_runtime/python/sglang/multimodal_gen/runtime/models/dits/sana_video.py
+index 81e2e76..6d0a4e7 100644
+--- a/source/sol_runtime/python/sglang/multimodal_gen/runtime/models/dits/sana_video.py
++++ b/repo/output/experiments/sana2ba100-cache_ca-0002/worktree/external/sol_runtime/python/sglang/multimodal_gen/runtime/models/dits/sana_video.py
+@@ -461,10 +461,9 @@ class SanaVideoTransformer3DModel(CachableDiT, LayerwiseOffloadableModuleMixin):
+ 
+         self.layer_names = ["transformer_blocks"]
+ 
+-        # --- EasyCache step-skip (the only SANA acceleration). Per-step cache
+-        # state is keyed by CFG branch (0=first call of a step, 1=second) because
+-        # sglang runs CFG unbatched (2 forward calls/step); cond and uncond must
+-        # not contaminate each other's cached residual. ---
++        # --- Denoising-step cache families. Per-step cache state is keyed by CFG
++        # branch (0=first call of a step, 1=second) because sglang runs CFG
++        # unbatched (2 forward calls/step). Exactly one family may be active. ---
+         # Shared (common-mode) residual reused on skipped steps. CFG is unbatched
+         # and both branches get the SAME latent x_t, so reusing one shared residual
+         # makes the guidance term s*(R-R)=0 vanish on skipped steps -- riding the
+@@ -489,7 +488,58 @@ class SanaVideoTransformer3DModel(CachableDiT, LayerwiseOffloadableModuleMixin):
+         self._ec_rate = None
+         self._ec_cumulative = 0.0
+         self._ec_run = True
++        self._ec_tail = int(os.environ.get("SGLANG_SANA_EASYCACHE_TAIL", "0") or 0)
++        self._ec_max_reuse = int(os.environ.get("SGLANG_SANA_EASYCACHE_MAX_REUSE", "99") or 99)
++        self._ec_reuse_streak = 0
++        self._ec_cfg_payload = os.environ.get(
++            "SGLANG_SANA_EASYCACHE_CFG_PAYLOAD", "shared"
++        ).lower()
+         self._ec_debug = bool(os.environ.get("SGLANG_SANA_EASYCACHE_DEBUG", ""))
++
++        # TeaCache: use the timestep modulation that SANA already computes as a
++        # cheap, timestep-aware proxy for transformer-output movement. Relative
++        # movement is accumulated across denoising steps and a refresh clears it.
++        self._tea_thresh = float(os.environ.get("SGLANG_SANA_TEACACHE_THRESH", "0") or 0.0)
++        self._tea_warmup = int(os.environ.get("SGLANG_SANA_TEACACHE_WARMUP", "3") or 3)
++        self._tea_tail = int(os.environ.get("SGLANG_SANA_TEACACHE_TAIL", "2") or 2)
++        self._tea_max_reuse = int(os.environ.get("SGLANG_SANA_TEACACHE_MAX_REUSE", "3") or 3)
++        self._tea_sub = int(os.environ.get("SGLANG_SANA_TEACACHE_SUBSAMPLE", "8") or 8)
++        self._tea_prev_mod = None
++        self._tea_cumulative = 0.0
++        self._tea_reuse_streak = 0
++        self._tea_debug = bool(os.environ.get("SGLANG_SANA_TEACACHE_DEBUG", ""))
++
++        # TaylorSeer: retain timestamped transformer residuals independently for
++        # each CFG branch. Skipped steps use a first/second-order Taylor forecast;
++        # refresh is adaptive to cheap hidden-state movement and the forecast
++        # error measured whenever a real transformer evaluation is performed.
++        self._ts_thresh = float(os.environ.get("SGLANG_SANA_TAYLORSEER_THRESH", "0") or 0.0)
++        self._ts_warmup = int(os.environ.get("SGLANG_SANA_TAYLORSEER_WARMUP", "3") or 3)
++        self._ts_tail = int(os.environ.get("SGLANG_SANA_TAYLORSEER_TAIL", "2") or 2)
++        self._ts_max_reuse = int(os.environ.get("SGLANG_SANA_TAYLORSEER_MAX_REUSE", "3") or 3)
++        self._ts_order = int(os.environ.get("SGLANG_SANA_TAYLORSEER_ORDER", "1") or 1)
++        self._ts_correction = float(os.environ.get("SGLANG_SANA_TAYLORSEER_CORRECTION", "1") or 1.0)
++        self._ts_error_gain = float(os.environ.get("SGLANG_SANA_TAYLORSEER_ERROR_GAIN", "4") or 4.0)
++        self._ts_sub = int(os.environ.get("SGLANG_SANA_TAYLORSEER_SUBSAMPLE", "8") or 8)
++        self._ts_prev_step_x = None
++        self._ts_cumulative = 0.0
++        self._ts_reuse_streak = 0
++        self._ts_histories = {0: [], 1: []}
++        self._ts_branch_errors = {0: 0.0, 1: 0.0}
++        self._ts_forecast_error = 0.0
++        self._ts_debug = bool(os.environ.get("SGLANG_SANA_TAYLORSEER_DEBUG", ""))
++
++        self._cache_total_steps = int(os.environ.get("SGLANG_SANA_CACHE_TOTAL_STEPS", "50") or 50)
++        self._cache_residuals = {}
++        active = sum(value > 0.0 for value in (
++            self._ec_thresh, self._tea_thresh, self._ts_thresh
++        ))
++        if active > 1:
++            raise ValueError("SANA cache families are mutually exclusive")
++        if self._ts_order not in (1, 2):
++            raise ValueError("SGLANG_SANA_TAYLORSEER_ORDER must be 1 or 2")
++        if self._ec_cfg_payload not in ("shared", "branch"):
++            raise ValueError("SGLANG_SANA_EASYCACHE_CFG_PAYLOAD must be shared or branch")
+         # One-shot component profiler (eager): SGLANG_SANA_PROFILE=1 -> torch.profiler
+         # the block stack on the first call and print the per-op CUDA-time breakdown.
+         self._profile = bool(os.environ.get("SGLANG_SANA_PROFILE", ""))
+@@ -506,6 +556,17 @@ class SanaVideoTransformer3DModel(CachableDiT, LayerwiseOffloadableModuleMixin):
+             self._ec_rate = None
+             self._ec_cumulative = 0.0
+             self._ec_run = True
++            self._ec_reuse_streak = 0
++            self._tea_prev_mod = None
++            self._tea_cumulative = 0.0
++            self._tea_reuse_streak = 0
++            self._ts_prev_step_x = None
++            self._ts_cumulative = 0.0
++            self._ts_reuse_streak = 0
++            self._ts_histories = {0: [], 1: []}
++            self._ts_branch_errors = {0: 0.0, 1: 0.0}
++            self._ts_forecast_error = 0.0
++            self._cache_residuals = {}
+             self._cache_prev_t = None
+         self._tc_prev_t = t_scalar
+ 
+@@ -514,12 +575,15 @@ class SanaVideoTransformer3DModel(CachableDiT, LayerwiseOffloadableModuleMixin):
+         until warmup/rate is established, then accumulate the estimated relative
+         output change (K * input_change / out_norm) and compute once it crosses the
+         threshold; otherwise skip and reuse the shared residual."""
+-        if (
++        force = (
+             step < self._ec_warmup
++            or step >= self._cache_total_steps - self._ec_tail
++            or self._ec_reuse_streak >= self._ec_max_reuse
+             or self._ec_x_prev is None
+             or self._ec_rate is None
+             or self._ec_out_prev_norm is None
+-        ):
++        )
++        if force:
+             return True
+         cur = x[:, :: self._ec_sub].float()
+         input_change = (cur - self._ec_x_prev).abs().mean()
+@@ -543,6 +607,88 @@ class SanaVideoTransformer3DModel(CachableDiT, LayerwiseOffloadableModuleMixin):
+         self._ec_out_prev_norm = float(out.float().abs().mean().item())
+         self._ec_cumulative = 0.0
+ 
++    def _tea_decide(self, step, timestep_mod):
++        cur = timestep_mod.flatten()[:: self._tea_sub].float()
++        if self._tea_prev_mod is None:
++            rel = 0.0
++        else:
++            rel = float(
++                (cur - self._tea_prev_mod).abs().mean()
++                .div(self._tea_prev_mod.abs().mean().clamp_min(1e-6)).item()
++            )
++        self._tea_prev_mod = cur.detach()
++        self._tea_cumulative += rel
++        force = (
++            step < self._tea_warmup
++            or step >= self._cache_total_steps - self._tea_tail
++            or self._tea_reuse_streak >= self._tea_max_reuse
++            or 0 not in self._cache_residuals
++            or 1 not in self._cache_residuals
++        )
++        return force or self._tea_cumulative >= self._tea_thresh, rel
++
++    def _taylor_predict(self, branch, t_now):
++        history = self._ts_histories.get(branch, [])
++        need = self._ts_order + 1
++        if len(history) < need:
++            return None
++        t2, r2 = history[-1]
++        t1, r1 = history[-2]
++        denom1 = t2 - t1
++        if abs(denom1) < 1e-8:
++            return r2
++        dt = t_now - t2
++        d1 = (r2 - r1) / denom1
++        pred = r2 + self._ts_correction * d1 * dt
++        if self._ts_order == 2:
++            t0, r0 = history[-3]
++            denom0 = t1 - t0
++            span = t2 - t0
++            if abs(denom0) >= 1e-8 and abs(span) >= 1e-8:
++                previous_d1 = (r1 - r0) / denom0
++                second = 2.0 * (d1 - previous_d1) / span
++                pred = pred + self._ts_correction * 0.5 * second * (dt * dt)
++        return pred
++
++    def _taylor_decide(self, step, x):
++        cur = x[:, :: self._ts_sub].float()
++        if self._ts_prev_step_x is None:
++            rel = 0.0
++        else:
++            rel = float(
++                (cur - self._ts_prev_step_x).abs().mean()
++                .div(self._ts_prev_step_x.abs().mean().clamp_min(1e-6)).item()
++            )
++        self._ts_prev_step_x = cur.detach()
++        self._ts_cumulative += rel
++        score = self._ts_cumulative * (
++            1.0 + self._ts_error_gain * self._ts_forecast_error
++        )
++        need = self._ts_order + 1
++        force = (
++            step < self._ts_warmup
++            or step >= self._cache_total_steps - self._ts_tail
++            or self._ts_reuse_streak >= self._ts_max_reuse
++            or len(self._ts_histories[0]) < need
++            or len(self._ts_histories[1]) < need
++        )
++        return force or score >= self._ts_thresh, rel, score
++
++    def _taylor_update(self, branch, t_now, residual):
++        prediction = self._taylor_predict(branch, t_now)
++        if prediction is not None:
++            cur = residual[:, :: self._ts_sub].float()
++            pred = prediction[:, :: self._ts_sub].float()
++            error = float(
++                (cur - pred).abs().mean().div(cur.abs().mean().clamp_min(1e-6)).item()
++            )
++            self._ts_branch_errors[branch] = error
++            if branch == 1:
++                self._ts_forecast_error = max(self._ts_branch_errors.values())
++        history = self._ts_histories[branch]
++        history.append((t_now, residual.detach()))
++        del history[: -3]
++
+     # --- compiled hot path vs. eager cache control ----------------------------
+     # sglang compiles the WHOLE DiT forward (denoising.py: module.compile()). To
+     # let a skip-cache coexist with torch.compile, the only thing dynamo should
+@@ -587,7 +733,7 @@ class SanaVideoTransformer3DModel(CachableDiT, LayerwiseOffloadableModuleMixin):
+ 
+     @torch.compiler.disable
+     def _cache_decide(self, timestep, hidden_states, timestep_mod, batch_size):
+-        """Eager (dynamo-opaque) per-step EasyCache skip decision + bookkeeping."""
++        """Eager (dynamo-opaque) cache decision and bookkeeping."""
+         t_now = float(timestep.flatten()[0].item())
+         self._tc_reset_if_new_gen(t_now)
+         # CFG is unbatched: cond & uncond of a step share the timestep.
+@@ -597,26 +743,76 @@ class SanaVideoTransformer3DModel(CachableDiT, LayerwiseOffloadableModuleMixin):
+         self._tc_step[branch] = step + 1
+ 
+         if branch == 0:
+-            run_blocks = self._ec_decide(step, hidden_states)
++            if self._ec_thresh > 0.0:
++                run_blocks = self._ec_decide(step, hidden_states)
++                family = "easycache"
++            elif self._tea_thresh > 0.0:
++                run_blocks, rel = self._tea_decide(step, timestep_mod)
++                family = "teacache"
++                if self._tea_debug:
++                    print(f"TC step={step} run={int(run_blocks)} rel={rel:.6f} "
++                          f"cum={self._tea_cumulative:.6f} streak={self._tea_reuse_streak}",
++                          flush=True)
++            else:
++                run_blocks, rel, score = self._taylor_decide(step, hidden_states)
++                family = "taylorseer"
++                if self._ts_debug:
++                    print(f"TS step={step} run={int(run_blocks)} rel={rel:.6f} "
++                          f"score={score:.6f} err={self._ts_forecast_error:.6f} "
++                          f"streak={self._ts_reuse_streak}", flush=True)
+             self._ec_run = run_blocks
+-            if self._ec_debug:
++            if self._ec_thresh > 0.0 and self._ec_debug:
+                 print(f"EC step={step} run={int(run_blocks)} "
+                       f"cum={self._ec_cumulative:.4f} K={self._ec_rate}", flush=True)
++            if run_blocks:
++                self._ec_reuse_streak = 0
++                self._tea_reuse_streak = 0
++                self._ts_reuse_streak = 0
++            elif family == "easycache":
++                self._ec_reuse_streak += 1
++            elif family == "teacache":
++                self._tea_reuse_streak += 1
++            else:
++                self._ts_reuse_streak += 1
+         else:
+             run_blocks = self._ec_run
+-        return {"run_blocks": run_blocks, "branch": branch}
++            family = (
++                "easycache" if self._ec_thresh > 0.0 else
++                "teacache" if self._tea_thresh > 0.0 else "taylorseer"
++            )
++        return {"run_blocks": run_blocks, "branch": branch,
++                "family": family, "t_now": t_now}
+ 
+     @torch.compiler.disable
+     def _cache_after_compute(self, decision, hidden_before, hidden_states):
+         """Eager: update EasyCache state after a computed step (rate + residual)."""
+-        if decision["branch"] == 0:
++        branch = decision["branch"]
++        residual = (hidden_states - hidden_before).detach()
++        if decision["family"] == "easycache" and branch == 0:
+             self._ec_update(hidden_before, hidden_states)
+-        self._tc_reuse_residual = (hidden_states - hidden_before).detach()  # shared common-mode residual
++        elif decision["family"] == "teacache" and branch == 0:
++            self._tea_cumulative = 0.0
++        elif decision["family"] == "taylorseer":
++            self._taylor_update(branch, decision["t_now"], residual)
++            if branch == 0:
++                self._ts_cumulative = 0.0
++        self._cache_residuals[branch] = residual
++        self._tc_reuse_residual = residual  # latest branch; EasyCache shared mode
+ 
+     @torch.compiler.disable
+     def _cache_reuse(self, decision, hidden_before, hidden_states):
+-        """Eager: skipped step -> reuse cached transformation (CFG common-mode)."""
+-        return hidden_states + self._tc_reuse_residual
++        """Eager: skipped step -> reuse or forecast the cached transformation."""
++        branch = decision["branch"]
++        family = decision["family"]
++        if family == "taylorseer":
++            residual = self._taylor_predict(branch, decision["t_now"])
++        elif family == "teacache" or self._ec_cfg_payload == "branch":
++            residual = self._cache_residuals.get(branch)
++        else:
++            residual = self._tc_reuse_residual
++        if residual is None:
++            raise RuntimeError(f"{family} selected reuse before its residual was initialized")
++        return hidden_states + residual.to(hidden_states.device, hidden_states.dtype)
+ 
+     def post_load_weights(self) -> None:
+         # SANA-Video runs the whole transformer in bf16 (matching diffusers).
+@@ -676,7 +872,11 @@ class SanaVideoTransformer3DModel(CachableDiT, LayerwiseOffloadableModuleMixin):
+         )
+         encoder_hidden_states = self.caption_norm(encoder_hidden_states)
+ 
+-        any_cache = self._ec_thresh > 0.0
++        any_cache = (
++            self._ec_thresh > 0.0
++            or self._tea_thresh > 0.0
++            or self._ts_thresh > 0.0
++        )
+         if not any_cache:
+             # Dense / fusion-only: the block stack is the whole compiled hot path,
+             # with no cache machinery in the graph.

@@ -1,0 +1,21 @@
+{
+  "model_id": "sana_video_2b_a100",
+  "total_s": 578.02,
+  "denoise_s": 546.3913,
+  "timing_scope": "five_prompt_sum_sglang_request_metrics_excluding_model_load_internal_one_step_warmup_and_video_export",
+  "peak_memory_mib": null,
+  "run_dir": "/home/lyy/Experiments/SolAgent/20260913-a100-original-baseline/repo/runs/20260913-091006-sana_video_2b_a100_dense",
+  "baseline_frames": "/home/lyy/Experiments/SolAgent/20260913-a100-original-baseline/repo/runs/20260913-091006-sana_video_2b_a100_dense/outputs/frames",
+  "baseline_video": "/home/lyy/Experiments/SolAgent/20260913-a100-original-baseline/repo/runs/20260913-091006-sana_video_2b_a100_dense/outputs/out.mp4",
+  "world_size": 1,
+  "world_size_source": "run_artifact:run_config.json:world_size",
+  "resource_envelope": {
+    "nodes": 1,
+    "gpus_per_node": 1,
+    "world_size": 1,
+    "allocated_gpus": 1,
+    "hardware": "NVIDIA A100-SXM4-40GB"
+  },
+  "frozen_at": "2026-09-13T09:35:21Z",
+  "source": "override_run_dir"
+}

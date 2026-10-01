@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "id": "sana_video_2b_a100_dense_four_suite_prompts",
+  "seeds": [42, 12345],
+  "prompt_suites": [
+    {"suite": "subject_consistency", "prompt": "a person washing the dishes"},
+    {"suite": "scene", "prompt": "bedroom"},
+    {"suite": "temporal_flickering", "prompt": "a toilet, frozen in time"},
+    {"suite": "overall_consistency", "prompt": "A cute fluffy panda eating Chinese food in a restaurant"}
+  ]
+}

@@ -1,0 +1,259 @@
+{
+  "artifacts": {
+    "benchmark": {
+      "bytes": 18716,
+      "exists": true,
+      "path": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-cache_ca-0002/worktree/runs/20260914-054324-cache_ca_r05_taylorseer_t0180_w10_o1/outputs/benchmark.json"
+    },
+    "collection": {
+      "bytes": 9314,
+      "exists": true,
+      "path": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-cache_ca-0002/worktree/runs/20260914-054324-cache_ca_r05_taylorseer_t0180_w10_o1/outputs/collection.json"
+    },
+    "log": {
+      "bytes": 317,
+      "exists": true,
+      "path": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-cache_ca-0002/worktree/runs/20260914-054324-cache_ca_r05_taylorseer_t0180_w10_o1/outputs/run.log"
+    },
+    "patch_summary": {
+      "bytes": 1256,
+      "exists": true,
+      "path": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-cache_ca-0002/worktree/runs/20260914-054324-cache_ca_r05_taylorseer_t0180_w10_o1/outputs/patch_summary.md"
+    },
+    "quality": {
+      "bytes": 6027,
+      "exists": true,
+      "path": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-cache_ca-0002/worktree/runs/20260914-054324-cache_ca_r05_taylorseer_t0180_w10_o1/outputs/quality.json"
+    },
+    "risk_notes": {
+      "bytes": 47,
+      "exists": true,
+      "path": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-cache_ca-0002/worktree/runs/20260914-054324-cache_ca_r05_taylorseer_t0180_w10_o1/outputs/risk_notes.md"
+    },
+    "side_by_side_video": {
+      "exists": false
+    },
+    "video": {
+      "bytes": 517569,
+      "exists": true,
+      "path": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-cache_ca-0002/worktree/runs/20260914-054324-cache_ca_r05_taylorseer_t0180_w10_o1/outputs/out.mp4"
+    }
+  },
+  "frames": {
+    "count": 80,
+    "ffmpeg": "/usr/bin/ffmpeg",
+    "ffmpeg_source": "path",
+    "status": "existing"
+  },
+  "log_errors": [],
+  "notes": [],
+  "quality": {
+    "collected_at_utc": "2026-09-14T10:32:15.797933+00:00",
+    "frame_extraction": {
+      "count": 80,
+      "ffmpeg": "/usr/bin/ffmpeg",
+      "ffmpeg_source": "path",
+      "status": "existing"
+    },
+    "frame_metrics": {
+      "frame_count": 80,
+      "frames": [
+        "outputs/frames/f_001.png",
+        "outputs/frames/f_002.png",
+        "outputs/frames/f_003.png",
+        "outputs/frames/f_004.png",
+        "outputs/frames/f_005.png",
+        "outputs/frames/f_006.png",
+        "outputs/frames/f_007.png",
+        "outputs/frames/f_008.png",
+        "outputs/frames/f_009.png",
+        "outputs/frames/f_010.png",
+        "outputs/frames/f_011.png",
+        "outputs/frames/f_012.png",
+        "outputs/frames/f_013.png",
+        "outputs/frames/f_014.png",
+        "outputs/frames/f_015.png",
+        "outputs/frames/f_016.png",
+        "outputs/frames/f_017.png",
+        "outputs/frames/f_018.png",
+        "outputs/frames/f_019.png",
+        "outputs/frames/f_020.png",
+        "outputs/frames/f_021.png",
+        "outputs/frames/f_022.png",
+        "outputs/frames/f_023.png",
+        "outputs/frames/f_024.png",
+        "outputs/frames/f_025.png",
+        "outputs/frames/f_026.png",
+        "outputs/frames/f_027.png",
+        "outputs/frames/f_028.png",
+        "outputs/frames/f_029.png",
+        "outputs/frames/f_030.png",
+        "outputs/frames/f_031.png",
+        "outputs/frames/f_032.png",
+        "outputs/frames/f_033.png",
+        "outputs/frames/f_034.png",
+        "outputs/frames/f_035.png",
+        "outputs/frames/f_036.png",
+        "outputs/frames/f_037.png",
+        "outputs/frames/f_038.png",
+        "outputs/frames/f_039.png",
+        "outputs/frames/f_040.png",
+        "outputs/frames/f_041.png",
+        "outputs/frames/f_042.png",
+        "outputs/frames/f_043.png",
+        "outputs/frames/f_044.png",
+        "outputs/frames/f_045.png",
+        "outputs/frames/f_046.png",
+        "outputs/frames/f_047.png",
+        "outputs/frames/f_048.png",
+        "outputs/frames/f_049.png",
+        "outputs/frames/f_050.png",
+        "outputs/frames/f_051.png",
+        "outputs/frames/f_052.png",
+        "outputs/frames/f_053.png",
+        "outputs/frames/f_054.png",
+        "outputs/frames/f_055.png",
+        "outputs/frames/f_056.png",
+        "outputs/frames/f_057.png",
+        "outputs/frames/f_058.png",
+        "outputs/frames/f_059.png",
+        "outputs/frames/f_060.png",
+        "outputs/frames/f_061.png",
+        "outputs/frames/f_062.png",
+        "outputs/frames/f_063.png",
+        "outputs/frames/f_064.png",
+        "outputs/frames/f_065.png",
+        "outputs/frames/f_066.png",
+        "outputs/frames/f_067.png",
+        "outputs/frames/f_068.png",
+        "outputs/frames/f_069.png",
+        "outputs/frames/f_070.png",
+        "outputs/frames/f_071.png",
+        "outputs/frames/f_072.png",
+        "outputs/frames/f_073.png",
+        "outputs/frames/f_074.png",
+        "outputs/frames/f_075.png",
+        "outputs/frames/f_076.png",
+        "outputs/frames/f_077.png",
+        "outputs/frames/f_078.png",
+        "outputs/frames/f_079.png",
+        "outputs/frames/f_080.png"
+      ],
+      "status": "available"
+    },
+    "judges": {
+      "lpips": {
+        "pairs_scored": 42,
+        "result": {
+          "max": 0.07933352887630463,
+          "mean": 0.03661351038941315,
+          "median": 0.031403856351971626,
+          "metric": "lpips",
+          "n": 42,
+          "notes": [
+            "lower_is_better",
+            "frames_paired_by_order"
+          ],
+          "per_frame": [
+            0.017991621047258377,
+            0.016117339953780174,
+            0.0173041932284832,
+            0.016592899337410927,
+            0.016485027968883514,
+            0.01636446826159954,
+            0.02145439013838768,
+            0.051083169877529144,
+            0.05364082008600235,
+            0.05540209636092186,
+            0.05523008853197098,
+            0.07933352887630463,
+            0.06463265419006348,
+            0.014313546009361744,
+            0.013631917536258698,
+            0.013979410752654076,
+            0.014319395646452904,
+            0.014184433035552502,
+            0.01440848596394062,
+            0.02356654591858387,
+            0.021410085260868073,
+            0.019971605390310287,
+            0.01966312900185585,
+            0.019167199730873108,
+            0.018410595133900642,
+            0.04184495285153389,
+            0.04366981238126755,
+            0.033902719616889954,
+            0.030654441565275192,
+            0.029982037842273712,
+            0.03215327113866806,
+            0.03665696457028389,
+            0.07117612659931183,
+            0.06211140751838684,
+            0.067410409450531,
+            0.05947355553507805,
+            0.06179066747426987,
+            0.05965808779001236,
+            0.06360957026481628,
+            0.05005890876054764,
+            0.053408168256282806,
+            0.051547687500715256
+          ],
+          "status": "ok"
+        },
+        "status": "complete"
+      },
+      "nvidia_gemini": {
+        "reason": "api_key_missing",
+        "status": "blocked"
+      }
+    },
+    "off_identity": {
+      "max_abs_diff_uint8": 255.0,
+      "nonidentical_frames": 80,
+      "pairs": 80,
+      "status": "different"
+    },
+    "pixel_metrics": {
+      "mean_abs_pixel_diff": 4.231822738051415,
+      "mse_max": 265.7867126464844,
+      "mse_mean": 81.8569400548935,
+      "pairs": 80,
+      "patch_boundary_ratio_by_size_max": {
+        "16": 1.0242060431910056,
+        "32": 1.0552215609413969,
+        "8": 1.0205466665409528
+      },
+      "patch_boundary_ratio_by_size_mean": {
+        "16": 0.9988671485007308,
+        "32": 1.0060183877586801,
+        "8": 1.001108513762627
+      },
+      "patch_boundary_ratio_max": 1.0552215609413969,
+      "patch_boundary_ratio_mean": 1.0087792597453387,
+      "psnr_mean": 30.559485710947268,
+      "psnr_min": 23.885470952038332,
+      "sharpness_ratio_mean": 1.0009645512754979,
+      "status": "ok",
+      "temporal_delta_error_max": 8.673501014709473,
+      "temporal_delta_error_mean": 3.948282007929645,
+      "temporal_jitter_ratio_max": 1.120129300521147,
+      "temporal_jitter_ratio_mean": 0.9927978335721636,
+      "temporal_jitter_ratio_min": 0.8259754682379543
+    },
+    "promotion_blockers": [
+      "nvidia_gemini:api_key_missing"
+    ],
+    "status": "blocked_quality"
+  },
+  "run_dir": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-cache_ca-0002/worktree/runs/20260914-054324-cache_ca_r05_taylorseer_t0180_w10_o1",
+  "status": "completed",
+  "timing": {
+    "decode_s": 25.445899999999998,
+    "denoise_s": 342.3968,
+    "stage_seconds": {
+      "decode": 25.445899999999998,
+      "generation": 342.3968
+    },
+    "total_s": 371.36
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "budget_error": null,
+  "duration_s": 915.381894065,
+  "exit_code": 0,
+  "finished": true,
+  "finished_at_utc": "2026-09-14T08:50:38.835136+00:00",
+  "finished_monotonic_ns": 1884189058783973,
+  "phase": "phase2",
+  "schema_version": 1,
+  "timed_out_budget": false,
+  "worker_pid": 3034795
+}

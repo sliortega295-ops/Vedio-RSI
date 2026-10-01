@@ -1,0 +1,434 @@
+{
+  "schema_version": 2,
+  "status": "complete",
+  "component": "cache",
+  "model_id": "sana_video_2b_a100",
+  "baseline": {
+    "total_s": 578.02,
+    "run_dir": "/home/lyy/Experiments/SolAgent/20260913-a100-original-baseline/repo/runs/20260913-091006-sana_video_2b_a100_dense",
+    "timing_scope": "five_prompt_sum_sglang_request_metrics_excluding_model_load_internal_one_step_warmup_and_video_export"
+  },
+  "round_budget": {
+    "used": 8,
+    "limit": 20,
+    "stopped_early_reason": "Two pairwise matched shared targets and two non-dominated quality/latency winners completed the required three-family curves."
+  },
+  "evaluation_contract": {
+    "prompt_count": 5,
+    "prompt_sha256": "de249238cd19dd5b77de61eb69fd114228d4813a0335a1c794e366bbcd00e7e0",
+    "width": 832,
+    "height": 480,
+    "num_frames": 81,
+    "fps": 16,
+    "steps": 50,
+    "guidance_scale": 6.0,
+    "seed": 42,
+    "world_size": 1,
+    "hardware": "NVIDIA A100-SXM4-40GB"
+  },
+  "frontier_points": [
+    {
+      "config_id": "cache_ca_r05_taylorseer_t0180_w10_o1",
+      "family": "TaylorSeer",
+      "matched_target": {
+        "name": "fast",
+        "compared_rounds": [
+          "R01",
+          "R03",
+          "R05"
+        ],
+        "quality_rank": 1,
+        "pairwise_time_ratio_match": true
+      },
+      "run_dir": "runs/20260914-054324-cache_ca_r05_taylorseer_t0180_w10_o1",
+      "activation": {
+        "env": {
+          "SOL_A100_COMPILE": "0",
+          "SGLANG_SANA_LINATTN_BF16": "0",
+          "SGLANG_SANA_QKV_MERGE": "0",
+          "SGLANG_SANA_EASYCACHE_THRESH": "0",
+          "SGLANG_SANA_TEACACHE_THRESH": "0",
+          "SGLANG_SANA_TAYLORSEER_THRESH": "0.18",
+          "SGLANG_SANA_TAYLORSEER_WARMUP": "10",
+          "SGLANG_SANA_TAYLORSEER_TAIL": "2",
+          "SGLANG_SANA_TAYLORSEER_MAX_REUSE": "1",
+          "SGLANG_SANA_TAYLORSEER_ORDER": "1",
+          "SGLANG_SANA_TAYLORSEER_CORRECTION": "1.0",
+          "SGLANG_SANA_TAYLORSEER_ERROR_GAIN": "4.0",
+          "SGLANG_SANA_TAYLORSEER_SUBSAMPLE": "8",
+          "SGLANG_SANA_TAYLORSEER_DEBUG": "1",
+          "SGLANG_SANA_CACHE_TOTAL_STEPS": "50"
+        }
+      },
+      "method": {
+        "signal_source": "accumulated relative L1 movement of subsampled post-patch hidden states, scaled by measured Taylor forecast error",
+        "reuse_payload": "per-CFG-branch first-order Taylor forecast of the full transformer-block-stack residual before output norm/projection",
+        "refresh_rule": "ten-step dense warmup, error-scaled accumulated-movement threshold 0.18, one-forecast cap, and two-step dense tail",
+        "parameters": {
+          "threshold": 0.18,
+          "warmup_steps": 10,
+          "tail_steps": 2,
+          "max_consecutive_reuse": 1,
+          "history_order": 1,
+          "correction": 1.0,
+          "forecast_error_gain": 4.0,
+          "subsample_stride": 8
+        },
+        "off_path": "All three cache thresholds at zero directly select the original dense block-stack path."
+      },
+      "implementation_manifest": {
+        "path": "config/cache_ca_r05_taylorseer_t0180_w10_o1.toml",
+        "sha256": "5fc4c65675fbb01b83b31881b6ba3fa0cf10eb77a7c278cbb839feb19f920b22"
+      },
+      "performance": {
+        "frontier_axis": "latency",
+        "baseline_total_s": 578.02,
+        "config_total_s": 371.36,
+        "denoise_s": 342.3968,
+        "time_ratio": 0.642469118715615,
+        "time_compression": 0.357530881284385,
+        "speedup": 1.556495045239121,
+        "timing_scope": "five_prompt_sum_sglang_request_metrics_excluding_model_load_internal_one_step_warmup_and_video_export"
+      },
+      "cache_pattern": {
+        "logical_steps_per_prompt": 50,
+        "decision_count_total": 250,
+        "recompute_total": 155,
+        "reuse_total": 95,
+        "reuse_fraction": 0.38,
+        "recompute_per_prompt": 31,
+        "forecast_reuse_per_prompt": 19,
+        "forecast_steps_per_prompt": [
+          10,
+          12,
+          14,
+          16,
+          18,
+          20,
+          22,
+          24,
+          26,
+          28,
+          30,
+          32,
+          34,
+          36,
+          38,
+          40,
+          42,
+          44,
+          46
+        ]
+      },
+      "quality": {
+        "mode": "quality_gated",
+        "lpips_max": 0.07933352887630463,
+        "lpips_mean": 0.03661351038941315,
+        "lpips_selected_pair_count": 42,
+        "lpips_prompt_coverage": [
+          "p01",
+          "p02",
+          "p03",
+          "p04",
+          "p05"
+        ],
+        "visual_provider": "codex",
+        "visual_overall": "pass",
+        "codex_visual_overall": "pass",
+        "visual_max_severity": "low",
+        "visual_verdict": "runs/20260914-054324-cache_ca_r05_taylorseer_t0180_w10_o1/executor_visual_verdict_attempt10.json",
+        "visual_verdict_sha256": "bf363273eeee348c3fcac2a6a526c10b1ee96319a233ffe14f44e37a64bb94b3",
+        "authenticity": "pass_within_approved_sampled_frame_transport",
+        "relation": "worse",
+        "coverage_limitation": "16 sampled times per prompt plus 18 full-resolution pairs; continuous playback and unsampled source frames were not reviewed.",
+        "phase3_receipt": "runs/20260914-054324-cache_ca_r05_taylorseer_t0180_w10_o1/phase3_quality_attempts/20260914T062035.537017+0000_2975905/receipt.json",
+        "phase3_receipt_sha256": "636f7ff9b8d382045dfd41862c96ec9f79412dbf4e939f12a61a1948670d63d7",
+        "raw_assess_preserved": {
+          "quality_status": "blocked_quality",
+          "quality_blockers": [
+            "nvidia_gemini:api_key_missing"
+          ],
+          "baseline_total_s": null,
+          "speedup": null
+        },
+        "master_independent_visual_gate": "pending"
+      },
+      "artifacts": [
+        "runs/20260914-054324-cache_ca_r05_taylorseer_t0180_w10_o1/outputs/out.mp4",
+        "runs/20260914-054324-cache_ca_r05_taylorseer_t0180_w10_o1/outputs/out_2.mp4",
+        "runs/20260914-054324-cache_ca_r05_taylorseer_t0180_w10_o1/outputs/out_3.mp4",
+        "runs/20260914-054324-cache_ca_r05_taylorseer_t0180_w10_o1/outputs/out_4.mp4",
+        "runs/20260914-054324-cache_ca_r05_taylorseer_t0180_w10_o1/outputs/out_5.mp4",
+        "runs/20260914-054324-cache_ca_r05_taylorseer_t0180_w10_o1/outputs/frames",
+        "runs/20260914-054324-cache_ca_r05_taylorseer_t0180_w10_o1/assess_verdict.json",
+        "runs/20260914-054324-cache_ca_r05_taylorseer_t0180_w10_o1/executor_visual_verdict_attempt10.json",
+        "runs/20260914-054324-cache_ca_r05_taylorseer_t0180_w10_o1/outputs/benchmark.json",
+        "runs/20260914-054324-cache_ca_r05_taylorseer_t0180_w10_o1/cache_evidence.json",
+        "runs/20260914-054324-cache_ca_r05_taylorseer_t0180_w10_o1/phase3_quality_attempts/20260914T062035.537017+0000_2975905/receipt.json"
+      ],
+      "provenance": {
+        "gpu_uuid": "GPU-cad55364-e014-c35f-337e-db899afd1c6a",
+        "world_size": 1,
+        "slurm_job_id": "site-pid-2955458",
+        "source_commit": "16af862a135e27d55bf8e574d786db595a8e0654",
+        "source_hashes": {
+          "python/sglang/multimodal_gen/runtime/models/dits/sana_video.py": "3cf421499522b6baef3f936ab8d36809235a69551a059bf4942517958c0ce12a",
+          "python/sglang/multimodal_gen/runtime/pipelines/sana_video.py": "7c92dddb0be14a21e3dff9a173b5c4f9aedc3f5a4ac5808aaf2b35bd3b28618e",
+          "scripts/sana/sana_video_sglang_run.py": "b9e707bd131534d9096a570ab3e4d0c892db2dd6c5d1ac05cee8d1a72a03d964"
+        },
+        "coordinator_metadata": {
+          "path": "runs/20260914-054324-cache_ca_r05_taylorseer_t0180_w10_o1/metadata.json",
+          "sha256": "598904fecc09e1d4d264f6787e99a8b8ccc778c1679792af289684ff8a5e387e"
+        },
+        "phase3_post_metadata_snapshot": {
+          "path": "runs/20260914-054324-cache_ca_r05_taylorseer_t0180_w10_o1/phase3_quality_attempts/20260914T062035.537017+0000_2975905/post/metadata.json",
+          "sha256": "a041eb060c8fa4da1260c9860d2850aab232375d0bb94f2192e5ff18fcab5e06"
+        }
+      }
+    },
+    {
+      "config_id": "cache_ca_r08_taylorseer_t0180_w30_o1",
+      "family": "TaylorSeer",
+      "matched_target": {
+        "name": "conservative",
+        "compared_rounds": [
+          "R06",
+          "R07",
+          "R08"
+        ],
+        "quality_rank": 1,
+        "pairwise_time_ratio_match": true
+      },
+      "run_dir": "runs/20260914-083326-cache_ca_r08_taylorseer_t0180_w30_o1",
+      "activation": {
+        "env": {
+          "SOL_A100_COMPILE": "0",
+          "SGLANG_SANA_LINATTN_BF16": "0",
+          "SGLANG_SANA_QKV_MERGE": "0",
+          "SGLANG_SANA_EASYCACHE_THRESH": "0",
+          "SGLANG_SANA_TEACACHE_THRESH": "0",
+          "SGLANG_SANA_TAYLORSEER_THRESH": "0.18",
+          "SGLANG_SANA_TAYLORSEER_WARMUP": "30",
+          "SGLANG_SANA_TAYLORSEER_TAIL": "2",
+          "SGLANG_SANA_TAYLORSEER_MAX_REUSE": "1",
+          "SGLANG_SANA_TAYLORSEER_ORDER": "1",
+          "SGLANG_SANA_TAYLORSEER_CORRECTION": "1.0",
+          "SGLANG_SANA_TAYLORSEER_ERROR_GAIN": "4.0",
+          "SGLANG_SANA_TAYLORSEER_SUBSAMPLE": "8",
+          "SGLANG_SANA_TAYLORSEER_DEBUG": "1",
+          "SGLANG_SANA_CACHE_TOTAL_STEPS": "50"
+        }
+      },
+      "method": {
+        "signal_source": "accumulated relative L1 movement of subsampled post-patch hidden states, scaled by measured Taylor forecast error",
+        "reuse_payload": "per-CFG-branch first-order Taylor forecast of the full transformer-block-stack residual before output norm/projection",
+        "refresh_rule": "thirty-step dense warmup, error-scaled accumulated-movement threshold 0.18, one-forecast cap, and two-step dense tail",
+        "parameters": {
+          "threshold": 0.18,
+          "warmup_steps": 30,
+          "tail_steps": 2,
+          "max_consecutive_reuse": 1,
+          "history_order": 1,
+          "correction": 1.0,
+          "forecast_error_gain": 4.0,
+          "subsample_stride": 8
+        },
+        "off_path": "All three cache thresholds at zero directly select the original dense block-stack path."
+      },
+      "implementation_manifest": {
+        "path": "config/cache_ca_r08_taylorseer_t0180_w30_o1.toml",
+        "sha256": "ba8e2f4f10e13ff50ac448c4c55f3052e634bbf069abd1670415be7bf7fcb5d1"
+      },
+      "performance": {
+        "frontier_axis": "latency",
+        "baseline_total_s": 578.02,
+        "config_total_s": 480.96,
+        "denoise_s": 451.9818,
+        "time_ratio": 0.8320819348811461,
+        "time_compression": 0.16791806511885388,
+        "speedup": 1.201804723885562,
+        "timing_scope": "five_prompt_sum_sglang_request_metrics_excluding_model_load_internal_one_step_warmup_and_video_export"
+      },
+      "cache_pattern": {
+        "logical_steps_per_prompt": 50,
+        "decision_count_total": 250,
+        "recompute_total": 205,
+        "reuse_total": 45,
+        "reuse_fraction": 0.18,
+        "recompute_per_prompt": 41,
+        "forecast_reuse_per_prompt": 9,
+        "forecast_steps_per_prompt": [
+          30,
+          32,
+          34,
+          36,
+          38,
+          40,
+          42,
+          44,
+          46
+        ]
+      },
+      "quality": {
+        "mode": "quality_gated",
+        "lpips_max": 0.026091445237398148,
+        "lpips_mean": 0.015967408195137978,
+        "lpips_selected_pair_count": 42,
+        "lpips_prompt_coverage": [
+          "p01",
+          "p02",
+          "p03",
+          "p04",
+          "p05"
+        ],
+        "visual_provider": "codex",
+        "visual_overall": "pass",
+        "codex_visual_overall": "pass",
+        "visual_max_severity": "low",
+        "visual_verdict": "state/cache_ca_attempt11_r08_visual_verdict.json",
+        "visual_verdict_sha256": "b03168c287ac88b21af3d45328d6b4ca5de65fc6130ad69bdc747888ef49df86",
+        "authenticity": "pass_within_approved_sampled_frame_transport",
+        "relation": "worse",
+        "coverage_limitation": "16 sampled times per prompt plus 17 full-resolution pairs; continuous playback and unsampled source frames were not reviewed.",
+        "phase3_receipt": "runs/20260914-083326-cache_ca_r08_taylorseer_t0180_w30_o1/phase3_quality_attempts/20260914T091442.857077+0000_3058273/receipt.json",
+        "phase3_receipt_sha256": "e83d0c0b31e4b5d770154f6633b1e7212291c5df23945d2ca7c114d0e30caa19",
+        "raw_assess_preserved": {
+          "quality_status": "blocked_quality",
+          "quality_blockers": [
+            "nvidia_gemini:api_key_missing"
+          ],
+          "baseline_total_s": null,
+          "speedup": null
+        },
+        "master_independent_visual_gate": "pending"
+      },
+      "artifacts": [
+        "runs/20260914-083326-cache_ca_r08_taylorseer_t0180_w30_o1/outputs/out.mp4",
+        "runs/20260914-083326-cache_ca_r08_taylorseer_t0180_w30_o1/outputs/out_2.mp4",
+        "runs/20260914-083326-cache_ca_r08_taylorseer_t0180_w30_o1/outputs/out_3.mp4",
+        "runs/20260914-083326-cache_ca_r08_taylorseer_t0180_w30_o1/outputs/out_4.mp4",
+        "runs/20260914-083326-cache_ca_r08_taylorseer_t0180_w30_o1/outputs/out_5.mp4",
+        "runs/20260914-083326-cache_ca_r08_taylorseer_t0180_w30_o1/outputs/frames",
+        "runs/20260914-083326-cache_ca_r08_taylorseer_t0180_w30_o1/assess_verdict.json",
+        "state/cache_ca_attempt11_r08_visual_verdict.json",
+        "runs/20260914-083326-cache_ca_r08_taylorseer_t0180_w30_o1/outputs/benchmark.json",
+        "runs/20260914-083326-cache_ca_r08_taylorseer_t0180_w30_o1/cache_evidence.json",
+        "runs/20260914-083326-cache_ca_r08_taylorseer_t0180_w30_o1/phase3_quality_attempts/20260914T091442.857077+0000_3058273/receipt.json"
+      ],
+      "provenance": {
+        "gpu_uuid": "GPU-cad55364-e014-c35f-337e-db899afd1c6a",
+        "world_size": 1,
+        "slurm_job_id": "site-pid-3034795",
+        "source_commit": "16af862a135e27d55bf8e574d786db595a8e0654",
+        "source_hashes": {
+          "python/sglang/multimodal_gen/runtime/models/dits/sana_video.py": "3cf421499522b6baef3f936ab8d36809235a69551a059bf4942517958c0ce12a",
+          "python/sglang/multimodal_gen/runtime/pipelines/sana_video.py": "7c92dddb0be14a21e3dff9a173b5c4f9aedc3f5a4ac5808aaf2b35bd3b28618e",
+          "scripts/sana/sana_video_sglang_run.py": "b9e707bd131534d9096a570ab3e4d0c892db2dd6c5d1ac05cee8d1a72a03d964"
+        },
+        "coordinator_metadata": {
+          "path": "runs/20260914-083326-cache_ca_r08_taylorseer_t0180_w30_o1/metadata.json",
+          "sha256": "b9689f9e763827a732e9d014e57d5b9f23cd3ef25f0ad60a6c9438b36c706da5"
+        },
+        "phase3_post_metadata_snapshot": {
+          "path": "runs/20260914-083326-cache_ca_r08_taylorseer_t0180_w30_o1/phase3_quality_attempts/20260914T091442.857077+0000_3058273/post/metadata.json",
+          "sha256": "3a609fa4ac789375b4e33db8ca3d7dccfa9e9b37e2f0f4570db1806eb7f76d78"
+        }
+      }
+    }
+  ],
+  "matched_time_assessment": [
+    {
+      "target": "fast",
+      "relative_tolerance": 0.02,
+      "points": [
+        {
+          "round": "R01",
+          "family": "EasyCache",
+          "total_s": 375.18,
+          "time_ratio": 0.6490778865783191,
+          "lpips_mean": 0.17365388299633816,
+          "lpips_max": 0.2642093896865845,
+          "executor_visual": "pass"
+        },
+        {
+          "round": "R03",
+          "family": "TeaCache",
+          "total_s": 370.52,
+          "time_ratio": 0.6410158818033977,
+          "lpips_mean": 0.17353998306320934,
+          "lpips_max": 0.25821518898010254,
+          "executor_visual": "pass"
+        },
+        {
+          "round": "R05",
+          "family": "TaylorSeer",
+          "total_s": 371.36,
+          "time_ratio": 0.642469118715615,
+          "lpips_mean": 0.03661351038941315,
+          "lpips_max": 0.07933352887630463,
+          "executor_visual": "pass"
+        }
+      ],
+      "all_pairwise_matched": true,
+      "quality_winner": "R05 TaylorSeer"
+    },
+    {
+      "target": "conservative",
+      "relative_tolerance": 0.02,
+      "points": [
+        {
+          "round": "R06",
+          "family": "EasyCache",
+          "total_s": 480.37,
+          "time_ratio": 0.8310612089547075,
+          "lpips_mean": 0.04759654566823017,
+          "lpips_max": 0.08479132503271103,
+          "executor_visual": "pass",
+          "visual_verdict": "state/cache_ca_attempt11_r06_visual_verdict.json"
+        },
+        {
+          "round": "R07",
+          "family": "TeaCache",
+          "total_s": 480.18,
+          "time_ratio": 0.8307325006055154,
+          "lpips_mean": 0.02434319463957633,
+          "lpips_max": 0.04971546307206154,
+          "executor_visual": "pass",
+          "visual_verdict": "state/cache_ca_attempt11_r07_visual_verdict.json"
+        },
+        {
+          "round": "R08",
+          "family": "TaylorSeer",
+          "total_s": 480.96,
+          "time_ratio": 0.8320819348811461,
+          "lpips_mean": 0.015967408195137978,
+          "lpips_max": 0.026091445237398148,
+          "executor_visual": "pass",
+          "visual_verdict": "state/cache_ca_attempt11_r08_visual_verdict.json"
+        }
+      ],
+      "all_pairwise_matched": true,
+      "quality_winner": "R08 TaylorSeer"
+    }
+  ],
+  "family_curves": {
+    "EasyCache": [
+      "R01",
+      "R06"
+    ],
+    "TeaCache": [
+      "R03",
+      "R07"
+    ],
+    "TaylorSeer": [
+      "R05",
+      "R08"
+    ]
+  },
+  "excluded_calibrations": {
+    "R02": "TeaCache aggressive calibration: unmatched and Executor visual fail.",
+    "R04": "TaylorSeer early-forecast calibration: Executor visual fail."
+  },
+  "pareto_assessment": "Under the required matched-time rule, TaylorSeer wins both shared budgets. R05 is the faster frontier point (371.36 s, 1.5565x, LPIPS mean/max 0.03661/0.07933); R08 is the higher-quality conservative point (480.96 s, 1.2018x, 0.01597/0.02609). Both pass the Executor sampled-pixel gate; the Master independent visual review remains pending.",
+  "provenance_note": "Each Phase 3 receipt post-metadata hash matches its preserved phase3_quality_attempts/.../post/metadata.json snapshot. The coordinator metadata.json is a separate, larger site-status record and retains valid completed job provenance; no run file was changed in attempt 11."
+}

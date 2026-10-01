@@ -1,0 +1,347 @@
+{
+  "artifact_contract": {
+    "benchmark": "/home/lyy/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-kernel_aw-0002/worktree/runs/20260913-140334-kernel_compile_bf16_max_autotune_ffn_temporal_linear/outputs/benchmark.json",
+    "collection": "/home/lyy/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-kernel_aw-0002/worktree/runs/20260913-140334-kernel_compile_bf16_max_autotune_ffn_temporal_linear/outputs/collection.json",
+    "frames_dir": "/home/lyy/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-kernel_aw-0002/worktree/runs/20260913-140334-kernel_compile_bf16_max_autotune_ffn_temporal_linear/outputs/frames",
+    "log": "/home/lyy/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-kernel_aw-0002/worktree/runs/20260913-140334-kernel_compile_bf16_max_autotune_ffn_temporal_linear/outputs/run.log",
+    "patch_summary": "/home/lyy/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-kernel_aw-0002/worktree/runs/20260913-140334-kernel_compile_bf16_max_autotune_ffn_temporal_linear/outputs/patch_summary.md",
+    "quality": "/home/lyy/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-kernel_aw-0002/worktree/runs/20260913-140334-kernel_compile_bf16_max_autotune_ffn_temporal_linear/outputs/quality.json",
+    "risk_notes": "/home/lyy/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-kernel_aw-0002/worktree/runs/20260913-140334-kernel_compile_bf16_max_autotune_ffn_temporal_linear/outputs/risk_notes.md",
+    "video": "/home/lyy/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-kernel_aw-0002/worktree/runs/20260913-140334-kernel_compile_bf16_max_autotune_ffn_temporal_linear/outputs/out.mp4"
+  },
+  "base_commit": "16af862a135e27d55bf8e574d786db595a8e0654",
+  "collected_at_utc": "2026-09-13T14:28:28.848395+00:00",
+  "collector": {
+    "benchmark": "/home/lyy/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-kernel_aw-0002/worktree/runs/20260913-140334-kernel_compile_bf16_max_autotune_ffn_temporal_linear/outputs/benchmark.json",
+    "frames": {
+      "count": 80,
+      "ffmpeg": "/usr/bin/ffmpeg",
+      "ffmpeg_source": "path",
+      "status": "existing"
+    },
+    "log_errors": [],
+    "notes": [],
+    "patch_summary": "/home/lyy/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-kernel_aw-0002/worktree/runs/20260913-140334-kernel_compile_bf16_max_autotune_ffn_temporal_linear/outputs/patch_summary.md",
+    "quality": "/home/lyy/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-kernel_aw-0002/worktree/runs/20260913-140334-kernel_compile_bf16_max_autotune_ffn_temporal_linear/outputs/quality.json",
+    "risk_notes": "/home/lyy/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-kernel_aw-0002/worktree/runs/20260913-140334-kernel_compile_bf16_max_autotune_ffn_temporal_linear/outputs/risk_notes.md",
+    "timing": {
+      "decode_s": 30.9496,
+      "denoise_s": 323.9216,
+      "total_s": 358.39
+    }
+  },
+  "config_id": "kernel_compile_bf16_max_autotune_ffn_temporal_linear",
+  "config_manifest": "/home/lyy/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-kernel_aw-0002/worktree/config/kernel_compile_bf16_max_autotune_ffn_temporal_linear.toml",
+  "created_at_utc": "2026-09-13T14:03:34.616541+00:00",
+  "current_commit": null,
+  "eval_profile": "evals/profiles/official_video_t2v_sana_video_2b_a100.toml",
+  "job_script": "/home/lyy/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-kernel_aw-0002/worktree/runs/20260913-140334-kernel_compile_bf16_max_autotune_ffn_temporal_linear/job.sbatch",
+  "kind": "patch",
+  "launch_script": "/home/lyy/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-kernel_aw-0002/worktree/runs/20260913-140334-kernel_compile_bf16_max_autotune_ffn_temporal_linear/launch.sh",
+  "mode": "sbatch",
+  "official_config": {
+    "fps": 16,
+    "frames": 81,
+    "guidance_scale": 6.0,
+    "height": 480,
+    "model": "sana_video_2b",
+    "model_revision": "db5f398b13ca086d09a50ce156c20527773841b1",
+    "num_gpus": 1,
+    "prompt_count": 5,
+    "seed": 42,
+    "steps": 50,
+    "transformer_precision": "bf16",
+    "vae_precision": "fp32",
+    "width": 832
+  },
+  "purpose": "methodology",
+  "run_dir": "/home/lyy/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-kernel_aw-0002/worktree/runs/20260913-140334-kernel_compile_bf16_max_autotune_ffn_temporal_linear",
+  "runtime_commit": null,
+  "runtime_python": "/tmp/distillschedule-helios-official-torch210/bin/python",
+  "runtime_root": "/home/lyy/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-kernel_aw-0002/worktree/models/sana_video_2b_a100/baseline",
+  "site_remote": {
+    "code_sync": {
+      "archive_bytes": 15594528,
+      "archive_sha256": "cb824328e1393e448aa7ad09e5a134edd21854916e7498044872e0339d2655de",
+      "bootstrap": {
+        "remote": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/orchestration/site_transfer.py",
+        "sha256": "f433ff02199eab154e02c8e2ea124b5641564c2294140631ec02201cc72249de",
+        "status": "already_verified"
+      },
+      "local_source": "/home/lyy/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-kernel_aw-0002/worktree",
+      "remote_dest": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-kernel_aw-0002/worktree",
+      "remote_receipt": {
+        "archive_bytes": 15594528,
+        "archive_sha256": "cb824328e1393e448aa7ad09e5a134edd21854916e7498044872e0339d2655de",
+        "dest": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-kernel_aw-0002/worktree",
+        "member_count": 4391,
+        "status": "received_verified"
+      }
+    },
+    "remote_host": "job-c6cfcde5-db4b-4527-8eb8-7518319a0277-master-0",
+    "remote_job_pid": 2816391,
+    "remote_repo": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-kernel_aw-0002/worktree",
+    "remote_run_dir": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-kernel_aw-0002/worktree/runs/20260913-140334-kernel_compile_bf16_max_autotune_ffn_temporal_linear",
+    "run_sync": {
+      "archive_bytes": 2954,
+      "archive_sha256": "8e3dc0a435fc53ec4712bba5177f6884c0d4272f1f04234d4b7e43284d40a290",
+      "bootstrap": {
+        "remote": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/orchestration/site_transfer.py",
+        "sha256": "f433ff02199eab154e02c8e2ea124b5641564c2294140631ec02201cc72249de",
+        "status": "already_verified"
+      },
+      "local_source": "/home/lyy/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-kernel_aw-0002/worktree/runs/20260913-140334-kernel_compile_bf16_max_autotune_ffn_temporal_linear",
+      "remote_dest": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-kernel_aw-0002/worktree/runs/20260913-140334-kernel_compile_bf16_max_autotune_ffn_temporal_linear",
+      "remote_receipt": {
+        "archive_bytes": 2954,
+        "archive_sha256": "8e3dc0a435fc53ec4712bba5177f6884c0d4272f1f04234d4b7e43284d40a290",
+        "dest": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-kernel_aw-0002/worktree/runs/20260913-140334-kernel_compile_bf16_max_autotune_ffn_temporal_linear",
+        "member_count": 6,
+        "status": "received_verified"
+      }
+    },
+    "schema_version": 1,
+    "site_budget_pre_start": {
+      "checked_at_unix_ns": 1789308333684366433,
+      "deadline_unix_ns": 1789312179836267316,
+      "latest_submit_unix_ns": 1789310919836267316,
+      "reserve_s": 1260
+    },
+    "site_budget_pre_transfer": {
+      "checked_at_unix_ns": 1789308230030130783,
+      "deadline_unix_ns": 1789312179836267316,
+      "latest_submit_unix_ns": 1789310919836267316,
+      "reserve_s": 1260
+    },
+    "site_job_broker_receipt": {
+      "daemon_pid": 595538,
+      "daemon_started_at_utc": "2026-09-13T13:14:23.756514+00:00",
+      "ok": true,
+      "request_id": "4bb86dd271f944798486eac506007ed1",
+      "request_sha256": "2b02fde3c008fb5377a7d98857abd52254d20a17bae698814971d7ba353186d8",
+      "responded_at_utc": "2026-09-13T14:05:34.139844+00:00",
+      "responded_monotonic_ns": 264194865503458,
+      "response_sha256": "cbede08396fcf1af845cd2beb090b5153f0d0b6416ec2adf0b633fd89fa883cc",
+      "result": {
+        "code_sync": {
+          "archive_bytes": 15594528,
+          "archive_sha256": "cb824328e1393e448aa7ad09e5a134edd21854916e7498044872e0339d2655de",
+          "bootstrap": {
+            "remote": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/orchestration/site_transfer.py",
+            "sha256": "f433ff02199eab154e02c8e2ea124b5641564c2294140631ec02201cc72249de",
+            "status": "already_verified"
+          },
+          "local_source": "/home/lyy/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-kernel_aw-0002/worktree",
+          "remote_dest": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-kernel_aw-0002/worktree",
+          "remote_receipt": {
+            "archive_bytes": 15594528,
+            "archive_sha256": "cb824328e1393e448aa7ad09e5a134edd21854916e7498044872e0339d2655de",
+            "dest": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-kernel_aw-0002/worktree",
+            "member_count": 4391,
+            "status": "received_verified"
+          }
+        },
+        "remote_host": "job-c6cfcde5-db4b-4527-8eb8-7518319a0277-master-0",
+        "remote_job_pid": 2816391,
+        "remote_repo": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-kernel_aw-0002/worktree",
+        "remote_run_dir": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-kernel_aw-0002/worktree/runs/20260913-140334-kernel_compile_bf16_max_autotune_ffn_temporal_linear",
+        "run_sync": {
+          "archive_bytes": 2954,
+          "archive_sha256": "8e3dc0a435fc53ec4712bba5177f6884c0d4272f1f04234d4b7e43284d40a290",
+          "bootstrap": {
+            "remote": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/orchestration/site_transfer.py",
+            "sha256": "f433ff02199eab154e02c8e2ea124b5641564c2294140631ec02201cc72249de",
+            "status": "already_verified"
+          },
+          "local_source": "/home/lyy/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-kernel_aw-0002/worktree/runs/20260913-140334-kernel_compile_bf16_max_autotune_ffn_temporal_linear",
+          "remote_dest": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-kernel_aw-0002/worktree/runs/20260913-140334-kernel_compile_bf16_max_autotune_ffn_temporal_linear",
+          "remote_receipt": {
+            "archive_bytes": 2954,
+            "archive_sha256": "8e3dc0a435fc53ec4712bba5177f6884c0d4272f1f04234d4b7e43284d40a290",
+            "dest": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-kernel_aw-0002/worktree/runs/20260913-140334-kernel_compile_bf16_max_autotune_ffn_temporal_linear",
+            "member_count": 6,
+            "status": "received_verified"
+          }
+        },
+        "schema_version": 1,
+        "site_budget_pre_start": {
+          "checked_at_unix_ns": 1789308333684366433,
+          "deadline_unix_ns": 1789312179836267316,
+          "latest_submit_unix_ns": 1789310919836267316,
+          "reserve_s": 1260
+        },
+        "site_budget_pre_transfer": {
+          "checked_at_unix_ns": 1789308230030130783,
+          "deadline_unix_ns": 1789312179836267316,
+          "latest_submit_unix_ns": 1789310919836267316,
+          "reserve_s": 1260
+        },
+        "site_single_flight_preflight": {
+          "active_prior_runs": [],
+          "checked_at_utc": "2026-09-13T14:03:50.029674+00:00",
+          "grant": "no_active_kernel_run",
+          "prior_host_starts": [
+            {
+              "checked_at_utc": null,
+              "finished": true,
+              "run": "20260913-095426-kernel_preflight_profile"
+            },
+            {
+              "checked_at_utc": null,
+              "finished": true,
+              "run": "20260913-102324-kernel_compile_default"
+            },
+            {
+              "checked_at_utc": null,
+              "finished": true,
+              "run": "20260913-104624-kernel_compile_bf16_agg"
+            },
+            {
+              "checked_at_utc": null,
+              "finished": true,
+              "run": "20260913-110805-kernel_compile_bf16_max_autotune"
+            },
+            {
+              "checked_at_utc": null,
+              "finished": true,
+              "run": "20260913-114414-kernel_compile_bf16_autotune_qkv"
+            },
+            {
+              "checked_at_utc": null,
+              "finished": true,
+              "run": "20260913-121315-kernel_compile_bf16_default_qkv"
+            },
+            {
+              "checked_at_utc": null,
+              "finished": true,
+              "run": "20260913-123046-kernel_compile_bf16_default_ffn_inverted_linear"
+            },
+            {
+              "checked_at_utc": null,
+              "finished": true,
+              "run": "20260913-125812-kernel_compile_bf16_max_autotune_ffn_inverted_linear"
+            },
+            {
+              "checked_at_utc": null,
+              "finished": true,
+              "run": "20260913-133020-kernel_compile_bf16_max_autotune_rope_bf16"
+            }
+          ]
+        },
+        "source_sync": {
+          "core_sha256": "6a4c853e8f443734db72befdca0910b4cbf2ccf4a83792c7be03427a36522332",
+          "remote": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/source/sol_runtime",
+          "status": "already_verified"
+        },
+        "start": {
+          "host": "job-c6cfcde5-db4b-4527-8eb8-7518319a0277-master-0",
+          "monotonic_ns": 1816684304840854,
+          "pid": 2816391,
+          "schema_version": 1,
+          "status": "started",
+          "utc": "2026-09-13T14:05:34.081181+00:00"
+        },
+        "submitted_at_utc": "2026-09-13T14:05:34.139718+00:00",
+        "transport": "ssh_pty_checked_tar_site_adapter",
+        "trusted_job_script": {
+          "remote": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/orchestration/site_job.py",
+          "sha256": "87320b27b23420de40214ec0ee462131c8d12329c0c6868fb7d97352da8950fc"
+        }
+      },
+      "schema_version": 1
+    },
+    "site_single_flight_preflight": {
+      "active_prior_runs": [],
+      "checked_at_utc": "2026-09-13T14:03:50.029674+00:00",
+      "grant": "no_active_kernel_run",
+      "prior_host_starts": [
+        {
+          "checked_at_utc": null,
+          "finished": true,
+          "run": "20260913-095426-kernel_preflight_profile"
+        },
+        {
+          "checked_at_utc": null,
+          "finished": true,
+          "run": "20260913-102324-kernel_compile_default"
+        },
+        {
+          "checked_at_utc": null,
+          "finished": true,
+          "run": "20260913-104624-kernel_compile_bf16_agg"
+        },
+        {
+          "checked_at_utc": null,
+          "finished": true,
+          "run": "20260913-110805-kernel_compile_bf16_max_autotune"
+        },
+        {
+          "checked_at_utc": null,
+          "finished": true,
+          "run": "20260913-114414-kernel_compile_bf16_autotune_qkv"
+        },
+        {
+          "checked_at_utc": null,
+          "finished": true,
+          "run": "20260913-121315-kernel_compile_bf16_default_qkv"
+        },
+        {
+          "checked_at_utc": null,
+          "finished": true,
+          "run": "20260913-123046-kernel_compile_bf16_default_ffn_inverted_linear"
+        },
+        {
+          "checked_at_utc": null,
+          "finished": true,
+          "run": "20260913-125812-kernel_compile_bf16_max_autotune_ffn_inverted_linear"
+        },
+        {
+          "checked_at_utc": null,
+          "finished": true,
+          "run": "20260913-133020-kernel_compile_bf16_max_autotune_rope_bf16"
+        }
+      ]
+    },
+    "source_sync": {
+      "core_sha256": "6a4c853e8f443734db72befdca0910b4cbf2ccf4a83792c7be03427a36522332",
+      "remote": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/source/sol_runtime",
+      "status": "already_verified"
+    },
+    "start": {
+      "host": "job-c6cfcde5-db4b-4527-8eb8-7518319a0277-master-0",
+      "monotonic_ns": 1816684304840854,
+      "pid": 2816391,
+      "schema_version": 1,
+      "status": "started",
+      "utc": "2026-09-13T14:05:34.081181+00:00"
+    },
+    "submitted_at_utc": "2026-09-13T14:05:34.139718+00:00",
+    "transport": "ssh_pty_checked_tar_site_adapter",
+    "trusted_job_script": {
+      "remote": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/orchestration/site_job.py",
+      "sha256": "87320b27b23420de40214ec0ee462131c8d12329c0c6868fb7d97352da8950fc"
+    }
+  },
+  "slurm_job_id": "site-pid-2816391",
+  "source_commit": null,
+  "status": "completed",
+  "status_history": [
+    {
+      "at_utc": "2026-09-13T14:03:34.616541+00:00",
+      "reason": "bundle_created",
+      "status": "prepared"
+    },
+    {
+      "at_utc": "2026-09-13T14:05:34.239975+00:00",
+      "reason": "",
+      "status": "submitted"
+    },
+    {
+      "at_utc": "2026-09-13T14:28:28.848382+00:00",
+      "reason": "",
+      "status": "completed"
+    }
+  ],
+  "submitted_at_utc": "2026-09-13T14:05:34.139718+00:00",
+  "submodule": "/home/lyy/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-kernel_aw-0002/worktree/models/sana_video_2b_a100/baseline"
+}

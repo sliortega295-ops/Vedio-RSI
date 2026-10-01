@@ -1,0 +1,90 @@
+{
+  "schema_version": 1,
+  "config_id": "cache_ca_r05_taylorseer_t0180_w10_o1",
+  "family": "TaylorSeer",
+  "parent_trial": "cache_ca_r04_taylorseer_t0040_o1",
+  "target_time_ratio": 0.6450468841908584,
+  "parameters": {
+    "threshold": 0.18,
+    "warmup_steps": 10,
+    "tail_steps": 2,
+    "max_consecutive_reuse": 1,
+    "history_order": 1,
+    "correction": 1.0,
+    "forecast_error_gain": 4.0,
+    "subsample_stride": 8,
+    "signal_source": "accumulated relative L1 movement of subsampled post-patch hidden states, scaled by measured Taylor forecast error",
+    "reuse_payload": "per-CFG-branch first-order Taylor forecast of the full transformer-block-stack residual before output norm/projection",
+    "refresh_rule": "ten-step dense warmup, error-scaled accumulated-movement threshold 0.18, one-forecast cap, and two-step dense tail",
+    "off_path": "all three cache thresholds zero directly select the original dense block-stack path"
+  },
+  "cache_pattern": {
+    "logical_steps_per_prompt": 50,
+    "decision_count": 250,
+    "recompute": 155,
+    "reuse": 95,
+    "reuse_fraction": 0.38,
+    "max_consecutive_reuse": 1,
+    "per_prompt_identical_schedule": true,
+    "per_prompt": {
+      "recompute": 31,
+      "reuse": 19,
+      "reuse_steps": [10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36, 38, 40, 42, 44, 46]
+    },
+    "signal_statistics": {
+      "relative_l1_min": 0.0,
+      "relative_l1_mean": 0.029132756,
+      "relative_l1_max": 0.210602,
+      "decision_score_min": 0.0,
+      "decision_score_mean": 0.054571776,
+      "decision_score_max": 0.345819,
+      "forecast_error_min": 0.0,
+      "forecast_error_mean": 0.181747912,
+      "forecast_error_max": 1.177752,
+      "threshold_driven": true
+    }
+  },
+  "performance": {
+    "baseline_total_s": 578.02,
+    "config_total_s": 371.36,
+    "denoise_s": 342.3968,
+    "time_ratio": 0.642469118715615,
+    "time_compression": 0.357530881284385,
+    "speedup": 1.556495045239121,
+    "r01_relative_time_ratio_difference": 0.010181779412549,
+    "matched_to_r01_within_two_percent": true,
+    "r03_relative_time_ratio_difference": 0.002267084098025,
+    "matched_to_r03_within_two_percent": true,
+    "all_three_pairwise_matched_within_two_percent": true,
+    "timing_scope": "five_prompt_sum_sglang_request_metrics_excluding_model_load_internal_one_step_warmup_and_video_export"
+  },
+  "quality": {
+    "executor_visual_overall": "pass",
+    "executor_visual_max_severity": "low",
+    "visual_verdict": "runs/20260914-054324-cache_ca_r05_taylorseer_t0180_w10_o1/visual_verdict.json",
+    "lpips_mean": 0.03661351038941315,
+    "lpips_max": 0.07933352887630463,
+    "lpips_status": "exact_complete_authorized_remote_evaluator_network_denied",
+    "lpips_selected_pair_count": 42,
+    "lpips_prompt_coverage": ["p01", "p02", "p03", "p04", "p05"],
+    "phase3_receipt": "runs/20260914-054324-cache_ca_r05_taylorseer_t0180_w10_o1/phase3_quality_attempts/20260914T062035.537017+0000_2975905/receipt.json",
+    "phase3_receipt_sha256": "636f7ff9b8d382045dfd41862c96ec9f79412dbf4e939f12a61a1948670d63d7",
+    "assess_verdict": "runs/20260914-054324-cache_ca_r05_taylorseer_t0180_w10_o1/assess_verdict.json",
+    "raw_assess_preserved": {
+      "quality_status": "blocked_quality",
+      "quality_blockers": ["nvidia_gemini:api_key_missing"],
+      "baseline_total_s": null,
+      "speedup": null
+    },
+    "promotion_eligible": true,
+    "promotion_scope": "observed_taylorseer_family_frontier_only",
+    "promotion_blockers": []
+  },
+  "selection_outcome": {
+    "timing_hypothesis": "confirmed_at_shared_r01_r03_budget",
+    "sampled_visual_hypothesis": "confirmed_r04_high_severity_artifact_repaired",
+    "failure_mode_avoided": "Dense steps 0-9 prevent the high-error early forecasts that caused R04 same-seed composition drift and p05 subject-object morphing.",
+    "retention": "retained_observed_taylorseer_family_frontier_not_workflow_delivery",
+    "next_adjustment": "R05 wins the first shared matched-time target on exact LPIPS and sampled Executor vision. Audit curve completeness and, if needed, establish one slower shared target before final Pareto delivery."
+  }
+}

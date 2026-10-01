@@ -1,0 +1,495 @@
+{
+  "artifact_contract": {
+    "benchmark": "/home/lyy/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-cache_ca-0002/worktree/runs/20260914-083326-cache_ca_r08_taylorseer_t0180_w30_o1/outputs/benchmark.json",
+    "collection": "/home/lyy/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-cache_ca-0002/worktree/runs/20260914-083326-cache_ca_r08_taylorseer_t0180_w30_o1/outputs/collection.json",
+    "frames_dir": "/home/lyy/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-cache_ca-0002/worktree/runs/20260914-083326-cache_ca_r08_taylorseer_t0180_w30_o1/outputs/frames",
+    "log": "/home/lyy/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-cache_ca-0002/worktree/runs/20260914-083326-cache_ca_r08_taylorseer_t0180_w30_o1/outputs/run.log",
+    "patch_summary": "/home/lyy/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-cache_ca-0002/worktree/runs/20260914-083326-cache_ca_r08_taylorseer_t0180_w30_o1/outputs/patch_summary.md",
+    "quality": "/home/lyy/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-cache_ca-0002/worktree/runs/20260914-083326-cache_ca_r08_taylorseer_t0180_w30_o1/outputs/quality.json",
+    "risk_notes": "/home/lyy/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-cache_ca-0002/worktree/runs/20260914-083326-cache_ca_r08_taylorseer_t0180_w30_o1/outputs/risk_notes.md",
+    "video": "/home/lyy/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-cache_ca-0002/worktree/runs/20260914-083326-cache_ca_r08_taylorseer_t0180_w30_o1/outputs/out.mp4"
+  },
+  "base_commit": "16af862a135e27d55bf8e574d786db595a8e0654",
+  "collected_at_utc": "2026-09-14T08:52:12.640061+00:00",
+  "collector": {
+    "benchmark": "/home/lyy/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-cache_ca-0002/worktree/runs/20260914-083326-cache_ca_r08_taylorseer_t0180_w30_o1/outputs/benchmark.json",
+    "frames": {
+      "count": 80,
+      "ffmpeg": "/usr/bin/ffmpeg",
+      "ffmpeg_source": "path",
+      "status": "existing"
+    },
+    "log_errors": [],
+    "notes": [],
+    "patch_summary": "/home/lyy/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-cache_ca-0002/worktree/runs/20260914-083326-cache_ca_r08_taylorseer_t0180_w30_o1/outputs/patch_summary.md",
+    "quality": "/home/lyy/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-cache_ca-0002/worktree/runs/20260914-083326-cache_ca_r08_taylorseer_t0180_w30_o1/outputs/quality.json",
+    "risk_notes": "/home/lyy/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-cache_ca-0002/worktree/runs/20260914-083326-cache_ca_r08_taylorseer_t0180_w30_o1/outputs/risk_notes.md",
+    "timing": {
+      "decode_s": 25.4567,
+      "denoise_s": 451.9818,
+      "total_s": 480.96000000000004
+    }
+  },
+  "config_id": "cache_ca_r08_taylorseer_t0180_w30_o1",
+  "config_manifest": "/home/lyy/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-cache_ca-0002/worktree/config/cache_ca_r08_taylorseer_t0180_w30_o1.toml",
+  "created_at_utc": "2026-09-14T08:33:26.165210+00:00",
+  "current_commit": null,
+  "eval_profile": "evals/profiles/official_video_t2v_sana_video_2b_a100.toml",
+  "job_script": "/home/lyy/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-cache_ca-0002/worktree/runs/20260914-083326-cache_ca_r08_taylorseer_t0180_w30_o1/job.sbatch",
+  "kind": "methodology",
+  "launch_script": "/home/lyy/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-cache_ca-0002/worktree/runs/20260914-083326-cache_ca_r08_taylorseer_t0180_w30_o1/launch.sh",
+  "mode": "sbatch",
+  "official_config": {
+    "fps": 16,
+    "frames": 81,
+    "guidance_scale": 6.0,
+    "height": 480,
+    "model": "sana_video_2b",
+    "model_revision": "db5f398b13ca086d09a50ce156c20527773841b1",
+    "num_gpus": 1,
+    "prompt_count": 5,
+    "seed": 42,
+    "steps": 50,
+    "transformer_precision": "bf16",
+    "vae_precision": "fp32",
+    "width": 832
+  },
+  "purpose": "delivery",
+  "run_dir": "/home/lyy/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-cache_ca-0002/worktree/runs/20260914-083326-cache_ca_r08_taylorseer_t0180_w30_o1",
+  "runtime_commit": null,
+  "runtime_python": "/tmp/distillschedule-helios-official-torch210/bin/python",
+  "runtime_root": "/home/lyy/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-cache_ca-0002/worktree/models/sana_video_2b_a100/baseline",
+  "site_remote": {
+    "code_sync": {
+      "archive_bytes": 14925299,
+      "archive_sha256": "fc67614e54544fa52434e64f1b1fe4ce0d907c7afa810e4679de2bcb81ea7a99",
+      "bootstrap": {
+        "remote": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/orchestration/site_transfer.py",
+        "sha256": "f433ff02199eab154e02c8e2ea124b5641564c2294140631ec02201cc72249de",
+        "status": "already_verified"
+      },
+      "local_source": "/home/lyy/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-cache_ca-0002/worktree",
+      "remote_dest": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-cache_ca-0002/worktree",
+      "remote_receipt": {
+        "archive_bytes": 14925299,
+        "archive_sha256": "fc67614e54544fa52434e64f1b1fe4ce0d907c7afa810e4679de2bcb81ea7a99",
+        "dest": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-cache_ca-0002/worktree",
+        "member_count": 4421,
+        "status": "received_verified"
+      }
+    },
+    "remote_host": "job-c6cfcde5-db4b-4527-8eb8-7518319a0277-master-0",
+    "remote_job_pid": 3034795,
+    "remote_repo": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-cache_ca-0002/worktree",
+    "remote_run_dir": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-cache_ca-0002/worktree/runs/20260914-083326-cache_ca_r08_taylorseer_t0180_w30_o1",
+    "run_sync": {
+      "archive_bytes": 3410,
+      "archive_sha256": "63765af36ba4c2d2ebf2435f3347aebc034634fe1c13a43b88f9c37781d438a8",
+      "bootstrap": {
+        "remote": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/orchestration/site_transfer.py",
+        "sha256": "f433ff02199eab154e02c8e2ea124b5641564c2294140631ec02201cc72249de",
+        "status": "already_verified"
+      },
+      "local_source": "/home/lyy/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-cache_ca-0002/worktree/runs/20260914-083326-cache_ca_r08_taylorseer_t0180_w30_o1",
+      "remote_dest": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-cache_ca-0002/worktree/runs/20260914-083326-cache_ca_r08_taylorseer_t0180_w30_o1",
+      "remote_receipt": {
+        "archive_bytes": 3410,
+        "archive_sha256": "63765af36ba4c2d2ebf2435f3347aebc034634fe1c13a43b88f9c37781d438a8",
+        "dest": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-cache_ca-0002/worktree/runs/20260914-083326-cache_ca_r08_taylorseer_t0180_w30_o1",
+        "member_count": 6,
+        "status": "received_verified"
+      }
+    },
+    "schema_version": 1,
+    "site_budget_pre_start": {
+      "authorization_sha256": "b2a827a8d2fd65486987155f826fd23bd59a03ed16602bec8604d214954bec5c",
+      "authorized": true,
+      "checked_at_unix_ns": 1789374921653441077,
+      "checked_at_utc": "2026-09-14T08:35:21.654157+00:00",
+      "deadline_unix_ns": 1789383230441475703,
+      "first_gpu_budget": {
+        "authorization_sha256": "b2a827a8d2fd65486987155f826fd23bd59a03ed16602bec8604d214954bec5c",
+        "deadline_unix_ns": 1789383230441475703,
+        "first_gpu_monotonic_ns": 1869980665151486,
+        "first_gpu_unix_ns": 1789361630441475703,
+        "first_gpu_utc": "2026-09-14T04:53:50.441482+00:00",
+        "first_run_dir": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-cache_ca-0002/worktree/runs/20260914-045221-cache_ca_r03_teacache_t0016",
+        "host": "job-c6cfcde5-db4b-4527-8eb8-7518319a0277-master-0",
+        "limit_s": 21600,
+        "phase": "phase2",
+        "schema_version": 1
+      },
+      "first_gpu_budget_exists": true,
+      "host_authorization_sha256": "b2a827a8d2fd65486987155f826fd23bd59a03ed16602bec8604d214954bec5c",
+      "latest_submit_unix_ns": 1789381970441475703,
+      "new_submit_open": true,
+      "phase": "phase2",
+      "trusted_job_script_sha256": "ef686fb4131e2846286ba474ba4a76e09413ee156f8a1b587f58e6f513b30f1d"
+    },
+    "site_budget_pre_transfer": {
+      "authorization_sha256": "b2a827a8d2fd65486987155f826fd23bd59a03ed16602bec8604d214954bec5c",
+      "authorized": true,
+      "checked_at_unix_ns": 1789374808298409273,
+      "checked_at_utc": "2026-09-14T08:33:28.298523+00:00",
+      "deadline_unix_ns": 1789383230441475703,
+      "first_gpu_budget": {
+        "authorization_sha256": "b2a827a8d2fd65486987155f826fd23bd59a03ed16602bec8604d214954bec5c",
+        "deadline_unix_ns": 1789383230441475703,
+        "first_gpu_monotonic_ns": 1869980665151486,
+        "first_gpu_unix_ns": 1789361630441475703,
+        "first_gpu_utc": "2026-09-14T04:53:50.441482+00:00",
+        "first_run_dir": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-cache_ca-0002/worktree/runs/20260914-045221-cache_ca_r03_teacache_t0016",
+        "host": "job-c6cfcde5-db4b-4527-8eb8-7518319a0277-master-0",
+        "limit_s": 21600,
+        "phase": "phase2",
+        "schema_version": 1
+      },
+      "first_gpu_budget_exists": true,
+      "host_authorization_sha256": "b2a827a8d2fd65486987155f826fd23bd59a03ed16602bec8604d214954bec5c",
+      "latest_submit_unix_ns": 1789381970441475703,
+      "new_submit_open": true,
+      "phase": "phase2",
+      "trusted_job_script_sha256": "ef686fb4131e2846286ba474ba4a76e09413ee156f8a1b587f58e6f513b30f1d"
+    },
+    "site_job_broker_receipt": {
+      "daemon_pid": 1829680,
+      "daemon_started_at_utc": "2026-09-14T07:58:37.600892+00:00",
+      "ok": true,
+      "request_id": "f9e0302fe1374df9a26d1acfebf34169",
+      "request_sha256": "ad29979e517164d86e0ee701ad694f9d5233e161aa5185c6c62c2a0338ce47ca",
+      "responded_at_utc": "2026-09-14T08:35:23.370648+00:00",
+      "responded_monotonic_ns": 330318190524670,
+      "response_sha256": "c93fc730d61e1a61336b100c67d7c089b9206be2d15324e06d204503b0cb7170",
+      "result": {
+        "code_sync": {
+          "archive_bytes": 14925299,
+          "archive_sha256": "fc67614e54544fa52434e64f1b1fe4ce0d907c7afa810e4679de2bcb81ea7a99",
+          "bootstrap": {
+            "remote": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/orchestration/site_transfer.py",
+            "sha256": "f433ff02199eab154e02c8e2ea124b5641564c2294140631ec02201cc72249de",
+            "status": "already_verified"
+          },
+          "local_source": "/home/lyy/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-cache_ca-0002/worktree",
+          "remote_dest": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-cache_ca-0002/worktree",
+          "remote_receipt": {
+            "archive_bytes": 14925299,
+            "archive_sha256": "fc67614e54544fa52434e64f1b1fe4ce0d907c7afa810e4679de2bcb81ea7a99",
+            "dest": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-cache_ca-0002/worktree",
+            "member_count": 4421,
+            "status": "received_verified"
+          }
+        },
+        "remote_host": "job-c6cfcde5-db4b-4527-8eb8-7518319a0277-master-0",
+        "remote_job_pid": 3034795,
+        "remote_repo": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-cache_ca-0002/worktree",
+        "remote_run_dir": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-cache_ca-0002/worktree/runs/20260914-083326-cache_ca_r08_taylorseer_t0180_w30_o1",
+        "run_sync": {
+          "archive_bytes": 3410,
+          "archive_sha256": "63765af36ba4c2d2ebf2435f3347aebc034634fe1c13a43b88f9c37781d438a8",
+          "bootstrap": {
+            "remote": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/orchestration/site_transfer.py",
+            "sha256": "f433ff02199eab154e02c8e2ea124b5641564c2294140631ec02201cc72249de",
+            "status": "already_verified"
+          },
+          "local_source": "/home/lyy/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-cache_ca-0002/worktree/runs/20260914-083326-cache_ca_r08_taylorseer_t0180_w30_o1",
+          "remote_dest": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-cache_ca-0002/worktree/runs/20260914-083326-cache_ca_r08_taylorseer_t0180_w30_o1",
+          "remote_receipt": {
+            "archive_bytes": 3410,
+            "archive_sha256": "63765af36ba4c2d2ebf2435f3347aebc034634fe1c13a43b88f9c37781d438a8",
+            "dest": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-cache_ca-0002/worktree/runs/20260914-083326-cache_ca_r08_taylorseer_t0180_w30_o1",
+            "member_count": 6,
+            "status": "received_verified"
+          }
+        },
+        "schema_version": 1,
+        "site_budget_pre_start": {
+          "authorization_sha256": "b2a827a8d2fd65486987155f826fd23bd59a03ed16602bec8604d214954bec5c",
+          "authorized": true,
+          "checked_at_unix_ns": 1789374921653441077,
+          "checked_at_utc": "2026-09-14T08:35:21.654157+00:00",
+          "deadline_unix_ns": 1789383230441475703,
+          "first_gpu_budget": {
+            "authorization_sha256": "b2a827a8d2fd65486987155f826fd23bd59a03ed16602bec8604d214954bec5c",
+            "deadline_unix_ns": 1789383230441475703,
+            "first_gpu_monotonic_ns": 1869980665151486,
+            "first_gpu_unix_ns": 1789361630441475703,
+            "first_gpu_utc": "2026-09-14T04:53:50.441482+00:00",
+            "first_run_dir": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-cache_ca-0002/worktree/runs/20260914-045221-cache_ca_r03_teacache_t0016",
+            "host": "job-c6cfcde5-db4b-4527-8eb8-7518319a0277-master-0",
+            "limit_s": 21600,
+            "phase": "phase2",
+            "schema_version": 1
+          },
+          "first_gpu_budget_exists": true,
+          "host_authorization_sha256": "b2a827a8d2fd65486987155f826fd23bd59a03ed16602bec8604d214954bec5c",
+          "latest_submit_unix_ns": 1789381970441475703,
+          "new_submit_open": true,
+          "phase": "phase2",
+          "trusted_job_script_sha256": "ef686fb4131e2846286ba474ba4a76e09413ee156f8a1b587f58e6f513b30f1d"
+        },
+        "site_budget_pre_transfer": {
+          "authorization_sha256": "b2a827a8d2fd65486987155f826fd23bd59a03ed16602bec8604d214954bec5c",
+          "authorized": true,
+          "checked_at_unix_ns": 1789374808298409273,
+          "checked_at_utc": "2026-09-14T08:33:28.298523+00:00",
+          "deadline_unix_ns": 1789383230441475703,
+          "first_gpu_budget": {
+            "authorization_sha256": "b2a827a8d2fd65486987155f826fd23bd59a03ed16602bec8604d214954bec5c",
+            "deadline_unix_ns": 1789383230441475703,
+            "first_gpu_monotonic_ns": 1869980665151486,
+            "first_gpu_unix_ns": 1789361630441475703,
+            "first_gpu_utc": "2026-09-14T04:53:50.441482+00:00",
+            "first_run_dir": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-cache_ca-0002/worktree/runs/20260914-045221-cache_ca_r03_teacache_t0016",
+            "host": "job-c6cfcde5-db4b-4527-8eb8-7518319a0277-master-0",
+            "limit_s": 21600,
+            "phase": "phase2",
+            "schema_version": 1
+          },
+          "first_gpu_budget_exists": true,
+          "host_authorization_sha256": "b2a827a8d2fd65486987155f826fd23bd59a03ed16602bec8604d214954bec5c",
+          "latest_submit_unix_ns": 1789381970441475703,
+          "new_submit_open": true,
+          "phase": "phase2",
+          "trusted_job_script_sha256": "ef686fb4131e2846286ba474ba4a76e09413ee156f8a1b587f58e6f513b30f1d"
+        },
+        "site_observer_pre_start": {
+          "error_samples": 0,
+          "first_sample_utc": "2026-09-14T04:31:04.055752+00:00",
+          "gaps_gt_1p5s": 8,
+          "gpu_uuids": [
+            "GPU-cad55364-e014-c35f-337e-db899afd1c6a",
+            "GPU-a904c6f6-6410-dc0f-c7c3-efc068004617",
+            "GPU-79ab3e5e-e382-1f9c-bede-1900666e9283",
+            "GPU-bab43db0-a051-0419-39f7-e33effa9445b",
+            "GPU-44bddf94-7411-b3ad-f195-fdbdd12fa73e",
+            "GPU-af8dba1f-f74e-6a55-bb9e-6c8961edbd6e",
+            "GPU-5edaa614-d5f8-8a3f-11ec-b128f8d029f3",
+            "GPU-01fff32a-1dd6-93a7-1aae-60d378382961"
+          ],
+          "host": "job-c6cfcde5-db4b-4527-8eb8-7518319a0277-master-0",
+          "incomplete_uuid_samples": 0,
+          "last_sample_age_s": 1.305416065,
+          "last_sample_error": null,
+          "last_sample_utc": "2026-09-14T08:35:22.116931+00:00",
+          "last_sample_uuid_complete": true,
+          "max_gap_s": 1.891270836,
+          "max_sample_overhead_s": 1.891089951,
+          "mean_sample_overhead_s": 0.4092424361356855,
+          "observer_cpu_fraction": 0.06873532334173689,
+          "observer_cpu_s": 1007.52216862,
+          "phase": "phase2",
+          "pid": 2899723,
+          "sample_count": 14659,
+          "span_s": 14657.997076857,
+          "status": "running",
+          "trusted_observer_script_sha256": "4c541a43ac76d65416839b009fc07e3eeb9f83e5274c01a6931bc86fa237bf83"
+        },
+        "site_observer_pre_transfer": {
+          "error_samples": 0,
+          "first_sample_utc": "2026-09-14T04:31:04.055752+00:00",
+          "gaps_gt_1p5s": 8,
+          "gpu_uuids": [
+            "GPU-cad55364-e014-c35f-337e-db899afd1c6a",
+            "GPU-a904c6f6-6410-dc0f-c7c3-efc068004617",
+            "GPU-79ab3e5e-e382-1f9c-bede-1900666e9283",
+            "GPU-bab43db0-a051-0419-39f7-e33effa9445b",
+            "GPU-44bddf94-7411-b3ad-f195-fdbdd12fa73e",
+            "GPU-af8dba1f-f74e-6a55-bb9e-6c8961edbd6e",
+            "GPU-5edaa614-d5f8-8a3f-11ec-b128f8d029f3",
+            "GPU-01fff32a-1dd6-93a7-1aae-60d378382961"
+          ],
+          "host": "job-c6cfcde5-db4b-4527-8eb8-7518319a0277-master-0",
+          "incomplete_uuid_samples": 0,
+          "last_sample_age_s": 0.956378316,
+          "last_sample_error": null,
+          "last_sample_utc": "2026-09-14T08:33:29.114480+00:00",
+          "last_sample_uuid_complete": true,
+          "max_gap_s": 1.891270836,
+          "max_sample_overhead_s": 1.891089951,
+          "mean_sample_overhead_s": 0.40868058831768267,
+          "observer_cpu_fraction": 0.06873148846654951,
+          "observer_cpu_s": 999.69930106,
+          "phase": "phase2",
+          "pid": 2899723,
+          "sample_count": 14546,
+          "span_s": 14544.997109244,
+          "status": "running",
+          "trusted_observer_script_sha256": "4c541a43ac76d65416839b009fc07e3eeb9f83e5274c01a6931bc86fa237bf83"
+        },
+        "source_sync": {
+          "core_sha256": "6a4c853e8f443734db72befdca0910b4cbf2ccf4a83792c7be03427a36522332",
+          "remote": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/source/sol_runtime",
+          "status": "already_verified"
+        },
+        "start": {
+          "host": "job-c6cfcde5-db4b-4527-8eb8-7518319a0277-master-0",
+          "monotonic_ns": 1883273597555486,
+          "phase": "phase2",
+          "phase2_budget": {
+            "authorization_sha256": "b2a827a8d2fd65486987155f826fd23bd59a03ed16602bec8604d214954bec5c",
+            "authorized": true,
+            "checked_at_unix_ns": 1789374923372304683,
+            "checked_at_utc": "2026-09-14T08:35:23.372417+00:00",
+            "deadline_unix_ns": 1789383230441475703,
+            "first_gpu_budget": {
+              "authorization_sha256": "b2a827a8d2fd65486987155f826fd23bd59a03ed16602bec8604d214954bec5c",
+              "deadline_unix_ns": 1789383230441475703,
+              "first_gpu_monotonic_ns": 1869980665151486,
+              "first_gpu_unix_ns": 1789361630441475703,
+              "first_gpu_utc": "2026-09-14T04:53:50.441482+00:00",
+              "first_run_dir": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-cache_ca-0002/worktree/runs/20260914-045221-cache_ca_r03_teacache_t0016",
+              "host": "job-c6cfcde5-db4b-4527-8eb8-7518319a0277-master-0",
+              "limit_s": 21600,
+              "phase": "phase2",
+              "schema_version": 1
+            },
+            "first_gpu_budget_exists": true,
+            "latest_submit_unix_ns": 1789381970441475703,
+            "new_submit_open": true,
+            "phase": "phase2"
+          },
+          "pid": 3034795,
+          "schema_version": 1,
+          "status": "started",
+          "utc": "2026-09-14T08:35:23.373903+00:00"
+        },
+        "submitted_at_utc": "2026-09-14T08:35:23.370581+00:00",
+        "transport": "ssh_pty_checked_tar_site_adapter",
+        "trusted_job_script": {
+          "remote": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/orchestration/site_job.py",
+          "sha256": "ef686fb4131e2846286ba474ba4a76e09413ee156f8a1b587f58e6f513b30f1d"
+        }
+      },
+      "schema_version": 1
+    },
+    "site_observer_pre_start": {
+      "error_samples": 0,
+      "first_sample_utc": "2026-09-14T04:31:04.055752+00:00",
+      "gaps_gt_1p5s": 8,
+      "gpu_uuids": [
+        "GPU-cad55364-e014-c35f-337e-db899afd1c6a",
+        "GPU-a904c6f6-6410-dc0f-c7c3-efc068004617",
+        "GPU-79ab3e5e-e382-1f9c-bede-1900666e9283",
+        "GPU-bab43db0-a051-0419-39f7-e33effa9445b",
+        "GPU-44bddf94-7411-b3ad-f195-fdbdd12fa73e",
+        "GPU-af8dba1f-f74e-6a55-bb9e-6c8961edbd6e",
+        "GPU-5edaa614-d5f8-8a3f-11ec-b128f8d029f3",
+        "GPU-01fff32a-1dd6-93a7-1aae-60d378382961"
+      ],
+      "host": "job-c6cfcde5-db4b-4527-8eb8-7518319a0277-master-0",
+      "incomplete_uuid_samples": 0,
+      "last_sample_age_s": 1.305416065,
+      "last_sample_error": null,
+      "last_sample_utc": "2026-09-14T08:35:22.116931+00:00",
+      "last_sample_uuid_complete": true,
+      "max_gap_s": 1.891270836,
+      "max_sample_overhead_s": 1.891089951,
+      "mean_sample_overhead_s": 0.4092424361356855,
+      "observer_cpu_fraction": 0.06873532334173689,
+      "observer_cpu_s": 1007.52216862,
+      "phase": "phase2",
+      "pid": 2899723,
+      "sample_count": 14659,
+      "span_s": 14657.997076857,
+      "status": "running",
+      "trusted_observer_script_sha256": "4c541a43ac76d65416839b009fc07e3eeb9f83e5274c01a6931bc86fa237bf83"
+    },
+    "site_observer_pre_transfer": {
+      "error_samples": 0,
+      "first_sample_utc": "2026-09-14T04:31:04.055752+00:00",
+      "gaps_gt_1p5s": 8,
+      "gpu_uuids": [
+        "GPU-cad55364-e014-c35f-337e-db899afd1c6a",
+        "GPU-a904c6f6-6410-dc0f-c7c3-efc068004617",
+        "GPU-79ab3e5e-e382-1f9c-bede-1900666e9283",
+        "GPU-bab43db0-a051-0419-39f7-e33effa9445b",
+        "GPU-44bddf94-7411-b3ad-f195-fdbdd12fa73e",
+        "GPU-af8dba1f-f74e-6a55-bb9e-6c8961edbd6e",
+        "GPU-5edaa614-d5f8-8a3f-11ec-b128f8d029f3",
+        "GPU-01fff32a-1dd6-93a7-1aae-60d378382961"
+      ],
+      "host": "job-c6cfcde5-db4b-4527-8eb8-7518319a0277-master-0",
+      "incomplete_uuid_samples": 0,
+      "last_sample_age_s": 0.956378316,
+      "last_sample_error": null,
+      "last_sample_utc": "2026-09-14T08:33:29.114480+00:00",
+      "last_sample_uuid_complete": true,
+      "max_gap_s": 1.891270836,
+      "max_sample_overhead_s": 1.891089951,
+      "mean_sample_overhead_s": 0.40868058831768267,
+      "observer_cpu_fraction": 0.06873148846654951,
+      "observer_cpu_s": 999.69930106,
+      "phase": "phase2",
+      "pid": 2899723,
+      "sample_count": 14546,
+      "span_s": 14544.997109244,
+      "status": "running",
+      "trusted_observer_script_sha256": "4c541a43ac76d65416839b009fc07e3eeb9f83e5274c01a6931bc86fa237bf83"
+    },
+    "source_sync": {
+      "core_sha256": "6a4c853e8f443734db72befdca0910b4cbf2ccf4a83792c7be03427a36522332",
+      "remote": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/source/sol_runtime",
+      "status": "already_verified"
+    },
+    "start": {
+      "host": "job-c6cfcde5-db4b-4527-8eb8-7518319a0277-master-0",
+      "monotonic_ns": 1883273597555486,
+      "phase": "phase2",
+      "phase2_budget": {
+        "authorization_sha256": "b2a827a8d2fd65486987155f826fd23bd59a03ed16602bec8604d214954bec5c",
+        "authorized": true,
+        "checked_at_unix_ns": 1789374923372304683,
+        "checked_at_utc": "2026-09-14T08:35:23.372417+00:00",
+        "deadline_unix_ns": 1789383230441475703,
+        "first_gpu_budget": {
+          "authorization_sha256": "b2a827a8d2fd65486987155f826fd23bd59a03ed16602bec8604d214954bec5c",
+          "deadline_unix_ns": 1789383230441475703,
+          "first_gpu_monotonic_ns": 1869980665151486,
+          "first_gpu_unix_ns": 1789361630441475703,
+          "first_gpu_utc": "2026-09-14T04:53:50.441482+00:00",
+          "first_run_dir": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-cache_ca-0002/worktree/runs/20260914-045221-cache_ca_r03_teacache_t0016",
+          "host": "job-c6cfcde5-db4b-4527-8eb8-7518319a0277-master-0",
+          "limit_s": 21600,
+          "phase": "phase2",
+          "schema_version": 1
+        },
+        "first_gpu_budget_exists": true,
+        "latest_submit_unix_ns": 1789381970441475703,
+        "new_submit_open": true,
+        "phase": "phase2"
+      },
+      "pid": 3034795,
+      "schema_version": 1,
+      "status": "started",
+      "utc": "2026-09-14T08:35:23.373903+00:00"
+    },
+    "submitted_at_utc": "2026-09-14T08:35:23.370581+00:00",
+    "transport": "ssh_pty_checked_tar_site_adapter",
+    "trusted_job_script": {
+      "remote": "/share/project/shuchenweng/yongyan_liu/Experiments/SolAgent/20260913-a100-original-baseline/repo/orchestration/site_job.py",
+      "sha256": "ef686fb4131e2846286ba474ba4a76e09413ee156f8a1b587f58e6f513b30f1d"
+    }
+  },
+  "slurm_job_id": "site-pid-3034795",
+  "source_commit": null,
+  "status": "completed",
+  "status_history": [
+    {
+      "at_utc": "2026-09-14T08:33:26.165210+00:00",
+      "reason": "bundle_created",
+      "status": "prepared"
+    },
+    {
+      "at_utc": "2026-09-14T08:35:23.448722+00:00",
+      "reason": "",
+      "status": "submitted"
+    },
+    {
+      "at_utc": "2026-09-14T08:52:12.640057+00:00",
+      "reason": "",
+      "status": "completed"
+    }
+  ],
+  "submitted_at_utc": "2026-09-14T08:35:23.370581+00:00",
+  "submodule": "/home/lyy/Experiments/SolAgent/20260913-a100-original-baseline/repo/output/experiments/sana2ba100-cache_ca-0002/worktree/models/sana_video_2b_a100/baseline"
+}
