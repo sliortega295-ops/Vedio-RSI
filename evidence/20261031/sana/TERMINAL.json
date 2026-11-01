@@ -1,0 +1,12 @@
+{
+  "status": "COMPLETE",
+  "run_id": "method-search-20261023-six-family-002",
+  "arm": "P",
+  "objective_ok": true,
+  "integrated_delivery": "project://SolAgent/20261023-method-search/campaigns/method-search-20261023-six-family-002/runs/P/workspace/output/orchestrated/sana-20261023-164113/INTEGRATED-DELIVERY.json",
+  "master_audit": "project://SolAgent/20261023-method-search/campaigns/method-search-20261023-six-family-002/runs/P/workspace/output/orchestrated/sana-20261023-164113/MASTER-AUDIT.json",
+  "wall_seconds": 10761.63442995702,
+  "timestamp": "2026-10-23T19:40:35.034752+00:00",
+  "closure_mode": "same_run_native_receipt_reconciliation",
+  "original_partial_terminal": "project://SolAgent/20261023-method-search/campaigns/method-search-20261023-six-family-002/closure-recovery-001/TERMINAL-before-recovery.json"
+}

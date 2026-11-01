@@ -1,0 +1,23 @@
+{
+  "scope": "search-only and existing method-harness regression",
+  "checks": [
+    {
+      "command": "python3 -B -m unittest tests.test_discovery_audit -q",
+      "exit_code": 0,
+      "tests": 9,
+      "result": "PASS",
+      "reported_seconds": 0.041
+    },
+    {
+      "command": "python3 -B -m unittest discover -s tests -p 'test_method*.py' -q",
+      "exit_code": 0,
+      "tests": 99,
+      "result": "PASS",
+      "reported_seconds": 12.741
+    }
+  ],
+  "total_distinct_tests": 108,
+  "gpu_execution": "NOT_RUN",
+  "local_method_compatibility": "NOT_RUN",
+  "local_speed_or_quality": "NOT_RUN"
+}

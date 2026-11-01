@@ -1,0 +1,96 @@
+{
+  "source_path": "project://SolAgent/20261024-wan-search/campaigns/wan-search-20261024-002/runs/P/method-search/EXPORT.json",
+  "source_sha256": "9a4cf4518044a09d7b92e6d320bc49ab937d24e02be790a2c2b406c9167b4c15",
+  "total_queries": 40,
+  "sparse_queries": [
+    {
+      "family": "sparse_attention",
+      "first_submitted_at": 1792860544.3548794,
+      "id": "q-663f5d2211188de939785134",
+      "limit": 3,
+      "network_attempts": 1,
+      "omitted_at_source_cap": 0,
+      "owner_pid": 60200,
+      "provider": "github",
+      "provider_result_count": 0,
+      "query": "Sparse-VideoGen SpargeAttn sparse attention",
+      "seconds": 0.7506002580003042,
+      "source_ids": [],
+      "status": "completed",
+      "updated_at": 1792860545.110277
+    },
+    {
+      "family": "sparse_attention",
+      "first_submitted_at": 1792860634.255653,
+      "id": "q-6a8363ef7bf7f001be6193c1",
+      "limit": 3,
+      "network_attempts": 1,
+      "omitted_at_source_cap": 0,
+      "owner_pid": 60200,
+      "provider": "github",
+      "provider_result_count": 3,
+      "query": "Sliding Tile Attention",
+      "seconds": 1.4685709650002536,
+      "source_ids": [
+        "s-a4ba21aee32f6f30a3f2f065",
+        "s-8d68b375419f501b7f63aee4",
+        "s-66d3ec412458ee9d452a01ee"
+      ],
+      "status": "completed",
+      "updated_at": 1792860635.7296631
+    },
+    {
+      "family": "sparse_attention",
+      "first_submitted_at": 1792860563.105223,
+      "id": "q-75ab0a5ac8abfbb19891ad9c",
+      "limit": 3,
+      "network_attempts": 1,
+      "omitted_at_source_cap": 0,
+      "owner_pid": 60200,
+      "provider": "github",
+      "provider_result_count": 3,
+      "query": "SpargeAttn",
+      "seconds": 1.6449697469997773,
+      "source_ids": [
+        "s-8c00e88b8c78366e2c04c2ce",
+        "s-f75db7c185ced758219b6bca",
+        "s-db8827fb7c1779487495960f"
+      ],
+      "status": "completed",
+      "updated_at": 1792860564.7541573
+    },
+    {
+      "family": "sparse_attention",
+      "first_submitted_at": 1792860555.6298554,
+      "id": "q-da8ba61083e71f4949a4ee0b",
+      "limit": 3,
+      "network_attempts": 1,
+      "omitted_at_source_cap": 0,
+      "owner_pid": 60200,
+      "provider": "github",
+      "provider_result_count": 1,
+      "query": "Sparse-VideoGen",
+      "seconds": 0.6900871239995467,
+      "source_ids": [
+        "s-7233af9812c6ba192ab642c9"
+      ],
+      "status": "completed",
+      "updated_at": 1792860556.3241782
+    },
+    {
+      "error": "source rate limit; retry after 1792860603",
+      "family": "sparse_attention",
+      "first_submitted_at": 1792860588.0629401,
+      "id": "q-e2c3a1d5363677278163c54d",
+      "limit": 3,
+      "network_attempts": 1,
+      "owner_pid": 60200,
+      "provider": "github",
+      "query": "Sliding Tile Attention video",
+      "seconds": 1.7458992769998076,
+      "source_ids": [],
+      "status": "failed",
+      "updated_at": 1792860589.8150952
+    }
+  ]
+}

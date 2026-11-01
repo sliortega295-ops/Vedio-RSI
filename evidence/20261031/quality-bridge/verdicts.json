@@ -1,0 +1,981 @@
+{
+  "samples": {
+    "sample-0a0dce8e": {
+      "overall": "pass",
+      "max_severity": "none",
+      "per_prompt": {
+        "0": {
+          "overall": "pass",
+          "severity": "none",
+          "frame_indices": [
+            0,
+            8,
+            16,
+            24,
+            32,
+            40,
+            48,
+            56,
+            64,
+            72,
+            80
+          ],
+          "evidence": "All three sections inspected. Hair, facial outline, shirt and forest bokeh retain comparable detail; sampled head movement and increasing sun flare remain coherent. No new visible artifact."
+        },
+        "1": {
+          "overall": "pass",
+          "severity": "none",
+          "frame_indices": [
+            0,
+            8,
+            16,
+            24,
+            32,
+            40,
+            48,
+            56,
+            64,
+            72,
+            80
+          ],
+          "evidence": "All three sections inspected. Bowl approach, hand placement and later foamy wiping follow the reference progression. Irregular white foam/dish contours and motion softness at 40..80 also occur in the reference; no clear new or materially worse deformation, trail or blocking."
+        },
+        "2": {
+          "overall": "pass",
+          "severity": "none",
+          "frame_indices": [
+            0,
+            8,
+            16,
+            24,
+            32,
+            40,
+            48,
+            56,
+            64,
+            72,
+            80
+          ],
+          "evidence": "All three sections inspected. Bed, window mullions, curtains, nightstand and rug remain stable and comparably resolved throughout. Framing differs slightly without visible structural damage or unstable detail."
+        },
+        "3": {
+          "overall": "pass",
+          "severity": "none",
+          "frame_indices": [
+            0,
+            8,
+            16,
+            24,
+            32,
+            40,
+            48,
+            56,
+            64,
+            72,
+            80
+          ],
+          "evidence": "All three sections inspected. Toilet silhouette, tank fittings, tile grout and floor ice remain consistent across the eleven instants. No new patch seams, mosaic, color instability or shape corruption."
+        },
+        "4": {
+          "overall": "pass",
+          "severity": "none",
+          "frame_indices": [
+            0,
+            8,
+            16,
+            24,
+            32,
+            40,
+            48,
+            56,
+            64,
+            72,
+            80
+          ],
+          "evidence": "All three sections inspected. Panda face/fur, paws, bowl and lanterns remain clear; the sampled chopstick/noodle-to-mouth progression remains coherent. Different subject framing alone is not an artifact; no new visible defect."
+        }
+      },
+      "new_artifacts": [],
+      "temporal_checks": {
+        "flicker_or_popping": "uncertain",
+        "patch_boundary_stability": "pass",
+        "motion_coherence": "pass",
+        "detail_degradation": "pass",
+        "evidence": "No anomalous jump, patch seam or incoherent shape change is visible across the eleven sampled instants per prompt. Patch, motion and detail passes apply only to those instants. Half-second gaps cannot establish absence of brief flicker, popping or motion glitches."
+      },
+      "category_checks": {
+        "snow_static_speckle": "pass",
+        "blur_detail_loss": "pass",
+        "mosaic_blocking_patch_artifacts": "pass",
+        "patch_boundary_discontinuity": "pass",
+        "banding_posterization": "pass",
+        "oversaturation_color_shift": "pass",
+        "ghosting_smearing": "pass",
+        "melting_morphing_structure": "pass",
+        "temporal_flicker_popping": "uncertain",
+        "loss_of_temporal_coherence": "pass",
+        "degraded_text_faces_hands": "pass",
+        "composition_or_motion_regression": "pass"
+      },
+      "baseline_notes": "Matched top-row reference has blown sun highlights and blurred forest bokeh; the dish sequence already contains motion softness and irregular foamy white contours. Restaurant signage is already stylized. These were not assigned as new candidate defects.",
+      "config_notes": "Bottom-row candidate was compared only with its own matched reference. Small framing/pose differences remain plausible and do not alone establish an artifact. No recipe identity, ordering, speed, LPIPS or prior decision was inferred; numerical gates are left to the host.",
+      "recommendation": "promote",
+      "sampling_limitations": "Reviewed 15 panels: all five prompts, all three sections and eleven aligned indices [0,8,16,24,32,40,48,56,64,72,80] per prompt. These are 0.5-second-spaced stills from 81-frame, 16-fps videos, not continuous or full-video viewing. Fast flicker, intermittent patch popping and brief motion defects between samples remain unverified; panel scale also limits fine-detail judgments. Pass and promote describe the observed visual comparisons only.",
+      "reviewed_bundle_id": "86f7e7541c3757fb843c67c1855d45e0a1dcf8d89f17b298075607a0bad8175c",
+      "panels_reviewed": 15
+    },
+    "sample-593f30f5": {
+      "overall": "fail",
+      "max_severity": "medium",
+      "per_prompt": {
+        "0": {
+          "overall": "pass",
+          "severity": "none",
+          "frame_indices": [
+            0,
+            8,
+            16,
+            24,
+            32,
+            40,
+            48,
+            56,
+            64,
+            72,
+            80
+          ],
+          "evidence": "All three sections inspected. Face, hair silhouette, shirt and backlit forest remain coherent across sampled head movement and late flare. No clear new artifact at the displayed scale."
+        },
+        "1": {
+          "overall": "pass",
+          "severity": "none",
+          "frame_indices": [
+            0,
+            8,
+            16,
+            24,
+            32,
+            40,
+            48,
+            56,
+            64,
+            72,
+            80
+          ],
+          "evidence": "All three sections inspected. Dish placement and foam/wiping progression remain comparable. The reference already contains soft moving hands and irregular foamy dish contours at 40..80; no materially worse new hand/dish corruption or trail is established."
+        },
+        "2": {
+          "overall": "fail",
+          "severity": "medium",
+          "frame_indices": [
+            0,
+            8,
+            16,
+            24,
+            32,
+            40,
+            48,
+            56,
+            64,
+            72,
+            80
+          ],
+          "evidence": "All three sections inspected. The candidate room has a persistent hazy/doubled appearance: window and curtain edges, the bedside area and right chair/plant outlines smear into offset contours, while bedding and rug detail are softened relative to the clear reference. This persists through 0..80 and is more than a framing difference."
+        },
+        "3": {
+          "overall": "fail",
+          "severity": "medium",
+          "frame_indices": [
+            0,
+            8,
+            16,
+            24,
+            32,
+            40,
+            48,
+            56,
+            64,
+            72,
+            80
+          ],
+          "evidence": "All three sections inspected. Frost relief, small cracks and uneven tile surfaces visible in the reference are substantially smoothed on the candidate's left and rear walls; floor ice is also less resolved. The toilet silhouette is retained, but new broad surface-detail loss persists in all eleven instants."
+        },
+        "4": {
+          "overall": "pass",
+          "severity": "none",
+          "frame_indices": [
+            0,
+            8,
+            16,
+            24,
+            32,
+            40,
+            48,
+            56,
+            64,
+            72,
+            80
+          ],
+          "evidence": "All three sections inspected. Panda facial features, fur silhouette, paws, bowl and lanterns remain comparable, and sampled noodle/chopstick movement remains coherent. No clear new artifact beyond plausible pose/framing differences."
+        }
+      },
+      "new_artifacts": [
+        {
+          "category": "blur_detail_loss",
+          "severity": "medium",
+          "prompt_id": 2,
+          "frame_indices": [
+            0,
+            8,
+            16,
+            24,
+            32,
+            40,
+            48,
+            56,
+            64,
+            72,
+            80
+          ],
+          "evidence": "Candidate bedroom is visibly hazier than its reference: window/curtain detail, bedding folds, rug and bedside furnishings lose definition in every section."
+        },
+        {
+          "category": "ghosting_smearing",
+          "severity": "medium",
+          "prompt_id": 2,
+          "frame_indices": [
+            0,
+            8,
+            16,
+            24,
+            32,
+            40,
+            48,
+            56,
+            64,
+            72,
+            80
+          ],
+          "evidence": "Faint offset/doubled window, curtain and right chair/plant contours coexist within candidate stills, producing smeared edges absent or materially weaker in the reference. Persistent spatial ghosting is visible; its between-frame behavior is unverified."
+        },
+        {
+          "category": "blur_detail_loss",
+          "severity": "medium",
+          "prompt_id": 3,
+          "frame_indices": [
+            0,
+            8,
+            16,
+            24,
+            32,
+            40,
+            48,
+            56,
+            64,
+            72,
+            80
+          ],
+          "evidence": "Candidate tile faces lose the reference's distinct frost ridges, cracks and rough relief on both walls, and floor ice becomes softer; this remains visible across all three sections."
+        }
+      ],
+      "temporal_checks": {
+        "flicker_or_popping": "uncertain",
+        "patch_boundary_stability": "pass",
+        "motion_coherence": "pass",
+        "detail_degradation": "fail",
+        "evidence": "New persistent spatial softness/ghosting is visible in the bedroom and detail loss in the tiled room. No distinct new motion jump or artificial patch seam is established in the sampled progression. Half-second gaps leave fast flicker, patch popping and brief motion glitches uncertain; motion/patch passes are sampled-only."
+      },
+      "category_checks": {
+        "snow_static_speckle": "pass",
+        "blur_detail_loss": "fail",
+        "mosaic_blocking_patch_artifacts": "pass",
+        "patch_boundary_discontinuity": "pass",
+        "banding_posterization": "pass",
+        "oversaturation_color_shift": "pass",
+        "ghosting_smearing": "fail",
+        "melting_morphing_structure": "pass",
+        "temporal_flicker_popping": "uncertain",
+        "loss_of_temporal_coherence": "pass",
+        "degraded_text_faces_hands": "pass",
+        "composition_or_motion_regression": "pass"
+      },
+      "baseline_notes": "Matched reference retains distinct bedroom furnishings/window edges and rough icy tile texture. It already has blown sunlight and forest bokeh, motion-softened hands, irregular foam/dish forms and stylized restaurant signage.",
+      "config_notes": "Only bottom-row changes relative to this sample's matched top row were judged. Bedroom ghosting/softness and tiled-wall detail loss are spatial defects, not penalties for changed composition. No recipe, ordering, performance or prior-verdict information was used.",
+      "recommendation": "reject",
+      "sampling_limitations": "Reviewed 15 panels: all five prompts, all three sections and eleven aligned indices [0,8,16,24,32,40,48,56,64,72,80] per prompt. These are 0.5-second-spaced stills from 81-frame, 16-fps videos, not continuous or full-video viewing. Fast flicker, intermittent patch popping and brief motion defects between samples remain unverified; panel scale also limits fine-detail judgments. The visible spatial failures are sufficient for rejection without inferring temporal behavior or numerical gates.",
+      "reviewed_bundle_id": "0a9a596544ba475dac359c372fa8181913bb175cd1d923b135ffa2980c4792cd",
+      "panels_reviewed": 15
+    },
+    "sample-72420986": {
+      "overall": "pass",
+      "max_severity": "none",
+      "per_prompt": {
+        "0": {
+          "overall": "pass",
+          "severity": "none",
+          "frame_indices": [
+            0,
+            8,
+            16,
+            24,
+            32,
+            40,
+            48,
+            56,
+            64,
+            72,
+            80
+          ],
+          "evidence": "All three sections inspected. Facial outline and eye/blink progression, backlit hair strands, collar and background trunks remain plausible and comparably detailed through the late sunlight flare. No clear new artifact."
+        },
+        "1": {
+          "overall": "pass",
+          "severity": "none",
+          "frame_indices": [
+            0,
+            8,
+            16,
+            24,
+            32,
+            40,
+            48,
+            56,
+            64,
+            72,
+            80
+          ],
+          "evidence": "All three sections inspected. Bowl placement and subsequent foamy washing maintain the reference's sampled progression; plate rims, woven cloth and plant remain clear. Later irregular foam/dish shapes and moving-hand softness are already present in the reference, without a clear new candidate defect."
+        },
+        "2": {
+          "overall": "pass",
+          "severity": "none",
+          "frame_indices": [
+            0,
+            8,
+            16,
+            24,
+            32,
+            40,
+            48,
+            56,
+            64,
+            72,
+            80
+          ],
+          "evidence": "All three sections inspected. Window mullions, curtain folds, bed frame and bedding, rug border and bedside furniture remain distinctly resolved and stable. Slight framing differences do not introduce doubled edges, structural corruption or unstable detail."
+        },
+        "3": {
+          "overall": "pass",
+          "severity": "none",
+          "frame_indices": [
+            0,
+            8,
+            16,
+            24,
+            32,
+            40,
+            48,
+            56,
+            64,
+            72,
+            80
+          ],
+          "evidence": "All three sections inspected. Rough frosted tile surfaces, grout, tank fittings, bowl/lid edges and snow/ice texture remain comparable and consistent throughout. No new visible blocks, smearing, seams or detail degradation."
+        },
+        "4": {
+          "overall": "pass",
+          "severity": "none",
+          "frame_indices": [
+            0,
+            8,
+            16,
+            24,
+            32,
+            40,
+            48,
+            56,
+            64,
+            72,
+            80
+          ],
+          "evidence": "All three sections inspected. Panda face, fur and paws, noodle bowl and background lanterns remain clear; the chopsticks and noodles follow a coherent sampled eating progression. No new visible deformation, ghost trail or motion regression."
+        }
+      },
+      "new_artifacts": [],
+      "temporal_checks": {
+        "flicker_or_popping": "uncertain",
+        "patch_boundary_stability": "pass",
+        "motion_coherence": "pass",
+        "detail_degradation": "pass",
+        "evidence": "No anomalous shape jump, patch seam or detail collapse is visible across the eleven sampled instants per prompt. Motion, patch and detail passes cover those instants only; half-second gaps cannot establish absence of brief flicker, popping or motion glitches."
+      },
+      "category_checks": {
+        "snow_static_speckle": "pass",
+        "blur_detail_loss": "pass",
+        "mosaic_blocking_patch_artifacts": "pass",
+        "patch_boundary_discontinuity": "pass",
+        "banding_posterization": "pass",
+        "oversaturation_color_shift": "pass",
+        "ghosting_smearing": "pass",
+        "melting_morphing_structure": "pass",
+        "temporal_flicker_popping": "uncertain",
+        "loss_of_temporal_coherence": "pass",
+        "degraded_text_faces_hands": "pass",
+        "composition_or_motion_regression": "pass"
+      },
+      "baseline_notes": "Matched top-row reference already contains strong sun flare and forest bokeh, soft moving hands and irregular foamy dish contours in the washing sequence. Tile relief and bedroom edges are clear; restaurant text is stylized.",
+      "config_notes": "Compared solely with this sample's matched reference. Modest pose and framing variations were not treated as defects without structural or temporal evidence. No recipe identity, ordering, speed, LPIPS or prior decision was inferred; numerical gates remain with the host.",
+      "recommendation": "promote",
+      "sampling_limitations": "Reviewed 15 panels: all five prompts, all three sections and eleven aligned indices [0,8,16,24,32,40,48,56,64,72,80] per prompt. These are 0.5-second-spaced stills from 81-frame, 16-fps videos, not continuous or full-video viewing. Fast flicker, intermittent patch popping and brief motion defects between samples remain unverified; panel scale also limits fine-detail judgments. Pass and promote describe the observed visual comparisons only.",
+      "reviewed_bundle_id": "9b81e1d0ab09498e124efd4fbc9bfef6263c82ee531ab3b1fe9c45e6e9fad05d",
+      "panels_reviewed": 15
+    },
+    "sample-bffae0d0": {
+      "overall": "fail",
+      "max_severity": "medium",
+      "per_prompt": {
+        "0": {
+          "overall": "pass",
+          "severity": "none",
+          "frame_indices": [
+            0,
+            8,
+            16,
+            24,
+            32,
+            40,
+            48,
+            56,
+            64,
+            72,
+            80
+          ],
+          "evidence": "All three sections inspected. Face/ear structure, backlit hair, collar and background retain plausible detail and sampled movement through the final flare. No clear new artifact beyond small pose/framing variations."
+        },
+        "1": {
+          "overall": "pass",
+          "severity": "none",
+          "frame_indices": [
+            0,
+            8,
+            16,
+            24,
+            32,
+            40,
+            48,
+            56,
+            64,
+            72,
+            80
+          ],
+          "evidence": "All three sections inspected. Plates, woven cloth and plant remain clear; the bowl/hand/foam sequence follows the reference progression. Moving-hand softness and irregular foamy contours at 40..80 are also present in the reference, without a clear new worsening."
+        },
+        "2": {
+          "overall": "fail",
+          "severity": "medium",
+          "frame_indices": [
+            0,
+            8,
+            16,
+            24,
+            32,
+            40,
+            48,
+            56,
+            64,
+            72,
+            80
+          ],
+          "evidence": "All three sections inspected. Candidate window frames/curtains, the right chair/plant area and fine furnishing edges have persistent offset translucent contours and a smeared, hazy appearance. Reference window and furnishing edges are distinctly clearer. This within-frame duplication is not explained by changed framing."
+        },
+        "3": {
+          "overall": "fail",
+          "severity": "medium",
+          "frame_indices": [
+            0,
+            8,
+            16,
+            24,
+            32,
+            40,
+            48,
+            56,
+            64,
+            72,
+            80
+          ],
+          "evidence": "All three sections inspected. Candidate walls retain grout lines but lose much of the reference's rough frost folds, chips/cracks and raised tile texture; floor ice is softer as well. Broad surface-detail degradation remains visible throughout 0..80."
+        },
+        "4": {
+          "overall": "pass",
+          "severity": "none",
+          "frame_indices": [
+            0,
+            8,
+            16,
+            24,
+            32,
+            40,
+            48,
+            56,
+            64,
+            72,
+            80
+          ],
+          "evidence": "All three sections inspected. Panda facial markings, muzzle, fur edge and paws remain plausible and clear; bowl and lanterns hold their structure. Sampled noodle/chopstick movement has no clear new ghost trail, deformation or coherence loss."
+        }
+      },
+      "new_artifacts": [
+        {
+          "category": "blur_detail_loss",
+          "severity": "medium",
+          "prompt_id": 2,
+          "frame_indices": [
+            0,
+            8,
+            16,
+            24,
+            32,
+            40,
+            48,
+            56,
+            64,
+            72,
+            80
+          ],
+          "evidence": "Bedroom window/curtain detail, rug and fine furniture edges are diffusely softened relative to this sample's clear reference in all three sections."
+        },
+        {
+          "category": "ghosting_smearing",
+          "severity": "medium",
+          "prompt_id": 2,
+          "frame_indices": [
+            0,
+            8,
+            16,
+            24,
+            32,
+            40,
+            48,
+            56,
+            64,
+            72,
+            80
+          ],
+          "evidence": "Candidate window/curtain edges and right chair/plant outlines show faint offset duplicate contours within the stills, giving the static room a persistent smeared/double-image appearance. Between-frame behavior is unverified."
+        },
+        {
+          "category": "blur_detail_loss",
+          "severity": "medium",
+          "prompt_id": 3,
+          "frame_indices": [
+            0,
+            8,
+            16,
+            24,
+            32,
+            40,
+            48,
+            56,
+            64,
+            72,
+            80
+          ],
+          "evidence": "Both tiled walls are substantially flatter/smoother than the reference's jagged frosted surfaces, and floor ice detail is reduced; the loss persists across the eleven instants."
+        }
+      ],
+      "temporal_checks": {
+        "flicker_or_popping": "uncertain",
+        "patch_boundary_stability": "pass",
+        "motion_coherence": "pass",
+        "detail_degradation": "fail",
+        "evidence": "Persistent spatial smearing/detail loss is established in the bedroom and tiled room. No new artificial patch seam or distinct incoherent motion jump is visible at the sampled instants. Half-second gaps leave brief flicker, boundary popping and motion glitches unverified; motion/patch passes are sampled-only."
+      },
+      "category_checks": {
+        "snow_static_speckle": "pass",
+        "blur_detail_loss": "fail",
+        "mosaic_blocking_patch_artifacts": "pass",
+        "patch_boundary_discontinuity": "pass",
+        "banding_posterization": "pass",
+        "oversaturation_color_shift": "pass",
+        "ghosting_smearing": "fail",
+        "melting_morphing_structure": "pass",
+        "temporal_flicker_popping": "uncertain",
+        "loss_of_temporal_coherence": "pass",
+        "degraded_text_faces_hands": "pass",
+        "composition_or_motion_regression": "pass"
+      },
+      "baseline_notes": "Matched reference has sharply defined bedroom edges and pronounced rough ice/frost relief on tile surfaces. Strong sun flare, defocused forest highlights, moving-hand softness and irregular washing foam are already in the reference, as is stylized restaurant text.",
+      "config_notes": "Judged only against this sample's own matched top-row reference. Persistent spatial duplication/softness and texture loss exceed composition changes. No recipe identity, ordering, speed, LPIPS or original decision was inferred; the host handles numerical gates.",
+      "recommendation": "reject",
+      "sampling_limitations": "Reviewed 15 panels: all five prompts, all three sections and eleven aligned indices [0,8,16,24,32,40,48,56,64,72,80] per prompt. These are 0.5-second-spaced stills from 81-frame, 16-fps videos, not continuous or full-video viewing. Fast flicker, intermittent patch popping and brief motion defects between samples remain unverified; panel scale also limits fine-detail judgments. Visible spatial failures suffice for rejection without inferring temporal behavior or numerical gates.",
+      "reviewed_bundle_id": "8721c16eea3838ad4c107d9eb24e133ec907baaa65cf3bd9deb2240e326ede72",
+      "panels_reviewed": 15
+    },
+    "sample-c6be5a6c": {
+      "overall": "fail",
+      "max_severity": "medium",
+      "per_prompt": {
+        "0": {
+          "overall": "pass",
+          "severity": "none",
+          "frame_indices": [
+            0,
+            8,
+            16,
+            24,
+            32,
+            40,
+            48,
+            56,
+            64,
+            72,
+            80
+          ],
+          "evidence": "All three sections inspected. Hair, eye/face contours, shirt and forest retain comparable visible structure through sampled head/blink movement and late sun flare. Flare/pose differences remain plausible; no clear new artifact."
+        },
+        "1": {
+          "overall": "pass",
+          "severity": "none",
+          "frame_indices": [
+            0,
+            8,
+            16,
+            24,
+            32,
+            40,
+            48,
+            56,
+            64,
+            72,
+            80
+          ],
+          "evidence": "All three sections inspected. Plant, cloth weave and plate rims remain clear, and bowl placement followed by foamy washing remains coherent at the sampled instants. Reference hand softness and irregular foam/dish shapes are not materially worsened in a clearly visible way."
+        },
+        "2": {
+          "overall": "fail",
+          "severity": "medium",
+          "frame_indices": [
+            0,
+            8,
+            16,
+            24,
+            32,
+            40,
+            48,
+            56,
+            64,
+            72,
+            80
+          ],
+          "evidence": "All three sections inspected. The candidate has hazy, smeared window/curtain edges and offset translucent furnishing/plant contours at the room's right edge; rug and furnishing detail also soften. These coexisting contours persist across all eleven instants and are absent or materially weaker in the reference."
+        },
+        "3": {
+          "overall": "fail",
+          "severity": "medium",
+          "frame_indices": [
+            0,
+            8,
+            16,
+            24,
+            32,
+            40,
+            48,
+            56,
+            64,
+            72,
+            80
+          ],
+          "evidence": "All three sections inspected. Rough ice/frost ridges and cracks clearly visible on the reference walls are flattened into much smoother candidate tile faces, with softer floor-ice detail. Grout and toilet geometry survive, but broad texture loss is visibly new throughout the sequence."
+        },
+        "4": {
+          "overall": "pass",
+          "severity": "none",
+          "frame_indices": [
+            0,
+            8,
+            16,
+            24,
+            32,
+            40,
+            48,
+            56,
+            64,
+            72,
+            80
+          ],
+          "evidence": "All three sections inspected. Panda eyes/muzzle, fur and paws, bowl and lanterns preserve clear shapes. Chopstick/noodle positions progress coherently at the sampled instants, with no clear new trail, melt or structural defect."
+        }
+      },
+      "new_artifacts": [
+        {
+          "category": "blur_detail_loss",
+          "severity": "medium",
+          "prompt_id": 2,
+          "frame_indices": [
+            0,
+            8,
+            16,
+            24,
+            32,
+            40,
+            48,
+            56,
+            64,
+            72,
+            80
+          ],
+          "evidence": "Window/curtain structure, rug and fine furnishing edges are visibly hazier and less defined than the matched reference in all three bedroom sections."
+        },
+        {
+          "category": "ghosting_smearing",
+          "severity": "medium",
+          "prompt_id": 2,
+          "frame_indices": [
+            0,
+            8,
+            16,
+            24,
+            32,
+            40,
+            48,
+            56,
+            64,
+            72,
+            80
+          ],
+          "evidence": "Offset translucent window/curtain and right chair/plant contours coexist in the candidate stills, creating persistent spatial edge smearing/doubling beyond a framing change. Temporal behavior between stills cannot be established."
+        },
+        {
+          "category": "blur_detail_loss",
+          "severity": "medium",
+          "prompt_id": 3,
+          "frame_indices": [
+            0,
+            8,
+            16,
+            24,
+            32,
+            40,
+            48,
+            56,
+            64,
+            72,
+            80
+          ],
+          "evidence": "Candidate tile faces lose much of the reference's sharp frost relief, irregular ridges and cracks on both walls; floor ice also becomes less resolved. The loss persists from index 0 through 80."
+        }
+      ],
+      "temporal_checks": {
+        "flicker_or_popping": "uncertain",
+        "patch_boundary_stability": "pass",
+        "motion_coherence": "pass",
+        "detail_degradation": "fail",
+        "evidence": "Spatial bedroom smearing and tiled-room texture loss are visible throughout the sampled sequence. No distinct new artificial seam or incoherent motion jump is established in the eleven instants per prompt. Half-second gaps leave brief flicker, patch popping and motion glitches uncertain; motion/patch passes describe sampled evidence only."
+      },
+      "category_checks": {
+        "snow_static_speckle": "pass",
+        "blur_detail_loss": "fail",
+        "mosaic_blocking_patch_artifacts": "pass",
+        "patch_boundary_discontinuity": "pass",
+        "banding_posterization": "pass",
+        "oversaturation_color_shift": "pass",
+        "ghosting_smearing": "fail",
+        "melting_morphing_structure": "pass",
+        "temporal_flicker_popping": "uncertain",
+        "loss_of_temporal_coherence": "pass",
+        "degraded_text_faces_hands": "pass",
+        "composition_or_motion_regression": "pass"
+      },
+      "baseline_notes": "This sample's reference preserves distinct bedroom window/furniture edges and pronounced rough icy wall texture. It already contains strong sunlight flare, defocused forest bokeh, moving-hand softness and irregular washing foam, as well as stylized restaurant lettering.",
+      "config_notes": "Only new bottom-row defects relative to this sample's matched top-row reference were counted. Persistent edge duplication/softness and broad frost-detail loss are distinct from composition differences. No identity, ordering, performance, LPIPS or prior-verdict inference was used.",
+      "recommendation": "reject",
+      "sampling_limitations": "Reviewed 15 panels: all five prompts, all three sections and eleven aligned indices [0,8,16,24,32,40,48,56,64,72,80] per prompt. These are 0.5-second-spaced stills from 81-frame, 16-fps videos, not continuous or full-video viewing. Fast flicker, intermittent patch popping and brief motion defects between samples remain unverified; panel scale also limits fine-detail judgments. Visible spatial failures suffice for rejection without inferring temporal behavior or numerical gates.",
+      "reviewed_bundle_id": "0d401cfd0c7d9b5ffde8d9488e80014da043be983f0de453125e1d54c4e399fd",
+      "panels_reviewed": 15
+    },
+    "sample-db15e0e2": {
+      "overall": "fail",
+      "max_severity": "medium",
+      "per_prompt": {
+        "0": {
+          "overall": "pass",
+          "severity": "none",
+          "frame_indices": [
+            0,
+            8,
+            16,
+            24,
+            32,
+            40,
+            48,
+            56,
+            64,
+            72,
+            80
+          ],
+          "evidence": "All three sections inspected. Facial profile, eyes, hair strands and collar retain plausible structure; sampled head/blink movement and final flare remain coherent. Small lighting/pose differences do not establish a new artifact."
+        },
+        "1": {
+          "overall": "pass",
+          "severity": "none",
+          "frame_indices": [
+            0,
+            8,
+            16,
+            24,
+            32,
+            40,
+            48,
+            56,
+            64,
+            72,
+            80
+          ],
+          "evidence": "All three sections inspected. Bowl approach, placement and later foamy wiping retain the reference's sampled progression, while cloth, plant and plate edges stay resolved. The reference already has soft moving hands and distorted foam/dish contours at 40..80; no clear new or materially worse defect is established."
+        },
+        "2": {
+          "overall": "fail",
+          "severity": "medium",
+          "frame_indices": [
+            0,
+            8,
+            16,
+            24,
+            32,
+            40,
+            48,
+            56,
+            64,
+            72,
+            80
+          ],
+          "evidence": "All three sections inspected. Candidate window/curtain and right chair/plant edges show a persistent hazy, offset/doubled appearance; rug and furnishing details are less distinct than the reference. These overlapping contours exist within the stills and exceed composition differences."
+        },
+        "3": {
+          "overall": "fail",
+          "severity": "medium",
+          "frame_indices": [
+            0,
+            8,
+            16,
+            24,
+            32,
+            40,
+            48,
+            56,
+            64,
+            72,
+            80
+          ],
+          "evidence": "All three sections inspected. Candidate retains toilet and grout geometry but substantially smooths the reference's sharp uneven frost relief, ridges and cracks on both walls; floor ice also loses definition. Broad new surface-detail loss persists in every section."
+        },
+        "4": {
+          "overall": "pass",
+          "severity": "none",
+          "frame_indices": [
+            0,
+            8,
+            16,
+            24,
+            32,
+            40,
+            48,
+            56,
+            64,
+            72,
+            80
+          ],
+          "evidence": "All three sections inspected. Panda eyes/muzzle, fur outline, paws and bowl remain comparable, and sampled chopstick/noodle motion stays coherent. Lanterns and background retain plausible structure; no clear new ghosting, corruption or motion defect."
+        }
+      },
+      "new_artifacts": [
+        {
+          "category": "blur_detail_loss",
+          "severity": "medium",
+          "prompt_id": 2,
+          "frame_indices": [
+            0,
+            8,
+            16,
+            24,
+            32,
+            40,
+            48,
+            56,
+            64,
+            72,
+            80
+          ],
+          "evidence": "Bedroom window/curtain detail, rug and fine furnishing edges are diffusely softened relative to the matched reference throughout all three sections."
+        },
+        {
+          "category": "ghosting_smearing",
+          "severity": "medium",
+          "prompt_id": 2,
+          "frame_indices": [
+            0,
+            8,
+            16,
+            24,
+            32,
+            40,
+            48,
+            56,
+            64,
+            72,
+            80
+          ],
+          "evidence": "Faint offset/double contours are visible around window/curtain edges and the right chair/plant, creating persistent within-frame smearing absent or materially weaker in the reference. Its behavior between sampled instants is unknown."
+        },
+        {
+          "category": "blur_detail_loss",
+          "severity": "medium",
+          "prompt_id": 3,
+          "frame_indices": [
+            0,
+            8,
+            16,
+            24,
+            32,
+            40,
+            48,
+            56,
+            64,
+            72,
+            80
+          ],
+          "evidence": "Sharp rough frost folds, ridges and cracks on the reference's left/rear walls become substantially flatter and less distinct in the candidate; floor ice is softer as well. Visible at all eleven aligned instants."
+        }
+      ],
+      "temporal_checks": {
+        "flicker_or_popping": "uncertain",
+        "patch_boundary_stability": "pass",
+        "motion_coherence": "pass",
+        "detail_degradation": "fail",
+        "evidence": "Persistent spatial bedroom smearing and icy-wall detail loss are visible. No clear new artificial patch boundary or incoherent motion jump is established across the sampled instants. Half-second gaps cannot rule out brief flicker, popping or motion glitches; patch/motion passes are limited to the viewed stills."
+      },
+      "category_checks": {
+        "snow_static_speckle": "pass",
+        "blur_detail_loss": "fail",
+        "mosaic_blocking_patch_artifacts": "pass",
+        "patch_boundary_discontinuity": "pass",
+        "banding_posterization": "pass",
+        "oversaturation_color_shift": "pass",
+        "ghosting_smearing": "fail",
+        "melting_morphing_structure": "pass",
+        "temporal_flicker_popping": "uncertain",
+        "loss_of_temporal_coherence": "pass",
+        "degraded_text_faces_hands": "pass",
+        "composition_or_motion_regression": "pass"
+      },
+      "baseline_notes": "Matched reference preserves clear bedroom boundaries and distinct jagged frost/tile relief. It already contains bright sun flare, blurred forest bokeh, motion-softened hands and irregular foamy washing shapes; restaurant lettering is stylized.",
+      "config_notes": "Judged solely against this sample's matched top-row reference. Within-frame edge smearing and broad texture loss were counted; framing/pose changes alone were not. No recipe identity, ordering, speed, LPIPS or original decision was inferred. Numerical gates remain with the host.",
+      "recommendation": "reject",
+      "sampling_limitations": "Reviewed 15 panels: all five prompts, all three sections and eleven aligned indices [0,8,16,24,32,40,48,56,64,72,80] per prompt. These are 0.5-second-spaced stills from 81-frame, 16-fps videos, not continuous or full-video viewing. Fast flicker, intermittent patch popping and brief motion defects between samples remain unverified; panel scale also limits fine-detail judgments. Visible spatial failures suffice for rejection without inferring temporal behavior or numerical gates.",
+      "reviewed_bundle_id": "3f1c612e75cdde31922376b04e279321a13db3ab946e1a6af28b4c19030eb987",
+      "panels_reviewed": 15
+    }
+  },
+  "review_scope": "five prompts, eleven aligned samples each, not full-video viewing"
+}

@@ -1,0 +1,22 @@
+{
+  "schema": "sol-harness-study-audit/v1",
+  "run_id": "dag-native-20261022-v6",
+  "status": "INVALID_INFRA_TRIAL",
+  "comparison_eligible": false,
+  "reasons": [
+    "The infrastructure input contract omitted exact activation-variable and Cache [abcd].family registration rules. All six Cache attempts were rejected before model generation; this is not evidence that the Cache methods fail.",
+    "The initial Executor reference mount was missing. A recorded same-run controller handoff restored the original Master session, Dense evidence, budgets, time origin and prior API cost, but the run was not an uninterrupted clean deployment.",
+    "Kernel-only closure finished the bounded native runtime workflow, but cannot satisfy the intended complete Kernel+Cache pipeline validation or be treated as a controlled A speedup.",
+    "Post-run inspection found twenty run-owned zombie processes despite successful early cleanup receipts. GPUs were released, but clean process-lifecycle acceptance remains REVIEW. A late-interpreter-exit fix is CPU-regression tested only; it was not hot-patched into this immutable trajectory.",
+    "The retained dependency ledger omitted the Dense-bundle prerequisite of baseline.frozen. Actual baseline freeze was validated against real Dense evidence, but the recorded graph is not a complete causal critical path."
+  ],
+  "evidence_policy": {
+    "preserve_all_preflight_attempts": true,
+    "reset_budgets": false,
+    "preserve_original_time_and_api_cost": true,
+    "retain_generated_videos_and_timing": true,
+    "report_harness_and_study_status_separately": true
+  },
+  "authority": "Outer infrastructure and final-acceptance audit; not an experimental Agent input.",
+  "next_trial": "Requires user approval; no fresh trajectory is authorized by this audit."
+}

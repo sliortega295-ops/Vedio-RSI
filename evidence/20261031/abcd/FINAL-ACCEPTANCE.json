@@ -1,0 +1,392 @@
+{
+  "schema": "abcd-coordinator-final-evidence-check/v1",
+  "timestamp": "2026-10-22T07:37:19.955700+00:00",
+  "status": "PASS",
+  "issues": [],
+  "arms": {
+    "A": {
+      "issues": [],
+      "terminal": {
+        "status": "COMPLETE",
+        "integrated_delivery": "project://SolAgent/20261021-abcd-native-execution/campaigns/abcd-native-20261021-v6/runs/A/workspace/output/orchestrated/sana-20261021-220549/INTEGRATED-DELIVERY.json",
+        "master_audit": "project://SolAgent/20261021-abcd-native-execution/campaigns/abcd-native-20261021-v6/runs/A/workspace/output/orchestrated/sana-20261021-220549/MASTER-AUDIT.json",
+        "objective_ok": true,
+        "run_id": "abcd-native-20261021-v6-A",
+        "arm": "A",
+        "wall_seconds": 15465.838765595996,
+        "timestamp": "2026-10-22T02:08:49.218074+00:00"
+      },
+      "roles": {
+        "master": {
+          "role": "master",
+          "alive": false,
+          "session_id": "01a1607f-d284-7940-a4c6-2603af5678a3",
+          "turn": 2,
+          "returncode": 0,
+          "worktree": "/workspace",
+          "goal_dir": "/workspace/output/orchestrated/sana-20261021-220549/master",
+          "launch_pending": false
+        },
+        "kernel": {
+          "role": "kernel",
+          "alive": false,
+          "session_id": "01a16080-195e-7683-bee6-1ce6ded6b33a",
+          "turn": 2,
+          "returncode": 0,
+          "worktree": "/workspace/output/experiments/sana-kernel_aw-0001/worktree",
+          "goal_dir": "/workspace/output/experiments/sana-kernel_aw-0001/worktree/goals/kernel_aw",
+          "launch_pending": false
+        },
+        "cache": {
+          "role": "cache",
+          "alive": false,
+          "session_id": "01a16080-3891-77e3-9bb6-7f39b19f62bc",
+          "turn": 2,
+          "returncode": 0,
+          "worktree": "/workspace/output/experiments/sana-cache_ca-0001/worktree",
+          "goal_dir": "/workspace/output/experiments/sana-cache_ca-0001/worktree/goals/cache_ca",
+          "launch_pending": false
+        }
+      },
+      "evidence_sha256": {
+        "runs/A/TERMINAL.json": "b6cac6c2172e2ecd119ba0d5b99e4d856fd606b79ba2179e78df66a46022a30c",
+        "runs/A/FINAL-OBJECTIVE.json": "6a3178e44787855436b6d2a4570fcdbfabb4fed67dc2a3890070db3f5a4c53fe",
+        "runs/A/FINAL-COMPONENT-OBJECTIVES.json": "c0340277cc128263c92140feeb7cc27504b98ed6f2da56ce5bd234ec1b9de52d",
+        "runs/A/MASTER-AUDIT-CHECK.json": "8783ac5790c938aa7ea683df5f7b30e6f1faa364fd145dbe8ab26985d07a6bfc",
+        "runs/A/MASTER-IMAGE-EVIDENCE.json": "602164829b55c6324e0b46349c2a5f299b66202b77f406d7615a33bd2f5d982e",
+        "runs/A/workspace/output/orchestrated/sana-20261021-220549/INTEGRATED-DELIVERY.json": "8f420eec62fccd83f87f7f6a37c2040339b38a3ad6c47cc83cc1dd4a743df6b6",
+        "runs/A/workspace/output/orchestrated/sana-20261021-220549/MASTER-AUDIT.json": "5df0024564afe06bee46d8badcf609fbab59a746e425a4d5210253a9cde43ab8",
+        "analysis/A.json": "75174620c51dab1a38c6c94d6e84480063f8550d2619cb58b0ae5b6c74bf6b39"
+      },
+      "bound_image_paths": 75,
+      "historical_ambiguous_calls": 25,
+      "gpu_partition_error_seconds": {
+        "0": 0.0,
+        "1": 0.0,
+        "2": 0.0,
+        "3": 0.0,
+        "4": 0.0,
+        "5": 0.0,
+        "6": 0.0,
+        "7": 0.0
+      },
+      "integration_source_snapshots": [
+        {
+          "config_id": "i01_kernel_tea",
+          "path": "project://SolAgent/20261021-abcd-native-execution/campaigns/abcd-native-20261021-v6/runs/A/workspace/verified_sources/integration-i01_kernel_tea",
+          "changed": [
+            "python/sglang/multimodal_gen/runtime/models/dits/sana_video.py"
+          ],
+          "added": [
+            "python/sglang/multimodal_gen/runtime/cache/sana_candidate_cache.py"
+          ],
+          "deleted": [],
+          "manifest_sha256": "a36391f060d123ec0e0c0e70faaabdeb37a061246df106be957c2ac5809b5025"
+        },
+        {
+          "config_id": "i02_kernel_easy",
+          "path": "project://SolAgent/20261021-abcd-native-execution/campaigns/abcd-native-20261021-v6/runs/A/workspace/verified_sources/integration-i02_kernel_easy",
+          "changed": [
+            "python/sglang/multimodal_gen/runtime/models/dits/sana_video.py"
+          ],
+          "added": [
+            "python/sglang/multimodal_gen/runtime/cache/sana_candidate_cache.py"
+          ],
+          "deleted": [],
+          "manifest_sha256": "a36391f060d123ec0e0c0e70faaabdeb37a061246df106be957c2ac5809b5025"
+        }
+      ]
+    },
+    "B": {
+      "issues": [],
+      "terminal": {
+        "status": "COMPLETE",
+        "integrated_delivery": "project://SolAgent/20261021-abcd-native-execution/campaigns/abcd-native-20261021-v6/runs/B/workspace/output/orchestrated/sana-20261021-220549/INTEGRATED-DELIVERY.json",
+        "master_audit": "project://SolAgent/20261021-abcd-native-execution/campaigns/abcd-native-20261021-v6/runs/B/workspace/output/orchestrated/sana-20261021-220549/MASTER-AUDIT.json",
+        "objective_ok": true,
+        "run_id": "abcd-native-20261021-v6-B",
+        "arm": "B",
+        "wall_seconds": 14719.042687985988,
+        "timestamp": "2026-10-22T01:56:22.462187+00:00"
+      },
+      "roles": {
+        "master": {
+          "role": "master",
+          "alive": false,
+          "session_id": "01a1607f-d32b-78b1-8f18-3d6360f44ab2",
+          "turn": 2,
+          "returncode": 0,
+          "worktree": "/workspace",
+          "goal_dir": "/workspace/output/orchestrated/sana-20261021-220549/master",
+          "launch_pending": false
+        },
+        "kernel": {
+          "role": "kernel",
+          "alive": false,
+          "session_id": "01a16080-1641-7af1-ba04-17a2edaf31e5",
+          "turn": 2,
+          "returncode": 0,
+          "worktree": "/workspace/output/experiments/sana-kernel_aw-0001/worktree",
+          "goal_dir": "/workspace/output/experiments/sana-kernel_aw-0001/worktree/goals/kernel_aw",
+          "launch_pending": false
+        },
+        "cache": {
+          "role": "cache",
+          "alive": false,
+          "session_id": "01a16080-2d53-78b0-9637-0fe8786d6758",
+          "turn": 1,
+          "returncode": 0,
+          "worktree": "/workspace/output/experiments/sana-cache_ca-0001/worktree",
+          "goal_dir": "/workspace/output/experiments/sana-cache_ca-0001/worktree/goals/cache_ca",
+          "launch_pending": false
+        }
+      },
+      "evidence_sha256": {
+        "runs/B/TERMINAL.json": "2b8e352e5d8e1be7e496f1d607a9affbec8b421a63da5061d5d1b6ffa6883a52",
+        "runs/B/FINAL-OBJECTIVE.json": "944348dece73af33b89dc4c0949e92371fe37d60c9b16ce60a83c9669cb9f38f",
+        "runs/B/FINAL-COMPONENT-OBJECTIVES.json": "f1af983b33c6df6eec84f598025e1f1e5f9e9ec46470023c16b6734717970e99",
+        "runs/B/MASTER-AUDIT-CHECK.json": "8783ac5790c938aa7ea683df5f7b30e6f1faa364fd145dbe8ab26985d07a6bfc",
+        "runs/B/MASTER-IMAGE-EVIDENCE.json": "64879f2d957ae078088ddc0adfc63fb5b00ad0772689dc3c3960b99bf97f758f",
+        "runs/B/workspace/output/orchestrated/sana-20261021-220549/INTEGRATED-DELIVERY.json": "84a40f45e89924313017b65973e5231ee7385722b206d73cd7a61beaf05978d7",
+        "runs/B/workspace/output/orchestrated/sana-20261021-220549/MASTER-AUDIT.json": "91ebf12ca0060f57bf27f949eebc2bba82932ed6880263de64b6bf89e83877b5",
+        "analysis/B.json": "f4d0d24ae20a345d1914687b9c3d9f4e9460d52d790b3c8cf48fc6399cc460ef"
+      },
+      "bound_image_paths": 90,
+      "historical_ambiguous_calls": 0,
+      "gpu_partition_error_seconds": {
+        "0": 0.0,
+        "1": 0.0,
+        "2": 0.0,
+        "3": 0.0,
+        "4": 0.0,
+        "5": 0.0,
+        "6": 0.0,
+        "7": 0.0
+      },
+      "integration_source_snapshots": [
+        {
+          "config_id": "integrated_tea_fast",
+          "path": "project://SolAgent/20261021-abcd-native-execution/campaigns/abcd-native-20261021-v6/runs/B/workspace/verified_sources/master.integrated_tea_fast",
+          "changed": [
+            "python/sglang/multimodal_gen/runtime/models/dits/sana_video.py"
+          ],
+          "added": [
+            "python/sglang/multimodal_gen/runtime/models/dits/sana_step_cache.py",
+            "python/sglang/multimodal_gen/runtime/models/dits/sana_video_kernel.py"
+          ],
+          "deleted": [],
+          "manifest_sha256": "6e6130b0c71398fe22637f6cdd6e97f43d41ac07b079b021454471d5c603665c"
+        },
+        {
+          "config_id": "integrated_easy_conservative",
+          "path": "project://SolAgent/20261021-abcd-native-execution/campaigns/abcd-native-20261021-v6/runs/B/workspace/verified_sources/master.integrated_easy_conservative",
+          "changed": [
+            "python/sglang/multimodal_gen/runtime/models/dits/sana_video.py"
+          ],
+          "added": [
+            "python/sglang/multimodal_gen/runtime/models/dits/sana_step_cache.py",
+            "python/sglang/multimodal_gen/runtime/models/dits/sana_video_kernel.py"
+          ],
+          "deleted": [],
+          "manifest_sha256": "6e6130b0c71398fe22637f6cdd6e97f43d41ac07b079b021454471d5c603665c"
+        }
+      ]
+    },
+    "C": {
+      "issues": [],
+      "terminal": {
+        "status": "COMPLETE",
+        "integrated_delivery": "project://SolAgent/20261021-abcd-native-execution/campaigns/abcd-native-20261021-v6/runs/C/workspace/output/orchestrated/sana-20261022-022348/INTEGRATED-DELIVERY.json",
+        "master_audit": "project://SolAgent/20261021-abcd-native-execution/campaigns/abcd-native-20261021-v6/runs/C/workspace/output/orchestrated/sana-20261022-022348/MASTER-AUDIT.json",
+        "objective_ok": true,
+        "run_id": "abcd-native-20261021-v6-C",
+        "arm": "C",
+        "wall_seconds": 13169.432681312988,
+        "timestamp": "2026-10-22T05:48:20.850931+00:00"
+      },
+      "roles": {
+        "master": {
+          "role": "master",
+          "alive": false,
+          "session_id": "01a1616c-062d-7c72-ad87-6b06965e804b",
+          "turn": 2,
+          "returncode": 0,
+          "worktree": "/workspace",
+          "goal_dir": "/workspace/output/orchestrated/sana-20261022-022348/master",
+          "launch_pending": false
+        },
+        "kernel": {
+          "role": "kernel",
+          "alive": false,
+          "session_id": "01a1616c-6f15-7e81-a94b-0ff0c0fac8a4",
+          "turn": 2,
+          "returncode": 0,
+          "worktree": "/workspace/output/experiments/sana-kernel_aw-0001/worktree",
+          "goal_dir": "/workspace/output/experiments/sana-kernel_aw-0001/worktree/goals/kernel_aw",
+          "launch_pending": false
+        },
+        "cache": {
+          "role": "cache",
+          "alive": false,
+          "session_id": "01a1616c-8449-7b61-8f45-2ebdd9fbbae1",
+          "turn": 1,
+          "returncode": 0,
+          "worktree": "/workspace/output/experiments/sana-cache_ca-0001/worktree",
+          "goal_dir": "/workspace/output/experiments/sana-cache_ca-0001/worktree/goals/cache_ca",
+          "launch_pending": false
+        }
+      },
+      "evidence_sha256": {
+        "runs/C/TERMINAL.json": "fc8ed61ad38cb94dd427173195da00f53c6b8dc75f11f4f4d4c4fbeaa82bbeb4",
+        "runs/C/FINAL-OBJECTIVE.json": "ca4af3ab71b9deb9dad92bf5921604927f818e62244d94cdb1a7ca264019653f",
+        "runs/C/FINAL-COMPONENT-OBJECTIVES.json": "90c1934bf20d89642d573e169834ce6cf7fa31ae7d0802890e10f17e9536bd79",
+        "runs/C/MASTER-AUDIT-CHECK.json": "8783ac5790c938aa7ea683df5f7b30e6f1faa364fd145dbe8ab26985d07a6bfc",
+        "runs/C/MASTER-IMAGE-EVIDENCE.json": "79626e6199563f267398ed4dcda3408dda00d5bf92194205fbdc8a7e122bbc50",
+        "runs/C/workspace/output/orchestrated/sana-20261022-022348/INTEGRATED-DELIVERY.json": "0a16084227b83dcba738de8fa9eba834e8ce497e5c7463f086573e0e6aaeba95",
+        "runs/C/workspace/output/orchestrated/sana-20261022-022348/MASTER-AUDIT.json": "faa9305240310fd4a7dbf6addfe7a5fbaf7be06665f5bc37349991904eb2d9fb",
+        "analysis/C.json": "e90a21643894a90988870015500d8d55fffa53f286ba744cb04bcdd190cc091a"
+      },
+      "bound_image_paths": 90,
+      "historical_ambiguous_calls": 40,
+      "gpu_partition_error_seconds": {
+        "0": 0.0,
+        "1": 0.0,
+        "2": 0.0,
+        "3": 0.0,
+        "4": 0.0,
+        "5": 0.0,
+        "6": 0.0,
+        "7": 0.0
+      },
+      "integration_source_snapshots": [
+        {
+          "config_id": "i01_kernel_tea",
+          "path": "project://SolAgent/20261021-abcd-native-execution/campaigns/abcd-native-20261021-v6/runs/C/workspace/verified_sources/master.i01_kernel_tea",
+          "changed": [
+            "python/sglang/multimodal_gen/runtime/models/dits/sana_video.py"
+          ],
+          "added": [
+            "python/sglang/multimodal_gen/runtime/cache/sana_candidate.py"
+          ],
+          "deleted": [],
+          "manifest_sha256": "77e337027be6c3a71f799aa5a20d104fab4d4ca50a2edc2a683eba15840c84c2"
+        },
+        {
+          "config_id": "i02_kernel_easy",
+          "path": "project://SolAgent/20261021-abcd-native-execution/campaigns/abcd-native-20261021-v6/runs/C/workspace/verified_sources/master.i02_kernel_easy",
+          "changed": [
+            "python/sglang/multimodal_gen/runtime/models/dits/sana_video.py"
+          ],
+          "added": [
+            "python/sglang/multimodal_gen/runtime/cache/sana_candidate.py"
+          ],
+          "deleted": [],
+          "manifest_sha256": "77e337027be6c3a71f799aa5a20d104fab4d4ca50a2edc2a683eba15840c84c2"
+        }
+      ]
+    },
+    "D": {
+      "issues": [],
+      "terminal": {
+        "status": "COMPLETE",
+        "integrated_delivery": "project://SolAgent/20261021-abcd-native-execution/campaigns/abcd-native-20261021-v6/runs/D/workspace/output/orchestrated/sana-20261022-022359/INTEGRATED-DELIVERY.json",
+        "master_audit": "project://SolAgent/20261021-abcd-native-execution/campaigns/abcd-native-20261021-v6/runs/D/workspace/output/orchestrated/sana-20261022-022359/MASTER-AUDIT.json",
+        "objective_ok": true,
+        "run_id": "abcd-native-20261021-v6-D",
+        "arm": "D",
+        "wall_seconds": 13617.991309506004,
+        "timestamp": "2026-10-22T05:55:49.449593+00:00"
+      },
+      "roles": {
+        "master": {
+          "role": "master",
+          "alive": false,
+          "session_id": "01a1616c-2fbb-7591-a0cc-c8e1127a020a",
+          "turn": 2,
+          "returncode": 0,
+          "worktree": "/workspace",
+          "goal_dir": "/workspace/output/orchestrated/sana-20261022-022359/master",
+          "launch_pending": false
+        },
+        "kernel": {
+          "role": "kernel",
+          "alive": false,
+          "session_id": "01a1616c-a338-74d1-989d-f3e84cefa661",
+          "turn": 2,
+          "returncode": 0,
+          "worktree": "/workspace/output/experiments/sana-kernel_aw-0001/worktree",
+          "goal_dir": "/workspace/output/experiments/sana-kernel_aw-0001/worktree/goals/kernel_aw",
+          "launch_pending": false
+        },
+        "cache": {
+          "role": "cache",
+          "alive": false,
+          "session_id": "01a1616c-a348-75c3-892d-6d86a0ebbd4c",
+          "turn": 2,
+          "returncode": 0,
+          "worktree": "/workspace/output/experiments/sana-cache_ca-0001/worktree",
+          "goal_dir": "/workspace/output/experiments/sana-cache_ca-0001/worktree/goals/cache_ca",
+          "launch_pending": false
+        }
+      },
+      "evidence_sha256": {
+        "runs/D/TERMINAL.json": "311aecdc1ee24b4c12bd1dba1c4cb5074108d0122f331ce2eb6bff52438208e9",
+        "runs/D/FINAL-OBJECTIVE.json": "c3a1352a177af58a82bee8ec2129a2c74e3920046365f5ece19aedcc074fc0c0",
+        "runs/D/FINAL-COMPONENT-OBJECTIVES.json": "ef35b92efd9b43ed4a97067ecc09305f947dfa202fbe7648bc3d20a234e19ba9",
+        "runs/D/MASTER-AUDIT-CHECK.json": "8783ac5790c938aa7ea683df5f7b30e6f1faa364fd145dbe8ab26985d07a6bfc",
+        "runs/D/MASTER-IMAGE-EVIDENCE.json": "71eb2cfd891fe2854861339127d7cef897e78965e7e2661f57f94e1b69463c17",
+        "runs/D/workspace/output/orchestrated/sana-20261022-022359/INTEGRATED-DELIVERY.json": "333af118d14b41344b05657e44441dfb305b708876c1d349283c859f2e6970f3",
+        "runs/D/workspace/output/orchestrated/sana-20261022-022359/MASTER-AUDIT.json": "0c239ba1cd014fae23624c112270570162d4912cb67ccc4d35948ecfe3144d89",
+        "analysis/D.json": "270020ee74489dfae8b9e22b31c00facc906563820e2aff1f13b13ecef5ed821"
+      },
+      "bound_image_paths": 90,
+      "historical_ambiguous_calls": 22,
+      "gpu_partition_error_seconds": {
+        "0": 0.0,
+        "1": 0.0,
+        "2": 0.0,
+        "3": 0.0,
+        "4": 0.0,
+        "5": 0.0,
+        "6": 0.0,
+        "7": 0.0
+      },
+      "integration_source_snapshots": [
+        {
+          "config_id": "sana_integrated_fast_01",
+          "path": "project://SolAgent/20261021-abcd-native-execution/campaigns/abcd-native-20261021-v6/runs/D/workspace/verified_sources/master.sana_integrated_fast_01",
+          "changed": [
+            "python/sglang/multimodal_gen/runtime/models/dits/sana_video.py"
+          ],
+          "added": [
+            "python/sglang/multimodal_gen/runtime/models/dits/sana_candidate_cache.py",
+            "python/sglang/multimodal_gen/runtime/models/dits/sana_kernel.py"
+          ],
+          "deleted": [],
+          "manifest_sha256": "f104970135e3e961bc3f8f54ca1896cc2115f4c89c72fb0e5b584fde775e29f9"
+        },
+        {
+          "config_id": "sana_integrated_conservative_02",
+          "path": "project://SolAgent/20261021-abcd-native-execution/campaigns/abcd-native-20261021-v6/runs/D/workspace/verified_sources/master.sana_integrated_conservative_02",
+          "changed": [
+            "python/sglang/multimodal_gen/runtime/models/dits/sana_video.py"
+          ],
+          "added": [
+            "python/sglang/multimodal_gen/runtime/models/dits/sana_candidate_cache.py",
+            "python/sglang/multimodal_gen/runtime/models/dits/sana_kernel.py"
+          ],
+          "deleted": [],
+          "manifest_sha256": "f104970135e3e961bc3f8f54ca1896cc2115f4c89c72fb0e5b584fde775e29f9"
+        }
+      ]
+    }
+  },
+  "source_script_sha256": "33ff9672a4f1dbe9f45cb411be88e00bd580d69305fb506e2d57d85298bea17e",
+  "common_frozen_git_head": "b0e5c01e28f6ff4bda3e12ee8729f761df2e6d93",
+  "common_frozen_code_hash": "d1504fae3d7ef8f5690f8ae5789540ab0f13337e09b43c39965872435e867c56",
+  "limitations": [
+    "Local cross-check of retained evidence, not a new GPU run or fresh LPIPS calculation.",
+    "Native Master owns semantic visual judgment; outer source/visual inspection is separately documented.",
+    "Distinct sessions and frozen bundles do not imply erasure of model pretraining or OS page caches."
+  ]
+}

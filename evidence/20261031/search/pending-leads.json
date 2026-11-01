@@ -1,0 +1,202 @@
+[
+  {
+    "name": "RECAP: Reciprocal Sparse Attention and Hierarchical Caching for Efficient Video Diffusion",
+    "canonical_url": "https://arxiv.org/abs/2610.26244",
+    "status": "paper_lead_pending_code_review",
+    "reason": null,
+    "source_id": "arxiv-api-2610.26244v1",
+    "local_validation": "NOT_RUN"
+  },
+  {
+    "name": "FG-Attn: Leveraging Fine-Grained Sparse Attention in Video Diffusion Models",
+    "canonical_url": "https://arxiv.org/abs/2509.16518",
+    "status": "paper_lead_pending_code_review",
+    "reason": null,
+    "source_id": "arxiv-api-2509.16518v2",
+    "local_validation": "NOT_RUN"
+  },
+  {
+    "name": "LVSA: Training-Free Sparse Attention for Long Video Diffusion",
+    "canonical_url": "https://arxiv.org/abs/2605.31057",
+    "status": "paper_lead_pending_code_review",
+    "reason": null,
+    "source_id": "arxiv-api-2605.31057v1",
+    "local_validation": "NOT_RUN"
+  },
+  {
+    "name": "Dynamics-Aware Sparse Attention for Efficient Autoregressive Video Diffusion",
+    "canonical_url": "https://arxiv.org/abs/2610.26262",
+    "status": "adjacent_or_out_of_scope",
+    "reason": "DASA: AR KV pruning and regional feature reuse; cross-family adjacent record",
+    "source_id": "arxiv-api-2610.26262v1",
+    "local_validation": "NOT_RUN"
+  },
+  {
+    "name": "Competition Domains Matter: Selective Head Globalization for Training-Free Sparse Attention in Video Diffusion Transformers",
+    "canonical_url": "https://arxiv.org/abs/2610.14672",
+    "status": "paper_lead_pending_code_review",
+    "reason": null,
+    "source_id": "arxiv-api-2610.14672v1",
+    "local_validation": "NOT_RUN"
+  },
+  {
+    "name": "LoSA: Near-Lossless Sparse Attention for Training-Free Video Diffusion Acceleration",
+    "canonical_url": "https://arxiv.org/abs/2608.12032",
+    "status": "paper_lead_pending_code_review",
+    "reason": null,
+    "source_id": "arxiv-api-2608.12032v1",
+    "local_validation": "NOT_RUN"
+  },
+  {
+    "name": "Mixture of Distributions Matters: Dynamic Sparse Attention for Efficient Video Diffusion Transformers",
+    "canonical_url": "https://arxiv.org/abs/2601.11641",
+    "status": "paper_lead_pending_code_review",
+    "reason": null,
+    "source_id": "arxiv-api-2601.11641v3",
+    "local_validation": "NOT_RUN"
+  },
+  {
+    "name": "Bidirectional Sparse Attention for Faster Video Diffusion Training",
+    "canonical_url": "https://arxiv.org/abs/2509.01085",
+    "status": "paper_lead_pending_code_review",
+    "reason": null,
+    "source_id": "arxiv-api-2509.01085v4",
+    "local_validation": "NOT_RUN"
+  },
+  {
+    "name": "PARK: Accurate Block Retrieval for Sparse Attention in Video Diffusion Transformers",
+    "canonical_url": "https://arxiv.org/abs/2609.38978",
+    "status": "paper_lead_pending_code_review",
+    "reason": null,
+    "source_id": "arxiv-api-2609.38978v1",
+    "local_validation": "NOT_RUN"
+  },
+  {
+    "name": "FVAttn: Adaptive Sparse Attention with Runtime Load Balancing for Video Generation",
+    "canonical_url": "https://arxiv.org/abs/2607.16190",
+    "status": "paper_lead_pending_code_review",
+    "reason": null,
+    "source_id": "arxiv-api-2607.16190v1",
+    "local_validation": "NOT_RUN"
+  },
+  {
+    "name": "Input-Aware Sparse Attention for Real-Time Co-Speech Video Generation",
+    "canonical_url": "https://arxiv.org/abs/2510.02617",
+    "status": "paper_lead_pending_code_review",
+    "reason": null,
+    "source_id": "arxiv-api-2510.02617v1",
+    "local_validation": "NOT_RUN"
+  },
+  {
+    "name": "Ride the Wave: Precision-Allocated Sparse Attention for Smooth Video Generation",
+    "canonical_url": "https://arxiv.org/abs/2604.12219",
+    "status": "paper_lead_pending_code_review",
+    "reason": null,
+    "source_id": "arxiv-api-2604.12219v1",
+    "local_validation": "NOT_RUN"
+  },
+  {
+    "name": "VideoNSA: Native Sparse Attention Scales Video Understanding",
+    "canonical_url": "https://arxiv.org/abs/2510.02295",
+    "status": "adjacent_or_out_of_scope",
+    "reason": "Video understanding, not video generation",
+    "source_id": "arxiv-api-2510.02295v2",
+    "local_validation": "NOT_RUN"
+  },
+  {
+    "name": "SwinBERT: End-to-End Transformers with Sparse Attention for Video Captioning",
+    "canonical_url": "https://arxiv.org/abs/2111.13196",
+    "status": "adjacent_or_out_of_scope",
+    "reason": "Video captioning, not video generation",
+    "source_id": "arxiv-api-2111.13196v4",
+    "local_validation": "NOT_RUN"
+  },
+  {
+    "name": "DynamicRad: Content-Adaptive Sparse Attention for Long Video Diffusion",
+    "canonical_url": "https://arxiv.org/abs/2604.20470",
+    "status": "paper_lead_pending_code_review",
+    "reason": null,
+    "source_id": "arxiv-api-2604.20470v1",
+    "local_validation": "NOT_RUN"
+  },
+  {
+    "name": "LIVEditor-14B: Lightning Unified Video Editing via In-Context Sparse Attention",
+    "canonical_url": "https://arxiv.org/abs/2605.04569",
+    "status": "adjacent_or_out_of_scope",
+    "reason": "Video editing; separate task and checkpoint contract",
+    "source_id": "arxiv-api-2605.04569v2",
+    "local_validation": "NOT_RUN"
+  },
+  {
+    "name": "MC-Sparse: Deconstructing and Closing the Dense-Sparse Attention Gap in Diffusion Transformers",
+    "canonical_url": "https://arxiv.org/abs/2610.06801",
+    "status": "paper_lead_pending_code_review",
+    "reason": null,
+    "source_id": "arxiv-api-2610.06801v1",
+    "local_validation": "NOT_RUN"
+  },
+  {
+    "name": "MoE-DiffuSeq: Enhancing Long-Document Diffusion Models with Sparse Attention and Mixture of Experts",
+    "canonical_url": "https://arxiv.org/abs/2512.20604",
+    "status": "adjacent_or_out_of_scope",
+    "reason": "Text diffusion",
+    "source_id": "arxiv-api-2512.20604v2",
+    "local_validation": "NOT_RUN"
+  },
+  {
+    "name": "PulseCol: Periodically Refreshed Column-Sparse Attention for Accelerating Diffusion Language Models",
+    "canonical_url": "https://arxiv.org/abs/2605.20813",
+    "status": "adjacent_or_out_of_scope",
+    "reason": "Diffusion language model",
+    "source_id": "arxiv-api-2605.20813v1",
+    "local_validation": "NOT_RUN"
+  },
+  {
+    "name": "WaveAlign: Cache-Aware Query-Row Scheduling for Sparse Attention in Long-Video Generation",
+    "canonical_url": "https://arxiv.org/abs/2609.34814",
+    "status": "paper_lead_pending_code_review",
+    "reason": null,
+    "source_id": "arxiv-api-2609.34814v1",
+    "local_validation": "NOT_RUN"
+  },
+  {
+    "name": "SparseD: Sparse Attention for Diffusion Language Models",
+    "canonical_url": "https://arxiv.org/abs/2509.24014",
+    "status": "adjacent_or_out_of_scope",
+    "reason": "Diffusion language model",
+    "source_id": "arxiv-api-2509.24014v1",
+    "local_validation": "NOT_RUN"
+  },
+  {
+    "name": "Trainable Log-linear Sparse Attention for Efficient Diffusion Transformers",
+    "canonical_url": "https://arxiv.org/abs/2512.16615",
+    "status": "adjacent_or_out_of_scope",
+    "reason": "Abstract evaluates pixel-space image generation",
+    "source_id": "arxiv-api-2512.16615v2",
+    "local_validation": "NOT_RUN"
+  },
+  {
+    "name": "Sparsity Should Be ALLOTted by Output: Training-Free Allocation of Block-Sparse Attention for Video Diffusion Transformers",
+    "canonical_url": "https://arxiv.org/abs/2610.29441",
+    "status": "paper_lead_pending_code_review",
+    "reason": null,
+    "source_id": "arxiv-api-2610.29441v1",
+    "local_validation": "NOT_RUN"
+  },
+  {
+    "name": "Efficient Long-Context Modeling in Diffusion Language Models via Block Approximate Sparse Attention",
+    "canonical_url": "https://arxiv.org/abs/2605.19726",
+    "status": "adjacent_or_out_of_scope",
+    "reason": "Diffusion language model",
+    "source_id": "arxiv-api-2605.19726v1",
+    "local_validation": "NOT_RUN"
+  },
+  {
+    "name": "LoSA: Locality Aware Sparse Attention for Block-Wise Diffusion Language Models",
+    "canonical_url": "https://arxiv.org/abs/2604.12056",
+    "status": "adjacent_or_out_of_scope",
+    "reason": "Same acronym LoSA, different language-model paper",
+    "source_id": "arxiv-api-2604.12056v1",
+    "local_validation": "NOT_RUN"
+  }
+]

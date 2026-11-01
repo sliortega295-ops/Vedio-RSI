@@ -1,0 +1,200 @@
+{
+  "analysis_sha256": "5b3d3d14ecd1cf190ccfb727339be88d3e8783199344e6921f91f38fb56a78fe",
+  "metrics": {
+    "status": "COMPLETE",
+    "formal_wall_seconds": 10761.63442995702,
+    "validation_status": "NOT_AUDITED",
+    "formal_comparison_eligible": false,
+    "protocol_audit_path": null,
+    "assigned_gpu_hours": 23.914743177682265,
+    "leased_gpu_hours": 4.862196822943062,
+    "nvml_mean_utilization_percent_observed": 10.575695724883511,
+    "nvml_formal_window_lower_bound_percent": null,
+    "nvml_formal_window_upper_bound_percent": null,
+    "service_capacity_gpu_hours": 19.930883561072665,
+    "nvml_observed_seconds": 8965.984650081024,
+    "baseline_native_total_s": 637.271859543398,
+    "budgets": {
+      "cache": 10,
+      "dense": 1,
+      "kernel": 7,
+      "master": 2
+    },
+    "generated_work": {
+      "completed_measured_requests": 60,
+      "failed_measured_requests": 0,
+      "internal_warmup_requests": 60,
+      "retained_video_files": 60
+    },
+    "ready_idle": {
+      "legal_ready_idle_seconds": 0,
+      "legal_ready_idle_gpu_seconds": 0,
+      "eligibility_unknown_seconds": 0,
+      "unsplit_legal_opportunity_seconds": 0,
+      "unsplit_opportunity_gpu_seconds": 0,
+      "definition": "Accepted one-prompt tasks, original per-submit GPU constraints, no role-based GPU0 or canonical barrier. One-second sampled lower-bound opportunity; registered but unsubmitted hypotheses are not scheduler-ready work."
+    },
+    "candidate_latency": {
+      "n": 10,
+      "p50_seconds": 428.5445047337562,
+      "p95_seconds": 1304.7827910557387
+    },
+    "api": {
+      "status_counts": [
+        {
+          "role": "cache",
+          "route": "responses",
+          "status": "completed",
+          "count": 191
+        },
+        {
+          "role": "cache",
+          "route": "broker",
+          "status": "broker_completed",
+          "count": 310
+        },
+        {
+          "role": "cache",
+          "route": "responses",
+          "status": "upstream_transport_error",
+          "count": 10
+        },
+        {
+          "role": "cache",
+          "route": "broker",
+          "status": "broker_error",
+          "count": 10
+        },
+        {
+          "role": "kernel",
+          "route": "responses",
+          "status": "completed",
+          "count": 152
+        },
+        {
+          "role": "kernel",
+          "route": "broker",
+          "status": "broker_completed",
+          "count": 124
+        },
+        {
+          "role": "kernel",
+          "route": "responses",
+          "status": "upstream_transport_error",
+          "count": 9
+        },
+        {
+          "role": "kernel",
+          "route": "broker",
+          "status": "broker_error",
+          "count": 8
+        },
+        {
+          "role": "controller",
+          "route": "broker",
+          "status": "broker_completed",
+          "count": 334
+        },
+        {
+          "role": "master",
+          "route": "responses",
+          "status": "completed",
+          "count": 277
+        },
+        {
+          "role": "master",
+          "route": "broker",
+          "status": "broker_completed",
+          "count": 397
+        },
+        {
+          "role": "master",
+          "route": "broker",
+          "status": "broker_error",
+          "count": 12
+        },
+        {
+          "role": "master",
+          "route": "responses",
+          "status": "upstream_transport_error",
+          "count": 9
+        }
+      ],
+      "request_envelope": {
+        "records_with_size": 648,
+        "records_missing_size": 0,
+        "declared_local_bytes_sum": 9540674253,
+        "max_bytes": 90429832,
+        "p50_bytes": 1174707.5,
+        "p95_bytes": 45917747.15,
+        "over_64mib": 21,
+        "limitation": "Declared relay-to-host JSON body sizes, including failed attempts; not exact upstream traffic or model weight downloads. Pre-v6 rows lack this field."
+      },
+      "usage": {
+        "input_tokens": 89391202,
+        "output_tokens": 500202,
+        "total_tokens": 89891404,
+        "cached_tokens": 54376320,
+        "cache_write_tokens": 0,
+        "reasoning_tokens": 207321
+      },
+      "actual_models": {
+        "gpt-6.1-sol": 620,
+        "unknown": 28
+      },
+      "actual_service_tiers": {
+        "default": 620,
+        "unknown": 28
+      },
+      "responses_duration_sum_seconds": 26662.66435850979,
+      "responses_wall_union_seconds": 9927.602479273017
+    },
+    "local_overlap_partition": {
+      "finalized": true,
+      "clock": "local_controller_monotonic",
+      "window_seconds": 10761.63442995702,
+      "seconds": {
+        "api_only": 6864.284336115699,
+        "ssh_only": 610.6719335377275,
+        "api_and_ssh": 3063.3181431573175,
+        "neither_recorded_api_nor_ssh": 223.3600171462749
+      },
+      "limitation": "Recorded request-active intervals, clipped to the arm window. Neither is not CPU idle: it may include GPU work, local tools, uninstrumented transport or waiting. These categories do not attribute causal wall savings."
+    },
+    "generation_milestones": {
+      "clock": "remote_monotonic",
+      "origin": "remote service RUN-START, not local controller START",
+      "groups": {
+        "dense": {
+          "observed_requests": 5,
+          "first_start_offset_seconds": 36.068158344365656,
+          "last_end_offset_seconds": 183.58571468666196
+        },
+        "search": {
+          "observed_requests": 40,
+          "first_start_offset_seconds": 1298.3154338058084,
+          "last_end_offset_seconds": 6224.750501060858
+        },
+        "integration": {
+          "observed_requests": 10,
+          "first_start_offset_seconds": 7234.795126414858,
+          "last_end_offset_seconds": 7867.271826484241
+        }
+      },
+      "search_generation_to_first_integration_generation_seconds": 1010.0446253539994,
+      "last_generation_to_clean_service_close_seconds": 1101.6257759984583,
+      "limitation": "Same-host observed generate/export boundaries only. Gaps include assessment, API/tool work, evidence transfer, packaging, and next-worker startup; they are not a causal CPU-only attribution. Partial/live groups do not establish search completion."
+    },
+    "delivered_points": {
+      "finalized": true,
+      "unique_points": 4,
+      "by_component": {
+        "kernel": 1,
+        "cache": 2,
+        "integration": 1
+      },
+      "points_per_hour": 1.3380867092005013,
+      "limitation": "Selected Kernel/Cache/integration points passing the frozen small-budget site objective, Master method/visual and image-attestation gates. Not all search decisions, bitwise correctness, blind review or paper-level quality."
+    }
+  }
+}

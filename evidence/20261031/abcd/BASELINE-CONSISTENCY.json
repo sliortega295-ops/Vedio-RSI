@@ -1,0 +1,105 @@
+{
+  "schema": "abcd-fresh-dense-consistency/v1",
+  "observed_at": "2026-10-22T02:25:41.719212+00:00",
+  "rows": [
+    {
+      "arm": "A",
+      "benchmark_path": "project://SolAgent/20261021-abcd-native-execution/campaigns/abcd-native-20261021-v6/runs/A/workspace/runs/dense/outputs/benchmark.json",
+      "benchmark_sha256": "e17f50a6459fd1fe5d7e0d558740c076ef86bdb817ba9da710862d5ccc212c3c",
+      "quality_path": "project://SolAgent/20261021-abcd-native-execution/campaigns/abcd-native-20261021-v6/runs/A/workspace/runs/dense/outputs/quality.json",
+      "quality_sha256": "8a35a9d8f9627e4ef7690ecccf7d544291b93e5b9273a96e46e8ff5c13a37008",
+      "sampled_frame_digest": "e7f796bebc60a72a4b78faa4df6a9fe7c21d1eaec0006642c09b7c44c30039aa",
+      "native_total_s": 634.4054198181257,
+      "timing_scope": "five_prompt_sum_sglang_request_metrics_excluding_model_load_internal_one_step_warmup_and_video_export",
+      "steps": [
+        50,
+        50,
+        50,
+        50,
+        50
+      ],
+      "logical_calls": [
+        100,
+        100,
+        100,
+        100,
+        100
+      ]
+    },
+    {
+      "arm": "B",
+      "benchmark_path": "project://SolAgent/20261021-abcd-native-execution/campaigns/abcd-native-20261021-v6/runs/B/workspace/runs/dense/outputs/benchmark.json",
+      "benchmark_sha256": "1bcea5104cca170537a4c795653b49eea95b925016114fe5b56c65882892e1c7",
+      "quality_path": "project://SolAgent/20261021-abcd-native-execution/campaigns/abcd-native-20261021-v6/runs/B/workspace/runs/dense/outputs/quality.json",
+      "quality_sha256": "f30194412630eb0337afbb63f8d67639d1c245d715147af7a1d5c39a76b38538",
+      "sampled_frame_digest": "e7f796bebc60a72a4b78faa4df6a9fe7c21d1eaec0006642c09b7c44c30039aa",
+      "native_total_s": 637.224390164949,
+      "timing_scope": "five_prompt_sum_sglang_request_metrics_excluding_model_load_internal_one_step_warmup_and_video_export",
+      "steps": [
+        50,
+        50,
+        50,
+        50,
+        50
+      ],
+      "logical_calls": [
+        100,
+        100,
+        100,
+        100,
+        100
+      ]
+    },
+    {
+      "arm": "C",
+      "benchmark_path": "project://SolAgent/20261021-abcd-native-execution/campaigns/abcd-native-20261021-v6/runs/C/workspace/runs/dense/outputs/benchmark.json",
+      "benchmark_sha256": "c37e7f19064e0984c0e0ff5fb8d9f70bfc6bc7c4d6bc572e3a2e76032b62a80d",
+      "quality_path": "project://SolAgent/20261021-abcd-native-execution/campaigns/abcd-native-20261021-v6/runs/C/workspace/runs/dense/outputs/quality.json",
+      "quality_sha256": "13d371bb12bb58ccaa9474754fffe05baca4b1f53e54e63965af21c7c50b6e5d",
+      "sampled_frame_digest": "e7f796bebc60a72a4b78faa4df6a9fe7c21d1eaec0006642c09b7c44c30039aa",
+      "native_total_s": 637.2049199566245,
+      "timing_scope": "five_prompt_sum_sglang_request_metrics_excluding_model_load_internal_one_step_warmup_and_video_export",
+      "steps": [
+        50,
+        50,
+        50,
+        50,
+        50
+      ],
+      "logical_calls": [
+        100,
+        100,
+        100,
+        100,
+        100
+      ]
+    },
+    {
+      "arm": "D",
+      "benchmark_path": "project://SolAgent/20261021-abcd-native-execution/campaigns/abcd-native-20261021-v6/runs/D/workspace/runs/dense/outputs/benchmark.json",
+      "benchmark_sha256": "97587e0fe5daec4eb66c2d694727d0cc82f99cc0b9447278ee24d4aae8d99cfd",
+      "quality_path": "project://SolAgent/20261021-abcd-native-execution/campaigns/abcd-native-20261021-v6/runs/D/workspace/runs/dense/outputs/quality.json",
+      "quality_sha256": "2dac3f497a9c1a21573c93b449125cf128f1a24ebc5373b3a69e859c33fef0c1",
+      "sampled_frame_digest": "e7f796bebc60a72a4b78faa4df6a9fe7c21d1eaec0006642c09b7c44c30039aa",
+      "native_total_s": 634.364882777445,
+      "timing_scope": "five_prompt_sum_sglang_request_metrics_excluding_model_load_internal_one_step_warmup_and_video_export",
+      "steps": [
+        50,
+        50,
+        50,
+        50,
+        50
+      ],
+      "logical_calls": [
+        100,
+        100,
+        100,
+        100,
+        100
+      ]
+    }
+  ],
+  "all_55_sampled_frame_hashes_equal": true,
+  "all_step_call_counts_50_100": true,
+  "limitation": "Current-run fresh dense outputs only. Equality of the 55 sampled PNG hashes is not proof of all video frames, optimized-output equivalence, broad quality or causal timing gains."
+}

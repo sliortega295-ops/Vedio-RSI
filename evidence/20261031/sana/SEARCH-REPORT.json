@@ -1,0 +1,498 @@
+{
+  "schema": "sol-method-report/v2",
+  "run_id": "method-search-20261023-six-family-002",
+  "evidence_mode": "NATIVE_RECEIPTS",
+  "coverage": {
+    "cache": {
+      "decision": {
+        "assessment_ids": [
+          "a-25a04bb3f1dba09bd3741aaf",
+          "a-86a776cf16abbb71571c3e85",
+          "a-94f2887688fab4684e4139b3",
+          "a-f47748c0eee6a89f0d591a7e"
+        ],
+        "evidence": [
+          {
+            "method_id": "m-375c369f9a978b833e390396",
+            "path": "README.md",
+            "quote": "TaylorSeer"
+          },
+          {
+            "method_id": "m-bd43e83d2eb787398ee546f3",
+            "path": "README.md",
+            "quote": "TeaCache"
+          },
+          {
+            "document_id": "e794469d11617806a277f9dd4c77a42fe9df8e6b4e8237096561c4c5ab103900",
+            "quote": "https://github.com/Shenyi-Z/Cache4Diffusion",
+            "sha256": "8c395194bf9c7afad44af50f37b5d2343b2b7975f6f2e311677653de3255d2b9"
+          }
+        ],
+        "query_ids": [
+          "q-03bbc96f0f3f71035845d27d",
+          "q-18ccb1c80ea10d3e1a092a85",
+          "q-81617151abd659a25f46ac09",
+          "q-946160a28ed857f7048b262b",
+          "q-ed29bcc5d0e30318cc3e3e17"
+        ],
+        "rationale": "TaylorSeer and TeaCache have pinned complete implementations and now explicit SANA adaptations; use the lossy Cache session. ClusCa was separately paper-screened: cluster-representative token computation requires a different spatial/reconstruction adapter; the linked code is unresolved under current source API limits. No foreign timings or thresholds validate this model.",
+        "shortfall": {
+          "evidence": [
+            {
+              "document_id": "e794469d11617806a277f9dd4c77a42fe9df8e6b4e8237096561c4c5ab103900",
+              "quote": "computes only one token in each cluster",
+              "sha256": "8c395194bf9c7afad44af50f37b5d2343b2b7975f6f2e311677653de3255d2b9"
+            }
+          ],
+          "rationale": "Two distinct methods were code-inspected; the third distinct ClusCa method has paper evidence only. Its linked implementation could not be resolved after bounded API-rate failures. No claim of incompatibility or inexistence is made for uninspected hits."
+        },
+        "status": "viable"
+      },
+      "evidence_boundary": "Native agent interprets evidence; software verifies references and accounting",
+      "family": "cache",
+      "funnel_at_decision": {
+        "assessed": 2,
+        "attempted": 0,
+        "compatible": 2,
+        "discovered": 2,
+        "exposed_sources": 11,
+        "inspected": 2,
+        "provenance_established": 2,
+        "queries": 7,
+        "selected": 0,
+        "source_complete": 2,
+        "validated": 0
+      },
+      "id": "coverage-2e517c11c437ac521348ed21",
+      "slot_reserved": true,
+      "viable_identity_ids": [
+        "i-a98e7fc456d0b35b2408c39f"
+      ]
+    },
+    "few_step": {
+      "decision": {
+        "assessment_ids": [
+          "a-22f475ad24d1e6524ea6c0ba",
+          "a-978b6f8f7367bab1b0d8c9bc"
+        ],
+        "evidence": [
+          {
+            "method_id": "m-3a4b5a81e66ebd29239f957b",
+            "path": "dpm_solver_pytorch.py",
+            "quote": "class NoiseScheduleVP:"
+          },
+          {
+            "method_id": "m-24eb466b25d86e8d2005ea75",
+            "path": "README.md",
+            "quote": "both noise prediction model and data prediction model"
+          },
+          {
+            "document_id": "f3b3699c58547501bc28e67e5c1e93615196b539957681ba1f97c22fa1eb683e",
+            "quote": "RK4 at 80 function evaluations",
+            "sha256": "36abeec555b0b09c1c15c29b354af2b5153270c42b8d157970db52ddd7cd8f1e"
+          }
+        ],
+        "query_ids": [
+          "q-21c950b720ac0b623a71d033",
+          "q-5d4e5ce8c8ea8ae64617192f",
+          "q-5fb9159b0d7e487961b5f400",
+          "q-960386ae0e14000389047df4",
+          "q-b27be3108ba0f8bfbe5cdd6f",
+          "q-d4046f11c30c60781d8bbc92"
+        ],
+        "rationale": "Original pinned DPM-Solver and UniPC use VP noise/data parameterization; their source does not establish frozen SANA flow_prediction conversion, and the frozen training objective is null. VP v-prediction is not automatically flow prediction. A third flow-matching ODE-solver paper was screened: toy/MNIST experiments, no resolved linked implementation or SANA parameterization, and RK stages do not satisfy the harness one-call-per-declared-step convention without adaptation. No source-verified reduced-step sampler is selected, so all candidates keep 50 steps.",
+        "shortfall": {
+          "evidence": [
+            {
+              "document_id": "f3b3699c58547501bc28e67e5c1e93615196b539957681ba1f97c22fa1eb683e",
+              "quote": "2D toy distributions to MNIST digits",
+              "sha256": "36abeec555b0b09c1c15c29b354af2b5153270c42b8d157970db52ddd7cd8f1e"
+            }
+          ],
+          "rationale": "Two original solver implementations were inspected and assessed. The third flow-matching solver has paper-only evidence, no resolved implementation link or frozen SANA compatibility proof; API rate limits prevent further repository resolution in this initial screen. This does not claim reduced-step SANA is impossible."
+        },
+        "status": "no_viable_method"
+      },
+      "evidence_boundary": "Native agent interprets evidence; software verifies references and accounting",
+      "family": "few_step",
+      "funnel_at_decision": {
+        "assessed": 2,
+        "attempted": 0,
+        "compatible": 0,
+        "discovered": 2,
+        "exposed_sources": 14,
+        "inspected": 2,
+        "provenance_established": 2,
+        "queries": 6,
+        "selected": 0,
+        "source_complete": 2,
+        "validated": 0
+      },
+      "id": "coverage-cab53dac4968ba256336175e",
+      "slot_reserved": false,
+      "viable_identity_ids": []
+    },
+    "kernel": {
+      "decision": {
+        "assessment_ids": [
+          "a-05fc400d50e06c9fbeae6c38",
+          "a-3e449c694ce12b0c6932865a",
+          "a-601d609380de5d706398a9f4",
+          "a-a515959e920533d64995d89e",
+          "a-e88822b66728f2afe97eabec"
+        ],
+        "evidence": [
+          {
+            "method_id": "m-9ba5ba0e714cb1f83b49e0c3",
+            "path": "torch/__init__.py",
+            "quote": "def compile("
+          },
+          {
+            "method_id": "m-af73043753f65e1ce1e0291c",
+            "path": "README.md",
+            "quote": "bidirectional linear attention"
+          },
+          {
+            "document_id": "4de19efceebcfad01ae1d0ba2ba6addd5fcab51b4ec8f15210cf63fb439bbf03",
+            "quote": "def decoupled_la(",
+            "sha256": "15e8de5e6cf691b952ddc84d728a8cd6212cf322523d018fe9fe6d68a83d635a"
+          }
+        ],
+        "query_ids": [
+          "q-011f7ab613930daa56e38960",
+          "q-0423668860a9f89b321f4118",
+          "q-04580dddadff8f9e0eb701c6",
+          "q-05b81d8d93404ad62304fa76",
+          "q-254578c1608fcb2954960508",
+          "q-39dd512a286012ecc242e08f",
+          "q-bb95006fbff37a168ad0c823",
+          "q-c14e81019d8c7d501001f44d",
+          "q-c7cb669c0fba50522a51cdff",
+          "q-cc49fba4f819afc38cd19e5c",
+          "q-e8edbc19c491835e285a2848"
+        ],
+        "rationale": "PyTorch regional TorchInductor and the source-inspected decoupled FLA forward preserve local operator mathematics at full token/head coverage; Liger is another source-ready exact option. QKV documentation alone is incomplete. Prioritize full-block compile and FLA from current-source bottleneck evidence; local performance remains unmeasured.",
+        "shortfall": null,
+        "status": "viable"
+      },
+      "evidence_boundary": "Native agent interprets evidence; software verifies references and accounting",
+      "family": "kernel",
+      "funnel_at_decision": {
+        "assessed": 4,
+        "attempted": 0,
+        "compatible": 3,
+        "discovered": 4,
+        "exposed_sources": 16,
+        "inspected": 4,
+        "provenance_established": 4,
+        "queries": 11,
+        "selected": 0,
+        "source_complete": 3,
+        "validated": 0
+      },
+      "id": "coverage-5bc08ba814586ca911a57c20",
+      "slot_reserved": true,
+      "viable_identity_ids": [
+        "i-57c68ab2f8ec88fc1a1d108b",
+        "i-8c20dbc4a693d39bb309a630"
+      ]
+    },
+    "quantization": {
+      "decision": {
+        "assessment_ids": [
+          "a-34c14a2e5201a45f0dcdb274"
+        ],
+        "evidence": [
+          {
+            "method_id": "m-53ca0f5195dcaaac8bb7fc8f",
+            "path": "README.md",
+            "quote": "calibrated (simulated) quantized checkpoints"
+          },
+          {
+            "document_id": "8dd967a7e3536788606613d795496e2a0cf7be12d400aa1046304971cea0b3ed",
+            "quote": "self.fwd_func = F.linear",
+            "sha256": "3f69bca45fec5086456b569f150c043f48d8f6d4880cce276aef3ca6b383b59a"
+          },
+          {
+            "document_id": "f82131462966b42e13b5bf906443f3f792a37bf796e2fe583bb959083348f211",
+            "quote": "NVFP4 requires Blackwell GPUs",
+            "sha256": "afed84439cd6eb551eae7f5e123b13204bc51cc4e775990a3be4a70e3f4c2f7d"
+          }
+        ],
+        "query_ids": [
+          "q-082cf927e92dd87974ba86ce",
+          "q-11d24a4b886d22d6769b7fae",
+          "q-6e57d5be4730559a66f2ada5",
+          "q-feb73a1776b4bc25fe90f07e"
+        ],
+        "rationale": "No source-complete accelerated in-memory A100/SANA quantization route was established. Q-Diffusion's inspected core dequantizes to ordinary linear/conv, while the official path requires unavailable calibrated state; do not replace frozen weights. NVFP4 explicitly requires Blackwell, incompatible with SM80. SVDQuant/Nunchaku is a distinct current menu method with unresolved checkpoint/runtime requirements; incomplete source/dependency evidence prevents selection, not an assertion that all INT8 methods are impossible.",
+        "shortfall": {
+          "evidence": [
+            {
+              "document_id": "90d77e71bea8857ed6d59eb87073a44cbbdf5de140e84698f0ccac3a514f4493",
+              "quote": "method-specific checkpoint and runtime requirements",
+              "sha256": "368b07eff5c1833daafc1da4f22fe256a312dbcc08c411a6e0cf2cf8ac6834af"
+            },
+            {
+              "document_id": "df5761fc23d5f670d4de19a001e9d5a6a86d5b3e5e0bfb245ab67bcd37b094b7",
+              "quote": "requires Blackwell-class hardware",
+              "sha256": "3fa22008360a2ddc799be2d5786048d0e9c83f66e6d8b1d681d843b08eb08a1d"
+            }
+          ],
+          "rationale": "Only Q-Diffusion was code-inspected. A second Nunchaku author-repository inspection failed at the source API rate limit (retry time 1792777376); no source install/download or unsupported checkpoint fallback was attempted. Other positive catalog hits remain unselected for lack of pinned complete applicability evidence."
+        },
+        "status": "no_viable_method"
+      },
+      "evidence_boundary": "Native agent interprets evidence; software verifies references and accounting",
+      "family": "quantization",
+      "funnel_at_decision": {
+        "assessed": 1,
+        "attempted": 0,
+        "compatible": 0,
+        "discovered": 1,
+        "exposed_sources": 8,
+        "inspected": 1,
+        "provenance_established": 1,
+        "queries": 4,
+        "selected": 0,
+        "source_complete": 0,
+        "validated": 0
+      },
+      "id": "coverage-4bf03696e1dab27074882db9",
+      "slot_reserved": false,
+      "viable_identity_ids": []
+    },
+    "sparse_attention": {
+      "decision": {
+        "assessment_ids": [
+          "a-0f10718d52e510674b6c8a5e",
+          "a-b9542623210874ddca778ca4"
+        ],
+        "evidence": [
+          {
+            "method_id": "m-bb39236f5fa11ab533e89b4d",
+            "path": "README.md",
+            "quote": "3D Full Attention"
+          },
+          {
+            "method_id": "m-82bad0e3ae4ca416be3d86ee",
+            "path": "README.md",
+            "quote": "method=\"svoo\""
+          },
+          {
+            "document_id": "e9c31e013b26ef2ce6f078ad24df657109cca77ba7c9271ebf451f1fb29e1c9d",
+            "quote": "https://github.com/Mutual-Luo/SVOO",
+            "sha256": "f63d4804bd62e0899568c6104ae9df8305ace71bb146bfe295c2434dfbfc5e06"
+          }
+        ],
+        "query_ids": [
+          "q-187b55bd67dc933e5cffff5f",
+          "q-5186ff19e505d7273b328ea9",
+          "q-522110abc7cd5564758f4fbd",
+          "q-b57e546d64a7cf98e43f9f94",
+          "q-ddcc83ab84f51fd10013eb72"
+        ],
+        "rationale": "No executable source-complete SANA method was established in this initial screen. The inspected SVG method's sampled-softmax 3D self-attention mismatches native ReLU-linear self-attention; this specific-target exclusion does not exclude SANA cross-attention or the family. SVOO's actual core/SANA offline layer sensitivity profile is unresolved. Third distinct PISA was paper/menu screened but its author code/license/dependencies could not be inspected after API rate limiting; no source-grounded ReLU-linear or rectangular cross-attention adapter is established.",
+        "shortfall": {
+          "evidence": [
+            {
+              "document_id": "54fcaf826b1d10f037cfe40184f2130699b19c1a0059b99fb78c647a499afa0e",
+              "quote": "important blocks are computed exactly",
+              "sha256": "d4f75c148dfc297acc2a90254c40684c2eaab526e0d38d914d03afd0889ec5b6"
+            },
+            {
+              "document_id": "e9c31e013b26ef2ce6f078ad24df657109cca77ba7c9271ebf451f1fb29e1c9d",
+              "quote": "offline layer-wise sensitivity profiling",
+              "sha256": "f63d4804bd62e0899568c6104ae9df8305ace71bb146bfe295c2434dfbfc5e06"
+            }
+          ],
+          "rationale": "Two implementation repositories were inspected, but only SVG core attention could be fully read; third PISA core inspection and SVOO dedicated core remain unavailable. This is an evidence-limited initial decision, not proof all sparse methods fail."
+        },
+        "status": "no_viable_method"
+      },
+      "evidence_boundary": "Native agent interprets evidence; software verifies references and accounting",
+      "family": "sparse_attention",
+      "funnel_at_decision": {
+        "assessed": 2,
+        "attempted": 0,
+        "compatible": 0,
+        "discovered": 2,
+        "exposed_sources": 9,
+        "inspected": 2,
+        "provenance_established": 2,
+        "queries": 5,
+        "selected": 0,
+        "source_complete": 0,
+        "validated": 0
+      },
+      "id": "coverage-2133ef3c42f03aca785e7196",
+      "slot_reserved": false,
+      "viable_identity_ids": []
+    },
+    "token_pruning": {
+      "decision": {
+        "assessment_ids": [
+          "a-797708f2b039c0cd349c4d46",
+          "a-825106a78c153da445ea853b"
+        ],
+        "evidence": [
+          {
+            "method_id": "m-0b9dcb0b45405df8fa4979a9",
+            "path": "tomesd/merge.py",
+            "quote": "def bipartite_soft_matching_random2d"
+          },
+          {
+            "method_id": "m-01f4ff77d504a397ca39ae10",
+            "path": "toma/facility_location.py",
+            "quote": "H = W = int(HW**0.5)"
+          },
+          {
+            "document_id": "3a4a440c23a59dc7a7c0c628293bd59a566042fd61887af09be84b00642a2b9d",
+            "quote": "ToMe-SD",
+            "sha256": "224109068131f9aa258ca853939610e83c0aeaef5da9e99eb251a7c3f4b7c0db"
+          }
+        ],
+        "query_ids": [
+          "q-1e37c57ff5a75ed71aac5aaf",
+          "q-2feb5453ca4153b384165c9a",
+          "q-43e84e20919aff56a6911778",
+          "q-667a39498819611e4c9cca81",
+          "q-de3922781a37294a9b75e16c"
+        ],
+        "rationale": "ToMe-SD pure-Torch merge/unmerge is source-complete and can be confined to frame-local softmax cross-attention queries, restoring all tokens before residual/self-attention/temporal conv. This is lossy and goes to Cache, not the exact lane. ToMA was inspected but has no license and square-image/Flux-specific assumptions. ToFu was separately paper-screened; no complete licensed SANA implementation was established. Do not infer token-reduction support from the native self-attention head dimension.",
+        "shortfall": {
+          "evidence": [
+            {
+              "document_id": "c9f0dbce9e13fef704f3237d7b6e1976ca3c1c6ba45786627b03bd9a01258083",
+              "quote": "Token Fusion",
+              "sha256": "08cd84f63e5759134326b96033892dcaa0568c232956402b9436bacdb5b1bc53"
+            }
+          ],
+          "rationale": "Two distinct code implementations were inspected. Third distinct ToFu remains paper-only under source resolution limits; no executable token variant is claimed for it."
+        },
+        "status": "viable"
+      },
+      "evidence_boundary": "Native agent interprets evidence; software verifies references and accounting",
+      "family": "token_pruning",
+      "funnel_at_decision": {
+        "assessed": 2,
+        "attempted": 0,
+        "compatible": 1,
+        "discovered": 2,
+        "exposed_sources": 9,
+        "inspected": 2,
+        "provenance_established": 2,
+        "queries": 5,
+        "selected": 0,
+        "source_complete": 1,
+        "validated": 0
+      },
+      "id": "coverage-1ab42c12d1c3e0c4cffea947",
+      "slot_reserved": true,
+      "viable_identity_ids": [
+        "i-763116815a8176abaf5a9d84"
+      ]
+    }
+  },
+  "funnel": {
+    "kernel": {
+      "queries": 11,
+      "discovered": 4,
+      "exposed_sources": 16,
+      "inspected": 4,
+      "source_complete": 3,
+      "provenance_established": 4,
+      "assessed": 4,
+      "compatible": 3,
+      "selected": 2,
+      "attempted": 1,
+      "validated": 1
+    },
+    "cache": {
+      "queries": 7,
+      "discovered": 3,
+      "exposed_sources": 11,
+      "inspected": 3,
+      "source_complete": 3,
+      "provenance_established": 3,
+      "assessed": 3,
+      "compatible": 3,
+      "selected": 2,
+      "attempted": 2,
+      "validated": 2
+    },
+    "sparse_attention": {
+      "queries": 5,
+      "discovered": 2,
+      "exposed_sources": 9,
+      "inspected": 2,
+      "source_complete": 0,
+      "provenance_established": 2,
+      "assessed": 2,
+      "compatible": 0,
+      "selected": 0,
+      "attempted": 0,
+      "validated": 0
+    },
+    "quantization": {
+      "queries": 4,
+      "discovered": 1,
+      "exposed_sources": 8,
+      "inspected": 1,
+      "source_complete": 0,
+      "provenance_established": 1,
+      "assessed": 1,
+      "compatible": 0,
+      "selected": 0,
+      "attempted": 0,
+      "validated": 0
+    },
+    "token_pruning": {
+      "queries": 5,
+      "discovered": 2,
+      "exposed_sources": 9,
+      "inspected": 2,
+      "source_complete": 1,
+      "provenance_established": 2,
+      "assessed": 2,
+      "compatible": 1,
+      "selected": 1,
+      "attempted": 1,
+      "validated": 0
+    },
+    "few_step": {
+      "queries": 6,
+      "discovered": 2,
+      "exposed_sources": 14,
+      "inspected": 2,
+      "source_complete": 2,
+      "provenance_established": 2,
+      "assessed": 2,
+      "compatible": 0,
+      "selected": 0,
+      "attempted": 0,
+      "validated": 0
+    }
+  },
+  "costs": {
+    "total_search_to_report_seconds": 10758.553250065015,
+    "gpu_activation_to_report_seconds": 8956.256913779012,
+    "logical_source_requests": 77,
+    "source_network_attempts": 86,
+    "source_retries": 9,
+    "cumulative_native_generate_seconds": 6196.917081370018,
+    "gpu_cpu_api_timeline": "Join existing per-second GPU telemetry, worker/CPU events and native API logs; overlapping stages are not additive wall time",
+    "gpu_utilization": null,
+    "gpu_hours": null,
+    "telemetry_status": "USE_REMOTE_TELEMETRY_NOT_INFERRED_FROM_VIDEO_SECONDS"
+  },
+  "execution_status_counts": {
+    "completed": 11,
+    "preflight_rejected": 1,
+    "failed": 1,
+    "diagnostic_rejected": 7
+  },
+  "boundary": "Five prompts / one seed; source assessment is not local success. No cross-run memory retrieval. Unknown full-DiT work is null, never logical calls. Comparisons use the same execution contract and actual quality evidence.",
+  "selection_slots_used": 5,
+  "selected_method_count": 5
+}

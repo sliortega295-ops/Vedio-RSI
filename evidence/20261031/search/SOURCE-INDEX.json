@@ -1,0 +1,1351 @@
+{
+  "schema": "publication-source-index/v1",
+  "sources": [
+    {
+      "id": "readme-mit-han-lab-radial-attention",
+      "kind": "primary",
+      "url": "https://github.com/mit-han-lab/radial-attention/blob/72788d4f0a6d202f1ec5f1c98a6e4c8b2e34fdbc/README.md",
+      "repository": "mit-han-lab/radial-attention",
+      "commit_sha": "72788d4f0a6d202f1ec5f1c98a6e4c8b2e34fdbc",
+      "blob_sha": "611b36ebd2f5dbe1e0141d66b666e79f3c1cb851",
+      "captured_text_sha256": "3c02b5582705b25bf14f39da896258794827ad07dcb83fd8f6994ba0f61ebdb2",
+      "commit_binding_checked": true
+    },
+    {
+      "id": "readme-ziplab-pyramid-sparse-attention",
+      "kind": "primary",
+      "url": "https://github.com/ziplab/Pyramid-Sparse-Attention/blob/be122cfb7f32010682b1d70534670e5ef150a93d/README.md",
+      "repository": "ziplab/Pyramid-Sparse-Attention",
+      "commit_sha": "be122cfb7f32010682b1d70534670e5ef150a93d",
+      "blob_sha": "abbcb3a28070f71a7de67e5be3e5e3e0687fe1c8",
+      "captured_text_sha256": "b775e6efe6d2f21f5a5ed106e22180e57cf58b07a9617a1f059f401bcf8bde8f",
+      "commit_binding_checked": true
+    },
+    {
+      "id": "readme-moonmath-ai-liteattention",
+      "kind": "primary",
+      "url": "https://github.com/moonmath-ai/LiteAttention/blob/33bacd917dba70e317f16681eae69f0b11337aea/README.md",
+      "repository": "moonmath-ai/LiteAttention",
+      "commit_sha": "33bacd917dba70e317f16681eae69f0b11337aea",
+      "blob_sha": "00443e7e396639dc53784bb7d9862a062a69ef65",
+      "captured_text_sha256": "bd3235621fb310aab7fb419f9cbeb28ad8bda28c3c9be0c75623fd2e18a663ca",
+      "commit_binding_checked": true
+    },
+    {
+      "id": "readme-jessica-hujie-dfsattn",
+      "kind": "primary",
+      "url": "https://github.com/jessica-hujie/DFSAttn/blob/dad4ace35b69248e92dc8743e2dbc728920a6969/README.md",
+      "repository": "jessica-hujie/DFSAttn",
+      "commit_sha": "dad4ace35b69248e92dc8743e2dbc728920a6969",
+      "blob_sha": "55fc1dd43352f536587d058b60c9b2772780737e",
+      "captured_text_sha256": "7b5a2f7c898849803d18f4b57d26a224ffe5d6304d399fae86c26d51c7b26c92",
+      "commit_binding_checked": true
+    },
+    {
+      "id": "readme-mutual-luo-svoo",
+      "kind": "primary",
+      "url": "https://github.com/Mutual-Luo/SVOO/blob/e4ae67b579766bcbe820bda7d34e104ff4c82d5f/README.md",
+      "repository": "Mutual-Luo/SVOO",
+      "commit_sha": "e4ae67b579766bcbe820bda7d34e104ff4c82d5f",
+      "blob_sha": "5abe79da8d86fd9b68914fffbd966f73f31ed907",
+      "captured_text_sha256": "6164e1402f1ebaeaa561d5ac98d3bb2158806313ece154bdb4bc4a79020819b0",
+      "commit_binding_checked": true
+    },
+    {
+      "id": "readme-qiaolian9-flashomni",
+      "kind": "primary",
+      "url": "https://github.com/qiaolian9/FlashOmni/blob/2f27ee944202bf5d625fc28319c8198bf5ef7653/README.md",
+      "repository": "qiaolian9/FlashOmni",
+      "commit_sha": "2f27ee944202bf5d625fc28319c8198bf5ef7653",
+      "blob_sha": "c3a23d62cd594ae5332e5e540ed6489abfd4171c",
+      "captured_text_sha256": "c4ae25b7b5102246d64156703f3be2ed3fd0e00b90ce97b5753106b5303dbc9c",
+      "commit_binding_checked": true
+    },
+    {
+      "id": "readme-shawnricecake-draft-attention",
+      "kind": "primary",
+      "url": "https://github.com/shawnricecake/draft-attention/blob/f3c81d58304e144305cf06b0fa801e82088f89a0/README.md",
+      "repository": "shawnricecake/draft-attention",
+      "commit_sha": "f3c81d58304e144305cf06b0fa801e82088f89a0",
+      "blob_sha": "4256bb93227b16ab23a26d094cefce1646bb2594",
+      "captured_text_sha256": "66d6e3322e5100b2d62ab371f87440891809c0b1648cb54cd35af6290f39299b",
+      "commit_binding_checked": true
+    },
+    {
+      "id": "readme-peyton-chen-sparse-vdit",
+      "kind": "primary",
+      "url": "https://github.com/Peyton-Chen/Sparse-vDiT/blob/a6eb7eaa107badd02479fc92da9ddbe0815e4434/README.md",
+      "repository": "Peyton-Chen/Sparse-vDiT",
+      "commit_sha": "a6eb7eaa107badd02479fc92da9ddbe0815e4434",
+      "blob_sha": "e48446be4a93fee996fc19fdab932fd1f798263d",
+      "captured_text_sha256": "bb08441d7c7a98d2430ffddb3de07d56d540a04d9f01facd2d21703775907e21",
+      "commit_binding_checked": true
+    },
+    {
+      "id": "readme-wlfeng0509-quantsparse",
+      "kind": "primary",
+      "url": "https://github.com/wlfeng0509/QuantSparse/blob/99beb08670ecc58474d4ba26d3cbb49878e6df47/README.md",
+      "repository": "wlfeng0509/QuantSparse",
+      "commit_sha": "99beb08670ecc58474d4ba26d3cbb49878e6df47",
+      "blob_sha": "a3cf39fe75a8a95f9dd28d0660a6a386d8eed866",
+      "captured_text_sha256": "f73aa3254b8f662530beb4cef4fde5ffa837e23d5e2a5a741c69134e812bc2b6",
+      "commit_binding_checked": true
+    },
+    {
+      "id": "readme-pardistaghavi-sparsepr",
+      "kind": "primary",
+      "url": "https://github.com/PardisTaghavi/SparsePR/blob/e46646f4c440ca2bb57df9e8738f8368c6a3dabf/README.md",
+      "repository": "PardisTaghavi/SparsePR",
+      "commit_sha": "e46646f4c440ca2bb57df9e8738f8368c6a3dabf",
+      "blob_sha": "b7982ece7647dc9c409e1d14a9044f47bb3535d0",
+      "captured_text_sha256": "5fbcf6820dfc1ca4a611295cac9a61a3fce41f16048551cf367017fb7c53b1b1",
+      "commit_binding_checked": true
+    },
+    {
+      "id": "readme-apple-aiml-research-ml-calibatt",
+      "kind": "primary",
+      "url": "https://github.com/apple-aiml-research/ml-calibatt/blob/837309db7ed0c1c119099fd774209238b536c883/README.md",
+      "repository": "apple-aiml-research/ml-calibatt",
+      "commit_sha": "837309db7ed0c1c119099fd774209238b536c883",
+      "blob_sha": "fbf87cf52bb41f80b4736bf0362da56b0e6c6018",
+      "captured_text_sha256": "7370abaf02a89108e9d356ec19d303ed4849cbcbb63786e56decdd6ca11fb408",
+      "commit_binding_checked": true
+    },
+    {
+      "id": "readme-svg-project-sparse-videogen",
+      "kind": "primary",
+      "url": "https://github.com/svg-project/Sparse-VideoGen/blob/f89aedaf169ac2ae5b186bda674e53c3dc08c476/README.md",
+      "repository": "svg-project/Sparse-VideoGen",
+      "commit_sha": "f89aedaf169ac2ae5b186bda674e53c3dc08c476",
+      "blob_sha": "02582e536dd605287724c71c9da606ea97985728",
+      "captured_text_sha256": "4b463a07ac0e92f3472260ca8849dbfab2b2c6172154151984706c010b2dc9c1",
+      "commit_binding_checked": true
+    },
+    {
+      "id": "readme-thu-ml-spargeattn",
+      "kind": "primary",
+      "url": "https://github.com/thu-ml/SpargeAttn/blob/ae5b629ebb41e41f86b3ea2ab5a3283f13ac151a/README.md",
+      "repository": "thu-ml/SpargeAttn",
+      "commit_sha": "ae5b629ebb41e41f86b3ea2ab5a3283f13ac151a",
+      "blob_sha": "14123f17fede6f88cb727c3ec1c15c4434ff0191",
+      "captured_text_sha256": "fcf52d2f7181e3b56d24326deebeb303f83cd19bfabf80e8ec67a31514dd5b2d",
+      "commit_binding_checked": true
+    },
+    {
+      "id": "readme-hao-ai-lab-fastvideo",
+      "kind": "primary",
+      "url": "https://github.com/hao-ai-lab/FastVideo/blob/a92c5c1578b322b9d6691723c6b6a669b9fe7370/README.md",
+      "repository": "hao-ai-lab/FastVideo",
+      "commit_sha": "a92c5c1578b322b9d6691723c6b6a669b9fe7370",
+      "blob_sha": "a737e1907502eb0d1ba49d44a9f2dde630a25270",
+      "captured_text_sha256": "01cf3d1bfb3047582aab360913d0a21eec6318dc6e85669e9b261a9cadc623e0",
+      "commit_binding_checked": true
+    },
+    {
+      "id": "readme-thu-ml-sla",
+      "kind": "primary",
+      "url": "https://github.com/thu-ml/SLA/blob/1b072180a7756a98eb658b631f51eed7529a5a85/README.md",
+      "repository": "thu-ml/SLA",
+      "commit_sha": "1b072180a7756a98eb658b631f51eed7529a5a85",
+      "blob_sha": "fe76ee016e3f881db0889bb4ecb7e097d8efd1a7",
+      "captured_text_sha256": "20c7dace24882c86674d3ea2c54a5209f619ad7443ab03101e72a4d9b609430c",
+      "commit_binding_checked": true
+    },
+    {
+      "id": "readme-ziplab-blade",
+      "kind": "primary",
+      "url": "https://github.com/ziplab/BLADE/blob/c572b9b87b26b4dd60184ff2229c4c98ed8f5a29/README.md",
+      "repository": "ziplab/BLADE",
+      "commit_sha": "c572b9b87b26b4dd60184ff2229c4c98ed8f5a29",
+      "blob_sha": "2988584445af85a28a9b053b306d1c0fb9b3b5cf",
+      "captured_text_sha256": "b24b0a08034ac6969c11b92fb27a359744af76a1118e86824d731cb9720261bc",
+      "commit_binding_checked": true
+    },
+    {
+      "id": "readme-wenhao728-vorta",
+      "kind": "primary",
+      "url": "https://github.com/wenhao728/VORTA/blob/5234df0892786c02bfea70710432bd95aa7cc5dd/README.md",
+      "repository": "wenhao728/VORTA",
+      "commit_sha": "5234df0892786c02bfea70710432bd95aa7cc5dd",
+      "blob_sha": "c76dfe4a94e9ac23c6b6e2fa43ade94a189460d5",
+      "captured_text_sha256": "1141501bf831c5266810f27fd43bda1d1566469f3f09629a080d2201e65640ce",
+      "commit_binding_checked": true
+    },
+    {
+      "id": "readme-espere-1119-song-videonsa",
+      "kind": "primary",
+      "url": "https://github.com/Espere-1119-Song/VideoNSA/blob/7924369879b3bd9cda4bbddce9e3ef796ab8a157/README.md",
+      "repository": "Espere-1119-Song/VideoNSA",
+      "commit_sha": "7924369879b3bd9cda4bbddce9e3ef796ab8a157",
+      "blob_sha": "c73ed6b6f58d121c640bc5851d417237e1a492ba",
+      "captured_text_sha256": "78dfb4c731bf2f7c0f02ab597b12639b3fb34c843e0f6f038545ec64043a9732",
+      "commit_binding_checked": true
+    },
+    {
+      "id": "readme-chengtao-lv-lightforcing",
+      "kind": "primary",
+      "url": "https://github.com/chengtao-lv/LightForcing/blob/d1e633337fff7e8a0ebf9f643dc37cd481fb299d/README.md",
+      "repository": "chengtao-lv/LightForcing",
+      "commit_sha": "d1e633337fff7e8a0ebf9f643dc37cd481fb299d",
+      "blob_sha": "e911cb4c708bfef3bab69704153fdac3366092a2",
+      "captured_text_sha256": "17b9ed14eb20d016b02018bbc0a076f14bd1291c27197e471d08e39527f88ac9",
+      "commit_binding_checked": true
+    },
+    {
+      "id": "readme-jigsaw0612-sparstar",
+      "kind": "primary",
+      "url": "https://github.com/JIGSAW0612/SparSTAR/blob/6b1ca2a9ed5eceaa120611c41c7594105851d832/README.md",
+      "repository": "JIGSAW0612/SparSTAR",
+      "commit_sha": "6b1ca2a9ed5eceaa120611c41c7594105851d832",
+      "blob_sha": "0421e75e092575cf6e2c6b161750170c1c804ef0",
+      "captured_text_sha256": "d2cfbff0accc004d4f671a210901c78ba04ce9efe9eecca1bbe2a240a79fa4ec",
+      "commit_binding_checked": true
+    },
+    {
+      "id": "readme-yuanyu0-dasa",
+      "kind": "primary",
+      "url": "https://github.com/Yuanyu0/DASA/blob/4c9210d9a3eb864ac84859d0d43673a72d98ebd0/README.md",
+      "repository": "Yuanyu0/DASA",
+      "commit_sha": "4c9210d9a3eb864ac84859d0d43673a72d98ebd0",
+      "blob_sha": "4d5907ee084797ebc0663731655a63668bbbb4d8",
+      "captured_text_sha256": "5450b035e3be988e5fe6bac6f855eaff91b39bf6b51545950cb26e46c502cf2d",
+      "commit_binding_checked": true
+    },
+    {
+      "id": "readme-inv-wzq-sparsed",
+      "kind": "primary",
+      "url": "https://github.com/INV-WZQ/SparseD/blob/52155b4aa78368695f96744cade06d2e0865d085/README.md",
+      "repository": "INV-WZQ/SparseD",
+      "commit_sha": "52155b4aa78368695f96744cade06d2e0865d085",
+      "blob_sha": "12da063a2532078e512d4590e32cc7a48ae94cc1",
+      "captured_text_sha256": "a771775cd5f6297c12aca5a13c6af1a8270ad7569bf789590c65cee32d9e12a3",
+      "commit_binding_checked": true
+    },
+    {
+      "id": "readme-mit-han-lab-x-attention",
+      "kind": "primary",
+      "url": "https://github.com/mit-han-lab/x-attention/blob/e37988770b9d1bebd489eba011d615f35587ba08/README.md",
+      "repository": "mit-han-lab/x-attention",
+      "commit_sha": "e37988770b9d1bebd489eba011d615f35587ba08",
+      "blob_sha": "7a9fce4e51970d3da3963299b182106b7fb956bf",
+      "captured_text_sha256": "4b38331981efd13222d4b4187c3dcbdcb02592cf1ec9a735c7bcf8262bc7dbb8",
+      "commit_binding_checked": true
+    },
+    {
+      "id": "readme-mutual-luo-sparsevideo",
+      "kind": "implementation",
+      "url": "https://github.com/Mutual-Luo/SparseVideo/blob/8cd70fd3315a32bc9ac6e6ad37f57ad7cefeda0d/README.md",
+      "repository": "Mutual-Luo/SparseVideo",
+      "commit_sha": "8cd70fd3315a32bc9ac6e6ad37f57ad7cefeda0d",
+      "blob_sha": "056a79412f825f091d6fc53fa3afd255d227abdf",
+      "captured_text_sha256": "5b9cf2e840b218f0473376b63e3e06094e18a4bc8bb15f16871f543ad4755c57",
+      "commit_binding_checked": true
+    },
+    {
+      "id": "readme-fpsattention-fpsattention",
+      "kind": "primary",
+      "url": "https://github.com/FPSAttention/FPSAttention/blob/a0c7c97de806ef774a52441e9e657e5a46e5503c/README.md",
+      "repository": "FPSAttention/FPSAttention",
+      "commit_sha": "a0c7c97de806ef774a52441e9e657e5a46e5503c",
+      "blob_sha": "d144ec35d5c211e8417422d5db3feef2fded7401",
+      "captured_text_sha256": "125e67125528773a9bb3db3897719c89a8fbd5c5b1ff5a1e5da39bb7f6c23237",
+      "commit_binding_checked": true
+    },
+    {
+      "id": "readme-veda-sparse-veda-on-comfyui",
+      "kind": "primary",
+      "url": "https://github.com/veda-sparse/Veda-on-ComfyUI/blob/67e4eb5541b648555563144401ebaba832bd73ec/README.md",
+      "repository": "veda-sparse/Veda-on-ComfyUI",
+      "commit_sha": "67e4eb5541b648555563144401ebaba832bd73ec",
+      "blob_sha": "8b83a55107e436e65e3cd47954e25266de36d401",
+      "captured_text_sha256": "79c0a70ba0c0b4d683274d15f6db05bc18dbed0d600fb1706fd2b8e0454b8e74",
+      "commit_binding_checked": true
+    },
+    {
+      "id": "readme-anminliu-vecattention",
+      "kind": "primary",
+      "url": "https://github.com/anminliu/VecAttention/blob/0c0bfcd98c273ca20ae6d662641ca826d3c68c67/README.md",
+      "repository": "anminliu/VecAttention",
+      "commit_sha": "0c0bfcd98c273ca20ae6d662641ca826d3c68c67",
+      "blob_sha": "4b8b717aca9d1e0c251648e65a2ca1f71f737f3e",
+      "captured_text_sha256": "fcb232a609aa1341febe834c1d5c03beea5744ec46ecdc525041818ea794442a",
+      "commit_binding_checked": true
+    },
+    {
+      "id": "readme-tencent-hunyuan-prism",
+      "kind": "primary",
+      "url": "https://github.com/Tencent-Hunyuan/Prism/blob/e5ef67bf70a90f7ebc5db9ae3f5b85d923f12ac0/README.md",
+      "repository": "Tencent-Hunyuan/Prism",
+      "commit_sha": "e5ef67bf70a90f7ebc5db9ae3f5b85d923f12ac0",
+      "blob_sha": "771625286358856c726a309a5641597cdcad9f09",
+      "captured_text_sha256": "90bd7bb7afa88145325c3e10ca737a80b2806832c92eaf1e8ec3ae26d2879ad3",
+      "commit_binding_checked": true
+    },
+    {
+      "id": "readme-xie-lab-ml-piecewise-sparse-attention",
+      "kind": "primary",
+      "url": "https://github.com/xie-lab-ml/piecewise-sparse-attention/blob/655648df86cafd75042dc32d6b6be78c4ea0eca8/README.md",
+      "repository": "xie-lab-ml/piecewise-sparse-attention",
+      "commit_sha": "655648df86cafd75042dc32d6b6be78c4ea0eca8",
+      "blob_sha": "1289ca20c2e640b2aad76149459a62262ac25d30",
+      "captured_text_sha256": "77f96933e9c4bee3820b93120f28fc5336fae15eb64be7464dc3159e835ddb28",
+      "commit_binding_checked": true
+    },
+    {
+      "id": "readme-leedongyeun-hypervattention",
+      "kind": "primary",
+      "url": "https://github.com/LeeDongYeun/HyperVAttention/blob/acde351b6eb8e508afcee1602c24aa044a0b36a7/README.md",
+      "repository": "LeeDongYeun/HyperVAttention",
+      "commit_sha": "acde351b6eb8e508afcee1602c24aa044a0b36a7",
+      "blob_sha": "5299fefbebba57a4a8d73b573f136dd8ea3879da",
+      "captured_text_sha256": "d87a0fba09b562115f49850456c36f4514f00b5156041af271592de7784d468d",
+      "commit_binding_checked": true
+    },
+    {
+      "id": "readme-akideliu-fpsattention",
+      "kind": "primary",
+      "url": "https://github.com/AkideLiu/FPSAttention/blob/48c71b523c99a256a8d6fb16f9444fc69d2399f4/README.md",
+      "repository": "AkideLiu/FPSAttention",
+      "commit_sha": "48c71b523c99a256a8d6fb16f9444fc69d2399f4",
+      "blob_sha": "d67a7b43173adc7930de56399a9b99d4c61d9cfe",
+      "captured_text_sha256": "83ea4e7be1f9d4a517972e78e18deb798d4021828797efbfa4cb8faf2e9ca072",
+      "commit_binding_checked": true
+    },
+    {
+      "id": "readme-6somehow-dac-spade",
+      "kind": "primary",
+      "url": "https://github.com/6somehow/DAC-SPADE/blob/8c8fa971895c6215b568d020ba0f6dd4e2511c0f/readme.md",
+      "repository": "6somehow/DAC-SPADE",
+      "commit_sha": "8c8fa971895c6215b568d020ba0f6dd4e2511c0f",
+      "blob_sha": "3e7282d0812250372d5946421159962db7c34dfa",
+      "captured_text_sha256": "cd08af39d44bba6ec66ce1c1f551417488431baea6510fcdbbe90daf1c095784",
+      "commit_binding_checked": true
+    },
+    {
+      "id": "tree-mit-han-lab-radial-attention",
+      "kind": "source_tree",
+      "url": "https://github.com/mit-han-lab/radial-attention/tree/72788d4f0a6d202f1ec5f1c98a6e4c8b2e34fdbc",
+      "commit_sha": "72788d4f0a6d202f1ec5f1c98a6e4c8b2e34fdbc",
+      "captured_text_sha256": "e1796e4f0575bfa0ffeda1a93de9d70d12ea088c33662e045802e6afb838d4fa",
+      "catalog_referenced_paths": [
+        "radial_attn/models/wan/attention.py"
+      ]
+    },
+    {
+      "id": "tree-ziplab-pyramid-sparse-attention",
+      "kind": "source_tree",
+      "url": "https://github.com/ziplab/Pyramid-Sparse-Attention/tree/be122cfb7f32010682b1d70534670e5ef150a93d",
+      "commit_sha": "be122cfb7f32010682b1d70534670e5ef150a93d",
+      "captured_text_sha256": "36b246b22f19f2b6a6af880362b48f8d5886bb56e7f5d2a6f027d014a008379a",
+      "catalog_referenced_paths": [
+        "src/psa_triton/attention.py"
+      ]
+    },
+    {
+      "id": "tree-moonmath-ai-liteattention",
+      "kind": "source_tree",
+      "url": "https://github.com/moonmath-ai/LiteAttention/tree/33bacd917dba70e317f16681eae69f0b11337aea",
+      "commit_sha": "33bacd917dba70e317f16681eae69f0b11337aea",
+      "captured_text_sha256": "a696f527ae2f29c7217064954bb58d90ba47ae25a4324147cd21764f86c4d7b1",
+      "catalog_referenced_paths": [
+        "flash_attn/flash_blocksparse_attention.py"
+      ]
+    },
+    {
+      "id": "tree-jessica-hujie-dfsattn",
+      "kind": "source_tree",
+      "url": "https://github.com/jessica-hujie/DFSAttn/tree/dad4ace35b69248e92dc8743e2dbc728920a6969",
+      "commit_sha": "dad4ace35b69248e92dc8743e2dbc728920a6969",
+      "captured_text_sha256": "ad6552246aa15abd89eb751b3a82a8c87277d993e51b2c0cb2d1cdd294bbd148",
+      "catalog_referenced_paths": [
+        "dfsattn/attention_wan.py"
+      ]
+    },
+    {
+      "id": "tree-mutual-luo-svoo",
+      "kind": "source_tree",
+      "url": "https://github.com/Mutual-Luo/SVOO/tree/e4ae67b579766bcbe820bda7d34e104ff4c82d5f",
+      "commit_sha": "e4ae67b579766bcbe820bda7d34e104ff4c82d5f",
+      "captured_text_sha256": "9af414be7ee503fc10e8479515ecb79b241b73df51a3df61a82c024096e6088e",
+      "catalog_referenced_paths": [
+        "svoo/models/wan/attention.py"
+      ]
+    },
+    {
+      "id": "tree-qiaolian9-flashomni",
+      "kind": "source_tree",
+      "url": "https://github.com/qiaolian9/FlashOmni/tree/2f27ee944202bf5d625fc28319c8198bf5ef7653",
+      "commit_sha": "2f27ee944202bf5d625fc28319c8198bf5ef7653",
+      "captured_text_sha256": "9d2b8998ccfbdd6304b8f078bada7a12b6d856ae28657088bed91bb57fda2b41",
+      "catalog_referenced_paths": [
+        "flashomni/attention.py"
+      ]
+    },
+    {
+      "id": "tree-shawnricecake-draft-attention",
+      "kind": "source_tree",
+      "url": "https://github.com/shawnricecake/draft-attention/tree/f3c81d58304e144305cf06b0fa801e82088f89a0",
+      "commit_sha": "f3c81d58304e144305cf06b0fa801e82088f89a0",
+      "captured_text_sha256": "e8b8f11d2bfde5daa3f7d3dc00bd1d0a5c8a8b821711dedc87f2ef6eb52ce11b",
+      "catalog_referenced_paths": [
+        "draft_attention.py"
+      ]
+    },
+    {
+      "id": "tree-peyton-chen-sparse-vdit",
+      "kind": "source_tree",
+      "url": "https://github.com/Peyton-Chen/Sparse-vDiT/tree/a6eb7eaa107badd02479fc92da9ddbe0815e4434",
+      "commit_sha": "a6eb7eaa107badd02479fc92da9ddbe0815e4434",
+      "captured_text_sha256": "9a3576b1c28f7e7ca34f6cdc944604ef1b1dea949940495f62152110181ff415"
+    },
+    {
+      "id": "tree-wlfeng0509-quantsparse",
+      "kind": "source_tree",
+      "url": "https://github.com/wlfeng0509/QuantSparse/tree/99beb08670ecc58474d4ba26d3cbb49878e6df47",
+      "commit_sha": "99beb08670ecc58474d4ba26d3cbb49878e6df47",
+      "captured_text_sha256": "dc4e1ce83b888198fc8cd9483900812faeea3129239cfdb2fc177ade3dfbb03c"
+    },
+    {
+      "id": "tree-pardistaghavi-sparsepr",
+      "kind": "source_tree",
+      "url": "https://github.com/PardisTaghavi/SparsePR/tree/e46646f4c440ca2bb57df9e8738f8368c6a3dabf",
+      "commit_sha": "e46646f4c440ca2bb57df9e8738f8368c6a3dabf",
+      "captured_text_sha256": "d7d55f9fc7bb92f665de360dfe01d38a343172eb962faa4de1da754fe6097464",
+      "catalog_referenced_paths": [
+        "src/sparsepr/adapters/wan22.py"
+      ]
+    },
+    {
+      "id": "tree-apple-aiml-research-ml-calibatt",
+      "kind": "source_tree",
+      "url": "https://github.com/apple-aiml-research/ml-calibatt/tree/837309db7ed0c1c119099fd774209238b536c883",
+      "commit_sha": "837309db7ed0c1c119099fd774209238b536c883",
+      "captured_text_sha256": "041de57c1acaa3c2be56cf2fe5e260612c0dbbec0512ef5821bd95ce6a478ff4",
+      "catalog_referenced_paths": [
+        "CalibAtt/calibatt.py"
+      ]
+    },
+    {
+      "id": "tree-svg-project-sparse-videogen",
+      "kind": "source_tree",
+      "url": "https://github.com/svg-project/Sparse-VideoGen/tree/f89aedaf169ac2ae5b186bda674e53c3dc08c476",
+      "commit_sha": "f89aedaf169ac2ae5b186bda674e53c3dc08c476",
+      "captured_text_sha256": "1d17f11ae79fcbe4cd74e5dde4ad03302f678f0df006bc5c3b495b250c9209ee",
+      "catalog_referenced_paths": [
+        "svg/models/wan/attention.py"
+      ]
+    },
+    {
+      "id": "tree-thu-ml-spargeattn",
+      "kind": "source_tree",
+      "url": "https://github.com/thu-ml/SpargeAttn/tree/ae5b629ebb41e41f86b3ea2ab5a3283f13ac151a",
+      "commit_sha": "ae5b629ebb41e41f86b3ea2ab5a3283f13ac151a",
+      "captured_text_sha256": "95f667324386c0571927f01bbf43ab635c3f62cb095515302ec9f855c84c7219",
+      "catalog_referenced_paths": [
+        "spas_sage_attn/core.py"
+      ]
+    },
+    {
+      "id": "tree-hao-ai-lab-fastvideo",
+      "kind": "source_tree",
+      "url": "https://github.com/hao-ai-lab/FastVideo/tree/a92c5c1578b322b9d6691723c6b6a669b9fe7370",
+      "commit_sha": "a92c5c1578b322b9d6691723c6b6a669b9fe7370",
+      "captured_text_sha256": "ab7c9c7874f814dfba6bcfaac68bf3da5051ad720ec30d43702d94d322fb072f",
+      "catalog_referenced_paths": [
+        "fastvideo-kernel/python/fastvideo_kernel/triton_kernels/attn_qat_vsa_train.py"
+      ]
+    },
+    {
+      "id": "tree-thu-ml-sla",
+      "kind": "source_tree",
+      "url": "https://github.com/thu-ml/SLA/tree/1b072180a7756a98eb658b631f51eed7529a5a85",
+      "commit_sha": "1b072180a7756a98eb658b631f51eed7529a5a85",
+      "captured_text_sha256": "557a3bbb7f38a1e006d15005cc7038338fd22299b731739e56e34ce86207859d",
+      "catalog_referenced_paths": [
+        "sparse_linear_attention/core.py"
+      ]
+    },
+    {
+      "id": "tree-ziplab-blade",
+      "kind": "source_tree",
+      "url": "https://github.com/ziplab/BLADE/tree/c572b9b87b26b4dd60184ff2229c4c98ed8f5a29",
+      "commit_sha": "c572b9b87b26b4dd60184ff2229c4c98ed8f5a29",
+      "captured_text_sha256": "dcdd48e64d686f9ee6383faf9ba9eee7da28b4b8e4d133ec30ea4c3a5dce5ea2",
+      "catalog_referenced_paths": [
+        "cogvideox/train/special_attentions_local/TrainRelated/wanx_blocksparseattn.py"
+      ]
+    },
+    {
+      "id": "tree-wenhao728-vorta",
+      "kind": "source_tree",
+      "url": "https://github.com/wenhao728/VORTA/tree/5234df0892786c02bfea70710432bd95aa7cc5dd",
+      "commit_sha": "5234df0892786c02bfea70710432bd95aa7cc5dd",
+      "captured_text_sha256": "fa5263e1e6b26b9d65e5748ec8de79f280d91efe9eebd8f20390b6493fcb58df",
+      "catalog_referenced_paths": [
+        "vorta/attention/wan.py"
+      ]
+    },
+    {
+      "id": "tree-espere-1119-song-videonsa",
+      "kind": "source_tree",
+      "url": "https://github.com/Espere-1119-Song/VideoNSA/tree/7924369879b3bd9cda4bbddce9e3ef796ab8a157",
+      "commit_sha": "7924369879b3bd9cda4bbddce9e3ef796ab8a157",
+      "captured_text_sha256": "a19ddda066ffdfe0a33abee79423abacb3851f72bc5f8f516c08aff512ae2ba9"
+    },
+    {
+      "id": "tree-chengtao-lv-lightforcing",
+      "kind": "source_tree",
+      "url": "https://github.com/chengtao-lv/LightForcing/tree/d1e633337fff7e8a0ebf9f643dc37cd481fb299d",
+      "commit_sha": "d1e633337fff7e8a0ebf9f643dc37cd481fb299d",
+      "captured_text_sha256": "276e6abd0df279c96b8681eed039a2d44b4e119a2b3f7e73ff72cce4330f5c78",
+      "catalog_referenced_paths": [
+        "wan/modules/sparse_attention.py"
+      ]
+    },
+    {
+      "id": "tree-jigsaw0612-sparstar",
+      "kind": "source_tree",
+      "url": "https://github.com/JIGSAW0612/SparSTAR/tree/6b1ca2a9ed5eceaa120611c41c7594105851d832",
+      "commit_sha": "6b1ca2a9ed5eceaa120611c41c7594105851d832",
+      "captured_text_sha256": "8622ec0ec9fc78a8cb08c9775c304c02d020997235cef2b3a68e08f0044b53c4",
+      "catalog_referenced_paths": [
+        "infinity/models/sparstar.py"
+      ]
+    },
+    {
+      "id": "tree-yuanyu0-dasa",
+      "kind": "source_tree",
+      "url": "https://github.com/Yuanyu0/DASA/tree/4c9210d9a3eb864ac84859d0d43673a72d98ebd0",
+      "commit_sha": "4c9210d9a3eb864ac84859d0d43673a72d98ebd0",
+      "captured_text_sha256": "39f61ca6b10467e95c8d6ed6647450a129c9612ed93298ca3a637779076709c7"
+    },
+    {
+      "id": "tree-inv-wzq-sparsed",
+      "kind": "source_tree",
+      "url": "https://github.com/INV-WZQ/SparseD/tree/52155b4aa78368695f96744cade06d2e0865d085",
+      "commit_sha": "52155b4aa78368695f96744cade06d2e0865d085",
+      "captured_text_sha256": "e30fd41888208bb004cacd1aa309c0b88dd7dc71eeecadf327c6a7a8a4a55b9d"
+    },
+    {
+      "id": "tree-mit-han-lab-x-attention",
+      "kind": "source_tree",
+      "url": "https://github.com/mit-han-lab/x-attention/tree/e37988770b9d1bebd489eba011d615f35587ba08",
+      "commit_sha": "e37988770b9d1bebd489eba011d615f35587ba08",
+      "captured_text_sha256": "61b9e52fbeef4a4b26f5e007a98bf993e88ad530e048594fb047197594a239b1",
+      "catalog_referenced_paths": [
+        "xattn/src/Xattention.py"
+      ]
+    },
+    {
+      "id": "tree-mutual-luo-sparsevideo",
+      "kind": "source_tree",
+      "url": "https://github.com/Mutual-Luo/SparseVideo/tree/8cd70fd3315a32bc9ac6e6ad37f57ad7cefeda0d",
+      "commit_sha": "8cd70fd3315a32bc9ac6e6ad37f57ad7cefeda0d",
+      "captured_text_sha256": "bb9da4a604ca9111f5eb0e34724ada17c9b165eca290969ae08c3e20979092d7",
+      "catalog_referenced_paths": [
+        "src/sparsevideo/methods/sta/ops.py"
+      ]
+    },
+    {
+      "id": "tree-fpsattention-fpsattention",
+      "kind": "source_tree",
+      "url": "https://github.com/FPSAttention/FPSAttention/tree/a0c7c97de806ef774a52441e9e657e5a46e5503c",
+      "commit_sha": "a0c7c97de806ef774a52441e9e657e5a46e5503c",
+      "captured_text_sha256": "3de57586d82d5aaf6ecf532aac4a14ff4c162f7c05ee0509abc9e588c754aa69"
+    },
+    {
+      "id": "tree-veda-sparse-veda-on-comfyui",
+      "kind": "source_tree",
+      "url": "https://github.com/veda-sparse/Veda-on-ComfyUI/tree/67e4eb5541b648555563144401ebaba832bd73ec",
+      "commit_sha": "67e4eb5541b648555563144401ebaba832bd73ec",
+      "captured_text_sha256": "a91a11c0cf0b1f1275b42a549630128770f46a097b4c5735fbbbcfba19e86ad0",
+      "catalog_referenced_paths": [
+        "veda_comfy/core/selection.py"
+      ]
+    },
+    {
+      "id": "tree-anminliu-vecattention",
+      "kind": "source_tree",
+      "url": "https://github.com/anminliu/VecAttention/tree/0c0bfcd98c273ca20ae6d662641ca826d3c68c67",
+      "commit_sha": "0c0bfcd98c273ca20ae6d662641ca826d3c68c67",
+      "captured_text_sha256": "2de631a9f517fde322dd9ea6675d2512a08b4762e18f9c9e167244f949339def",
+      "catalog_referenced_paths": [
+        "eval/DiTEvalKit/models/wan/attention.py"
+      ]
+    },
+    {
+      "id": "tree-tencent-hunyuan-prism",
+      "kind": "source_tree",
+      "url": "https://github.com/Tencent-Hunyuan/Prism/tree/e5ef67bf70a90f7ebc5db9ae3f5b85d923f12ac0",
+      "commit_sha": "e5ef67bf70a90f7ebc5db9ae3f5b85d923f12ac0",
+      "captured_text_sha256": "6262215ddaa01e1ca6ff6c2c8e81d9527f2b0f28f8e6756f795d127d0904b525",
+      "catalog_referenced_paths": [
+        "hymm/models/modules/block_sparse_attention/dynamic_block_attention.py"
+      ]
+    },
+    {
+      "id": "tree-xie-lab-ml-piecewise-sparse-attention",
+      "kind": "source_tree",
+      "url": "https://github.com/xie-lab-ml/piecewise-sparse-attention/tree/655648df86cafd75042dc32d6b6be78c4ea0eca8",
+      "commit_sha": "655648df86cafd75042dc32d6b6be78c4ea0eca8",
+      "captured_text_sha256": "c503f3ffc6157aaf3e0c545d2abb10ed59a3df46b55bd8b303d25583950f1c14",
+      "catalog_referenced_paths": [
+        "piecewise_attn/kernels/piecewise_sparse_attn_hyd.py"
+      ]
+    },
+    {
+      "id": "tree-leedongyeun-hypervattention",
+      "kind": "source_tree",
+      "url": "https://github.com/LeeDongYeun/HyperVAttention/tree/acde351b6eb8e508afcee1602c24aa044a0b36a7",
+      "commit_sha": "acde351b6eb8e508afcee1602c24aa044a0b36a7",
+      "captured_text_sha256": "c402c5146cf4fb3630ed25ccfb396025cc9af9ddc5e70290c5db4ead0822a3f8",
+      "catalog_referenced_paths": [
+        "hva/models/wan/attention.py"
+      ]
+    },
+    {
+      "id": "tree-akideliu-fpsattention",
+      "kind": "source_tree",
+      "url": "https://github.com/AkideLiu/FPSAttention/tree/48c71b523c99a256a8d6fb16f9444fc69d2399f4",
+      "commit_sha": "48c71b523c99a256a8d6fb16f9444fc69d2399f4",
+      "captured_text_sha256": "e8e987217f35bdf99b2978f32b0d53cb33cc29aac556258bfde0365c77f76fef"
+    },
+    {
+      "id": "tree-ustc-mlsys-adacluster",
+      "kind": "source_tree",
+      "url": "https://github.com/USTC-MLSys/Adacluster/tree/e7bed1c475a596ca6057fa7da2e5b3c37909b536",
+      "commit_sha": "e7bed1c475a596ca6057fa7da2e5b3c37909b536",
+      "captured_text_sha256": "bead5873a3e5ba9d437a3637a6d83d9e00b6769d808b3955008a7d2f4bb8fa62",
+      "catalog_referenced_paths": [
+        "runwan/wan/modules/model_kvclus.py"
+      ]
+    },
+    {
+      "id": "tree-6somehow-dac-spade",
+      "kind": "source_tree",
+      "url": "https://github.com/6somehow/DAC-SPADE/tree/8c8fa971895c6215b568d020ba0f6dd4e2511c0f",
+      "commit_sha": "8c8fa971895c6215b568d020ba0f6dd4e2511c0f",
+      "captured_text_sha256": "79c2dc06d851edd024c452040346fee6eea9eeacc9ee09676560dc6dc641548e",
+      "catalog_referenced_paths": [
+        "python/spade/core/lower/executor.py"
+      ]
+    },
+    {
+      "id": "paper-2512.24086",
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2512.24086",
+      "captured_text_sha256": "49ad9a36a7261d8a8071290f537a0e3c09b2a48ac817e02ba92be62d6e60a6e8"
+    },
+    {
+      "id": "paper-2505.21036",
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2505.21036",
+      "captured_text_sha256": "feecce6127aa28e2a016eb305f6112fa0dd0412fbd9d98d8ce5288be58e40d6a"
+    },
+    {
+      "id": "paper-2605.14513",
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2605.14513",
+      "captured_text_sha256": "9720a5f4755a3c5f1816a9e635466e1e58839495d5852fb0a1056e75df348a39"
+    },
+    {
+      "id": "paper-2605.30325",
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2605.30325",
+      "captured_text_sha256": "9a96d8e9209f160f5d5b8fd83e16cdcc7d55e1b232b398a76ed1e849135e2156"
+    },
+    {
+      "id": "paper-2506.04648",
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2506.04648",
+      "captured_text_sha256": "72bcd5396722fab587b86641a59707c115ce2389f0c734f64be936708d97e5a5"
+    },
+    {
+      "id": "paper-2602.12675",
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2602.12675",
+      "captured_text_sha256": "d7c4e58cb0d748c6a4b42d88d5f94b3ac6a1bd329b0b43f5884f3c88421cb1e4"
+    },
+    {
+      "id": "paper-2602.13515",
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2602.13515",
+      "captured_text_sha256": "944ccef73c32ff90c8c366ff7150710d40c6857cb800a618aa0a38baacd613a8"
+    },
+    {
+      "id": "paper-2502.04507",
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2502.04507",
+      "captured_text_sha256": "2e0642ac56b6444c2ab740d426d524092df3fa4f72e606dbc2ce7b43f6fee8c3"
+    },
+    {
+      "id": "paper-2602.01801",
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2602.01801",
+      "captured_text_sha256": "2738651da4bed84f7608293650e6fa0fd45a53c982fa4eeddfb660a5e603d5b2"
+    },
+    {
+      "id": "paper-2604.21221",
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2604.21221",
+      "captured_text_sha256": "f3844fe4e285eb25e8d1fa2b7ae9aea1ab090287f788e28163f1fef77d565431"
+    },
+    {
+      "id": "paper-2512.16615",
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2512.16615",
+      "captured_text_sha256": "7984aa4d08873890123639d46f1b97efab595af09db8e72f04284cab417bf455"
+    },
+    {
+      "id": "paper-2509.24899",
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2509.24899",
+      "captured_text_sha256": "7527833625bf3296c84edb83c81e2b54ad43370301e0da844261b603e8474a72"
+    },
+    {
+      "id": "paper-2509.24695",
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2509.24695",
+      "captured_text_sha256": "56b037c3d43f788010c22af6b524bad712ec9a1bfbc457980be798f2bdc298a4"
+    },
+    {
+      "id": "paper-2607.03012",
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2607.03012",
+      "captured_text_sha256": "ffa6e40212b7beff0a43ee54add8296de14948ef50293a08a019f5d3ebaaa472"
+    },
+    {
+      "id": "paper-2604.18348",
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2604.18348",
+      "captured_text_sha256": "b82347f0edf1288de35e6c898647727029300f2caf8809d983000997936974bb"
+    },
+    {
+      "id": "paper-2609.32882",
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2609.32882",
+      "captured_text_sha256": "5c4ed2df0152e10d35e28f0e157620a71470fa42067a51b32c4c171c8f1d2e67"
+    },
+    {
+      "id": "paper-2608.03335",
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2608.03335",
+      "captured_text_sha256": "c7ab0825fcd6d2095f40d39f45d4f345d6114dfc492bf7a411f98c12a52626be"
+    },
+    {
+      "id": "paper-2508.12969",
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2508.12969",
+      "captured_text_sha256": "e26314d3be467314bde96c4fb21581d3718f0202e203b6db73c1221438a0c21f"
+    },
+    {
+      "id": "paper-2502.21079",
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2502.21079",
+      "captured_text_sha256": "db09c148fbe72f3e566882d7bd9790da24f3be45306bb1ab8ffaf69c7cab633b"
+    },
+    {
+      "id": "code-ziplab-pyramid-sparse-attention-src-psa-triton-attention-py",
+      "kind": "implementation",
+      "url": "https://github.com/ziplab/Pyramid-Sparse-Attention/blob/be122cfb7f32010682b1d70534670e5ef150a93d/src/psa_triton/attention.py",
+      "blob_sha": "fb49f833ec2af074550a6e6c93dee729f31ae6f0",
+      "captured_text_sha256": "cb0e30cd6e8abf4800dcc6f2bffd4a3c1f6030a44775bbbbbfa052c5ad2c7aa3"
+    },
+    {
+      "id": "code-jessica-hujie-dfsattn-dfsattn-attention-wan-py",
+      "kind": "implementation",
+      "url": "https://github.com/jessica-hujie/DFSAttn/blob/dad4ace35b69248e92dc8743e2dbc728920a6969/dfsattn/attention_wan.py",
+      "blob_sha": "46b4c1dd4afc678c0ce9803ac24864e4e2903a64",
+      "captured_text_sha256": "7947119cc7eb1b2e30c00c1ca40062205d93f01637171727c23cf6184de4f742"
+    },
+    {
+      "id": "code-mutual-luo-sparsevideo-src-sparsevideo-registry-py",
+      "kind": "implementation",
+      "url": "https://github.com/Mutual-Luo/SparseVideo/blob/8cd70fd3315a32bc9ac6e6ad37f57ad7cefeda0d/src/sparsevideo/_registry.py",
+      "blob_sha": "95b3f7cf4ac08a593668aebaa0a414757a8b5922",
+      "captured_text_sha256": "fd1a61fc161fc0188b8808ca16abebd3f023f192ef030904f11916fe415b0431"
+    },
+    {
+      "id": "code-shawnricecake-draft-attention-draft-attention-py",
+      "kind": "implementation",
+      "url": "https://github.com/shawnricecake/draft-attention/blob/f3c81d58304e144305cf06b0fa801e82088f89a0/draft_attention.py",
+      "blob_sha": "cbd0341a2b5229d59dcf8b907dd5e654e9eb3925",
+      "captured_text_sha256": "91abd6a7929d32b81f59339adfe4f0b8d1404e41f5640d554472f5941b16ec31"
+    },
+    {
+      "id": "code-6somehow-dac-spade-python-spade-core-lower-executor-py",
+      "kind": "implementation",
+      "url": "https://github.com/6somehow/DAC-SPADE/blob/8c8fa971895c6215b568d020ba0f6dd4e2511c0f/python/spade/core/lower/executor.py",
+      "blob_sha": "ce73ace5a4643710a5d4d0f9da6bf2fe4ac2da79",
+      "captured_text_sha256": "f60672c88362a56a4fb6fc91a3dc96031c1ce6bac9738fb90a0e4bee37427765"
+    },
+    {
+      "id": "code-mutual-luo-svoo-svoo-models-wan-attention-py",
+      "kind": "implementation",
+      "url": "https://github.com/Mutual-Luo/SVOO/blob/e4ae67b579766bcbe820bda7d34e104ff4c82d5f/svoo/models/wan/attention.py",
+      "blob_sha": "6937b8ffa01330415c351253197d29b7c10f8f03",
+      "captured_text_sha256": "5d068116f63de110d1b47375eab67390a17c490de21e32218a802fc71f925360"
+    },
+    {
+      "id": "code-svg-project-sparse-videogen-svg-models-wan-attention-py",
+      "kind": "implementation",
+      "url": "https://github.com/svg-project/Sparse-VideoGen/blob/f89aedaf169ac2ae5b186bda674e53c3dc08c476/svg/models/wan/attention.py",
+      "blob_sha": "cd8af14604bc848bf7c1e8a8d521d2317fe0d256",
+      "captured_text_sha256": "b3899c3f06df58822899ecc4f83335df1adf8f7c2983661295c3ba5182d11c9c"
+    },
+    {
+      "id": "code-ustc-mlsys-adacluster-runwan-wan-modules-model-kvclus-py",
+      "kind": "implementation",
+      "url": "https://github.com/USTC-MLSys/Adacluster/blob/e7bed1c475a596ca6057fa7da2e5b3c37909b536/runwan/wan/modules/model_kvclus.py",
+      "blob_sha": "e976fcea94e31695426fa3b45f5d019c713a7f7e",
+      "captured_text_sha256": "31be5790a2219e78b68e730c3032b813b9227956a84aa8ae5b9bf986b9f2b5ff"
+    },
+    {
+      "id": "bibliography-2502.01776",
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2502.01776",
+      "captured_text_sha256": "d85bf9847e3685a5cef859dec57635e91bda9002b4271bb5254bf5c11a30dea9"
+    },
+    {
+      "id": "bibliography-2505.18875",
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2505.18875",
+      "captured_text_sha256": "1ca5cbc81e9f3c8e259ab9bb89e7954825dac7ebae0539215ef6121e03142ade"
+    },
+    {
+      "id": "bibliography-2603.08982",
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2603.08982",
+      "captured_text_sha256": "85288f51bf61986409628f0df28ecaf415116f9be5d352b3f8f0d8d575945743"
+    },
+    {
+      "id": "bibliography-2502.18137",
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2502.18137",
+      "captured_text_sha256": "5afc14b55eaa8416198b080c660e69d63ec9f2874a96600c439a89caa6bfee07"
+    },
+    {
+      "id": "bibliography-2602.13515",
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2602.13515",
+      "captured_text_sha256": "30dca1d93c61ee125c5496d46e5d80cdf15983dca6171b47b911c9111638f021"
+    },
+    {
+      "id": "bibliography-2502.04507",
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2502.04507",
+      "captured_text_sha256": "cd3bd2c9c8d85ebbff5fa4d2892cd8fda802416baaac428d20eb5e5fa4e5acf6"
+    },
+    {
+      "id": "bibliography-2505.13389",
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2505.13389",
+      "captured_text_sha256": "70199956d1ff212fb8d24cdcbade209988eaf862cea3f75e2e3875f5fec24ac6"
+    },
+    {
+      "id": "bibliography-2609.32882",
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2609.32882",
+      "captured_text_sha256": "8f43ac5561c33e3f804641155596bf8812a5b195422e782596d4842894833c9a"
+    },
+    {
+      "id": "bibliography-2506.19852",
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2506.19852",
+      "captured_text_sha256": "a882724e65a8619644c47171d121ddc470b89c96c382ddd81eb6f9e71c18fa57"
+    },
+    {
+      "id": "bibliography-2505.14708",
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2505.14708",
+      "captured_text_sha256": "4495722e2ce876f75231eaa46e94621b3be1e49f86c152c6c1eebf049255e197"
+    },
+    {
+      "id": "bibliography-2512.04025",
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2512.04025",
+      "captured_text_sha256": "4d35839d257180cb29216a80afc2879d61527047531f9808034d7aa0235b4966"
+    },
+    {
+      "id": "bibliography-2603.18636",
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2603.18636",
+      "captured_text_sha256": "3d16f94dca99a5dfa6c11ce47ff75412aff6e68a43f48910beb6be832b178317"
+    },
+    {
+      "id": "bibliography-2604.18348",
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2604.18348",
+      "captured_text_sha256": "4f6877de8e5d2d53846d4a0b43fdd49824624ab8099d8191b1af4b09afc8ed81"
+    },
+    {
+      "id": "bibliography-2605.23445",
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2605.23445",
+      "captured_text_sha256": "8cad9a7633e1dcd91b4a6add869864e35bda526b3eb48234359579de5dfe3c7a"
+    },
+    {
+      "id": "bibliography-2511.11062",
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2511.11062",
+      "captured_text_sha256": "27ed00ef35659ab9da5a9b0a4d8541e4d8eb97d5e692d825ef131484d8e517ff"
+    },
+    {
+      "id": "bibliography-2603.05503",
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2603.05503",
+      "captured_text_sha256": "40d1e0d56c63e601fefdd33a0e8ae95a93cb861f0dd4a06c572f531846b00d66"
+    },
+    {
+      "id": "bibliography-2608.18484",
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2608.18484",
+      "captured_text_sha256": "6ae33c97b9351953f8ec5e28d7e62081ecec98041325b2a6a6039a0840ed0b59"
+    },
+    {
+      "id": "bibliography-2603.29494",
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2603.29494",
+      "captured_text_sha256": "067f3db30a328392913da28fc78644fbe0a0b8186df25024d44f5fd1241ee8b0"
+    },
+    {
+      "id": "bibliography-2605.14513",
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2605.14513",
+      "captured_text_sha256": "fd60824110aab3dd03013a732db8a96261dff440d439dada40b096e19ad29668"
+    },
+    {
+      "id": "bibliography-2508.12969",
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2508.12969",
+      "captured_text_sha256": "92bd3dde3b246ef2f0a1168b9e80553daac1a28568cf103148a0a9489385638b"
+    },
+    {
+      "id": "bibliography-2505.21036",
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2505.21036",
+      "captured_text_sha256": "6968a192a01d7c2697642f97b894eea46094823ea7d7067c88aee8f4077dc57a"
+    },
+    {
+      "id": "bibliography-2512.24086",
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2512.24086",
+      "captured_text_sha256": "13415825848120fa551f66f66fc1e0ff8ec104bc47592c631e14ff9e46386385"
+    },
+    {
+      "id": "bibliography-2502.21079",
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2502.21079",
+      "captured_text_sha256": "03b03fda68b7c3ce9153df863659c0a141fd204b19ac4c78b88bf9ed24a73db0"
+    },
+    {
+      "id": "bibliography-2506.03065",
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2506.03065",
+      "captured_text_sha256": "9ab9c63d44d1bfca234db0bacd0ce4f47c3ba5335461ac7ddcd7c92777f3cb62"
+    },
+    {
+      "id": "bibliography-2509.23681",
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2509.23681",
+      "captured_text_sha256": "313a89c7fd94c72c94a00245b25b45698617704a84ffd5a0dda80809a170ebb6"
+    },
+    {
+      "id": "bibliography-2509.24006",
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2509.24006",
+      "captured_text_sha256": "d3390185553672ff9421e1035e6542b7881b23eb09066b367e1932f1d1990e48"
+    },
+    {
+      "id": "bibliography-2602.12675",
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2602.12675",
+      "captured_text_sha256": "27676416e13414d9db5a924a93c483555792d5314e27c712787d0791704768f5"
+    },
+    {
+      "id": "bibliography-2508.10774",
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2508.10774",
+      "captured_text_sha256": "da94a1d41ac3c9a6715b9cd6398d6908476cba0c29b0a3b2b0d09ad1a653e303"
+    },
+    {
+      "id": "bibliography-2505.18809",
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2505.18809",
+      "captured_text_sha256": "f5bdff4e0455900cc47f623b3ebd1e4bebfcf98e3ce25475ca00fcf699ea7d8b"
+    },
+    {
+      "id": "bibliography-2605.30325",
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2605.30325",
+      "captured_text_sha256": "d96b59ea80ff4909ad083df0f6dfdb6709cfc9cc3f87b5f2fd33e3300badf46e"
+    },
+    {
+      "id": "bibliography-2506.04648",
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2506.04648",
+      "captured_text_sha256": "1ae920e16968b2399dac5b5f6c085355e3ed42b00e9c5b8643452b9a4e489bb4"
+    },
+    {
+      "id": "bibliography-2602.04789",
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2602.04789",
+      "captured_text_sha256": "6424b1109d63e670be22902f5a146e9a2854c38b4f77762c46401c6d31c9f965"
+    },
+    {
+      "id": "bibliography-2604.21221",
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2604.21221",
+      "captured_text_sha256": "c20b85b5222d6956811caae750d18c1c034c82fc66c83f0136df22be4b7a590e"
+    },
+    {
+      "id": "bibliography-2602.01801",
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2602.01801",
+      "captured_text_sha256": "5269beb630872334551a54daace3042e88b711d55b6163a45edb0b3fe9cd7dc3"
+    },
+    {
+      "id": "bibliography-2608.10519",
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2608.10519",
+      "captured_text_sha256": "fabe5932135a6baa7a178c602f26b2f11278e84c209b31e8daeaab74d198de49"
+    },
+    {
+      "id": "bibliography-2610.05416",
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2610.05416",
+      "captured_text_sha256": "85e3eaaeba569c21ff09f4931328e454c37157e213f8fe99d435168f82270936"
+    },
+    {
+      "id": "bibliography-2607.03012",
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2607.03012",
+      "captured_text_sha256": "c550074190e04ab2e47a886de638246c3f7abc236517763d68d10898c461a07e"
+    },
+    {
+      "id": "bibliography-2602.01077",
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2602.01077",
+      "captured_text_sha256": "2ae7753d69a58e42e7643eec19ab2e02ea4a14ce6a0cb7db2a6f6765a20895d2"
+    },
+    {
+      "id": "bibliography-2509.25401",
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2509.25401",
+      "captured_text_sha256": "809b31ee0d3713f1beb331720fb7c5286d24af4a507b491381bad19c8fbb31d1"
+    },
+    {
+      "id": "bibliography-2608.03335",
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2608.03335",
+      "captured_text_sha256": "411c7707658ab09f3c7ed4237c401f7388d5c60e47d387f8e97a485972929c2b"
+    },
+    {
+      "id": "bibliography-2503.16428",
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2503.16428",
+      "captured_text_sha256": "8af7f4757410a00d22955364595eb58f200524c2e599c0e35c6650d7ba694bbf"
+    },
+    {
+      "id": "arxiv-api-2607.03012v1",
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2607.03012v1",
+      "captured_text_sha256": "c550074190e04ab2e47a886de638246c3f7abc236517763d68d10898c461a07e"
+    },
+    {
+      "id": "arxiv-api-2505.18809v2",
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2505.18809v2",
+      "captured_text_sha256": "f5bdff4e0455900cc47f623b3ebd1e4bebfcf98e3ce25475ca00fcf699ea7d8b"
+    },
+    {
+      "id": "arxiv-api-2610.26244v1",
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2610.26244v1",
+      "captured_text_sha256": "70a10ab18ee090ac08b894b3f9aa1bb1a4380d90b65e9dd01b486cc8fc1bb15a"
+    },
+    {
+      "id": "arxiv-api-2505.13389v5",
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2505.13389v5",
+      "captured_text_sha256": "70199956d1ff212fb8d24cdcbade209988eaf862cea3f75e2e3875f5fec24ac6"
+    },
+    {
+      "id": "arxiv-api-2605.30325v1",
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2605.30325v1",
+      "captured_text_sha256": "d96b59ea80ff4909ad083df0f6dfdb6709cfc9cc3f87b5f2fd33e3300badf46e"
+    },
+    {
+      "id": "arxiv-api-2509.16518v2",
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2509.16518v2",
+      "captured_text_sha256": "ef226c4c00abd2b76d3e55ea70a390f0c8781ece23861691b2f1325c831235b4"
+    },
+    {
+      "id": "arxiv-api-2605.31057v1",
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2605.31057v1",
+      "captured_text_sha256": "2ae9764e3c0d6a406acb12b0d6e3b974c8fe3d908b091f544649145295efc9b8"
+    },
+    {
+      "id": "arxiv-api-2610.26262v1",
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2610.26262v1",
+      "captured_text_sha256": "811601b9b35832edc7b678043630ff74fdc99a8cec5e71df6a0f2d4dee5fd761"
+    },
+    {
+      "id": "arxiv-api-2605.14513v2",
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2605.14513v2",
+      "captured_text_sha256": "fd60824110aab3dd03013a732db8a96261dff440d439dada40b096e19ad29668"
+    },
+    {
+      "id": "arxiv-api-2610.14672v1",
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2610.14672v1",
+      "captured_text_sha256": "9941a602990a508ebd866d1bcaa000aa4af1e326558574d41bc6f6891758a633"
+    },
+    {
+      "id": "arxiv-api-2608.12032v1",
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2608.12032v1",
+      "captured_text_sha256": "903f26488058d3b72e0b797a8167d0daec463f7e76c981981dfbf485a6e621d2"
+    },
+    {
+      "id": "arxiv-api-2601.11641v3",
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2601.11641v3",
+      "captured_text_sha256": "dd40b3333fe0193835ce35f4026659fa5579ba0ef75ce331d98cc89681d1b90c"
+    },
+    {
+      "id": "arxiv-api-2509.01085v4",
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2509.01085v4",
+      "captured_text_sha256": "e6545af727975df1c9b82fc60c0b7af999d5bf728406e14da338bf31577e14e7"
+    },
+    {
+      "id": "arxiv-api-2608.03335v1",
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2608.03335v1",
+      "captured_text_sha256": "411c7707658ab09f3c7ed4237c401f7388d5c60e47d387f8e97a485972929c2b"
+    },
+    {
+      "id": "arxiv-api-2609.38978v1",
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2609.38978v1",
+      "captured_text_sha256": "626da4aa1002f08ca4fafafe894637288bd9a446f8e201c62cca4f9fb38e1004"
+    },
+    {
+      "id": "arxiv-api-2604.21221v1",
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2604.21221v1",
+      "captured_text_sha256": "c20b85b5222d6956811caae750d18c1c034c82fc66c83f0136df22be4b7a590e"
+    },
+    {
+      "id": "arxiv-api-2607.16190v1",
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2607.16190v1",
+      "captured_text_sha256": "94933c50f9e586de3e210f80eb24de18cffc0a2d9353b05d973a21705386d8f8"
+    },
+    {
+      "id": "arxiv-api-2602.01801v2",
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2602.01801v2",
+      "captured_text_sha256": "5269beb630872334551a54daace3042e88b711d55b6163a45edb0b3fe9cd7dc3"
+    },
+    {
+      "id": "arxiv-api-2510.02617v1",
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2510.02617v1",
+      "captured_text_sha256": "a38b2379c4c9793e630eb8c587ddd69a87d4f7e22b689b865d80f4f3d2826d71"
+    },
+    {
+      "id": "arxiv-api-2604.12219v1",
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2604.12219v1",
+      "captured_text_sha256": "c4ce2eda8651973a5f38a3bbc297f94881627c75781d555146b04e16d2aaf8c3"
+    },
+    {
+      "id": "arxiv-api-2502.18137v8",
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2502.18137v8",
+      "captured_text_sha256": "5afc14b55eaa8416198b080c660e69d63ec9f2874a96600c439a89caa6bfee07"
+    },
+    {
+      "id": "arxiv-api-2510.02295v2",
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2510.02295v2",
+      "captured_text_sha256": "b3ab66a395b0d934bd1e2ba2310163e0e5eca24bbdf33c8db9c8d0e4abb38c1e"
+    },
+    {
+      "id": "arxiv-api-2602.04789v4",
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2602.04789v4",
+      "captured_text_sha256": "6424b1109d63e670be22902f5a146e9a2854c38b4f77762c46401c6d31c9f965"
+    },
+    {
+      "id": "arxiv-api-2111.13196v4",
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2111.13196v4",
+      "captured_text_sha256": "8c8e27f9800f5b4e05a4798aa0c6f411efdd5424fa7247b297aaf747b8500e80"
+    },
+    {
+      "id": "arxiv-api-2604.20470v1",
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2604.20470v1",
+      "captured_text_sha256": "2cb52402a2503668ebbf2746ef4bda804b57b8b5b25967fe170444a6e4537b0d"
+    },
+    {
+      "id": "arxiv-api-2603.05503v1",
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2603.05503v1",
+      "captured_text_sha256": "40d1e0d56c63e601fefdd33a0e8ae95a93cb861f0dd4a06c572f531846b00d66"
+    },
+    {
+      "id": "arxiv-api-2605.23445v1",
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2605.23445v1",
+      "captured_text_sha256": "8cad9a7633e1dcd91b4a6add869864e35bda526b3eb48234359579de5dfe3c7a"
+    },
+    {
+      "id": "arxiv-api-2602.01077v3",
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2602.01077v3",
+      "captured_text_sha256": "2ae7753d69a58e42e7643eec19ab2e02ea4a14ce6a0cb7db2a6f6765a20895d2"
+    },
+    {
+      "id": "arxiv-api-2603.18636v2",
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2603.18636v2",
+      "captured_text_sha256": "3d16f94dca99a5dfa6c11ce47ff75412aff6e68a43f48910beb6be832b178317"
+    },
+    {
+      "id": "arxiv-api-2502.21079v1",
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2502.21079v1",
+      "captured_text_sha256": "03b03fda68b7c3ce9153df863659c0a141fd204b19ac4c78b88bf9ed24a73db0"
+    },
+    {
+      "id": "arxiv-api-2605.04569v2",
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2605.04569v2",
+      "captured_text_sha256": "f552dbac8b65d524add24fa747cff1f7fb105285483061f3b1db9a55803aea87"
+    },
+    {
+      "id": "arxiv-api-2610.06801v1",
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2610.06801v1",
+      "captured_text_sha256": "ce027292cfa16ddd33448a74e97a639b2e6cd7586a6e9948e4d1b32b46e8f9da"
+    },
+    {
+      "id": "arxiv-api-2508.10774v2",
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2508.10774v2",
+      "captured_text_sha256": "da94a1d41ac3c9a6715b9cd6398d6908476cba0c29b0a3b2b0d09ad1a653e303"
+    },
+    {
+      "id": "arxiv-api-2511.11062v1",
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2511.11062v1",
+      "captured_text_sha256": "27ed00ef35659ab9da5a9b0a4d8541e4d8eb97d5e692d825ef131484d8e517ff"
+    },
+    {
+      "id": "arxiv-api-2512.04025v1",
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2512.04025v1",
+      "captured_text_sha256": "4d35839d257180cb29216a80afc2879d61527047531f9808034d7aa0235b4966"
+    },
+    {
+      "id": "arxiv-api-2512.20604v2",
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2512.20604v2",
+      "captured_text_sha256": "14a63d1a6c6d5dea9beaee5eeac27f1ecee6e60981464966314f97e3a1410fb8"
+    },
+    {
+      "id": "arxiv-api-2605.20813v1",
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2605.20813v1",
+      "captured_text_sha256": "a48712db4b1146e1484a4514891730f2d60afb858e5788d09d2cae38b105297f"
+    },
+    {
+      "id": "arxiv-api-2608.10519v3",
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2608.10519v3",
+      "captured_text_sha256": "fabe5932135a6baa7a178c602f26b2f11278e84c209b31e8daeaab74d198de49"
+    },
+    {
+      "id": "arxiv-api-2604.18348v1",
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2604.18348v1",
+      "captured_text_sha256": "4f6877de8e5d2d53846d4a0b43fdd49824624ab8099d8191b1af4b09afc8ed81"
+    },
+    {
+      "id": "arxiv-api-2609.34814v1",
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2609.34814v1",
+      "captured_text_sha256": "7d211f158d6b5b8fec03c987bc679fafb089ab99481a032b9cf7a1d9cafd5a3d"
+    },
+    {
+      "id": "arxiv-api-2509.24014v1",
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2509.24014v1",
+      "captured_text_sha256": "8a4a046d9b6567c507926ff57ea878b4e39864375fc58bb9b2da3cf9b5d0b779"
+    },
+    {
+      "id": "arxiv-api-2610.05416v1",
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2610.05416v1",
+      "captured_text_sha256": "85e3eaaeba569c21ff09f4931328e454c37157e213f8fe99d435168f82270936"
+    },
+    {
+      "id": "arxiv-api-2506.19852v2",
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2506.19852v2",
+      "captured_text_sha256": "a882724e65a8619644c47171d121ddc470b89c96c382ddd81eb6f9e71c18fa57"
+    },
+    {
+      "id": "arxiv-api-2602.13515v2",
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2602.13515v2",
+      "captured_text_sha256": "30dca1d93c61ee125c5496d46e5d80cdf15983dca6171b47b911c9111638f021"
+    },
+    {
+      "id": "arxiv-api-2512.16615v2",
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2512.16615v2",
+      "captured_text_sha256": "ca4f58f3a5e105f3ebd7bc39431aee47d91c0ec23a21705ae31a08a3862f8178"
+    },
+    {
+      "id": "arxiv-api-2610.29441v1",
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2610.29441v1",
+      "captured_text_sha256": "2a75fd2f0f66b8c2ca46529c3e16e439853957a341842b1e154b8e2524224fd2"
+    },
+    {
+      "id": "arxiv-api-2605.19726v1",
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2605.19726v1",
+      "captured_text_sha256": "406ec2e35b6d948f3852fffd99f663496631b6cb64d8bda586498bd80da34ac0"
+    },
+    {
+      "id": "arxiv-api-2609.32882v1",
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2609.32882v1",
+      "captured_text_sha256": "8f43ac5561c33e3f804641155596bf8812a5b195422e782596d4842894833c9a"
+    },
+    {
+      "id": "arxiv-api-2604.12056v1",
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2604.12056v1",
+      "captured_text_sha256": "ed35dda281d97e8b997cc5c102d4903734f0b9908ae8f1b6d28bbf6e215c312e"
+    },
+    {
+      "id": "arxiv-api-2603.29494v1",
+      "kind": "primary",
+      "url": "https://arxiv.org/abs/2603.29494v1",
+      "captured_text_sha256": "067f3db30a328392913da28fc78644fbe0a0b8186df25024d44f5fd1241ee8b0"
+    }
+  ],
+  "boundary": "Metadata projection only. Full captured source text/trees are not redistributed. This index does not independently reproduce the original citation-presence audit."
+}
