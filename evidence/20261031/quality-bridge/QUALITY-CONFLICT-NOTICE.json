@@ -1,0 +1,17 @@
+{
+  "affected_historical_candidates": [
+    "method-search-20261023-pilot-002/cache.easycache_conservative_v1",
+    "method-search-20261023-pilot-002/master.integrated_packed_easycache_v1"
+  ],
+  "affected_prompt_ids": [
+    2,
+    3
+  ],
+  "boundary": "One uniform reviewer, not a human gold standard; original history is retained. Do not treat prior quality pass as unconditionally validated transferable memory.",
+  "fresh_cache_five_video_sha256_identical": true,
+  "original_rubric_unchanged": true,
+  "previous_verdict": "pass",
+  "reference": "blind-workspace/verdicts.json",
+  "status": "DISPUTED_QUALITY",
+  "uniform_blinded_verdict": "fail_medium"
+}

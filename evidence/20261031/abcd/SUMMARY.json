@@ -1,0 +1,701 @@
+{
+  "schema": "abcd-campaign-analysis/v1",
+  "timestamp": "2026-10-22T07:36:24.472062+00:00",
+  "campaign": "project://SolAgent/20261021-abcd-native-execution/campaigns/abcd-native-20261021-v6",
+  "arms": [
+    {
+      "arm": "A",
+      "status": "COMPLETE",
+      "formal_wall_seconds": 15465.838765595996,
+      "assigned_gpu_hours": 34.368530590213325,
+      "leased_gpu_hours": 2.049224313951563,
+      "allocation_occupancy_percent": 5.9625019713094565,
+      "nvml_mean_utilization_percent_observed": 4.841342346522933,
+      "nvml_formal_window_coverage_percent": 99.97990726400127,
+      "nvml_formal_window_lower_bound_percent": 4.840369588386451,
+      "nvml_formal_window_upper_bound_percent": 4.860462324385182,
+      "completed_candidates": 10,
+      "candidate_attempts": 12,
+      "baseline_native_total_s": 634.4054198181257,
+      "ready_idle": {
+        "legal_ready_idle_seconds": 0,
+        "legal_ready_idle_gpu_seconds": 0,
+        "eligibility_unknown_seconds": 0,
+        "unsplit_legal_opportunity_seconds": 777.0000182650983,
+        "unsplit_opportunity_gpu_seconds": 2538.0000327387825,
+        "definition": "Sampled dispatch eligibility before canonical barriers, using accepted submit packets; unsplit prompts are not FIFO-ready tasks."
+      },
+      "candidate_latency": {
+        "n": 10,
+        "p50_seconds": 523.5341977439821,
+        "p95_seconds": 1362.8589117982424
+      },
+      "cpu_sampled_remote_core_hours": 2.8710555555555595,
+      "cpu_sampled_local_core_hours": 0.31343055555555555,
+      "agent_usage": {
+        "input_tokens": 54138278,
+        "output_tokens": 250828,
+        "total_tokens": 54389106,
+        "cached_tokens": 33450880,
+        "cache_write_tokens": 0,
+        "reasoning_tokens": 102212
+      },
+      "actual_models": {
+        "gpt-6.1-sol": 436,
+        "unknown": 90
+      },
+      "actual_service_tiers": {
+        "default": 436,
+        "unknown": 90
+      },
+      "independent_objective_decisions": {
+        "unique_points": 5,
+        "accepted": 5,
+        "rejected": 0,
+        "unique_decisions_per_hour": 1.1638554024008891,
+        "limitation": "Objective rechecks are deduplicated per config/run. Master visual/method acceptance is reported separately; this is not a count of full validated frontier points."
+      },
+      "final_frontier": [
+        {
+          "config_id": "i01_kernel_tea",
+          "objective_ok": true,
+          "performance": {
+            "baseline_peak_memory_mib": 22116.0,
+            "baseline_total_s": 634.4054198181257,
+            "config_peak_memory_mib": 21996.0,
+            "config_total_s": 366.449909131974,
+            "frontier_axis": "latency",
+            "latency_improved": true,
+            "memory_improved": false,
+            "source": "frozen_baseline_and_durable_config_benchmark",
+            "speedup": 1.7312200221876701,
+            "timing_scope": "five_prompt_sum_sglang_request_metrics_excluding_model_load_internal_one_step_warmup_and_video_export",
+            "trace_peak_memory_mib": null
+          },
+          "lpips_max": 0.08696001023054123
+        },
+        {
+          "config_id": "i02_kernel_easy",
+          "objective_ok": true,
+          "performance": {
+            "baseline_peak_memory_mib": 22116.0,
+            "baseline_total_s": 634.4054198181257,
+            "config_peak_memory_mib": 21996.0,
+            "config_total_s": 440.1539659742266,
+            "frontier_axis": "latency",
+            "latency_improved": true,
+            "memory_improved": false,
+            "source": "frozen_baseline_and_durable_config_benchmark",
+            "speedup": 1.4413261468948653,
+            "timing_scope": "five_prompt_sum_sglang_request_metrics_excluding_model_load_internal_one_step_warmup_and_video_export",
+            "trace_peak_memory_mib": null
+          },
+          "lpips_max": 0.04986533895134926
+        }
+      ],
+      "first_recorded_full_acceptance_upper_bound_seconds": 15465.838765595996,
+      "full_acceptance_time_scope": "Controller terminal is the first coordinator-recorded all-gates pass, including final cleanup. Earlier objective-only checks are not called a fully validated frontier.",
+      "generated_work": {
+        "completed_measured_requests": 55,
+        "failed_measured_requests": 0,
+        "internal_warmup_requests": 35,
+        "retained_video_files": 55
+      },
+      "policy_validated_delivered_points": {
+        "finalized": true,
+        "unique_points": 5,
+        "by_component": {
+          "kernel": 1,
+          "cache": 2,
+          "integration": 2
+        },
+        "points_per_hour": 1.1638554024008891,
+        "limitation": "Selected Kernel/Cache/integration points passing the frozen small-budget site objective, Master method/visual and image-attestation gates. Not all search decisions, bitwise correctness, blind review or paper-level quality."
+      },
+      "generation_milestones": {
+        "clock": "remote_monotonic",
+        "origin": "remote service RUN-START, not local controller START",
+        "groups": {
+          "dense": {
+            "observed_requests": 5,
+            "first_start_offset_seconds": 26.568844544701278,
+            "last_end_offset_seconds": 687.5279035251588
+          },
+          "search": {
+            "observed_requests": 40,
+            "first_start_offset_seconds": 1247.652649805881,
+            "last_end_offset_seconds": 4301.033953228965
+          },
+          "integration": {
+            "observed_requests": 10,
+            "first_start_offset_seconds": 8941.400286985561,
+            "last_end_offset_seconds": 9828.12199210655
+          }
+        },
+        "search_generation_to_first_integration_generation_seconds": 4640.366333756596,
+        "last_generation_to_clean_service_close_seconds": 5634.950133867562,
+        "limitation": "Same-host observed generate/export boundaries only. Gaps include assessment, API/tool work, evidence transfer, packaging, and next-worker startup; they are not a causal CPU-only attribution. Partial/live groups do not establish search completion."
+      },
+      "reuse_observation": {
+        "persistent_candidate_count": 0,
+        "cross_command_model_reuse_count": 0,
+        "observed_model_load_intervals": 35,
+        "observed_candidate_reset_hook_intervals": 0,
+        "compiled_artifact_restore_event_count": 0,
+        "true_compiler_cache_hits": "NOT_INSTRUMENTED",
+        "reference_evaluations": 20,
+        "reference_cache_enabled_evaluations": 0,
+        "reference_feature_hits": 0,
+        "reference_feature_misses": 0,
+        "independent_evaluations": 12,
+        "independent_feature_hits": 0,
+        "limitation": "A restored directory is not a measured compiler cache hit. Model reuse counts command results, not multiple prompts already sharing a single shard in every arm. Reference events preserve early evaluations even when a later fresh independent check rewrites quality.json."
+      },
+      "recorded_local_overlap_partition": {
+        "finalized": true,
+        "clock": "local_controller_monotonic",
+        "window_seconds": 15465.838765595996,
+        "seconds": {
+          "api_only": 9882.63053803111,
+          "ssh_only": 974.7344332020002,
+          "api_and_ssh": 3967.3487568319833,
+          "neither_recorded_api_nor_ssh": 641.1250375309028
+        },
+        "limitation": "Recorded request-active intervals, clipped to the arm window. Neither is not CPU idle: it may include GPU work, local tools, uninstrumented transport or waiting. These categories do not attribute causal wall savings."
+      }
+    },
+    {
+      "arm": "B",
+      "status": "COMPLETE",
+      "formal_wall_seconds": 14719.042687985988,
+      "assigned_gpu_hours": 32.70898375107997,
+      "leased_gpu_hours": 1.8318018701734642,
+      "allocation_occupancy_percent": 5.600301996887881,
+      "nvml_mean_utilization_percent_observed": 4.54731894856873,
+      "nvml_formal_window_coverage_percent": 99.98161404518089,
+      "nvml_formal_window_lower_bound_percent": 4.546482880561365,
+      "nvml_formal_window_upper_bound_percent": 4.564868835380478,
+      "completed_candidates": 10,
+      "candidate_attempts": 12,
+      "baseline_native_total_s": 637.224390164949,
+      "ready_idle": {
+        "legal_ready_idle_seconds": 0,
+        "legal_ready_idle_gpu_seconds": 0,
+        "eligibility_unknown_seconds": 0,
+        "unsplit_legal_opportunity_seconds": 53.000004917383194,
+        "unsplit_opportunity_gpu_seconds": 87.99997903779149,
+        "definition": "Sampled dispatch eligibility before canonical barriers, using accepted submit packets; unsplit prompts are not FIFO-ready tasks."
+      },
+      "candidate_latency": {
+        "n": 10,
+        "p50_seconds": 317.4453501952812,
+        "p95_seconds": 1155.7147995709433
+      },
+      "cpu_sampled_remote_core_hours": 2.4302000000000055,
+      "cpu_sampled_local_core_hours": 0.3021583333333333,
+      "agent_usage": {
+        "input_tokens": 56854881,
+        "output_tokens": 218612,
+        "total_tokens": 57073493,
+        "cached_tokens": 38407296,
+        "cache_write_tokens": 0,
+        "reasoning_tokens": 89727
+      },
+      "actual_models": {
+        "gpt-6.1-sol": 433,
+        "unknown": 125
+      },
+      "actual_service_tiers": {
+        "default": 433,
+        "unknown": 125
+      },
+      "independent_objective_decisions": {
+        "unique_points": 6,
+        "accepted": 6,
+        "rejected": 0,
+        "unique_decisions_per_hour": 1.4674867420304722,
+        "limitation": "Objective rechecks are deduplicated per config/run. Master visual/method acceptance is reported separately; this is not a count of full validated frontier points."
+      },
+      "final_frontier": [
+        {
+          "config_id": "integrated_tea_fast",
+          "objective_ok": true,
+          "performance": {
+            "baseline_peak_memory_mib": 22116.0,
+            "baseline_total_s": 637.224390164949,
+            "config_peak_memory_mib": 21968.0,
+            "config_total_s": 280.5427104299888,
+            "frontier_axis": "latency",
+            "latency_improved": true,
+            "memory_improved": false,
+            "source": "frozen_baseline_and_durable_config_benchmark",
+            "speedup": 2.2713988511349053,
+            "timing_scope": "five_prompt_sum_sglang_request_metrics_excluding_model_load_internal_one_step_warmup_and_video_export",
+            "trace_peak_memory_mib": null
+          },
+          "lpips_max": 0.16158641874790192
+        },
+        {
+          "config_id": "integrated_easy_conservative",
+          "objective_ok": true,
+          "performance": {
+            "baseline_peak_memory_mib": 22116.0,
+            "baseline_total_s": 637.224390164949,
+            "config_peak_memory_mib": 21968.0,
+            "config_total_s": 365.9416276765987,
+            "frontier_axis": "latency",
+            "latency_improved": true,
+            "memory_improved": false,
+            "source": "frozen_baseline_and_durable_config_benchmark",
+            "speedup": 1.7413279659129042,
+            "timing_scope": "five_prompt_sum_sglang_request_metrics_excluding_model_load_internal_one_step_warmup_and_video_export",
+            "trace_peak_memory_mib": null
+          },
+          "lpips_max": 0.07408397644758224
+        }
+      ],
+      "first_recorded_full_acceptance_upper_bound_seconds": 14719.042687985988,
+      "full_acceptance_time_scope": "Controller terminal is the first coordinator-recorded all-gates pass, including final cleanup. Earlier objective-only checks are not called a fully validated frontier.",
+      "generated_work": {
+        "completed_measured_requests": 55,
+        "failed_measured_requests": 0,
+        "internal_warmup_requests": 31,
+        "retained_video_files": 55
+      },
+      "policy_validated_delivered_points": {
+        "finalized": true,
+        "unique_points": 6,
+        "by_component": {
+          "kernel": 1,
+          "cache": 3,
+          "integration": 2
+        },
+        "points_per_hour": 1.4674867420304722,
+        "limitation": "Selected Kernel/Cache/integration points passing the frozen small-budget site objective, Master method/visual and image-attestation gates. Not all search decisions, bitwise correctness, blind review or paper-level quality."
+      },
+      "generation_milestones": {
+        "clock": "remote_monotonic",
+        "origin": "remote service RUN-START, not local controller START",
+        "groups": {
+          "dense": {
+            "observed_requests": 5,
+            "first_start_offset_seconds": 25.406151463277638,
+            "last_end_offset_seconds": 686.5371995186433
+          },
+          "search": {
+            "observed_requests": 40,
+            "first_start_offset_seconds": 1281.82612837106,
+            "last_end_offset_seconds": 5169.086567763239
+          },
+          "integration": {
+            "observed_requests": 10,
+            "first_start_offset_seconds": 9874.278164345771,
+            "last_end_offset_seconds": 10601.984145278111
+          }
+        },
+        "search_generation_to_first_integration_generation_seconds": 4705.191596582532,
+        "last_generation_to_clean_service_close_seconds": 4114.626594335772,
+        "limitation": "Same-host observed generate/export boundaries only. Gaps include assessment, API/tool work, evidence transfer, packaging, and next-worker startup; they are not a causal CPU-only attribution. Partial/live groups do not establish search completion."
+      },
+      "reuse_observation": {
+        "persistent_candidate_count": 0,
+        "cross_command_model_reuse_count": 0,
+        "observed_model_load_intervals": 31,
+        "observed_candidate_reset_hook_intervals": 0,
+        "compiled_artifact_restore_event_count": 0,
+        "true_compiler_cache_hits": "NOT_INSTRUMENTED",
+        "reference_evaluations": 22,
+        "reference_cache_enabled_evaluations": 0,
+        "reference_feature_hits": 0,
+        "reference_feature_misses": 0,
+        "independent_evaluations": 14,
+        "independent_feature_hits": 0,
+        "limitation": "A restored directory is not a measured compiler cache hit. Model reuse counts command results, not multiple prompts already sharing a single shard in every arm. Reference events preserve early evaluations even when a later fresh independent check rewrites quality.json."
+      },
+      "recorded_local_overlap_partition": {
+        "finalized": true,
+        "clock": "local_controller_monotonic",
+        "window_seconds": 14719.042687985988,
+        "seconds": {
+          "api_only": 9631.230587675032,
+          "ssh_only": 1338.6218647769128,
+          "api_and_ssh": 3132.559120268037,
+          "neither_recorded_api_nor_ssh": 616.6311152660055
+        },
+        "limitation": "Recorded request-active intervals, clipped to the arm window. Neither is not CPU idle: it may include GPU work, local tools, uninstrumented transport or waiting. These categories do not attribute causal wall savings."
+      }
+    },
+    {
+      "arm": "C",
+      "status": "COMPLETE",
+      "formal_wall_seconds": 13169.432681312988,
+      "assigned_gpu_hours": 29.26540595847331,
+      "leased_gpu_hours": 2.25739600915617,
+      "allocation_occupancy_percent": 7.713530481549936,
+      "nvml_mean_utilization_percent_observed": 5.9909302334971235,
+      "nvml_formal_window_coverage_percent": 99.98020025947397,
+      "nvml_formal_window_lower_bound_percent": 5.9897440448557955,
+      "nvml_formal_window_upper_bound_percent": 6.009543785381824,
+      "completed_candidates": 10,
+      "candidate_attempts": 12,
+      "baseline_native_total_s": 637.2049199566245,
+      "ready_idle": {
+        "legal_ready_idle_seconds": 0,
+        "legal_ready_idle_gpu_seconds": 0,
+        "eligibility_unknown_seconds": 0,
+        "unsplit_legal_opportunity_seconds": 0,
+        "unsplit_opportunity_gpu_seconds": 0,
+        "definition": "Sampled dispatch eligibility before canonical barriers, using accepted submit packets; unsplit prompts are not FIFO-ready tasks."
+      },
+      "candidate_latency": {
+        "n": 10,
+        "p50_seconds": 338.0254598907195,
+        "p95_seconds": 741.8549238993314
+      },
+      "cpu_sampled_remote_core_hours": 2.8373944444444485,
+      "cpu_sampled_local_core_hours": 0.2920611111111111,
+      "agent_usage": {
+        "input_tokens": 65529727,
+        "output_tokens": 303630,
+        "total_tokens": 65833357,
+        "cached_tokens": 44310016,
+        "cache_write_tokens": 0,
+        "reasoning_tokens": 123350
+      },
+      "actual_models": {
+        "gpt-6.1-sol": 528,
+        "unknown": 9
+      },
+      "actual_service_tiers": {
+        "default": 528,
+        "unknown": 9
+      },
+      "independent_objective_decisions": {
+        "unique_points": 8,
+        "accepted": 8,
+        "rejected": 0,
+        "unique_decisions_per_hour": 2.186882358331676,
+        "limitation": "Objective rechecks are deduplicated per config/run. Master visual/method acceptance is reported separately; this is not a count of full validated frontier points."
+      },
+      "final_frontier": [
+        {
+          "config_id": "i01_kernel_tea",
+          "objective_ok": true,
+          "performance": {
+            "baseline_peak_memory_mib": 22116.0,
+            "baseline_total_s": 637.2049199566245,
+            "config_peak_memory_mib": 21320.0,
+            "config_total_s": 368.74819754902273,
+            "frontier_axis": "latency",
+            "latency_improved": true,
+            "memory_improved": true,
+            "source": "frozen_baseline_and_durable_config_benchmark",
+            "speedup": 1.7280217888303364,
+            "timing_scope": "five_prompt_sum_sglang_request_metrics_excluding_model_load_internal_one_step_warmup_and_video_export",
+            "trace_peak_memory_mib": null
+          },
+          "lpips_max": 0.08803269267082214
+        },
+        {
+          "config_id": "i02_kernel_easy",
+          "objective_ok": true,
+          "performance": {
+            "baseline_peak_memory_mib": 22116.0,
+            "baseline_total_s": 637.2049199566245,
+            "config_peak_memory_mib": 21218.0,
+            "config_total_s": 496.6651759557426,
+            "frontier_axis": "latency",
+            "latency_improved": true,
+            "memory_improved": true,
+            "source": "frozen_baseline_and_durable_config_benchmark",
+            "speedup": 1.2829667768239206,
+            "timing_scope": "five_prompt_sum_sglang_request_metrics_excluding_model_load_internal_one_step_warmup_and_video_export",
+            "trace_peak_memory_mib": null
+          },
+          "lpips_max": 0.0315394252538681
+        }
+      ],
+      "first_recorded_full_acceptance_upper_bound_seconds": 13169.432681312988,
+      "full_acceptance_time_scope": "Controller terminal is the first coordinator-recorded all-gates pass, including final cleanup. Earlier objective-only checks are not called a fully validated frontier.",
+      "generated_work": {
+        "completed_measured_requests": 55,
+        "failed_measured_requests": 0,
+        "internal_warmup_requests": 43,
+        "retained_video_files": 55
+      },
+      "policy_validated_delivered_points": {
+        "finalized": true,
+        "unique_points": 6,
+        "by_component": {
+          "kernel": 1,
+          "cache": 3,
+          "integration": 2
+        },
+        "points_per_hour": 1.640161768748757,
+        "limitation": "Selected Kernel/Cache/integration points passing the frozen small-budget site objective, Master method/visual and image-attestation gates. Not all search decisions, bitwise correctness, blind review or paper-level quality."
+      },
+      "generation_milestones": {
+        "clock": "remote_monotonic",
+        "origin": "remote service RUN-START, not local controller START",
+        "groups": {
+          "dense": {
+            "observed_requests": 5,
+            "first_start_offset_seconds": 24.53210321161896,
+            "last_end_offset_seconds": 687.4099637204781
+          },
+          "search": {
+            "observed_requests": 40,
+            "first_start_offset_seconds": 1156.0921110212803,
+            "last_end_offset_seconds": 2511.587811741978
+          },
+          "integration": {
+            "observed_requests": 10,
+            "first_start_offset_seconds": 5912.622241339646,
+            "last_end_offset_seconds": 6853.906775559299
+          }
+        },
+        "search_generation_to_first_integration_generation_seconds": 3401.0344295976683,
+        "last_generation_to_clean_service_close_seconds": 6313.2261699019,
+        "limitation": "Same-host observed generate/export boundaries only. Gaps include assessment, API/tool work, evidence transfer, packaging, and next-worker startup; they are not a causal CPU-only attribution. Partial/live groups do not establish search completion."
+      },
+      "reuse_observation": {
+        "persistent_candidate_count": 0,
+        "cross_command_model_reuse_count": 0,
+        "observed_model_load_intervals": 43,
+        "observed_candidate_reset_hook_intervals": 0,
+        "compiled_artifact_restore_event_count": 0,
+        "true_compiler_cache_hits": "NOT_INSTRUMENTED",
+        "reference_evaluations": 25,
+        "reference_cache_enabled_evaluations": 0,
+        "reference_feature_hits": 0,
+        "reference_feature_misses": 0,
+        "independent_evaluations": 17,
+        "independent_feature_hits": 0,
+        "limitation": "A restored directory is not a measured compiler cache hit. Model reuse counts command results, not multiple prompts already sharing a single shard in every arm. Reference events preserve early evaluations even when a later fresh independent check rewrites quality.json."
+      },
+      "recorded_local_overlap_partition": {
+        "finalized": true,
+        "clock": "local_controller_monotonic",
+        "window_seconds": 13169.432681312988,
+        "seconds": {
+          "api_only": 9140.640289142131,
+          "ssh_only": 636.531628542114,
+          "api_and_ssh": 2782.9977595368546,
+          "neither_recorded_api_nor_ssh": 609.2630040918884
+        },
+        "limitation": "Recorded request-active intervals, clipped to the arm window. Neither is not CPU idle: it may include GPU work, local tools, uninstrumented transport or waiting. These categories do not attribute causal wall savings."
+      }
+    },
+    {
+      "arm": "D",
+      "status": "COMPLETE",
+      "formal_wall_seconds": 13617.991309506004,
+      "assigned_gpu_hours": 30.262202910013343,
+      "leased_gpu_hours": 2.1563548680819156,
+      "allocation_occupancy_percent": 7.125571375269604,
+      "nvml_mean_utilization_percent_observed": 5.471108031307066,
+      "nvml_formal_window_coverage_percent": 99.98524494535934,
+      "nvml_formal_window_lower_bound_percent": 5.470300766327597,
+      "nvml_formal_window_upper_bound_percent": 5.485055820968259,
+      "completed_candidates": 10,
+      "candidate_attempts": 12,
+      "baseline_native_total_s": 634.364882777445,
+      "ready_idle": {
+        "legal_ready_idle_seconds": 0,
+        "legal_ready_idle_gpu_seconds": 0,
+        "eligibility_unknown_seconds": 0,
+        "unsplit_legal_opportunity_seconds": 0,
+        "unsplit_opportunity_gpu_seconds": 0,
+        "definition": "Sampled dispatch eligibility before canonical barriers, using accepted submit packets; unsplit prompts are not FIFO-ready tasks."
+      },
+      "candidate_latency": {
+        "n": 10,
+        "p50_seconds": 309.9807889312506,
+        "p95_seconds": 637.5501070506866
+      },
+      "cpu_sampled_remote_core_hours": 2.919791666666674,
+      "cpu_sampled_local_core_hours": 0.29432777777777774,
+      "agent_usage": {
+        "input_tokens": 71578787,
+        "output_tokens": 294865,
+        "total_tokens": 71873652,
+        "cached_tokens": 48381952,
+        "cache_write_tokens": 0,
+        "reasoning_tokens": 114682
+      },
+      "actual_models": {
+        "gpt-6.1-sol": 569,
+        "unknown": 9
+      },
+      "actual_service_tiers": {
+        "default": 569,
+        "unknown": 9
+      },
+      "independent_objective_decisions": {
+        "unique_points": 6,
+        "accepted": 6,
+        "rejected": 0,
+        "unique_decisions_per_hour": 1.5861370086880708,
+        "limitation": "Objective rechecks are deduplicated per config/run. Master visual/method acceptance is reported separately; this is not a count of full validated frontier points."
+      },
+      "final_frontier": [
+        {
+          "config_id": "sana_integrated_fast_01",
+          "objective_ok": true,
+          "performance": {
+            "baseline_peak_memory_mib": 22116.0,
+            "baseline_total_s": 634.364882777445,
+            "config_peak_memory_mib": 21950.0,
+            "config_total_s": 341.2912134490907,
+            "frontier_axis": "latency",
+            "latency_improved": true,
+            "memory_improved": false,
+            "source": "frozen_baseline_and_durable_config_benchmark",
+            "speedup": 1.858720230053831,
+            "timing_scope": "five_prompt_sum_sglang_request_metrics_excluding_model_load_internal_one_step_warmup_and_video_export",
+            "trace_peak_memory_mib": null
+          },
+          "lpips_max": 0.08572379499673843
+        },
+        {
+          "config_id": "sana_integrated_conservative_02",
+          "objective_ok": true,
+          "performance": {
+            "baseline_peak_memory_mib": 22116.0,
+            "baseline_total_s": 634.364882777445,
+            "config_peak_memory_mib": 21950.0,
+            "config_total_s": 418.98814257699996,
+            "frontier_axis": "latency",
+            "latency_improved": true,
+            "memory_improved": false,
+            "source": "frozen_baseline_and_durable_config_benchmark",
+            "speedup": 1.5140401799338843,
+            "timing_scope": "five_prompt_sum_sglang_request_metrics_excluding_model_load_internal_one_step_warmup_and_video_export",
+            "trace_peak_memory_mib": null
+          },
+          "lpips_max": 0.07382984459400177
+        }
+      ],
+      "first_recorded_full_acceptance_upper_bound_seconds": 13617.991309506004,
+      "full_acceptance_time_scope": "Controller terminal is the first coordinator-recorded all-gates pass, including final cleanup. Earlier objective-only checks are not called a fully validated frontier.",
+      "generated_work": {
+        "completed_measured_requests": 55,
+        "failed_measured_requests": 0,
+        "internal_warmup_requests": 43,
+        "retained_video_files": 55
+      },
+      "policy_validated_delivered_points": {
+        "finalized": true,
+        "unique_points": 6,
+        "by_component": {
+          "kernel": 1,
+          "cache": 3,
+          "integration": 2
+        },
+        "points_per_hour": 1.5861370086880708,
+        "limitation": "Selected Kernel/Cache/integration points passing the frozen small-budget site objective, Master method/visual and image-attestation gates. Not all search decisions, bitwise correctness, blind review or paper-level quality."
+      },
+      "generation_milestones": {
+        "clock": "remote_monotonic",
+        "origin": "remote service RUN-START, not local controller START",
+        "groups": {
+          "dense": {
+            "observed_requests": 5,
+            "first_start_offset_seconds": 27.62454104050994,
+            "last_end_offset_seconds": 688.3850976135582
+          },
+          "search": {
+            "observed_requests": 40,
+            "first_start_offset_seconds": 1086.213965316303,
+            "last_end_offset_seconds": 2359.2173625994474
+          },
+          "integration": {
+            "observed_requests": 10,
+            "first_start_offset_seconds": 7654.213089365512,
+            "last_end_offset_seconds": 8500.103199245408
+          }
+        },
+        "search_generation_to_first_integration_generation_seconds": 5294.995726766065,
+        "last_generation_to_clean_service_close_seconds": 5116.338534842245,
+        "limitation": "Same-host observed generate/export boundaries only. Gaps include assessment, API/tool work, evidence transfer, packaging, and next-worker startup; they are not a causal CPU-only attribution. Partial/live groups do not establish search completion."
+      },
+      "reuse_observation": {
+        "persistent_candidate_count": 0,
+        "cross_command_model_reuse_count": 0,
+        "observed_model_load_intervals": 43,
+        "observed_candidate_reset_hook_intervals": 0,
+        "compiled_artifact_restore_event_count": 0,
+        "true_compiler_cache_hits": "NOT_INSTRUMENTED",
+        "reference_evaluations": 23,
+        "reference_cache_enabled_evaluations": 8,
+        "reference_feature_hits": 263,
+        "reference_feature_misses": 45,
+        "independent_evaluations": 15,
+        "independent_feature_hits": 0,
+        "limitation": "A restored directory is not a measured compiler cache hit. Model reuse counts command results, not multiple prompts already sharing a single shard in every arm. Reference events preserve early evaluations even when a later fresh independent check rewrites quality.json."
+      },
+      "recorded_local_overlap_partition": {
+        "finalized": true,
+        "clock": "local_controller_monotonic",
+        "window_seconds": 13617.991309506004,
+        "seconds": {
+          "api_only": 7393.911229620047,
+          "ssh_only": 1711.6536018968036,
+          "api_and_ssh": 3831.2400331470417,
+          "neither_recorded_api_nor_ssh": 681.1864448421111
+        },
+        "limitation": "Recorded request-active intervals, clipped to the arm window. Neither is not CPU idle: it may include GPU work, local tools, uninstrumented transport or waiting. These categories do not attribute causal wall savings."
+      }
+    }
+  ],
+  "analysis_source_sha256": {
+    "analyze_campaign.py": "8dcb78118628821c095ba9a846905831a22747afa0845534dd3d4b4e31d63b25",
+    "remote_rollout_summary.py": "88ae5c56e578c2e939ef81f11eb7549b5279608229e8ca34c7d8d0018ef66661",
+    "test_rollout_analysis.py": "24b175de5883a96f4c01c7733e94be7ea30e91e582103cde34ca201877d04326"
+  },
+  "capacity": {
+    "finalized": true,
+    "clock": "local_controller_monotonic",
+    "arm_windows": {
+      "A": [
+        75722.988855421,
+        91188.827621017
+      ],
+      "B": [
+        75723.029044384,
+        90442.07173237
+      ],
+      "C": [
+        91191.027794844,
+        104360.460476157
+      ],
+      "D": [
+        91191.067830238,
+        104809.059139744
+      ]
+    },
+    "campaign_wall_seconds": 29086.070284322996,
+    "fixed_16_card_reservation_hours": 129.27142348587998,
+    "arm_window_assigned_gpu_hours": 126.60512320977995,
+    "between_arm_and_tail_capacity_gap_gpu_hours": 2.666300276100034,
+    "node_arm_windows": {
+      "node0": [
+        "A",
+        "D"
+      ],
+      "node1": [
+        "B",
+        "C"
+      ]
+    },
+    "limitation": "Assumes both complete eight-card nodes remain reserved for this quartet throughout the first-to-last arm window. These gaps are not measured NVML utilization. Preparation/repair attempts are separate costs."
+  },
+  "limitations": [
+    "One adaptive search trajectory per arm; different candidate choices and node/time effects prevent strict causal scheduler speedup claims.",
+    "Stage duration sums overlap. Use union/critical path; do not sum API, generation, model-load and native substage totals as wall time.",
+    "Full five-prompt native inference sum excludes model load, internal one-step warmup and export; it is not batch completion wall time.",
+    "NVML utilization is sampled device busy time, not exact SM occupancy or FLOP efficiency. Missing edge/gap intervals have explicit bounds.",
+    "Memory, live latest-method search, cross-model/hardware transfer and paper-level quality evaluation are NOT_RUN."
+  ],
+  "new_model_download_bytes": 0
+}

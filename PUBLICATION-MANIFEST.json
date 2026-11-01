@@ -1,0 +1,587 @@
+{
+  "schema": "sol-status-publication/v1",
+  "publication_date": "2026-10-31",
+  "scope": "Evidence publication; no new GPU experiment, no runtime-code release",
+  "source_path_base": "project://SolAgent/",
+  "files": [
+    {
+      "source": "20261021-abcd-native-execution/reports/EXECUTION-STATUS.md",
+      "published": "evidence/20261031/abcd/REPORT.md",
+      "source_sha256": "ae28c68bbdaba8c722b6b8063e2e197dd512a545594d7dff31b5f91234848db8",
+      "published_sha256": "58d27c6796b023583fc4167824cdeb0e7096b43de7af30f85653c0900fdf8819",
+      "source_bytes": 16197,
+      "published_bytes": 16457,
+      "projection_fields": null,
+      "numeric_fields_preserved": false
+    },
+    {
+      "source": "20261021-abcd-native-execution/reports/FINAL-ACCEPTANCE.json",
+      "published": "evidence/20261031/abcd/FINAL-ACCEPTANCE.json",
+      "source_sha256": "89207844452dfa706e19f6bc3418b55594176b2e652ee52354b1199ff947c279",
+      "published_sha256": "e65915bde039b38985a2af193fe13f06df18d1e1e62c4a09c7b037fc7b8dc167",
+      "source_bytes": 18704,
+      "published_bytes": 18512,
+      "projection_fields": null,
+      "numeric_fields_preserved": true
+    },
+    {
+      "source": "20261021-abcd-native-execution/reports/BASELINE-CONSISTENCY.json",
+      "published": "evidence/20261031/abcd/BASELINE-CONSISTENCY.json",
+      "source_sha256": "4e495c8ffdf830310afddf7e0852926a3a69bc24cde52c4de134160a049612b4",
+      "published_sha256": "327cc31c38f770ceb1f1db47562787da6908f962b2ad8c0a9ae9aa65c02947a1",
+      "source_bytes": 4442,
+      "published_bytes": 4346,
+      "projection_fields": null,
+      "numeric_fields_preserved": true
+    },
+    {
+      "source": "20261021-abcd-native-execution/campaigns/abcd-native-20261021-v6/analysis/SUMMARY.json",
+      "published": "evidence/20261031/abcd/SUMMARY.json",
+      "source_sha256": "cb5c5968498a48eb6f11bf81154bb1725faf9add38edc4658abe2dc3a0dd9c8f",
+      "published_sha256": "6cbca8678a6e2971ad1c7bd63c317aa26552d07fa090021b8c00b7521062f275",
+      "source_bytes": 31784,
+      "published_bytes": 31772,
+      "projection_fields": null,
+      "numeric_fields_preserved": true
+    },
+    {
+      "source": "20261022-dag-native-execution/reports/FINAL-REPORT.md",
+      "published": "evidence/20261031/dag/REPORT.md",
+      "source_sha256": "ea151749a973e078b25a7fa8a8e685e47fde92b275ee75a9c1d637da21cb43c7",
+      "published_sha256": "391463a1b2a21337467c779de5bb1325786a947823e0ae799500e987e7d1ecc1",
+      "source_bytes": 9951,
+      "published_bytes": 9414,
+      "projection_fields": null,
+      "numeric_fields_preserved": false
+    },
+    {
+      "source": "20261022-dag-native-execution/campaigns/dag-native-20261022-v6/CAMPAIGN-VALIDITY.json",
+      "published": "evidence/20261031/dag/CAMPAIGN-VALIDITY.json",
+      "source_sha256": "a9a39ba3cb302d8b2896772e628e792ba8e56f79e22715296da2f5fe1a123fb2",
+      "published_sha256": "a9a39ba3cb302d8b2896772e628e792ba8e56f79e22715296da2f5fe1a123fb2",
+      "source_bytes": 1803,
+      "published_bytes": 1803,
+      "projection_fields": null,
+      "numeric_fields_preserved": true
+    },
+    {
+      "source": "20261022-dag-native-execution/campaigns/dag-native-20261022-v6/derived/P.json",
+      "published": "evidence/20261031/dag/METRICS.json",
+      "source_sha256": "986bae460f9b956930b679cd016f7175190528080a23d3245d4d42b6d099905d",
+      "published_sha256": "cc896ce18f80e2f88b3c6e519f26573fad23632fa6f187cbe0c5573bb701bf39",
+      "source_bytes": 10341950,
+      "published_bytes": 6772,
+      "projection_fields": [
+        "analysis_sha256",
+        "metrics"
+      ],
+      "numeric_fields_preserved": true
+    },
+    {
+      "source": "20261022-dag-native-execution/campaigns/dag-native-20261022-v6/derived/P-gpu.csv",
+      "published": "evidence/20261031/dag/gpu.csv",
+      "source_sha256": "32f274c19c5368804b54f32b3868c5bdb59db193387b8a918cf7603d73f52a61",
+      "published_sha256": "eb7f8b2c8df329aeaba35ef508368352c798c1c4be431c06bd179d7ba4386108",
+      "source_bytes": 1132,
+      "published_bytes": 1003,
+      "projection_fields": null,
+      "numeric_fields_preserved": false
+    },
+    {
+      "source": "20261023-method-search/reports/RESULTS-SIX-FAMILY-002.md",
+      "published": "evidence/20261031/sana/REPORT.md",
+      "source_sha256": "f8f2c2bbe8b63861b1c4b4cb67d4c2926e782af0cfbc321b89ea07efb1e2b5d4",
+      "published_sha256": "05c9b2d53695f5763c8b2d4dcb42f5d0b1884352b8f866c2035cf07fb23d5d60",
+      "source_bytes": 22271,
+      "published_bytes": 21066,
+      "projection_fields": null,
+      "numeric_fields_preserved": false
+    },
+    {
+      "source": "20261023-method-search/campaigns/method-search-20261023-six-family-002/derived/P.json",
+      "published": "evidence/20261031/sana/METRICS.json",
+      "source_sha256": "233c51a08f84994729480a739f57a7e34ee7ba76453f0dd9c52ee7fa9c33c8b3",
+      "published_sha256": "7563e77ec3665caf1fff0859bfa9b8cb7f0b062ebb4af48d04afab85013dd9e5",
+      "source_bytes": 25148331,
+      "published_bytes": 6662,
+      "projection_fields": [
+        "analysis_sha256",
+        "metrics"
+      ],
+      "numeric_fields_preserved": true
+    },
+    {
+      "source": "20261023-method-search/campaigns/method-search-20261023-six-family-002/derived/P-gpu.csv",
+      "published": "evidence/20261031/sana/gpu.csv",
+      "source_sha256": "97fe8588edaab20d128a1d3018f1c3b19119b22aa7feecfd50da5ff726b7713c",
+      "published_sha256": "af1ffec2391f73b5123ddf081c3d7390e01a0fd045c1c2850a7b43605d72991c",
+      "source_bytes": 1144,
+      "published_bytes": 1015,
+      "projection_fields": null,
+      "numeric_fields_preserved": false
+    },
+    {
+      "source": "20261023-method-search/campaigns/method-search-20261023-six-family-002/derived/P-candidates.csv",
+      "published": "evidence/20261031/sana/candidates.csv",
+      "source_sha256": "21d40e09fdcfbaeed0633fcdff759561e0f2cb814fe75e302d27ae0d2252fd42",
+      "published_sha256": "6887947b2e83cad2a17750ff7889c58b5b55a4a25452d4fea0f1422d71bad38d",
+      "source_bytes": 13069,
+      "published_bytes": 13048,
+      "projection_fields": null,
+      "numeric_fields_preserved": false
+    },
+    {
+      "source": "20261023-method-search/campaigns/method-search-20261023-six-family-002/runs/P/TERMINAL.json",
+      "published": "evidence/20261031/sana/TERMINAL.json",
+      "source_sha256": "05cec76fdac7eed9d0fd2eba8dc3ff9fb0a92eb2699d806a2cab4357d24623ed",
+      "published_sha256": "fb7f9d284e4123fafa58c42823bb4b6e6cc26afda63e2655447cc63be7aad93b",
+      "source_bytes": 865,
+      "published_bytes": 829,
+      "projection_fields": null,
+      "numeric_fields_preserved": true
+    },
+    {
+      "source": "20261023-method-search/campaigns/method-search-20261023-six-family-002/runs/P/workspace/output/orchestrated/sana-20261023-164113/INTEGRATED-DELIVERY.json",
+      "published": "evidence/20261031/sana/INTEGRATED-DELIVERY.json",
+      "source_sha256": "0145636b6775e3df6c823d6891ed75c99b8d70fff83ea90d5bd10dfb68ecbfee",
+      "published_sha256": "42500d2f09eae0f9634d30c2bade32e8a8d34aaad4502ea48828c3aae5c37db0",
+      "source_bytes": 31441,
+      "published_bytes": 31431,
+      "projection_fields": null,
+      "numeric_fields_preserved": true
+    },
+    {
+      "source": "20261023-method-search/campaigns/method-search-20261023-six-family-002/runs/P/method-search/REPORT.json",
+      "published": "evidence/20261031/sana/SEARCH-REPORT.json",
+      "source_sha256": "5dda5a87fb963a1df3007a7ee26b2cc59f69ad974d01a3332da5c349b9fc9fc8",
+      "published_sha256": "1e6aea9a8381c099fb4ce69379e393de7cad142e26aaa48f8f79ea6f2e294629",
+      "source_bytes": 2340746,
+      "published_bytes": 20184,
+      "projection_fields": [
+        "schema",
+        "run_id",
+        "evidence_mode",
+        "coverage",
+        "funnel",
+        "costs",
+        "execution_status_counts",
+        "boundary",
+        "selection_slots_used",
+        "selected_method_count"
+      ],
+      "numeric_fields_preserved": true
+    },
+    {
+      "source": "20261023-method-search/crosschecks/cache-bridge-001/reports/RESULTS.md",
+      "published": "evidence/20261031/quality-bridge/REPORT.md",
+      "source_sha256": "26ca7c9ae76a216149f080675663b026b0c24ba96ce7f4373b44f04eb971fe46",
+      "published_sha256": "1cc494da5ef61f0f9e3aade45f8bcbad8b6f33440d778ded7df6730ee43713e9",
+      "source_bytes": 9900,
+      "published_bytes": 10160,
+      "projection_fields": null,
+      "numeric_fields_preserved": false
+    },
+    {
+      "source": "20261023-method-search/crosschecks/cache-bridge-001/artifacts/OUTCOMES.json",
+      "published": "evidence/20261031/quality-bridge/OUTCOMES.json",
+      "source_sha256": "3c940183577cf619373cab12822d4a05cf1ff5ecd706fee6f81779abf04de318",
+      "published_sha256": "3c940183577cf619373cab12822d4a05cf1ff5ecd706fee6f81779abf04de318",
+      "source_bytes": 17128,
+      "published_bytes": 17128,
+      "projection_fields": null,
+      "numeric_fields_preserved": true
+    },
+    {
+      "source": "20261023-method-search/crosschecks/cache-bridge-001/artifacts/QUALITY-CONFLICT-NOTICE.json",
+      "published": "evidence/20261031/quality-bridge/QUALITY-CONFLICT-NOTICE.json",
+      "source_sha256": "8e7fcc1dc76701cc64ca5c7e5a3e5f8bafccc2f29e9d2d0846d4569c934d17fc",
+      "published_sha256": "8e7fcc1dc76701cc64ca5c7e5a3e5f8bafccc2f29e9d2d0846d4569c934d17fc",
+      "source_bytes": 660,
+      "published_bytes": 660,
+      "projection_fields": null,
+      "numeric_fields_preserved": true
+    },
+    {
+      "source": "20261023-method-search/crosschecks/cache-bridge-001/artifacts/TIMING-SUMMARY.json",
+      "published": "evidence/20261031/quality-bridge/TIMING-SUMMARY.json",
+      "source_sha256": "2c462a99bef52e0409677900c69f7045de98ced6c264b0dd56236f154db5d99b",
+      "published_sha256": "2c462a99bef52e0409677900c69f7045de98ced6c264b0dd56236f154db5d99b",
+      "source_bytes": 16442,
+      "published_bytes": 16442,
+      "projection_fields": null,
+      "numeric_fields_preserved": true
+    },
+    {
+      "source": "20261023-method-search/crosschecks/cache-bridge-001/artifacts/RESOURCES.json",
+      "published": "evidence/20261031/quality-bridge/RESOURCES.json",
+      "source_sha256": "af1bf7626a7b7fc065195e61d2c98ddcdd9cbd11679d570a41598897eb8eec03",
+      "published_sha256": "af1bf7626a7b7fc065195e61d2c98ddcdd9cbd11679d570a41598897eb8eec03",
+      "source_bytes": 4187,
+      "published_bytes": 4187,
+      "projection_fields": null,
+      "numeric_fields_preserved": true
+    },
+    {
+      "source": "20261023-method-search/crosschecks/cache-bridge-001/artifacts/SOURCE-IMAGE-BINDING.json",
+      "published": "evidence/20261031/quality-bridge/SOURCE-IMAGE-BINDING.json",
+      "source_sha256": "85d999346507eafb91674dfbc087b51407dc0ade97f2a61d6c97c74afa51d69e",
+      "published_sha256": "85d999346507eafb91674dfbc087b51407dc0ade97f2a61d6c97c74afa51d69e",
+      "source_bytes": 11438,
+      "published_bytes": 11438,
+      "projection_fields": null,
+      "numeric_fields_preserved": true
+    },
+    {
+      "source": "20261023-method-search/crosschecks/cache-bridge-001/blind-workspace/verdicts.json",
+      "published": "evidence/20261031/quality-bridge/verdicts.json",
+      "source_sha256": "0da33bf54a1c091a1bd57c4c2e9aa02e1db33658a5db7bb5ff51d904a76d8b47",
+      "published_sha256": "0da33bf54a1c091a1bd57c4c2e9aa02e1db33658a5db7bb5ff51d904a76d8b47",
+      "source_bytes": 38974,
+      "published_bytes": 38974,
+      "projection_fields": null,
+      "numeric_fields_preserved": true
+    },
+    {
+      "source": "20261024-wan-search/reports/RESULTS.md",
+      "published": "evidence/20261031/wan/REPORT.md",
+      "source_sha256": "2e4b912a3c8f7eaf8063d669c9db71ea8691264c5c66f1cc76042579a0a08117",
+      "published_sha256": "2953cb5bab559977f6d963d1a9519602a124aad019bb9048a07dac634ed3bc57",
+      "source_bytes": 19625,
+      "published_bytes": 18553,
+      "projection_fields": null,
+      "numeric_fields_preserved": false
+    },
+    {
+      "source": "20261024-wan-search/reports/ASSET-AUDIT.md",
+      "published": "evidence/20261031/wan/ASSET-AUDIT.md",
+      "source_sha256": "301e18aad76086eda5d407781bdf4bec4919d2782455b6c278425a2731e53e33",
+      "published_sha256": "0846a6af44ac3a3e510d4b5e121214165e5537752c9b7c469f1bdca3474dde95",
+      "source_bytes": 8112,
+      "published_bytes": 7912,
+      "projection_fields": null,
+      "numeric_fields_preserved": false
+    },
+    {
+      "source": "20261024-wan-search/reports/ENGINEERING-VALIDATION.md",
+      "published": "evidence/20261031/wan/ENGINEERING-VALIDATION.md",
+      "source_sha256": "6ab5183b9d41126adaa3230ebb31b6cf65732aa88dba16a00fe7b8e4cc80047d",
+      "published_sha256": "644b4edff3c1deb6a4a299d5f72b0c66c41cd995597d9e411f88c0f45d3bd79a",
+      "source_bytes": 9625,
+      "published_bytes": 9885,
+      "projection_fields": null,
+      "numeric_fields_preserved": false
+    },
+    {
+      "source": "20261024-wan-search/campaigns/wan-search-20261024-002/PROTOCOL.json",
+      "published": "evidence/20261031/wan/PROTOCOL.json",
+      "source_sha256": "8d3e24b619aa6be07ed6077d1864cacc64a2990230da958c6ba0b3c1091bcff9",
+      "published_sha256": "8d3e24b619aa6be07ed6077d1864cacc64a2990230da958c6ba0b3c1091bcff9",
+      "source_bytes": 2892,
+      "published_bytes": 2892,
+      "projection_fields": null,
+      "numeric_fields_preserved": true
+    },
+    {
+      "source": "20261024-wan-search/campaigns/wan-search-20261024-002/derived/P.json",
+      "published": "evidence/20261031/wan/METRICS.json",
+      "source_sha256": "b7e051927f1c34e3fbf10d4255498421ef8b8e75dc858ecf3da640846d9ec394",
+      "published_sha256": "0758bb6fb8fae69363da9b7ed3042049d650ecfe6f642a711cc29c8df02008c3",
+      "source_bytes": 22264862,
+      "published_bytes": 6881,
+      "projection_fields": [
+        "analysis_sha256",
+        "metrics"
+      ],
+      "numeric_fields_preserved": true
+    },
+    {
+      "source": "20261024-wan-search/campaigns/wan-search-20261024-002/derived/P-gpu.csv",
+      "published": "evidence/20261031/wan/gpu.csv",
+      "source_sha256": "b6dd27ceb69ca02681504d6cc25571c61280fbe49a367a8dbf2e106c6bfcd7bf",
+      "published_sha256": "fc53d28cf25d5a7abaa12e1ad849550f822ecb2b50238e90feb3ff2272e86910",
+      "source_bytes": 1140,
+      "published_bytes": 1011,
+      "projection_fields": null,
+      "numeric_fields_preserved": false
+    },
+    {
+      "source": "20261024-wan-search/campaigns/wan-search-20261024-002/derived/P-gpu-stages.csv",
+      "published": "evidence/20261031/wan/gpu-stages.csv",
+      "source_sha256": "a7dccc64b7abb173b13dc3a2c325635bbf4348faee0882b9e465b83069a7d427",
+      "published_sha256": "720ee76d3cfe3342c3eb892b807225313535795a21452dd97fa49faaa34866c7",
+      "source_bytes": 9734,
+      "published_bytes": 8197,
+      "projection_fields": null,
+      "numeric_fields_preserved": false
+    },
+    {
+      "source": "20261024-wan-search/campaigns/wan-search-20261024-002/derived/P-candidates.csv",
+      "published": "evidence/20261031/wan/candidates.csv",
+      "source_sha256": "2c091a95fa87028c159fd97b75ad5950f17b730d6059a7ce0051b989b3904b43",
+      "published_sha256": "6b9a8d22ec33d63f572ef650c2fc6fd85c87389d08ecc7996db62a3f5f912cd4",
+      "source_bytes": 14858,
+      "published_bytes": 14839,
+      "projection_fields": null,
+      "numeric_fields_preserved": false
+    },
+    {
+      "source": "20261024-wan-search/campaigns/wan-search-20261024-002/runs/P/VERIFIED-COMPONENTS.json",
+      "published": "evidence/20261031/wan/VERIFIED-COMPONENTS.json",
+      "source_sha256": "5d885e4ca4099b24223aeefdea3c77e682a8d87e32974d9cd55b618c21798284",
+      "published_sha256": "5d885e4ca4099b24223aeefdea3c77e682a8d87e32974d9cd55b618c21798284",
+      "source_bytes": 460,
+      "published_bytes": 460,
+      "projection_fields": null,
+      "numeric_fields_preserved": true
+    },
+    {
+      "source": "20261024-wan-search/campaigns/wan-search-20261024-002/runs/P/NO-FRONTIER-CHECK.json",
+      "published": "evidence/20261031/wan/NO-FRONTIER-CHECK.json",
+      "source_sha256": "8479c2f0d9902354d2baa5302dae8c9f7c73c3c49b31b476a6a1f2ce905577af",
+      "published_sha256": "8479c2f0d9902354d2baa5302dae8c9f7c73c3c49b31b476a6a1f2ce905577af",
+      "source_bytes": 46,
+      "published_bytes": 46,
+      "projection_fields": null,
+      "numeric_fields_preserved": true
+    },
+    {
+      "source": "20261024-wan-search/campaigns/wan-search-20261024-002/runs/P/workspace/output/orchestrated/wan21-20261024-164822/INTEGRATED-DELIVERY.json",
+      "published": "evidence/20261031/wan/INTEGRATED-DELIVERY.json",
+      "source_sha256": "fe2220fd343344bd97535bf860f5be24ca3daab88025903caf9b71d7ca4580dd",
+      "published_sha256": "fe2220fd343344bd97535bf860f5be24ca3daab88025903caf9b71d7ca4580dd",
+      "source_bytes": 13455,
+      "published_bytes": 13455,
+      "projection_fields": null,
+      "numeric_fields_preserved": true
+    },
+    {
+      "source": "20261024-wan-search/campaigns/wan-search-20261024-002/derived/SIX-FAMILY-AUDIT.json",
+      "published": "evidence/20261031/wan/AUDIT-SUMMARY.json",
+      "source_sha256": "2d4854275da7d27a2264f91db6a85e1b3d3d817bca5392264fc26f62832b68fa",
+      "published_sha256": "9ed5af5eb64b24a74ae0aba79e424bbba3968bb4c3c8362376dc7cfc1ed35afb",
+      "source_bytes": 1270514,
+      "published_bytes": 33142,
+      "projection_fields": [
+        "schema",
+        "run_id",
+        "timestamp",
+        "status",
+        "issues",
+        "code_hash",
+        "workload",
+        "budget_usage",
+        "funnel",
+        "coverage",
+        "selected_sources",
+        "terminal",
+        "integration_attempts",
+        "experience_statuses",
+        "unattended_closed_loop",
+        "model_comparison_boundary",
+        "cleanup_status",
+        "receipt_validation_status",
+        "boundary",
+        "new_model_download_bytes",
+        "weight_transfer_via_local_bytes"
+      ],
+      "numeric_fields_preserved": true
+    },
+    {
+      "source": "20261024-search-debug/reports/SEARCH-DEBUG.md",
+      "published": "evidence/20261031/search/REPORT.md",
+      "source_sha256": "65af69bf80b991523c3cd0381e57a81c80fa4a5557f214fcec561ebd05cc5261",
+      "published_sha256": "2703a9976325f347553027a4c9e133aaff7330ff06b0e9c068c51d6d62c746f4",
+      "source_bytes": 13581,
+      "published_bytes": 13841,
+      "projection_fields": null,
+      "numeric_fields_preserved": false
+    },
+    {
+      "source": "20261024-search-debug/reports/AUDIT.json",
+      "published": "evidence/20261031/search/AUDIT.json",
+      "source_sha256": "3559fc7932515975e05c14196ffb0b53c3f68c0e58b5b5a90808384d0e5bca48",
+      "published_sha256": "3559fc7932515975e05c14196ffb0b53c3f68c0e58b5b5a90808384d0e5bca48",
+      "source_bytes": 54073,
+      "published_bytes": 54073,
+      "projection_fields": null,
+      "numeric_fields_preserved": true
+    },
+    {
+      "source": "20261024-search-debug/reports/TEST-RESULTS.json",
+      "published": "evidence/20261031/search/TEST-RESULTS.json",
+      "source_sha256": "92f1575900009fc53eeee1fe1b4502a1575a385b4b38aec52d8c41800b227dbc",
+      "published_sha256": "9d84c6768c5302cc2e10cb1d95ed9d4455f74dd936bdbf9fc5b0b3aad83fe594",
+      "source_bytes": 535,
+      "published_bytes": 607,
+      "projection_fields": null,
+      "numeric_fields_preserved": true
+    },
+    {
+      "source": "20261024-search-debug/reports/methods.csv",
+      "published": "evidence/20261031/search/methods.csv",
+      "source_sha256": "e250d5dc9f1f3905848eb9a172b6753c7c8c6fd45b2770dcdf38bcfb5d265050",
+      "published_sha256": "633adb8f8e257a0a3070b5cd060468758a95e3eee51f2da65c73c3a626db0c66",
+      "source_bytes": 10929,
+      "published_bytes": 10887,
+      "projection_fields": null,
+      "numeric_fields_preserved": false
+    },
+    {
+      "source": "20261024-search-debug/reports/papers.csv",
+      "published": "evidence/20261031/search/papers.csv",
+      "source_sha256": "25f84d133d3f5e454f46c4f0cd71bd9715e1c6ab2dbf1b5ad6eec2ba9551964e",
+      "published_sha256": "2c28094a2fadcd2aea346244cbb3f3ef7f9680ab93fcd767c8b2891016ef5c76",
+      "source_bytes": 19350,
+      "published_bytes": 19308,
+      "projection_fields": null,
+      "numeric_fields_preserved": false
+    },
+    {
+      "source": "20261024-search-debug/artifacts/catalog.json",
+      "published": "evidence/20261031/search/catalog.json",
+      "source_sha256": "031ca8769c56c0dc3cff36400e2d9e12233e195251219bdc807ce1874d66c3e6",
+      "published_sha256": "031ca8769c56c0dc3cff36400e2d9e12233e195251219bdc807ce1874d66c3e6",
+      "source_bytes": 38263,
+      "published_bytes": 38263,
+      "projection_fields": null,
+      "numeric_fields_preserved": true
+    },
+    {
+      "source": "20261024-search-debug/artifacts/pending-leads.json",
+      "published": "evidence/20261031/search/pending-leads.json",
+      "source_sha256": "63d798ebd00a63b1e477ce326db43f957ed3cf18c4b11c369dc10e9e5cb16086",
+      "published_sha256": "63d798ebd00a63b1e477ce326db43f957ed3cf18c4b11c369dc10e9e5cb16086",
+      "source_bytes": 8067,
+      "published_bytes": 8067,
+      "projection_fields": null,
+      "numeric_fields_preserved": true
+    },
+    {
+      "source": "20261024-search-debug/artifacts/historical-search-audit.json",
+      "published": "evidence/20261031/search/historical-search-audit.json",
+      "source_sha256": "7489fa6280cadacab84522b9d4af7bff86bb5283ca5ce25ba18f519f41e714da",
+      "published_sha256": "736ea19af32747020fc1c0e6759cf2a689c35283257cb1f6123ab3d4bdc051be",
+      "source_bytes": 2945,
+      "published_bytes": 2933,
+      "projection_fields": null,
+      "numeric_fields_preserved": true
+    },
+    {
+      "source": "20261021-abcd-native-execution/campaigns/abcd-native-20261021-v6/analysis/A-gpu.csv",
+      "published": "evidence/20261031/abcd/A-gpu.csv",
+      "source_sha256": "b23b64b53892a0992d531cedbd59ffd34595d4e263e88b5ffa2811e70d5f6277",
+      "published_sha256": "af7143f7d03647ece0c55f70681d5fa6e43351023d74caf06ae0e4c8acfae654",
+      "source_bytes": 1479,
+      "published_bytes": 1350,
+      "projection_fields": null,
+      "numeric_fields_preserved": false
+    },
+    {
+      "source": "20261021-abcd-native-execution/campaigns/abcd-native-20261021-v6/analysis/A-candidates.csv",
+      "published": "evidence/20261031/abcd/A-candidates.csv",
+      "source_sha256": "6e2214c0830aabf7ad7f4512fab09b5ff67b45b08c265d136e4beeb6867ff5ba",
+      "published_sha256": "9d754724f78146599ac86d9e622bb1247f9f0afe89695730b20f45796c175821",
+      "source_bytes": 10917,
+      "published_bytes": 10903,
+      "projection_fields": null,
+      "numeric_fields_preserved": false
+    },
+    {
+      "source": "20261021-abcd-native-execution/campaigns/abcd-native-20261021-v6/analysis/B-gpu.csv",
+      "published": "evidence/20261031/abcd/B-gpu.csv",
+      "source_sha256": "0418849c6bbe844896fba95220dc2ad94570da30666741de08826b47147116a5",
+      "published_sha256": "21bd817f709440a99b084c59446231aef13f372a801b8a07798ff3a4d56de2f2",
+      "source_bytes": 1474,
+      "published_bytes": 1345,
+      "projection_fields": null,
+      "numeric_fields_preserved": false
+    },
+    {
+      "source": "20261021-abcd-native-execution/campaigns/abcd-native-20261021-v6/analysis/B-candidates.csv",
+      "published": "evidence/20261031/abcd/B-candidates.csv",
+      "source_sha256": "a29d9fcadb119e659745dc935b8603adc683a3ebc62525dbd454af6659f49f66",
+      "published_sha256": "21d3e376e216d8138235afc6161f0131f5cea26a94d92dd2bdd12a7885738efa",
+      "source_bytes": 10934,
+      "published_bytes": 10920,
+      "projection_fields": null,
+      "numeric_fields_preserved": false
+    },
+    {
+      "source": "20261021-abcd-native-execution/campaigns/abcd-native-20261021-v6/analysis/C-gpu.csv",
+      "published": "evidence/20261031/abcd/C-gpu.csv",
+      "source_sha256": "083d42c3b762e0b2e11d86f5f10cb04390678874d37080d731cbafc865e6457d",
+      "published_sha256": "fc622be6370c0deeca7ee96376e1914b147d35c66ed5d32b07087940b3870eee",
+      "source_bytes": 1481,
+      "published_bytes": 1352,
+      "projection_fields": null,
+      "numeric_fields_preserved": false
+    },
+    {
+      "source": "20261021-abcd-native-execution/campaigns/abcd-native-20261021-v6/analysis/C-candidates.csv",
+      "published": "evidence/20261031/abcd/C-candidates.csv",
+      "source_sha256": "722b3ea8c305a78d49ef48d4777aebf4fbc506814ff10b30382bdada5f97ad93",
+      "published_sha256": "668ee0eb63d39e01ca63b319826b9051d38d1b37bcdf02f4715fa2990fd14d78",
+      "source_bytes": 10951,
+      "published_bytes": 10937,
+      "projection_fields": null,
+      "numeric_fields_preserved": false
+    },
+    {
+      "source": "20261021-abcd-native-execution/campaigns/abcd-native-20261021-v6/analysis/D-gpu.csv",
+      "published": "evidence/20261031/abcd/D-gpu.csv",
+      "source_sha256": "56d226921b5d9a5f61d26bcbf6e4c85291df2671453dd428f98a14d1fdc2c5ef",
+      "published_sha256": "491c80125feb9847364c08cca4fa3b442cf579e0c907ea6c0843315681aa679b",
+      "source_bytes": 1469,
+      "published_bytes": 1340,
+      "projection_fields": null,
+      "numeric_fields_preserved": false
+    },
+    {
+      "source": "20261021-abcd-native-execution/campaigns/abcd-native-20261021-v6/analysis/D-candidates.csv",
+      "published": "evidence/20261031/abcd/D-candidates.csv",
+      "source_sha256": "8aa7ba1c257bb59caa073bc1c9d992306f50f3cb69c7f8bb364943f706b94ce4",
+      "published_sha256": "d16a6f97b913c23049912bae3a7069a358e6dc6040e2f266bf2fe9cffebaec15",
+      "source_bytes": 10979,
+      "published_bytes": 10965,
+      "projection_fields": null,
+      "numeric_fields_preserved": false
+    },
+    {
+      "source": "20261024-search-debug/artifacts/evidence.json",
+      "published": "evidence/20261031/search/SOURCE-INDEX.json",
+      "source_sha256": "0126fe8c60cf6002a3bb18e4881aa24c3a48aa2ad34ee2cc5eb92b42f3995d55",
+      "published_sha256": "b874cbb8edef4c047929a9c540975ec901cb86fb6b1d48f710472b69d955e66d",
+      "source_bytes": 1765590,
+      "published_bytes": 58011,
+      "projection_fields": [
+        "id",
+        "kind",
+        "url",
+        "repository",
+        "commit_sha",
+        "blob_sha",
+        "captured_text_sha256",
+        "commit_binding_checked",
+        "catalog_referenced_paths"
+      ],
+      "numeric_fields_preserved": false
+    }
+  ],
+  "excluded": [
+    "weights",
+    "videos",
+    "images",
+    "raw agent/API logs",
+    "credentials",
+    "full telemetry",
+    "third-party source/README captures",
+    "uncommitted runtime code"
+  ],
+  "transformations": [
+    "private paths and GPU UUIDs redacted",
+    "selected Markdown links rewritten",
+    "unpublished links rendered as plain retained-artifact labels",
+    "CSV record line endings normalized to LF",
+    "large analysis JSON projected onto declared fields; numeric leaves preserved"
+  ]
+}

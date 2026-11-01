@@ -1,0 +1,42 @@
+name,canonical_url,axis,training,code_status,target_triage,local_validation,repositories,notes
+Sparse VideoGen 1,https://arxiv.org/abs/2502.01776,attention_pairs,training_free,implementation_present,needs_port_check,NOT_RUN,['svg-project/Sparse-VideoGen'],时空模式路由；当前源文件中存在 SVG Processor。并不表示现有环境已编译或通过质量验收。
+Sparse VideoGen 2,https://arxiv.org/abs/2505.18875,attention_pairs,training_free,implementation_present,needs_port_check,NOT_RUN,['svg-project/Sparse-VideoGen'],语义聚类与 token 重排；共享仓库但有独立论文与 SAP Processor，不按仓库合并掉。
+SVG-EAR,https://arxiv.org/abs/2603.08982,sparse_plus_linear,training_free,implementation_present,needs_port_check,NOT_RUN,['svg-project/Sparse-VideoGen'],稀疏加误差感知 routing 与参数免训练的线性补偿；有独立论文与 EAR Processor。不是只把更多 attention pair 删除。
+SpargeAttention,https://arxiv.org/abs/2502.18137,attention_pairs,training_free,implementation_present,priority_static_candidate,NOT_RUN,['thu-ml/SpargeAttn'],公开实现含 Ampere 路线；需要区分稀疏与所用量化后端，不能将不同 API 记为不同论文。
+SpargeAttention2,https://arxiv.org/abs/2602.13515,attention_pairs,training_required,unverified,requires_changed_weights,NOT_RUN,['thu-ml/SpargeAttn'],论文包含 Top-k+Top-p 与蒸馏微调；原仓库列出引用不等于已定位 v2 完整训练实现。
+Sliding Tile Attention (STA),https://arxiv.org/abs/2502.04507,attention_pairs,training_free,implementation_present,needs_port_check,NOT_RUN,['Mutual-Luo/SparseVideo'],论文身份已核对；此次实现证据来自 SparseVideo 的第三方集成，非冒称原作者独立仓库。
+VSA,https://arxiv.org/abs/2505.13389,attention_pairs,training_required,implementation_present,requires_changed_weights,NOT_RUN,['hao-ai-lab/FastVideo'],可训练 coarse/fine 稀疏；FastVideo 是实现宿主，不另外计为一种算法。该路径是当前 VSA 训练内核，非保证论文版本逐位相同。
+VSA2,https://arxiv.org/abs/2609.32882,attention_pairs,training_required,not_located,requires_changed_weights,NOT_RUN,[],细粒度路由与 sparse rebasing；论文已确认，本轮未确认对应版本代码。
+Radial Attention,https://arxiv.org/abs/2506.19852,attention_pairs,training_free_optional_extension_tuning,implementation_present,needs_port_check,NOT_RUN,['mit-han-lab/radial-attention'],径向时空局部模式；默认长度训练免，延长视频的 LoRA 是另一配置，不可混为原权重设置。
+DraftAttention,https://arxiv.org/abs/2505.14708,attention_pairs,training_free,implementation_present,priority_static_candidate,NOT_RUN,['shawnricecake/draft-attention'],低分辨率 draft 引导块选择；README 给出 A100 和 90% 稀疏示例，非本地实测结论。
+Pyramid Sparse Attention (PSA),https://arxiv.org/abs/2512.04025,attention_pairs,training_free_optional_distillation,implementation_present,priority_static_candidate,NOT_RUN,['ziplab/Pyramid-Sparse-Attention'],金字塔块选择；有 Wan2.1-1.3B 入口。PSA 与 PSA+TDM 分开，后者改动权重和步数。
+SVOO,https://arxiv.org/abs/2603.18636,attention_pairs,training_free_calibration,implementation_present,priority_static_candidate,NOT_RUN,['Mutual-Luo/SVOO'],离线 profiling + 在线 QK 协同聚类；README 有 Wan1.3B/40GB 路线。当前源码还集成 EAR，未来需拆清组合开关。
+AdaCluster,https://arxiv.org/abs/2604.18348,attention_pairs,training_free,implementation_present,priority_static_candidate,NOT_RUN,['USTC-MLSys/Adacluster'],自适应 QK 聚类；仓库没有 README，但有 Wan/CogVideo/Hunyuan 实现，README 404 不能判没有源码。
+DFSAttn,https://arxiv.org/abs/2605.23445,attention_pairs,training_free,implementation_present,priority_static_candidate,NOT_RUN,['jessica-hujie/DFSAttn'],3D Hilbert 顺序、层级块选择与 mask reuse；作者注明 SM80 构建方式，但给出的 Wan 入口是 14B，1.3B 仍需核对。
+LiteAttention,https://arxiv.org/abs/2511.11062,attention_pairs,training_free,implementation_present,hardware_restricted,NOT_RUN,['moonmath-ai/LiteAttention'],时间维稀疏决策复用；作者明确 H100/H200 或 MI300X 要求，保留发现记录，不宣称当前 A100 可运行。
+CalibAtt,https://arxiv.org/abs/2603.05503,attention_pairs,training_free_calibration,implementation_present,hardware_restricted,NOT_RUN,['apple-aiml-research/ml-calibatt'],先校准再应用稀疏 mask；作者列 Hopper 要求，校准成本必须纳入后续实验。
+SparsePR,https://arxiv.org/abs/2608.18484,sparse_plus_residual,training_free,implementation_present,needs_port_check,NOT_RUN,['PardisTaghavi/SparsePR'],分区与残差重建；作者推荐 H100，并非证明所有代码硬性拒绝 A100；当前 Wan2.2 I2V 入口不等同 Wan1.3B T2V。
+VecAttention,https://arxiv.org/abs/2603.29494,attention_pairs,training_free,implementation_present,priority_static_candidate,NOT_RUN,['anminliu/VecAttention'],向量级稀疏，有 A100 构建说明与 Wan14B 入口；不得为更快擅自采用 README 中 CFG=0 等不同任务设置。
+HEART,https://arxiv.org/abs/2605.14513,attention_pairs,training_free,not_located,source_only,NOT_RUN,[],利用 attention head 异质性、刷新与预算分配；同一 arXiv 的旧名 HASTE 只计一次。
+Compact Attention,https://arxiv.org/abs/2508.12969,attention_pairs,not_fully_resolved,not_located,source_only,NOT_RUN,[],视频论文为时空 tiling 与配置搜索；排除同名 LLM chunked-prefill 仓库。
+RainFusion,https://arxiv.org/abs/2505.21036,attention_pairs,training_free,not_located,source_only,NOT_RUN,[],Spatial/Temporal/Textural 模式与在线识别；论文已核对，作者实现本轮未定位。
+RainFusion2.0,https://arxiv.org/abs/2512.24086,attention_pairs,not_fully_resolved,not_located,source_only,NOT_RUN,[],块均值预测、时空 permutation、首帧 sink；作者实现本轮未定位。
+AdaSpa,https://arxiv.org/abs/2502.21079,attention_pairs,training_free,not_located,source_only,NOT_RUN,[],动态块模式和 fused LSE-cached search；本轮不能以同名无关仓库充当作者实现。
+Sparse-vDiT,https://arxiv.org/abs/2506.03065,attention_pairs,not_fully_resolved,placeholder_only,placeholder,NOT_RUN,['Peyton-Chen/Sparse-vDiT'],捕获的默认分支只有说明与资源，未找到实现代码；不泛化成所有分支永远无代码。
+QuantSparse,https://arxiv.org/abs/2509.23681,sparse_plus_quantization,not_fully_resolved,placeholder_only,placeholder,NOT_RUN,['wlfeng0509/QuantSparse'],量化联合稀疏；捕获分支只有项目说明，不能记为可执行方法。
+SLA,https://arxiv.org/abs/2509.24006,sparse_plus_linear,training_required,implementation_present,requires_changed_weights,NOT_RUN,['thu-ml/SLA'],稀疏与线性分支混合，需要微调；不是当前固定权重的即插即用精确优化。
+SLA2,https://arxiv.org/abs/2602.12675,sparse_plus_linear,training_required,unverified,requires_changed_weights,NOT_RUN,['thu-ml/SLA'],可学习 routing 与量化感知微调；原仓库引用该论文，但此次未绑定 v2 专用实现。
+BLADE,https://arxiv.org/abs/2508.10774,sparse_plus_distillation,training_required,implementation_present,requires_changed_weights,NOT_RUN,['ziplab/BLADE'],块稀疏联合 step distillation；有 Wan1.3B 路线，但更改权重/步数，不能混入冻结 50-step 组。
+VORTA,https://arxiv.org/abs/2505.18809,attention_pairs,training_or_weights_required,implementation_present,requires_changed_weights,NOT_RUN,['wenhao728/VORTA'],路由选择稀疏 attention；仓库提供训练和独立权重，不应只凭摘要无 training 字眼当即插即用。
+Veda,https://arxiv.org/abs/2605.30325,attention_pairs,training_required,implementation_present,requires_changed_weights,NOT_RUN,['veda-sparse/Veda-on-ComfyUI'],蒸馏式 tile selection；此次找到的 ComfyUI 实现针对 MiniMax-H3，不代表 Wan 实现；作者注明 SM80 未实测。
+FPSAttention,https://arxiv.org/abs/2506.04648,sparse_plus_quantization,training_required,placeholder_only,hardware_and_weights_restricted,NOT_RUN,['AkideLiu/FPSAttention'],论文为训练感知 FP8+稀疏、Hopper 内核；当前候选仓库只有网页/PPT，没有 Python/CUDA 实现；另一同名仓库仅个人主页。
+Light Forcing,https://arxiv.org/abs/2602.04789,autoregressive_sparse,training_free,implementation_present,different_architecture,NOT_RUN,['chengtao-lv/LightForcing'],AR 视频扩散稀疏；作者提供 A100 Triton 路径，但不能直接当双向 Wan dense 组件。
+Sparse Forcing,https://arxiv.org/abs/2604.21221,autoregressive_sparse,training_required,not_located,different_architecture,NOT_RUN,[],原生可训练 PBSA；不能沿用二手索引的 training-free 标签。
+FAST-AR,https://arxiv.org/abs/2602.01801,autoregressive_sparse,training_free,not_located,different_architecture,NOT_RUN,[],TempCache + AnnCA + AnnSA；面向 AR KV cache，自回归与双向视频任务分开。
+SparSTAR,https://arxiv.org/abs/2608.10519,autoregressive_sparse,training_free,implementation_present,different_architecture,NOT_RUN,['JIGSAW0612/SparSTAR'],针对 InfinityStar space-time-scale AR；不是 Wan diffusion 替换件。
+Prism,https://arxiv.org/abs/2610.05416,joint_audio_video_sparse,training_required,implementation_present,different_architecture,NOT_RUN,['Tencent-Hunyuan/Prism'],原生高分辨率音视频联合训练稀疏；不与固定 Wan 权重直接比较。
+HyperVAttention,https://arxiv.org/abs/2607.03012,attention_pairs,training_free,implementation_present,needs_port_check,NOT_RUN,['LeeDongYeun/HyperVAttention'],3D 局部聚类、hybrid 更新和硬件对齐合簇；README 顶部 paper 链接遗留错 ID，采用核对后的论文与 BibTeX。
+PISA,https://arxiv.org/abs/2602.01077,sparse_plus_approximation,training_free,implementation_present,needs_port_check,NOT_RUN,['xie-lab-ml/piecewise-sparse-attention'],重要块精确、其余块近似；当前内核主要优化 Hopper，不能由论文 Wan 结果推断 A100 性能。
+FlashOmni,https://arxiv.org/abs/2509.25401,sparse_engine,not_applicable_engine,implementation_present,needs_port_check,NOT_RUN,['qiaolian9/FlashOmni'],支持多个稀疏模式的执行引擎，单列为系统，不包装成另一种 mask 搜索算法。
+SPADE,https://arxiv.org/abs/2608.03335,sparse_engine,training_free,implementation_present,priority_static_candidate,NOT_RUN,['6somehow/DAC-SPADE'],输入自适应稀疏引擎，有 Wan2.1/2.2 和 A100 架构定义；仍需验证真实 dispatch 与依赖构建。
+XAttention,https://arxiv.org/abs/2503.16428,attention_pairs,training_free,implementation_present,needs_port_check,NOT_RUN,['mit-han-lab/x-attention'],反对角采样估计块重要性；作者报告包含视频生成，不把仅限语言模型的方法错误并入。

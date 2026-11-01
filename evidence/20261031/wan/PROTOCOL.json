@@ -1,0 +1,93 @@
+{
+  "budgets": {
+    "dense": 1,
+    "integration": 2,
+    "regular_video_cap": 115,
+    "search_attempts_total": 20
+  },
+  "cold_process_per_prompt": true,
+  "comparison_limit": "new Wan workload and adaptive trajectory; no causal speedup comparison against SANA or prior scheduling arms",
+  "cross_run_experience": false,
+  "few_step_checkpoint_lane": "separate evidence only; catalog matching public checkpoints and report asset/execution readiness",
+  "formal_groups": 1,
+  "maximum_unresolved_candidates_per_executor": 2,
+  "method_search": {
+    "limits": {
+      "attempts": 20,
+      "discovered": 100,
+      "documents": 200,
+      "inspected": 25,
+      "integration": 2,
+      "queries": 50,
+      "selected": 8
+    },
+    "profile": {
+      "attention": "softmax",
+      "cuda": "12.8",
+      "dtype": "bf16",
+      "gpu_sm": 80,
+      "head_dim": 128,
+      "model_family": "wan21",
+      "torch": "2.10.0+cu128"
+    },
+    "schema": "sol-method-search/v2",
+    "sol_menu_reference": {
+      "commit_sha": "d2c6407cc9b9133f3fff49fe4b561f14980d3f8b",
+      "repository": "NVlabs/Sana"
+    },
+    "targets": {
+      "cross_attention": {
+        "attention": "softmax",
+        "head_dim": 128
+      },
+      "mlp": {},
+      "projection": {},
+      "sampler": {
+        "prediction_type": "flow_prediction",
+        "scheduler": "UniPCMultistepScheduler",
+        "training_objective": null
+      },
+      "self_attention": {
+        "attention": "softmax",
+        "head_dim": 128
+      }
+    }
+  },
+  "model_payload_transferred_via_local_bytes": 0,
+  "new_model_download_bytes": 0,
+  "original_one_step_warmup": true,
+  "persistent_models": false,
+  "quality_gates": "original LPIPS55-pair stratified32+worst16 cap48 plus actual native visual, method/OFF and independent Master",
+  "reference": "fresh current-run Wan Dense",
+  "remote_existing_asset_copy_bytes": 0,
+  "resources": {
+    "frame_jobs": 4,
+    "gpu_type": "A100-SXM4-40GB",
+    "gpus": 8,
+    "lpips_jobs": 2,
+    "native_roles": 3
+  },
+  "schema": "sol-wan-method-search-protocol/v1",
+  "software_source_transfer_bytes": 4075439,
+  "source_search_before_gpu_activation": true,
+  "source_transport": "host-authenticated public GitHub plus anonymous public text providers; no role credentials",
+  "timing": "five synchronized Diffusers request wall durations summed; rollout wall separate",
+  "workload": {
+    "cfg": 6,
+    "flow_shift": 3.0,
+    "format": "native_to_diffusers_conversion",
+    "fps": 16,
+    "frames": 81,
+    "height": 480,
+    "model": "Wan2.1-T2V-1.3B",
+    "model_id": "wan21_t2v_1_3b_a100",
+    "negative_prompt": null,
+    "prompts_sha256": "de249238cd19dd5b77de61eb69fd114228d4813a0335a1c794e366bbcd00e7e0",
+    "revision": "37ec512624d61f7aa208f7ea8140a131f93afc9a",
+    "scheduler": "UniPCMultistepScheduler",
+    "seed": 42,
+    "steps": 50,
+    "width": 832,
+    "world_size": 1
+  }
+}

@@ -1,0 +1,200 @@
+{
+  "analysis_sha256": "5b3d3d14ecd1cf190ccfb727339be88d3e8783199344e6921f91f38fb56a78fe",
+  "metrics": {
+    "status": "COMPLETE",
+    "formal_wall_seconds": 8791.405409687024,
+    "validation_status": "INVALID_INFRA_TRIAL",
+    "formal_comparison_eligible": false,
+    "protocol_audit_path": "project://SolAgent/20261022-dag-native-execution/campaigns/dag-native-20261022-v6/CAMPAIGN-VALIDITY.json",
+    "assigned_gpu_hours": 19.536456465971163,
+    "leased_gpu_hours": 0.9695233923427036,
+    "nvml_mean_utilization_percent_observed": 3.6656957898581095,
+    "nvml_formal_window_lower_bound_percent": null,
+    "nvml_formal_window_upper_bound_percent": null,
+    "service_capacity_gpu_hours": 19.531302233373538,
+    "nvml_observed_seconds": 8788.030048033223,
+    "baseline_native_total_s": 640.2012000204995,
+    "budgets": {
+      "cache": 6,
+      "dense": 1,
+      "kernel": 4,
+      "master": 1
+    },
+    "generated_work": {
+      "completed_measured_requests": 20,
+      "failed_measured_requests": 0,
+      "internal_warmup_requests": 20,
+      "retained_video_files": 20
+    },
+    "ready_idle": {
+      "legal_ready_idle_seconds": 0,
+      "legal_ready_idle_gpu_seconds": 0,
+      "eligibility_unknown_seconds": 0,
+      "unsplit_legal_opportunity_seconds": 0,
+      "unsplit_opportunity_gpu_seconds": 0,
+      "definition": "Accepted one-prompt tasks, original per-submit GPU constraints, no role-based GPU0 or canonical barrier. One-second sampled lower-bound opportunity; registered but unsubmitted hypotheses are not scheduler-ready work."
+    },
+    "candidate_latency": {
+      "n": 3,
+      "p50_seconds": 190.95589044317603,
+      "p95_seconds": 319.23961612358687
+    },
+    "api": {
+      "status_counts": [
+        {
+          "role": "cache",
+          "route": "responses",
+          "status": "completed",
+          "count": 30
+        },
+        {
+          "role": "cache",
+          "route": "broker",
+          "status": "broker_completed",
+          "count": 10
+        },
+        {
+          "role": "cache",
+          "route": "responses",
+          "status": "upstream_transport_error",
+          "count": 2
+        },
+        {
+          "role": "kernel",
+          "route": "responses",
+          "status": "completed",
+          "count": 54
+        },
+        {
+          "role": "kernel",
+          "route": "broker",
+          "status": "broker_completed",
+          "count": 48
+        },
+        {
+          "role": "kernel",
+          "route": "broker",
+          "status": "broker_error",
+          "count": 11
+        },
+        {
+          "role": "kernel",
+          "route": "responses",
+          "status": "upstream_transport_error",
+          "count": 6
+        },
+        {
+          "role": "controller",
+          "route": "broker",
+          "status": "broker_completed",
+          "count": 468
+        },
+        {
+          "role": "master",
+          "route": "responses",
+          "status": "completed",
+          "count": 179
+        },
+        {
+          "role": "master",
+          "route": "broker",
+          "status": "broker_completed",
+          "count": 180
+        },
+        {
+          "role": "master",
+          "route": "broker",
+          "status": "broker_error",
+          "count": 32
+        },
+        {
+          "role": "master",
+          "route": "broker",
+          "status": "client_disconnected",
+          "count": 1
+        },
+        {
+          "role": "master",
+          "route": "responses",
+          "status": "upstream_transport_error",
+          "count": 14
+        }
+      ],
+      "request_envelope": {
+        "records_with_size": 285,
+        "records_missing_size": 0,
+        "declared_local_bytes_sum": 3617700726,
+        "max_bytes": 45952249,
+        "p50_bytes": 727045.0,
+        "p95_bytes": 45835352.2,
+        "over_64mib": 0,
+        "limitation": "Declared relay-to-host JSON body sizes, including failed attempts; not exact upstream traffic or model weight downloads. Pre-v6 rows lack this field."
+      },
+      "usage": {
+        "input_tokens": 32540393,
+        "output_tokens": 167097,
+        "total_tokens": 32707490,
+        "cached_tokens": 22052224,
+        "cache_write_tokens": 0,
+        "reasoning_tokens": 67667
+      },
+      "actual_models": {
+        "gpt-6.1-sol": 263,
+        "unknown": 22
+      },
+      "actual_service_tiers": {
+        "default": 263,
+        "unknown": 22
+      },
+      "responses_duration_sum_seconds": 14390.947862880217,
+      "responses_wall_union_seconds": 7742.707232170127
+    },
+    "local_overlap_partition": {
+      "finalized": true,
+      "clock": "local_controller_monotonic",
+      "window_seconds": 8791.405409687024,
+      "seconds": {
+        "api_only": 6180.307739845099,
+        "ssh_only": 246.46755314606708,
+        "api_and_ssh": 1562.3994923250284,
+        "neither_recorded_api_nor_ssh": 802.2306243708299
+      },
+      "limitation": "Recorded request-active intervals, clipped to the arm window. Neither is not CPU idle: it may include GPU work, local tools, uninstrumented transport or waiting. These categories do not attribute causal wall savings."
+    },
+    "generation_milestones": {
+      "clock": "remote_monotonic",
+      "origin": "remote service RUN-START, not local controller START",
+      "groups": {
+        "dense": {
+          "observed_requests": 5,
+          "first_start_offset_seconds": 35.506609161384404,
+          "last_end_offset_seconds": 183.50267508625984
+        },
+        "search": {
+          "observed_requests": 10,
+          "first_start_offset_seconds": 2969.622325748205,
+          "last_end_offset_seconds": 3272.856952686794
+        },
+        "integration": {
+          "observed_requests": 5,
+          "first_start_offset_seconds": 6224.467633283697,
+          "last_end_offset_seconds": 6355.654707797803
+        }
+      },
+      "search_generation_to_first_integration_generation_seconds": 2951.610680596903,
+      "last_generation_to_clean_service_close_seconds": 2433.4312972202897,
+      "limitation": "Same-host observed generate/export boundaries only. Gaps include assessment, API/tool work, evidence transfer, packaging, and next-worker startup; they are not a causal CPU-only attribution. Partial/live groups do not establish search completion."
+    },
+    "delivered_points": {
+      "finalized": true,
+      "unique_points": 2,
+      "by_component": {
+        "kernel": 1,
+        "cache": 0,
+        "integration": 1
+      },
+      "points_per_hour": 0.8189816831864568,
+      "limitation": "Selected Kernel/Cache/integration points passing the frozen small-budget site objective, Master method/visual and image-attestation gates. Not all search decisions, bitwise correctness, blind review or paper-level quality."
+    }
+  }
+}

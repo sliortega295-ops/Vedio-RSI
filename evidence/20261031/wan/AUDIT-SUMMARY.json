@@ -1,0 +1,782 @@
+{
+  "schema": "sol-six-family-study-audit/v1",
+  "run_id": "wan-search-20261024-002",
+  "timestamp": "2026-10-24T19:06:56.474071+00:00",
+  "status": "PASS",
+  "issues": [],
+  "code_hash": "04f706f941818d2bf46cb5f77a55a69e26df745156518a7de097143285c4de1c",
+  "workload": {
+    "cfg": 6,
+    "flow_shift": 3.0,
+    "format": "native_to_diffusers_conversion",
+    "fps": 16,
+    "frames": 81,
+    "height": 480,
+    "model": "Wan2.1-T2V-1.3B",
+    "model_id": "wan21_t2v_1_3b_a100",
+    "negative_prompt": null,
+    "prompts_sha256": "de249238cd19dd5b77de61eb69fd114228d4813a0335a1c794e366bbcd00e7e0",
+    "revision": "37ec512624d61f7aa208f7ea8140a131f93afc9a",
+    "scheduler": "UniPCMultistepScheduler",
+    "seed": 42,
+    "steps": 50,
+    "width": 832,
+    "world_size": 1
+  },
+  "budget_usage": {
+    "queries": 40,
+    "discovered": 53,
+    "inspected": 19,
+    "documents": 54,
+    "selected": 5,
+    "attempts": 15
+  },
+  "funnel": {
+    "kernel": {
+      "queries": 9,
+      "discovered": 2,
+      "exposed_sources": 12,
+      "inspected": 2,
+      "source_complete": 1,
+      "provenance_established": 2,
+      "assessed": 2,
+      "compatible": 1,
+      "selected": 1,
+      "attempted": 1,
+      "validated": 0
+    },
+    "cache": {
+      "queries": 9,
+      "discovered": 3,
+      "exposed_sources": 8,
+      "inspected": 3,
+      "source_complete": 3,
+      "provenance_established": 3,
+      "assessed": 3,
+      "compatible": 3,
+      "selected": 2,
+      "attempted": 2,
+      "validated": 0
+    },
+    "sparse_attention": {
+      "queries": 5,
+      "discovered": 2,
+      "exposed_sources": 7,
+      "inspected": 2,
+      "source_complete": 2,
+      "provenance_established": 2,
+      "assessed": 2,
+      "compatible": 1,
+      "selected": 1,
+      "attempted": 1,
+      "validated": 0
+    },
+    "quantization": {
+      "queries": 3,
+      "discovered": 2,
+      "exposed_sources": 6,
+      "inspected": 2,
+      "source_complete": 1,
+      "provenance_established": 2,
+      "assessed": 2,
+      "compatible": 1,
+      "selected": 1,
+      "attempted": 1,
+      "validated": 0
+    },
+    "token_pruning": {
+      "queries": 6,
+      "discovered": 2,
+      "exposed_sources": 10,
+      "inspected": 2,
+      "source_complete": 1,
+      "provenance_established": 2,
+      "assessed": 2,
+      "compatible": 0,
+      "selected": 0,
+      "attempted": 0,
+      "validated": 0
+    },
+    "few_step": {
+      "queries": 8,
+      "discovered": 2,
+      "exposed_sources": 12,
+      "inspected": 2,
+      "source_complete": 2,
+      "provenance_established": 2,
+      "assessed": 2,
+      "compatible": 0,
+      "selected": 0,
+      "attempted": 0,
+      "validated": 0
+    }
+  },
+  "coverage": {
+    "cache": {
+      "decision": {
+        "assessment_ids": [
+          "a-287599f0209da2441ec3cde2",
+          "a-576c8b6c07b3e2e6d40ca14d",
+          "a-6aba2037257d6845771ee8c0",
+          "a-7ad3a3b026b729add1e5946f",
+          "a-be4635d4c9d9418d1eea5a38",
+          "a-c4d14871da913ea876b2f415",
+          "a-fe8376f5696923cdd651f6fd"
+        ],
+        "evidence": [
+          {
+            "method_id": "m-bd43e83d2eb787398ee546f3",
+            "path": "README.md",
+            "quote": "https://github.com/ali-vilab/TeaCache"
+          },
+          {
+            "method_id": "m-f1d859aa1cb37bdec05cc943",
+            "path": "README.md",
+            "quote": "https://arxiv.org/abs/2507.02860"
+          },
+          {
+            "method_id": "m-b5243829cc8c1901c12bf471",
+            "path": "README.md",
+            "quote": "https://arxiv.org/abs/2503.06923"
+          }
+        ],
+        "query_ids": [
+          "q-135498affd0739a9bc4e8d4c",
+          "q-160e8ca800df4f9598cdccd7",
+          "q-20fa8109324cc7baeddb07ea",
+          "q-595f9003201ed0d316af53b1",
+          "q-5a2499f26ef6d28c36ebe998",
+          "q-946160a28ed857f7048b262b",
+          "q-c35cfcc8dbbe1bb9aaa6925c",
+          "q-f17a2ae0467d4cef0b6b8054",
+          "q-fbf0a3a55d72790414affd59"
+        ],
+        "rationale": "Three distinct author methods (TeaCache, EasyCache, TaylorSeer) have code-inspected Wan paths and tensor-only source adaptations. All are explicitly approximate, use separate CFG histories and require full LPIPS/native gates; published numbers are not local results.",
+        "shortfall": null,
+        "status": "viable"
+      },
+      "evidence_boundary": "Native agent interprets evidence; software verifies references and accounting",
+      "family": "cache",
+      "funnel_at_decision": {
+        "assessed": 3,
+        "attempted": 0,
+        "compatible": 3,
+        "discovered": 3,
+        "exposed_sources": 8,
+        "inspected": 3,
+        "provenance_established": 3,
+        "queries": 9,
+        "selected": 0,
+        "source_complete": 3,
+        "validated": 0
+      },
+      "id": "coverage-7a5dfe49072115d311faa650",
+      "slot_reserved": true,
+      "viable_identity_ids": [
+        "i-e33cc72605aaeebaefc77406",
+        "i-f97ccd7d7b1f1af1c12590d8"
+      ]
+    },
+    "few_step": {
+      "decision": {
+        "assessment_ids": [
+          "a-3a3e051690b2038789f59039",
+          "a-cd06923d56de94c62bd43cf0",
+          "a-f45ec01a9f06a99b330316bf"
+        ],
+        "evidence": [
+          {
+            "document_id": "6b8feff2dd5f887a15fe2da2ec9ca5420b3ceae778fd4095127d63d63e5b4170",
+            "quote": "scheduler_model_output = group_velocity.clone()",
+            "sha256": "4da97da7362176e98e8dc1149e0d840d8049b2eb85283da0e51c63c6554a6dfc"
+          },
+          {
+            "document_id": "c449573c96ecfc22c339bb83770a68ff2b8e75dae3eff10a60221b3988ed12f8",
+            "quote": "assert model_type in [\"noise\", \"x_start\", \"v\", \"score\"]",
+            "sha256": "673c59fd6ec4ce40f339d7335bc00711552cf87ea15acfa3548f5dcca026d9d2"
+          },
+          {
+            "document_id": "dbc047885fcb1d5321c5b1d7a3d5825c73aca9bcbd575a0c1c7e0d8b9158d679",
+            "quote": "Empirical evaluations on Wan 2.2 and HunyuanVideo 1.5",
+            "sha256": "fc3cdc000fdc5795b33ec217fa40bf10ddb3d5c29bdd7e3737000aa58f2a5d6f"
+          },
+          {
+            "document_id": "dbc047885fcb1d5321c5b1d7a3d5825c73aca9bcbd575a0c1c7e0d8b9158d679",
+            "quote": "FIS-DiT reduces computation within each forward pass",
+            "sha256": "fc3cdc000fdc5795b33ec217fa40bf10ddb3d5c29bdd7e3737000aa58f2a5d6f"
+          }
+        ],
+        "query_ids": [
+          "q-2a268c7e17498cb1d35aac70",
+          "q-458a9f71a9e2db0408ccd550",
+          "q-6891d72946967f097ba4bb8b",
+          "q-893f4be0b7210e47fe425b57",
+          "q-9e9024c6634fb6034b151180",
+          "q-a24e21aeee593e06646ed727",
+          "q-c3a6dc4c8eaf8fe1d4558393"
+        ],
+        "rationale": "RhymeFlow's released Wan adaptation is a frame-dependent asynchronous schedule and was assessed on that axis. Its custom subset-update/projected multistep loop has unresolved mapping to the trusted one-iteration-per-declared-step observation interface; not dismissed as an attention mismatch. DPM-Solver's inspected VP conventions do not establish conversion for Wan flow_prediction. FIS-DiT paper describes within-forward latent-frame reconstruction on distilled Wan2.2/HunyuanVideo1.5, but no author implementation was located by scoped repository searches. No reduced-step checkpoint substitution or unsupported counters.",
+        "shortfall": {
+          "evidence": [
+            {
+              "document_id": "dbc047885fcb1d5321c5b1d7a3d5825c73aca9bcbd575a0c1c7e0d8b9158d679",
+              "quote": "Empirical evaluations on Wan 2.2 and HunyuanVideo 1.5",
+              "sha256": "fc3cdc000fdc5795b33ec217fa40bf10ddb3d5c29bdd7e3737000aa58f2a5d6f"
+            },
+            {
+              "document_id": "c449573c96ecfc22c339bb83770a68ff2b8e75dae3eff10a60221b3988ed12f8",
+              "quote": "class NoiseScheduleVP:",
+              "sha256": "673c59fd6ec4ce40f339d7335bc00711552cf87ea15acfa3548f5dcca026d9d2"
+            },
+            {
+              "document_id": "6b8feff2dd5f887a15fe2da2ec9ca5420b3ceae778fd4095127d63d63e5b4170",
+              "quote": "scheduler_model_output = group_velocity.clone()",
+              "sha256": "4da97da7362176e98e8dc1149e0d840d8049b2eb85283da0e51c63c6554a6dfc"
+            }
+          ],
+          "rationale": "Three distinct source-grounded names were screened; RhymeFlow and DPM-Solver core code inspected, FIS-DiT paper fetched and exact/name/target repository queries yielded unrelated fish-detection projects rather than author code. No third complete executable source identity, and no current compatible schedule after accounting/model requirements."
+        },
+        "status": "no_viable_method"
+      },
+      "evidence_boundary": "Native agent interprets evidence; software verifies references and accounting",
+      "family": "few_step",
+      "funnel_at_decision": {
+        "assessed": 2,
+        "attempted": 0,
+        "compatible": 0,
+        "discovered": 2,
+        "exposed_sources": 12,
+        "inspected": 2,
+        "provenance_established": 2,
+        "queries": 8,
+        "selected": 0,
+        "source_complete": 2,
+        "validated": 0
+      },
+      "id": "coverage-4b8ec860b364385f2477e3eb",
+      "slot_reserved": false,
+      "viable_identity_ids": []
+    },
+    "kernel": {
+      "decision": {
+        "assessment_ids": [
+          "a-15b5c9effb76193b345cdcb0",
+          "a-52f5d2c985e25e8d989e56e9",
+          "a-9036eeabc893725076fef0fe",
+          "a-f043c9a3994e0261b1e67f05"
+        ],
+        "evidence": [
+          {
+            "method_id": "m-b90227efae62607ef706b1e2",
+            "path": "README.md",
+            "quote": "Support H100, A100, 4090"
+          },
+          {
+            "document_id": "dfe3f0ecc0d880f1d53cdcc8a80a84f28d25b009c402f40b9ad676ec0f8ca06c",
+            "quote": "All arithmetic is fp32 regardless of I/O dtype.",
+            "sha256": "46583ea81eeba67bcce74d9603e432f57b0883c8cf1ce5fc17a4fbff2025a16b"
+          },
+          {
+            "document_id": "ac9882278f173bff760352c5449711d377c442626a6e20d3b5ff14e87cc3f567",
+            "quote": "Only DiT submodules that declare `_compile_conditions` are compiled",
+            "sha256": "824b9297d5bfa1b30066f590fa1c64032fe419b64b2b7628c5c4eaaa8ede7ba6"
+          }
+        ],
+        "query_ids": [
+          "q-171bf57db88e4847b25a3d79",
+          "q-3153c576d45cd2670078385a",
+          "q-55e9106ae5e83c9572236d53",
+          "q-7591b166f15ef1c5f4d68225",
+          "q-814a48c54a0473da993c363c",
+          "q-8959948e57ed4affa388d52a",
+          "q-92bd6950240c24ad1522e104",
+          "q-f4739e2d901ef8f7b4e29f48",
+          "q-fb30374ba0733177b25ea3c0"
+        ],
+        "rationale": "Exact residual/LayerNorm/modulation fusion is source-compatible with frozen local Wan execution. Dense FA2 algorithm matches BF16/head128/SM80 but its external extension is absent. FastVideo is used as a hub, with actual norm core read; no framework-wide speed claim. Compiler fusion is separately screened in current docs, with no numeric-output gate.",
+        "shortfall": {
+          "evidence": [
+            {
+              "document_id": "715bd5990e717b3a3e8bf61c782043d2e5bde38e5e3648a4c7e95dedbc024822",
+              "quote": "enable_torch_compile=True",
+              "sha256": "6718b42d139fdbd0f2a46ce3124d507c0f225ca422f06d2ea71c76e35115c9cc"
+            },
+            {
+              "document_id": "ac9882278f173bff760352c5449711d377c442626a6e20d3b5ff14e87cc3f567",
+              "quote": "There is a **one-time graph-build cost** on the first generation",
+              "sha256": "824b9297d5bfa1b30066f590fa1c64032fe419b64b2b7628c5c4eaaa8ede7ba6"
+            }
+          ],
+          "rationale": "Two distinct canonical kernel implementations were code-inspected. Unofficial FlashAttention wheels deduplicate to FA2 and do not add a method. Compilation is a third mechanism screened from the hub docs/example, but not a separately complete author-core integration in this initial funnel; no nonexistent third method is invented."
+        },
+        "status": "viable"
+      },
+      "evidence_boundary": "Native agent interprets evidence; software verifies references and accounting",
+      "family": "kernel",
+      "funnel_at_decision": {
+        "assessed": 2,
+        "attempted": 0,
+        "compatible": 1,
+        "discovered": 2,
+        "exposed_sources": 12,
+        "inspected": 2,
+        "provenance_established": 2,
+        "queries": 9,
+        "selected": 0,
+        "source_complete": 1,
+        "validated": 0
+      },
+      "id": "coverage-81ce6d4d9451a7dc7715d08c",
+      "slot_reserved": true,
+      "viable_identity_ids": [
+        "i-d89345e11bb2905e92a256f8"
+      ]
+    },
+    "quantization": {
+      "decision": {
+        "assessment_ids": [
+          "a-396b5974c169fce934dad40d",
+          "a-d6aae13ea5e216d9bab101b3"
+        ],
+        "evidence": [
+          {
+            "document_id": "77a89ce80ad884fcab4ea1a8ebf70c7af1db8fcfd63f6d41a18e5b7ed04c4e9c",
+            "quote": "q_int8 = torch.empty(q.shape, dtype=torch.int8, device=q.device)",
+            "sha256": "990b4881fb5e8d70b59fa7b796dab20693c82761175ee51fc4c5329d51e1d377"
+          },
+          {
+            "document_id": "49d1a63fdde2f94e0421076abb72473cea838c8e4cc30a4574adc2054aaa9334",
+            "quote": "pipe.transformer.load_state_dict(quant_state_dict, strict=False)",
+            "sha256": "2a30d899a61755efdc577629864e0c716f70b127776ebaecbb77efe577edff18"
+          },
+          {
+            "document_id": "918b6574d963e6f1bec4dca67f9bf1860e70fd2e3bcf18bd2e69f6361c009a2f",
+            "quote": "sm_120a/sm_121a via fastvideo-kernel build.sh; sm_100a/sm_103a via flash-attention-fp4",
+            "sha256": "28d0fb2440508f6c7765540f0f19f392b8425f76ca6ed91274c089f10b8bfded"
+          }
+        ],
+        "query_ids": [
+          "q-774a37bb6e0069a2a1af5f2f",
+          "q-9902a9061f48e851d109c6f7",
+          "q-d2e30a64152b7abdd74c99c8"
+        ],
+        "rationale": "SageAttention's pure Triton INT8-QK/FP16-PV source is executable through a scoped in-memory adaptation on SM80; no package install, new weights or checkpoint replacement. QVGen is excluded because required trained quantization state is unavailable and training/checkpoint substitution is prohibited. A third route, FP4 Attn-QAT/Sage3 as indexed by FastVideo, is Blackwell-only and excluded on A100.",
+        "shortfall": {
+          "evidence": [
+            {
+              "document_id": "918b6574d963e6f1bec4dca67f9bf1860e70fd2e3bcf18bd2e69f6361c009a2f",
+              "quote": "sm_120a/sm_121a via fastvideo-kernel build.sh; sm_100a/sm_103a via flash-attention-fp4",
+              "sha256": "28d0fb2440508f6c7765540f0f19f392b8425f76ca6ed91274c089f10b8bfded"
+            }
+          ],
+          "rationale": "Two canonical methods code-inspected, plus a third named FP4 route screened from actual pinned hub/backend source; no third source-compatible identity is claimed because its hardware excludes SM80."
+        },
+        "status": "viable"
+      },
+      "evidence_boundary": "Native agent interprets evidence; software verifies references and accounting",
+      "family": "quantization",
+      "funnel_at_decision": {
+        "assessed": 2,
+        "attempted": 0,
+        "compatible": 1,
+        "discovered": 2,
+        "exposed_sources": 6,
+        "inspected": 2,
+        "provenance_established": 2,
+        "queries": 3,
+        "selected": 0,
+        "source_complete": 1,
+        "validated": 0
+      },
+      "id": "coverage-9893d01dd23e2d230aa94a6c",
+      "slot_reserved": true,
+      "viable_identity_ids": [
+        "i-2bff79adfd47097cfd03474d"
+      ]
+    },
+    "sparse_attention": {
+      "decision": {
+        "assessment_ids": [
+          "a-50d030d129de635d49b131a6",
+          "a-b7f240bf0c5aa6b2c0d34489"
+        ],
+        "evidence": [
+          {
+            "document_id": "8fddbe7b4ddf6bf3dbf3ed33f7f6ab8d921bde72c5cfee6f332ebe1e0de836ff",
+            "quote": "sampled_attn_weights = F.softmax(sampled_qk_scores, dim=-1)",
+            "sha256": "b3899c3f06df58822899ecc4f83335df1adf8f7c2983661295c3ba5182d11c9c"
+          },
+          {
+            "document_id": "23da21e364575edbb1fe30a3d0820457e13740dbcc91eb0450db0aad31b611bc",
+            "quote": "import spas_sage_attn._qattn as qattn",
+            "sha256": "24656fd6de6952e99bcba78ec56109d9c2075df3675efab80ca7541c32c8d3e7"
+          },
+          {
+            "document_id": "4271cd9f1a9a8e2a28b861e812d54707ba5e0eedb19ddd3a050a56ec66103a1c",
+            "quote": "STA inference integration is archived from `main`.",
+            "sha256": "48206775054e1d488ceb5d17b1160d3f7b10c155d885ffe7dc583d24a78930f1"
+          },
+          {
+            "document_id": "832d5a937d8ef0389cc4bb91581180cb09f16489e984edfb3d30985342de5691",
+            "quote": "ThunderKittens kernels below use Hopper `wgmma`/TMA (sm_90a).",
+            "sha256": "d09259c3682f267b25e64bba4dd1febf1db1088369fcf4d3029a08789e2d4c79"
+          }
+        ],
+        "query_ids": [
+          "q-663f5d2211188de939785134",
+          "q-6a8363ef7bf7f001be6193c1",
+          "q-75ab0a5ac8abfbb19891ad9c",
+          "q-da8ba61083e71f4949a4ee0b"
+        ],
+        "rationale": "SVG1's actual softmax sampled-head spatial/temporal masking can be adapted to installed torch flex_attention without installing FlashInfer. SpargeAttn has a real SM80/head128 route but requires unavailable compiled extensions; not selected. STA is additionally screened as a separate method: current integration archived and preserved CUDA core is Hopper-specific, not executable on A100. Do not conflate frame scheduling with sparse token-pair attention.",
+        "shortfall": {
+          "evidence": [
+            {
+              "document_id": "4271cd9f1a9a8e2a28b861e812d54707ba5e0eedb19ddd3a050a56ec66103a1c",
+              "quote": "https://github.com/hao-ai-lab/FastVideo/tree/sta_do_not_delete",
+              "sha256": "48206775054e1d488ceb5d17b1160d3f7b10c155d885ffe7dc583d24a78930f1"
+            },
+            {
+              "document_id": "832d5a937d8ef0389cc4bb91581180cb09f16489e984edfb3d30985342de5691",
+              "quote": "ThunderKittens kernels below use Hopper `wgmma`/TMA (sm_90a).",
+              "sha256": "d09259c3682f267b25e64bba4dd1febf1db1088369fcf4d3029a08789e2d4c79"
+            }
+          ],
+          "rationale": "Three named mechanisms were screened, two canonical methods code-inspected. STA was source-read through the pinned framework core/docs rather than a third inspection/identity card; its released hardware path excludes SM80."
+        },
+        "status": "viable"
+      },
+      "evidence_boundary": "Native agent interprets evidence; software verifies references and accounting",
+      "family": "sparse_attention",
+      "funnel_at_decision": {
+        "assessed": 2,
+        "attempted": 0,
+        "compatible": 1,
+        "discovered": 2,
+        "exposed_sources": 7,
+        "inspected": 2,
+        "provenance_established": 2,
+        "queries": 5,
+        "selected": 0,
+        "source_complete": 2,
+        "validated": 0
+      },
+      "id": "coverage-f1207616e72505e995484906",
+      "slot_reserved": true,
+      "viable_identity_ids": [
+        "i-adddb3d9f9c4274720f32bfc"
+      ]
+    },
+    "token_pruning": {
+      "decision": {
+        "assessment_ids": [
+          "a-6704f4ccb47d52df39dbe469",
+          "a-9b9c4b4b4358a7249c1fcb14"
+        ],
+        "evidence": [
+          {
+            "document_id": "ecd727b438c3a1906b897a5a410db0a4375e8556ec580f4db7313a80f8b72d35",
+            "quote": "if isinstance_str(module, \"BasicTransformerBlock\"):",
+            "sha256": "578e1f49b37e3a70e69fdbb47e9248b8dc2f81d2cddde63547f8460da6334940"
+          },
+          {
+            "document_id": "b308c4b4b6b44474f30d848060bc59d6f27bffd59c5f94fc614fcd526d1c515f",
+            "quote": "Patches a stable diffusion model with VidToMe.",
+            "sha256": "061f6b115561bbce86b4a7f683e1d37d72b8fefab0fe11a6fc46467d2840c51b"
+          },
+          {
+            "document_id": "ddfdb0e849b7597508a4eefbcd16a55ce6839e0b28a6b274583930377d03ddb3",
+            "quote": "multi-modal video understanding",
+            "sha256": "be6d11428aba620640df16a92dd77b94754f84b5897dcdb8f078a5ac6a96fb64"
+          },
+          {
+            "document_id": "3af2a3f5bfc6adda93c7f247e36e104eb54d6a76f3d553d66ec6fd79d31701e2",
+            "quote": "I3D SLOW, TPN, and R(2+1)D",
+            "sha256": "785f85a6964e8f1a292c1b68c8cac7e9ec3ac9457b0fef6e4eec0cd37347e7f1"
+          }
+        ],
+        "query_ids": [
+          "q-1148d07051cc61cd345fa847",
+          "q-23f35e8bda08d487773ac77e",
+          "q-8851acc163ebc58d1082b696",
+          "q-913ac5b6ab9c10a7e8b6795b",
+          "q-c304558f0f000f5be1e6af7c",
+          "q-e640c77dc4f4ffcbe71cff50"
+        ],
+        "rationale": "ToMeSD/VidToMe have actual merge/patch source but their released entrypoints are Stable Diffusion BasicTransformerBlock/2D editing, not Wan 3D RoPE; a source-backed Wan coordinate-preserving adaptation is unresolved. PruneVid targets video LLM question-conditioned token retention. ReToMe-VA targets action-recognition adversarial videos. Neither establishes a Wan T2V method. Forks deduplicate and unrelated query hits are not methods.",
+        "shortfall": {
+          "evidence": [
+            {
+              "document_id": "ddfdb0e849b7597508a4eefbcd16a55ce6839e0b28a6b274583930377d03ddb3",
+              "quote": "leveraging attention mechanisms within LLMs to retain only the visual tokens relevant to questions",
+              "sha256": "be6d11428aba620640df16a92dd77b94754f84b5897dcdb8f078a5ac6a96fb64"
+            },
+            {
+              "document_id": "3af2a3f5bfc6adda93c7f247e36e104eb54d6a76f3d553d66ec6fd79d31701e2",
+              "quote": "You need to prepare the video datasets",
+              "sha256": "785f85a6964e8f1a292c1b68c8cac7e9ec3ac9457b0fef6e4eec0cd37347e7f1"
+            }
+          ],
+          "rationale": "At least three distinct named algorithms were examined, with two core-code inspections; no source-compatible 3D Wan token-pruning integration or required source-video assets were established. One attempted ReToMe inspection returned HTTP 404 for requested paths; pinned README subsequently supplied exclusion evidence instead of a fabricated card."
+        },
+        "status": "no_viable_method"
+      },
+      "evidence_boundary": "Native agent interprets evidence; software verifies references and accounting",
+      "family": "token_pruning",
+      "funnel_at_decision": {
+        "assessed": 2,
+        "attempted": 0,
+        "compatible": 0,
+        "discovered": 2,
+        "exposed_sources": 10,
+        "inspected": 2,
+        "provenance_established": 2,
+        "queries": 6,
+        "selected": 0,
+        "source_complete": 1,
+        "validated": 0
+      },
+      "id": "coverage-da4f6e2ed7e53c7a0533be5a",
+      "slot_reserved": false,
+      "viable_identity_ids": []
+    }
+  },
+  "selected_sources": [
+    {
+      "family": "quantization",
+      "identity": "i-2bff79adfd47097cfd03474d",
+      "method_id": "m-1d4a1669125d7064eb861d30",
+      "sol_menu": {
+        "classification": "extension",
+        "evidence": [
+          {
+            "document_id": "544148a596b06b713a0decbcd4e521772350f646e6d3de578b7aba51eac61905",
+            "quote": "Sol-Engine composes the five\nmethods across these levels.",
+            "sha256": "61903eb173910c70eedfb3a91dac6c04446d3132b2306c1c9d4bc81e89332a9e"
+          },
+          {
+            "method_id": "m-1d4a1669125d7064eb861d30",
+            "path": "README.md",
+            "quote": "https://arxiv.org/abs/2410.02367"
+          }
+        ],
+        "rationale": "The frozen Sol menu lists a related family, but does not establish this canonical method as an existing named Sol-menu algorithm; preserve its original identity as an extension.",
+        "reference": {
+          "commit_sha": "d2c6407cc9b9133f3fff49fe4b561f14980d3f8b",
+          "repository": "NVlabs/Sana"
+        }
+      }
+    },
+    {
+      "family": "kernel",
+      "identity": "i-d89345e11bb2905e92a256f8",
+      "method_id": "m-b90227efae62607ef706b1e2",
+      "sol_menu": {
+        "classification": "known",
+        "evidence": [
+          {
+            "document_id": "544148a596b06b713a0decbcd4e521772350f646e6d3de578b7aba51eac61905",
+            "quote": "fuse the memory-bound DiT glue (AdaLN, QK-norm+RoPE, gates, FFN)",
+            "sha256": "61903eb173910c70eedfb3a91dac6c04446d3132b2306c1c9d4bc81e89332a9e"
+          },
+          {
+            "document_id": "dfe3f0ecc0d880f1d53cdcc8a80a84f28d25b009c402f40b9ad676ec0f8ca06c",
+            "quote": "Triton-fused residual + LayerNorm + scale/shift for inference.",
+            "sha256": "46583ea81eeba67bcce74d9603e432f57b0883c8cf1ce5fc17a4fbff2025a16b"
+          }
+        ],
+        "rationale": "The pinned Sol menu explicitly includes AdaLN/gates memory-bound DiT fusion. This specific implementation is a source starting point for that known fusion family.",
+        "reference": {
+          "commit_sha": "d2c6407cc9b9133f3fff49fe4b561f14980d3f8b",
+          "repository": "NVlabs/Sana"
+        }
+      }
+    },
+    {
+      "family": "cache",
+      "identity": "i-f97ccd7d7b1f1af1c12590d8",
+      "method_id": "m-bd43e83d2eb787398ee546f3",
+      "sol_menu": {
+        "classification": "known",
+        "evidence": [
+          {
+            "document_id": "544148a596b06b713a0decbcd4e521772350f646e6d3de578b7aba51eac61905",
+            "quote": "reuse a denoise step's output (TeaCache / EasyCache / fix-step)",
+            "sha256": "61903eb173910c70eedfb3a91dac6c04446d3132b2306c1c9d4bc81e89332a9e"
+          },
+          {
+            "document_id": "005a19b59889a0052681b2afce99f3b94360d9da0de4036ccdd5c49b853d138f",
+            "quote": "self.accumulated_rel_l1_distance_even",
+            "sha256": "97af76136337869152f3d6fe9e049cadc2c480740c492749fcd5efa80d9bf7ee"
+          }
+        ],
+        "rationale": "The pinned original Sol cache menu explicitly names this method.",
+        "reference": {
+          "commit_sha": "d2c6407cc9b9133f3fff49fe4b561f14980d3f8b",
+          "repository": "NVlabs/Sana"
+        }
+      }
+    },
+    {
+      "family": "sparse_attention",
+      "identity": "i-adddb3d9f9c4274720f32bfc",
+      "method_id": "m-bb39236f5fa11ab533e89b4d",
+      "sol_menu": {
+        "classification": "extension",
+        "evidence": [
+          {
+            "document_id": "544148a596b06b713a0decbcd4e521772350f646e6d3de578b7aba51eac61905",
+            "quote": "Sol-Engine composes the five\nmethods across these levels.",
+            "sha256": "61903eb173910c70eedfb3a91dac6c04446d3132b2306c1c9d4bc81e89332a9e"
+          },
+          {
+            "method_id": "m-bb39236f5fa11ab533e89b4d",
+            "path": "README.md",
+            "quote": "https://arxiv.org/abs/2502.01776"
+          }
+        ],
+        "rationale": "The frozen Sol menu lists a related family, but does not establish this canonical method as an existing named Sol-menu algorithm; preserve its original identity as an extension.",
+        "reference": {
+          "commit_sha": "d2c6407cc9b9133f3fff49fe4b561f14980d3f8b",
+          "repository": "NVlabs/Sana"
+        }
+      }
+    },
+    {
+      "family": "cache",
+      "identity": "i-e33cc72605aaeebaefc77406",
+      "method_id": "m-f1d859aa1cb37bdec05cc943",
+      "sol_menu": {
+        "classification": "known",
+        "evidence": [
+          {
+            "document_id": "544148a596b06b713a0decbcd4e521772350f646e6d3de578b7aba51eac61905",
+            "quote": "reuse a denoise step's output (TeaCache / EasyCache / fix-step)",
+            "sha256": "61903eb173910c70eedfb3a91dac6c04446d3132b2306c1c9d4bc81e89332a9e"
+          },
+          {
+            "document_id": "74e4493a1c58da89da5bc5f078483f7f5cd15f5eedcb3824865e3e735ed08552",
+            "quote": "def easycache_forward(",
+            "sha256": "cf8f953ce0cfa647d184fc3249cf7c8a17b6eaddf4893d5362d56606cbfed98c"
+          }
+        ],
+        "rationale": "The pinned original Sol cache menu explicitly names this method.",
+        "reference": {
+          "commit_sha": "d2c6407cc9b9133f3fff49fe4b561f14980d3f8b",
+          "repository": "NVlabs/Sana"
+        }
+      }
+    }
+  ],
+  "terminal": {
+    "status": "NO_VALID_FRONTIER",
+    "reason": "No composed point survives the original lossy visual gate. Fusion plus EasyCache0.03 measured2.205285571060176x and fusion plus EasyCache0.02 measured1.7998200318011954x, but both have new doorway patch-texture artifacts. Their isolated component passes do not imply composition quality. Both permitted integration attempts were fully generated across five prompts, evaluated with original LPIPS, independently reviewed in all15 native panels and full-resolution ambiguity checks, and rejected. The independently accepted Kernel and Cache frontiers remain component evidence only. No unmeasured recipe, identity fallback or rejected composition is included.",
+    "evidence_paths": [
+      "/workspace/output/orchestrated/wan21-20261024-164822/INTEGRATED-DELIVERY.json",
+      "/workspace/output/orchestrated/wan21-20261024-164822/MASTER-AUDIT.json",
+      "/workspace/runs/fusion_easy_t003/outputs/benchmark.json",
+      "/workspace/runs/fusion_easy_t003/outputs/quality.json",
+      "/workspace/runs/fusion_easy_t003/visual_verdict.json",
+      "/workspace/runs/fusion_easy_t003/gate.json",
+      "/workspace/runs/fusion_easy_t002/outputs/benchmark.json",
+      "/workspace/runs/fusion_easy_t002/outputs/quality.json",
+      "/workspace/runs/fusion_easy_t002/visual_verdict.json",
+      "/workspace/runs/fusion_easy_t002/gate.json"
+    ],
+    "serialization_only": {
+      "source_native_delivery_sha256": "fe2220fd343344bd97535bf860f5be24ca3daab88025903caf9b71d7ca4580dd",
+      "source_outcome": "NO_VALID_FRONTIER",
+      "new_acceptance_verdict": false,
+      "note": "Outer serialization of the already explicit native outcome; lifecycle checks still mandatory"
+    },
+    "run_id": "wan-search-20261024-002",
+    "arm": "P",
+    "wall_seconds": 8129.4313022490005,
+    "timestamp": "2026-10-24T19:03:51.476486+00:00"
+  },
+  "integration_attempts": 2,
+  "experience_statuses": {
+    "cache.easy_t002": {
+      "status": "NOT_ADMITTED",
+      "validated_success": null,
+      "measured_speedup": null
+    },
+    "cache.easy_t0026": {
+      "status": "NOT_ADMITTED",
+      "validated_success": null,
+      "measured_speedup": null
+    },
+    "cache.easy_t003": {
+      "status": "NOT_ADMITTED",
+      "validated_success": null,
+      "measured_speedup": null
+    },
+    "cache.easy_t004": {
+      "status": "rejected_with_current_run_evidence",
+      "validated_success": false,
+      "measured_speedup": null
+    },
+    "cache.easy_t005": {
+      "status": "rejected_with_current_run_evidence",
+      "validated_success": false,
+      "measured_speedup": null
+    },
+    "cache.sage_int8": {
+      "status": "rejected_with_current_run_evidence",
+      "validated_success": false,
+      "measured_speedup": null
+    },
+    "cache.svg_w2": {
+      "status": "rejected_with_current_run_evidence",
+      "validated_success": false,
+      "measured_speedup": null
+    },
+    "cache.svg_w2_v2": {
+      "status": "rejected_with_current_run_evidence",
+      "validated_success": false,
+      "measured_speedup": null
+    },
+    "cache.tea_t005": {
+      "status": "rejected_with_current_run_evidence",
+      "validated_success": false,
+      "measured_speedup": null
+    },
+    "cache.tea_t005_v2": {
+      "status": "NOT_ADMITTED",
+      "validated_success": null,
+      "measured_speedup": null
+    },
+    "cache.tea_t0075": {
+      "status": "rejected_with_current_run_evidence",
+      "validated_success": false,
+      "measured_speedup": null
+    },
+    "cache.tea_t008": {
+      "status": "rejected_with_current_run_evidence",
+      "validated_success": false,
+      "measured_speedup": null
+    },
+    "kernel.fastvideo_norm_v1": {
+      "status": "preflight_failure",
+      "validated_success": false,
+      "measured_speedup": null
+    },
+    "kernel.fastvideo_norm_v2": {
+      "status": "rejected_with_current_run_evidence",
+      "validated_success": false,
+      "measured_speedup": null
+    },
+    "kernel.fastvideo_norm_v3": {
+      "status": "NOT_ADMITTED",
+      "validated_success": null,
+      "measured_speedup": null
+    }
+  },
+  "unattended_closed_loop": false,
+  "model_comparison_boundary": "One adaptive Wan trajectory. SANA A is a different model/workload and cannot establish a causal Harness speedup. No continuous GPU samples exist before activation; full-window utilization is bounded.",
+  "cleanup_status": "PASS",
+  "receipt_validation_status": "PASS",
+  "boundary": "Single adaptive trajectory, five prompts/seed42. External implementation does not imply new mechanism. Expanded workload differs from A; no causal wall-speedup attribution. API durations overlap and include service processing and transport. Full-DiT traversal count remains unavailable.",
+  "new_model_download_bytes": 0,
+  "weight_transfer_via_local_bytes": 0
+}

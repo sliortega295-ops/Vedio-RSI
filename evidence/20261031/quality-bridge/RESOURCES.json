@@ -1,0 +1,153 @@
+{
+  "attribution_limit": "NVML host PIDs may not resolve inside job PID namespace; device activity joined with pinned task slots, not exact per-process SM occupancy",
+  "cold_task_gpu_hours": 0.6495648644763666,
+  "completed_task_count": 15,
+  "eight_gpu_envelope_hours": 0.7234847292386823,
+  "generation_window_mean_nvml_percent": 61.43756598051958,
+  "generation_window_seconds": 325.56812815740705,
+  "per_gpu": [
+    {
+      "gpu": 0,
+      "ready_but_idle_seconds": 0.0,
+      "sampled_mean_nvml_percent": 67.08275045769011,
+      "task_seconds": 321.377555584535
+    },
+    {
+      "gpu": 1,
+      "ready_but_idle_seconds": 0.0,
+      "sampled_mean_nvml_percent": 66.7541128805149,
+      "task_seconds": 317.4538503671065
+    },
+    {
+      "gpu": 2,
+      "ready_but_idle_seconds": 0.0,
+      "sampled_mean_nvml_percent": 68.64010620783104,
+      "task_seconds": 325.5630932217464
+    },
+    {
+      "gpu": 3,
+      "ready_but_idle_seconds": 0.0,
+      "sampled_mean_nvml_percent": 42.181643969363364,
+      "task_seconds": 191.28228069841862
+    },
+    {
+      "gpu": 4,
+      "ready_but_idle_seconds": 0.0,
+      "sampled_mean_nvml_percent": 69.50884180696741,
+      "task_seconds": 324.8405332379043
+    },
+    {
+      "gpu": 5,
+      "ready_but_idle_seconds": 0.0,
+      "sampled_mean_nvml_percent": 58.06156735119321,
+      "task_seconds": 282.21239838190377
+    },
+    {
+      "gpu": 6,
+      "ready_but_idle_seconds": 0.0,
+      "sampled_mean_nvml_percent": 62.38633072930009,
+      "task_seconds": 295.8966164672747
+    },
+    {
+      "gpu": 7,
+      "ready_but_idle_seconds": 0.0,
+      "sampled_mean_nvml_percent": 56.8851744412965,
+      "task_seconds": 279.8071841560304
+    }
+  ],
+  "sample_count": 326,
+  "sampled_seconds": 325.56812815740705,
+  "task_count": 15,
+  "tasks": {
+    "cache.easycache_conservative_v1.p0.generate": {
+      "end": 5322481.557522982,
+      "gpu": 5,
+      "start": 5322336.11586904,
+      "status": "completed"
+    },
+    "cache.easycache_conservative_v1.p1.generate": {
+      "end": 5322486.179021978,
+      "gpu": 6,
+      "start": 5322336.120337272,
+      "status": "completed"
+    },
+    "cache.easycache_conservative_v1.p2.generate": {
+      "end": 5322483.270167132,
+      "gpu": 7,
+      "start": 5322336.122622715,
+      "status": "completed"
+    },
+    "cache.easycache_conservative_v1.p3.generate": {
+      "end": 5322618.329892633,
+      "gpu": 5,
+      "start": 5322481.559148193,
+      "status": "completed"
+    },
+    "cache.easycache_conservative_v1.p4.generate": {
+      "end": 5322632.018341651,
+      "gpu": 6,
+      "start": 5322486.18040989,
+      "status": "completed"
+    },
+    "dense.dense.p0.generate": {
+      "end": 5322518.851398483,
+      "gpu": 0,
+      "start": 5322329.791051691,
+      "status": "completed"
+    },
+    "dense.dense.p1.generate": {
+      "end": 5322518.934026992,
+      "gpu": 1,
+      "start": 5322329.793108932,
+      "status": "completed"
+    },
+    "dense.dense.p2.generate": {
+      "end": 5322518.127896114,
+      "gpu": 2,
+      "start": 5322329.794619195,
+      "status": "completed"
+    },
+    "dense.dense.p3.generate": {
+      "end": 5322521.078250584,
+      "gpu": 3,
+      "start": 5322329.795969886,
+      "status": "completed"
+    },
+    "dense.dense.p4.generate": {
+      "end": 5322520.147528738,
+      "gpu": 4,
+      "start": 5322329.797252357,
+      "status": "completed"
+    },
+    "master.qk_oldcache.p0.generate": {
+      "end": 5322615.931127256,
+      "gpu": 7,
+      "start": 5322483.271487516,
+      "status": "completed"
+    },
+    "master.qk_oldcache.p1.generate": {
+      "end": 5322655.359179849,
+      "gpu": 2,
+      "start": 5322518.129363546,
+      "status": "completed"
+    },
+    "master.qk_oldcache.p2.generate": {
+      "end": 5322651.170731154,
+      "gpu": 0,
+      "start": 5322518.853522361,
+      "status": "completed"
+    },
+    "master.qk_oldcache.p3.generate": {
+      "end": 5322647.249620886,
+      "gpu": 1,
+      "start": 5322518.936688579,
+      "status": "completed"
+    },
+    "master.qk_oldcache.p4.generate": {
+      "end": 5322654.642368636,
+      "gpu": 4,
+      "start": 5322520.152111779,
+      "status": "completed"
+    }
+  }
+}

@@ -1,0 +1,112 @@
+[
+  {
+    "report": "evidence/20261031/dag/REPORT.md",
+    "label": "统一时间线",
+    "source_reference": "project://SolAgent/20261022-dag-native-execution/campaigns/dag-native-20261022-v6/derived/visuals/resource-timeline.png"
+  },
+  {
+    "report": "evidence/20261031/dag/REPORT.md",
+    "label": "实际98节点、156边DAG（可缩放）",
+    "source_reference": "project://SolAgent/20261022-dag-native-execution/campaigns/dag-native-20261022-v6/derived/visuals/dependency-graph.svg"
+  },
+  {
+    "report": "evidence/20261031/dag/REPORT.md",
+    "label": "完整依赖与时间记录",
+    "source_reference": "project://SolAgent/20261022-dag-native-execution/campaigns/dag-native-20261022-v6/derived/DEPENDENCIES.json"
+  },
+  {
+    "report": "evidence/20261031/dag/REPORT.md",
+    "label": "逐卡分阶段时间",
+    "source_reference": "project://SolAgent/20261022-dag-native-execution/campaigns/dag-native-20261022-v6/derived/P-gpu-stages.csv"
+  },
+  {
+    "report": "evidence/20261031/dag/REPORT.md",
+    "label": "原生最终验收",
+    "source_reference": "project://SolAgent/20261022-dag-native-execution/campaigns/dag-native-20261022-v6/recovery/001/TERMINAL.json"
+  },
+  {
+    "report": "evidence/20261031/dag/REPORT.md",
+    "label": "退出核查",
+    "source_reference": "project://SolAgent/20261022-dag-native-execution/campaigns/dag-native-20261022-v6/recovery/001/POST-RUN-INSPECTION.json"
+  },
+  {
+    "report": "evidence/20261031/sana/REPORT.md",
+    "label": "本轮八卡、CPU及API实测时间线",
+    "source_reference": "project://SolAgent/20261023-method-search/campaigns/method-search-20261023-six-family-002/derived/visuals/resource-timeline.png"
+  },
+  {
+    "report": "evidence/20261031/sana/REPORT.md",
+    "label": "冻结输入和部署hash",
+    "source_reference": "project://SolAgent/20261023-method-search/campaigns/method-search-20261023-six-family-002/FREEZE.json"
+  },
+  {
+    "report": "evidence/20261031/sana/REPORT.md",
+    "label": "原生Master audit",
+    "source_reference": "project://SolAgent/20261023-method-search/campaigns/method-search-20261023-six-family-002/runs/P/workspace/output/orchestrated/sana-20261023-164113/MASTER-AUDIT.json"
+  },
+  {
+    "report": "evidence/20261031/sana/REPORT.md",
+    "label": "六类来源、方法与结果导出",
+    "source_reference": "project://SolAgent/20261023-method-search/campaigns/method-search-20261023-six-family-002/runs/P/method-search/EXPORT.json"
+  },
+  {
+    "report": "evidence/20261031/sana/REPORT.md",
+    "label": "最终来源/预算/验收审计与资源清理提示",
+    "source_reference": "project://SolAgent/20261023-method-search/campaigns/method-search-20261023-six-family-002/derived/SIX-FAMILY-AUDIT.json"
+  },
+  {
+    "report": "evidence/20261031/sana/REPORT.md",
+    "label": "统一时间线",
+    "source_reference": "project://SolAgent/20261023-method-search/campaigns/method-search-20261023-six-family-002/derived/UNIFIED-TIMELINE.json"
+  },
+  {
+    "report": "evidence/20261031/sana/REPORT.md",
+    "label": "实际执行依赖图",
+    "source_reference": "project://SolAgent/20261023-method-search/campaigns/method-search-20261023-six-family-002/derived/DEPENDENCIES.json"
+  },
+  {
+    "report": "evidence/20261031/sana/REPORT.md",
+    "label": "退出后只读检查",
+    "source_reference": "project://SolAgent/20261023-method-search/campaigns/method-search-20261023-six-family-002/runs/P/POST-RUN-INSPECTION.json"
+  },
+  {
+    "report": "evidence/20261031/sana/REPORT.md",
+    "label": "同轮故障恢复证据",
+    "source_reference": "project://SolAgent/20261023-method-search/campaigns/method-search-20261023-six-family-002/closure-recovery-001/recovered-native-receipts.json"
+  },
+  {
+    "report": "evidence/20261031/sana/REPORT.md",
+    "label": "远端压缩归档回执",
+    "source_reference": "project://SolAgent/20261023-method-search/campaigns/method-search-20261023-six-family-002/runs/P/PERSISTENT-EXTRAS.json"
+  },
+  {
+    "report": "evidence/20261031/wan/REPORT.md",
+    "label": "主对话证据绑定复核",
+    "source_reference": "project://SolAgent/20261024-wan-search/campaigns/wan-search-20261024-002/runs/P/HOST-PRIMARY-AUDIT.json"
+  },
+  {
+    "report": "evidence/20261031/wan/REPORT.md",
+    "label": "统一时间线图",
+    "source_reference": "project://SolAgent/20261024-wan-search/campaigns/wan-search-20261024-002/derived/visuals/resource-timeline.png"
+  },
+  {
+    "report": "evidence/20261031/wan/REPORT.md",
+    "label": "CSV 逐阶段记录",
+    "source_reference": "project://SolAgent/20261024-wan-search/campaigns/wan-search-20261024-002/derived/UNIFIED-TIMELINE.csv"
+  },
+  {
+    "report": "evidence/20261031/wan/REPORT.md",
+    "label": "363 节点实际注册依赖图",
+    "source_reference": "project://SolAgent/20261024-wan-search/campaigns/wan-search-20261024-002/derived/DEPENDENCIES.json"
+  },
+  {
+    "report": "evidence/20261031/wan/REPORT.md",
+    "label": "清理/65 视频持久化核对",
+    "source_reference": "project://SolAgent/20261024-wan-search/campaigns/wan-search-20261024-002/runs/P/POST-RUN-INSPECTION.json"
+  },
+  {
+    "report": "evidence/20261031/wan/REPORT.md",
+    "label": "附加证据归档",
+    "source_reference": "project://SolAgent/20261024-wan-search/campaigns/wan-search-20261024-002/runs/P/PERSISTENT-EXTRAS.json"
+  }
+]

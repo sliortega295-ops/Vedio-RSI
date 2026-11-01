@@ -1,0 +1,660 @@
+{
+  "schema_version": 2,
+  "status": "complete",
+  "component": "integrator",
+  "model_id": "sana_video_2b_a100",
+  "baseline": {
+    "total_s": 637.271859543398,
+    "denoise_s": 608.5795307382941,
+    "timing_scope": "five_prompt_sum_sglang_request_metrics_excluding_model_load_internal_one_step_warmup_and_video_export",
+    "peak_memory_mib": 22116.0,
+    "run_dir": "/workspace/runs/dense",
+    "baseline_frames": "/workspace/runs/dense/outputs/frames",
+    "world_size": 1,
+    "frozen_baseline_file": "/workspace/output/orchestrated/sana-20261023-164113/BASELINE.json"
+  },
+  "frontier_points": [
+    {
+      "config_id": "qk_cast_easywindow002",
+      "run_dir": "runs/qk_cast_easywindow002",
+      "activation": {
+        "env": {
+          "CANDIDATE_SANA_FUSED_QK_PREP": "1",
+          "CANDIDATE_EASYCACHE": "1"
+        }
+      },
+      "components": [
+        "kernel.qk_cast_01",
+        "cache.easy_runtime_window_t002"
+      ],
+      "composition": {
+        "order": [
+          "kernel.qk_cast_01",
+          "cache.easy_runtime_window_t002"
+        ],
+        "off_switches": {
+          "kernel.qk_cast_01": "CANDIDATE_SANA_FUSED_QK_PREP",
+          "cache.easy_runtime_window_t002": "CANDIDATE_EASYCACHE"
+        },
+        "conflicts": [
+          {
+            "components": [
+              "kernel.qk_cast_01",
+              "cache.easy_runtime_window_t002"
+            ],
+            "kind": "same_target",
+            "resolution": "The exact local kernel runs inside every full denoiser refresh. EasyCache intentionally replaces a full output with current input plus a cached transformation vector on eligible steps24..33, at most one consecutive hit per CFG branch. Kernel can change the numerical signal and resulting adaptive reuse decisions without changing its local algorithm; actual activity, speed and lossy quality must be measured anew. No sampler, requested-step, logical-call, tensor-shape, native-dtype or topology change is introduced by the merge. Independent OFF paths recover the other verified component; both OFF recover clean source.",
+            "evidence": [
+              "output/orchestrated/sana-20261023-164113/COMPOSITION-qk_cast_easywindow002.json: complete dense-helper AST and independent module OFF projections",
+              "output/orchestrated/sana-20261023-164113/COMPOSITION-qk_cast_easywindow002.diff: disjoint attention preparation and complete-forward cache dispatch",
+              "output/orchestrated/sana-20261023-164113/INTEGRATION-LINEAGE.json: immutable component source/config/proposal/OFF and independent receipt bindings"
+            ]
+          }
+        ]
+      },
+      "component_lineage": [
+        {
+          "candidate": "kernel.qk_cast_01",
+          "config_sha256": "92c3f2840037b06b5eb71b1ac85950d90133eda41406efc469123d7e820978ea",
+          "family": "kernel",
+          "identity_id": "i-57c68ab2f8ec88fc1a1d108b",
+          "independent_verification": "fd5b7d7d088d32fa7c687839178033979412db087bb734552527e2829ce07528",
+          "method_contract_digest": "080dad8435f497f06ba00f59cfd625b1a4a22d4c82341a5982b925dee30cc15c",
+          "off_argument": "Guard every added helper/dispatch under this candidate switch; absent/0 follows the entire original norm/ReLU/rotary statements without extra cache/state.",
+          "off_switch": "CANDIDATE_SANA_FUSED_QK_PREP",
+          "source_digest": "d830bb19c51e38f0b3725bb6d52318146665045d20d5750574c484d2050f5d18",
+          "target": "self_attention"
+        },
+        {
+          "candidate": "cache.easy_runtime_window_t002",
+          "config_sha256": "60bcb751b5878c957dfa088e86c0dc90c8e3524a12311b20588937d762ef8215",
+          "family": "cache",
+          "identity_id": "i-e33cc72605aaeebaefc77406",
+          "independent_verification": "24d2a3e037fd32d00e88a47278e6a60ebcd0ba2cb45a5dbd81446a6d9cec9dab",
+          "method_contract_digest": "6c62086e79197eb023a9e78cb03a9c6dcc6eccf124aa27c0050c9988350994c9",
+          "off_argument": "At every invocation absent/0 returns through the entire original dense forward without calling signal/reuse/metrics logic, including after helper initialization. Dense function body and all blocks remain identical to clean source.",
+          "off_switch": "CANDIDATE_EASYCACHE",
+          "source_digest": "c780d01a689a3f44862f3f2ec60baf4763483a6c514223ebd68f3bfa447936d2",
+          "target": "self_attention"
+        }
+      ],
+      "source_digest": "16a56f717348bb9ed46007b882a01b4b19d43ed002f12649a4c0b78911a72bc9",
+      "implementation_manifest": {
+        "path": "config/qk_cast_easywindow002.toml",
+        "sha256": "177fa6c310df17ba30b1df24068d3cb82f399d4d4b3f8733d13e3510af158ea9",
+        "source_digest": "16a56f717348bb9ed46007b882a01b4b19d43ed002f12649a4c0b78911a72bc9",
+        "source_files": [
+          {
+            "path": "/workspace/output/orchestrated/sana-20261023-164113/audit-source/master.qk_cast_easywindow002/scripts/probe_sana_qk_fused.py",
+            "sha256": "44c4764c37c5f397a02cd7ca4fb04a7bd5be5e35e7241a1691121d72615f9014"
+          },
+          {
+            "path": "/workspace/output/orchestrated/sana-20261023-164113/audit-source/master.qk_cast_easywindow002/python/sglang/multimodal_gen/runtime/layers/sana_qk_fused_candidate.py",
+            "sha256": "bcbdb6d269cf3d8608ffba8e107dd992e933752328170c18e1907c4aba46f643"
+          },
+          {
+            "path": "/workspace/output/orchestrated/sana-20261023-164113/audit-source/master.qk_cast_easywindow002/scripts/probe_sana_easycache.py",
+            "sha256": "c8fc06fb3e8fec1ffa67b9c152c9f82d2d52b535f0b7928f5f7c5df431e1d7bd"
+          },
+          {
+            "path": "/workspace/output/orchestrated/sana-20261023-164113/audit-source/master.qk_cast_easywindow002/python/sglang/multimodal_gen/runtime/cache/sana_easycache_candidate.py",
+            "sha256": "a9da1e08bca67c53df56db0e8f8815c6add9085107326421f7e3d9ae3af3daa5"
+          },
+          {
+            "path": "/workspace/output/orchestrated/sana-20261023-164113/audit-source/master.qk_cast_easywindow002/python/sglang/multimodal_gen/runtime/models/dits/sana_video.py",
+            "sha256": "7842be824a589aa92f83444ca3c4483127d8ca4273b609b32a2397edfd8b656d"
+          }
+        ]
+      },
+      "performance": {
+        "frontier_axis": "latency",
+        "baseline_total_s": 637.271859543398,
+        "config_total_s": 492.736303913407,
+        "speedup": 1.2933324670458857,
+        "time_ratio": 0.7731963941832455,
+        "timing_scope": "five_prompt_sum_sglang_request_metrics_excluding_model_load_internal_one_step_warmup_and_video_export",
+        "baseline_denoise_s": 608.5795307382941,
+        "config_denoise_s": 467.04220885876566,
+        "baseline_peak_memory_mib": 22116.0,
+        "config_peak_memory_mib": 21666.0,
+        "warmup_policy": "One original internal one-step warmup for each cold prompt process; loading, warmup and video export excluded from the five-request timing sum.",
+        "verification_basis": "Master recalculated directly from the same frozen BASELINE.json and this actual durable benchmark, with identical timing scope."
+      },
+      "quality": {
+        "mode": "quality_gated",
+        "lpips_max": 0.04100688174366951,
+        "lpips_mean": 0.0205296006722328,
+        "lpips_selected_pairs": 39,
+        "complete_pair_count": 55,
+        "selection": "Original stratified32 plus worst16, unique union capped48.",
+        "visual_overall": "pass",
+        "visual_verdict": "runs/qk_cast_easywindow002/visual_verdict.json",
+        "relation": "equivalent",
+        "relation_scope": "Sampled perceptual quality under the original artifact rubric; the Cache approximation is not mathematical equivalence.",
+        "per_prompt_lpips": {
+          "00": {
+            "max": 0.021262703463435173,
+            "mean": 0.017248565730239664,
+            "n": 7
+          },
+          "01": {
+            "max": 0.04100688174366951,
+            "mean": 0.0313099246810783,
+            "n": 11
+          },
+          "02": {
+            "max": 0.024778693914413452,
+            "mean": 0.022337292786687613,
+            "n": 8
+          },
+          "03": {
+            "max": 0.013857339508831501,
+            "mean": 0.011527069378644228,
+            "n": 6
+          },
+          "04": {
+            "max": 0.014009334146976471,
+            "mean": 0.012520648006881987,
+            "n": 7
+          }
+        },
+        "native_master_assessment": "runs/qk_cast_easywindow002/assessment.json"
+      },
+      "equivalence": {
+        "scope": "Kernel local operator semantics on executed refreshes; the full composition is deliberately lossy through Cache.",
+        "method_argument": "On each complete denoiser refresh, the Kernel still computes the full RMS normalization of all 2240 Q/K channels using FP32 sum-square/C, original epsilon and weights, original BF16 normalization cast before ReLU, all even 112-channel heads and the original RoPE pair/frequency indices. Rotary results round to original BF16 before exact widening to FP32 for the original contractions. Full nonrotated features, denominator epsilon 1e-15, FP32 contractions, projections, cross-attention, FFN and residuals are unchanged. There is no Kernel approximation, sparsity, rank reduction, changed logical model work or lower precision. EasyCache is a separately declared lossy full-denoiser approximation: native latent relative-change prediction with online full-refresh output/input gain, complete output-minus-input vector, threshold 0.02, eligible middle steps 24 through 33 and at most one consecutive hit per isolated CFG branch. Its dense refresh closure contains the Kernel operator. The actual composition refreshed 90 and reused 10 calls on each prompt, measured anew because Kernel numerical movement can affect adaptive decisions. Original sampler, 50 steps, 100 global logical calls, BF16 transformer/FP32 VAE and world size 1 topology are preserved. Full DiT traversal observations remain unavailable and are not inferred from logical calls. Kernel correctness is a mathematical/source argument without output-difference or LPIPS gating of the Kernel component.",
+        "off_identity": "I independently inspected the materialized merged module and helper files. Complete module AST projections recover the verified EasyCache module with Kernel OFF, the verified Kernel module with Cache OFF, and the clean module with both OFF. The EasyCache wrapper forwards all original arguments and kwargs to its unchanged complete dense helper before any cache import, construction, context access or state mutation when OFF, including late OFF after an ON invocation. Each helper is byte-for-byte bound to the independently verified snapshot. The source-bound native combined preflight exercised actual tiny-model activation, shape/dtype, late OFF and cache transport. These source and dispatch arguments do not compare Kernel numerical outputs.",
+        "observed_step_counts": [
+          50,
+          50,
+          50,
+          50,
+          50
+        ],
+        "observed_logical_dit_calls": [
+          100,
+          100,
+          100,
+          100,
+          100
+        ],
+        "observed_full_dit_work": [
+          {
+            "count": null,
+            "reason": "No compile-safe full-block work observer is installed; logical calls and Python forward entries do not prove full DiT execution.",
+            "scope": "full_transformer_block_traversals",
+            "status": "unavailable"
+          },
+          {
+            "count": null,
+            "reason": "No compile-safe full-block work observer is installed; logical calls and Python forward entries do not prove full DiT execution.",
+            "scope": "full_transformer_block_traversals",
+            "status": "unavailable"
+          },
+          {
+            "count": null,
+            "reason": "No compile-safe full-block work observer is installed; logical calls and Python forward entries do not prove full DiT execution.",
+            "scope": "full_transformer_block_traversals",
+            "status": "unavailable"
+          },
+          {
+            "count": null,
+            "reason": "No compile-safe full-block work observer is installed; logical calls and Python forward entries do not prove full DiT execution.",
+            "scope": "full_transformer_block_traversals",
+            "status": "unavailable"
+          },
+          {
+            "count": null,
+            "reason": "No compile-safe full-block work observer is installed; logical calls and Python forward entries do not prove full DiT execution.",
+            "scope": "full_transformer_block_traversals",
+            "status": "unavailable"
+          }
+        ],
+        "no_output_difference_gate_for_kernel": true
+      },
+      "cache_activity": [
+        {
+          "prompt_id": 0,
+          "refresh_calls": 90,
+          "reuse_calls": 10,
+          "parameters": {
+            "dense_first": 24,
+            "dense_last": 16,
+            "gain": "online_full_refresh_output_L1/input_L1",
+            "max_hits": 1,
+            "signal_subsampling": "none",
+            "threshold": 0.02
+          }
+        },
+        {
+          "prompt_id": 1,
+          "refresh_calls": 90,
+          "reuse_calls": 10,
+          "parameters": {
+            "dense_first": 24,
+            "dense_last": 16,
+            "gain": "online_full_refresh_output_L1/input_L1",
+            "max_hits": 1,
+            "signal_subsampling": "none",
+            "threshold": 0.02
+          }
+        },
+        {
+          "prompt_id": 2,
+          "refresh_calls": 90,
+          "reuse_calls": 10,
+          "parameters": {
+            "dense_first": 24,
+            "dense_last": 16,
+            "gain": "online_full_refresh_output_L1/input_L1",
+            "max_hits": 1,
+            "signal_subsampling": "none",
+            "threshold": 0.02
+          }
+        },
+        {
+          "prompt_id": 3,
+          "refresh_calls": 90,
+          "reuse_calls": 10,
+          "parameters": {
+            "dense_first": 24,
+            "dense_last": 16,
+            "gain": "online_full_refresh_output_L1/input_L1",
+            "max_hits": 1,
+            "signal_subsampling": "none",
+            "threshold": 0.02
+          }
+        },
+        {
+          "prompt_id": 4,
+          "refresh_calls": 90,
+          "reuse_calls": 10,
+          "parameters": {
+            "dense_first": 24,
+            "dense_last": 16,
+            "gain": "online_full_refresh_output_L1/input_L1",
+            "max_hits": 1,
+            "signal_subsampling": "none",
+            "threshold": 0.02
+          }
+        }
+      ],
+      "viewed_image_paths": [
+        "/workspace/runs/qk_cast_easywindow002/outputs/comparisons/prompt-0-0.png",
+        "/workspace/runs/qk_cast_easywindow002/outputs/comparisons/prompt-0-1.png",
+        "/workspace/runs/qk_cast_easywindow002/outputs/comparisons/prompt-0-2.png",
+        "/workspace/runs/qk_cast_easywindow002/outputs/comparisons/prompt-1-0.png",
+        "/workspace/runs/qk_cast_easywindow002/outputs/comparisons/prompt-1-1.png",
+        "/workspace/runs/qk_cast_easywindow002/outputs/comparisons/prompt-1-2.png",
+        "/workspace/runs/qk_cast_easywindow002/outputs/comparisons/prompt-2-0.png",
+        "/workspace/runs/qk_cast_easywindow002/outputs/comparisons/prompt-2-1.png",
+        "/workspace/runs/qk_cast_easywindow002/outputs/comparisons/prompt-2-2.png",
+        "/workspace/runs/qk_cast_easywindow002/outputs/comparisons/prompt-3-0.png",
+        "/workspace/runs/qk_cast_easywindow002/outputs/comparisons/prompt-3-1.png",
+        "/workspace/runs/qk_cast_easywindow002/outputs/comparisons/prompt-3-2.png",
+        "/workspace/runs/qk_cast_easywindow002/outputs/comparisons/prompt-4-0.png",
+        "/workspace/runs/qk_cast_easywindow002/outputs/comparisons/prompt-4-1.png",
+        "/workspace/runs/qk_cast_easywindow002/outputs/comparisons/prompt-4-2.png"
+      ],
+      "video_manifest": [
+        {
+          "frame_extraction_reused": true,
+          "frame_sha256": [
+            "364a6e869f548fe822cee17888ebe9cabdedde28287e0bca118b5195439ff68f",
+            "87f9c604b502425cea28bbf9fb3484c4f28e03464f5fe5bd875b2a7dfb02e042",
+            "994376e52fa7dbcbf9d6c9ea5df1146edde6114ec5d3344a1427c9f47a07569a",
+            "e6139cdf6c82355935eef65c27904c9188d5c71121c263559d7d78de8e99680e",
+            "54e9b9530d991043210e14cb6078d980e7d8c9940fa310f7b40ca5d995028551",
+            "880a2b313955b6e88126dacd7a6f95fac39a21c956292be9c427e5f2b9700d2d",
+            "9ca60ae4925199548c55a9055b5dc6802c051ec8d33e012acb35785f7d1ee428",
+            "b824ab9d066343068fe814f3198466be5f4ec5adf145c8631e956009ba3844df",
+            "596bf42af5a859d04dda285fd9b699650ef51710d6e584df4fa56fbccf092e54",
+            "2bee9d23eee49ac84f6810e1b9254c0cee6d6e4dbaebe2eb07e8baabe27a24ad",
+            "611037895b02f0b7ceba3c385d6c88d5bde1a80febbd3150bee267868593a9c2"
+          ],
+          "sampler": "source-2fps-grid-0-through80-inclusive-v1",
+          "source_indices": [
+            0,
+            8,
+            16,
+            24,
+            32,
+            40,
+            48,
+            56,
+            64,
+            72,
+            80
+          ],
+          "timestamps_seconds": [
+            0.0,
+            0.5,
+            1.0,
+            1.5,
+            2.0,
+            2.5,
+            3.0,
+            3.5,
+            4.0,
+            4.5,
+            5.0
+          ],
+          "video": {
+            "avg_frame_rate": "16/1",
+            "duration": "5.062500",
+            "height": 480,
+            "nb_read_frames": "81",
+            "width": 832
+          },
+          "video_bytes": 521534,
+          "video_path": "scratch-artifact://SolAgent/dag-native/runs/method-search-20261023-six-family-002/workspace/runs/qk_cast_easywindow002/outputs/videos/p0.mp4",
+          "video_sha256": "5962429a755e53b04d0d57e27a02147f5e3799a3cb9d8a8210e9cebed2c8c177",
+          "video_structure": {
+            "avg_frame_rate": "16/1",
+            "duration": "5.062500",
+            "height": 480,
+            "nb_read_frames": "81",
+            "width": 832
+          }
+        },
+        {
+          "frame_extraction_reused": true,
+          "frame_sha256": [
+            "ec43e144e3a21722d5151ddf86ce2b67cfde5868ab86e00b27756343f79cee7d",
+            "78ed5885ff4d4867022b999ab48476c5dc28167e15d499cbc40f23014e77838c",
+            "4c740bff3f78f4e128364fa208c6458e5c7cccac37f636d891eff6ab271aabc0",
+            "05939ca38942456b0b7d9f2197bb19d2bee97595e2e1fb4544ff2697050f6420",
+            "e0c76fe95fcdb5053cf48beab49564f0818fb88060afb185da291bb068c3c6a2",
+            "beeea4d44a1c00c406243e196e1d2c6daa9b5622baaba5f76b9b211b094b97e3",
+            "b218a81efbe9c26d820f4e1a23bb315fa3a99c9346b56a7a09361ec68b1bec4c",
+            "2b5e0a83399bcf76f3c4e8af9a6c8f691815c06c615905bfc1145fdaafcd44f0",
+            "9461a536fa23b4e36cb7f74b66a7ef40fffd59a6ee9cb84acada709c4d486002",
+            "2225c3e125784c1bd17e7b1f5b3e4bd17f133207034259a9133e93e9a421700b",
+            "f1f5a0ba1db601a2945ca849520fd5e01440e5bcf318c0bf0bffcaf83b2754fa"
+          ],
+          "sampler": "source-2fps-grid-0-through80-inclusive-v1",
+          "source_indices": [
+            0,
+            8,
+            16,
+            24,
+            32,
+            40,
+            48,
+            56,
+            64,
+            72,
+            80
+          ],
+          "timestamps_seconds": [
+            0.0,
+            0.5,
+            1.0,
+            1.5,
+            2.0,
+            2.5,
+            3.0,
+            3.5,
+            4.0,
+            4.5,
+            5.0
+          ],
+          "video": {
+            "avg_frame_rate": "16/1",
+            "duration": "5.062500",
+            "height": 480,
+            "nb_read_frames": "81",
+            "width": 832
+          },
+          "video_bytes": 979836,
+          "video_path": "scratch-artifact://SolAgent/dag-native/runs/method-search-20261023-six-family-002/workspace/runs/qk_cast_easywindow002/outputs/videos/p1.mp4",
+          "video_sha256": "8364a672c6d06e030e3b65d6ec7081ad7ffb507c5611342eaf89bfe0f8f122da",
+          "video_structure": {
+            "avg_frame_rate": "16/1",
+            "duration": "5.062500",
+            "height": 480,
+            "nb_read_frames": "81",
+            "width": 832
+          }
+        },
+        {
+          "frame_extraction_reused": true,
+          "frame_sha256": [
+            "37b401b365e4b032a6a55e776f3a7d73973a09996cb2c1ae91a1a858492b728e",
+            "da80b2a0c8ca17acbe64d5d076e5536d559b1a10c4637974c153f326746e1ee9",
+            "db4b11410346e7254d826466261cedd2f5195e29463e955da945f39e5b45a70a",
+            "00f8ad68e5a2b2916168a8c86d8e1f5c2ebd3b2d5ddc753eafc1ad5549ffdd24",
+            "825acab8f39fa8d40d480042f49356d101bce261f38ceea9a438d92d08d26d9f",
+            "d3ddfee0f585afeb2ae1ff12682e8cf5ce8d314af9e8dae2edce6bcef48f78e0",
+            "c588e3aaac8a06bbae8e6f84383509f2a646d8e8dcfce615ee64ba8b4d5488b1",
+            "44bb2330403c94c778cb0149c66f8eb201fb8acdd882e48c021c8c5545c742fc",
+            "be2095b6270b8851ccf58ca58419090f636ab76026de8e19c03fa35152e6dd1c",
+            "d121cc4eed7645af231aeadaaabdb279c6db0ba0c9a2454f14ab301d565a573e",
+            "e7877eb08fc3ff13cbc42781fb12854419f3dc7a1b77bb57e012017b90f9ea5a"
+          ],
+          "sampler": "source-2fps-grid-0-through80-inclusive-v1",
+          "source_indices": [
+            0,
+            8,
+            16,
+            24,
+            32,
+            40,
+            48,
+            56,
+            64,
+            72,
+            80
+          ],
+          "timestamps_seconds": [
+            0.0,
+            0.5,
+            1.0,
+            1.5,
+            2.0,
+            2.5,
+            3.0,
+            3.5,
+            4.0,
+            4.5,
+            5.0
+          ],
+          "video": {
+            "avg_frame_rate": "16/1",
+            "duration": "5.062500",
+            "height": 480,
+            "nb_read_frames": "81",
+            "width": 832
+          },
+          "video_bytes": 347640,
+          "video_path": "scratch-artifact://SolAgent/dag-native/runs/method-search-20261023-six-family-002/workspace/runs/qk_cast_easywindow002/outputs/videos/p2.mp4",
+          "video_sha256": "fb93a1fc184b03522c93e1a2772bf109858ffea654c2c22ae8fc09c7648e0be2",
+          "video_structure": {
+            "avg_frame_rate": "16/1",
+            "duration": "5.062500",
+            "height": 480,
+            "nb_read_frames": "81",
+            "width": 832
+          }
+        },
+        {
+          "frame_extraction_reused": true,
+          "frame_sha256": [
+            "7b535c5aaa995a5b24f6ef2d5bd21b11e7009721b3c35865373a694474269e16",
+            "aba2daefefffaeee07162420d92ea17b3d4eb06c9de4683fbd3f44e3a6ae7c7b",
+            "ed6e94baee4f2c214c5b912661aa6c0cc38b62fbc80eac8cdbddf0c66d4e69a0",
+            "76a68e8b6f6cd65b9e93a4d091ff62a52b37e39586db693524c3e80782535dd1",
+            "a3b378bd978d3d22a121e4309da852b0d87beb88577e7eeb4c2d49d8010a7de3",
+            "5bd4ad1795532c411befac4e48340e827dd54294a11a6bad3f6b09b2b6a87b43",
+            "774288a9a446a86be8eaa0778e605608bfdaf941e9925ce1587af0e42eddd2a8",
+            "de981d49e338ea9a74781c203fbc7b35e198c88e7883e9ae00477f59debf234a",
+            "c13615586276561abd7f0269d64d8de1249a7fa46a2930f15179b122bce63856",
+            "4f07f498e98e7524f38539ddb662cbee65ade8015db041c2806e4f48388dfc97",
+            "787c06b41fd49dc2c8cc897d43acc20692977a24f2041f630f07e48f8fc05c10"
+          ],
+          "sampler": "source-2fps-grid-0-through80-inclusive-v1",
+          "source_indices": [
+            0,
+            8,
+            16,
+            24,
+            32,
+            40,
+            48,
+            56,
+            64,
+            72,
+            80
+          ],
+          "timestamps_seconds": [
+            0.0,
+            0.5,
+            1.0,
+            1.5,
+            2.0,
+            2.5,
+            3.0,
+            3.5,
+            4.0,
+            4.5,
+            5.0
+          ],
+          "video": {
+            "avg_frame_rate": "16/1",
+            "duration": "5.062500",
+            "height": 480,
+            "nb_read_frames": "81",
+            "width": 832
+          },
+          "video_bytes": 276557,
+          "video_path": "scratch-artifact://SolAgent/dag-native/runs/method-search-20261023-six-family-002/workspace/runs/qk_cast_easywindow002/outputs/videos/p3.mp4",
+          "video_sha256": "a3c447198e0120c77024f1c805945746ac29f1a57cda61c04bb3887a0567b35e",
+          "video_structure": {
+            "avg_frame_rate": "16/1",
+            "duration": "5.062500",
+            "height": 480,
+            "nb_read_frames": "81",
+            "width": 832
+          }
+        },
+        {
+          "frame_extraction_reused": true,
+          "frame_sha256": [
+            "3f4b184fcc4403cf82d77598271f3fc86c08c1b977f879288be7819b40b40b79",
+            "64380e17e6f734d56e70b66feed029148ff0386ae12dccd9f25a92bba89b06e5",
+            "4b6ad10e5e20cea2d54dcb5346ef80511562be4a1741ca65adce29ea97e4c8dd",
+            "4908ef8c3e431cbc10b02299ab24ce55edc1639be102574a45e1ddfd98d0d645",
+            "9055ef3b7169558b0b864f00233a9860d45673502f4dda6f414ca79324f89908",
+            "0ef7a82bcf773279a7f3b6ca62798611235b9ad4bb41231b64ae2a3bce3e031d",
+            "c7d4ffca65a1ec778d5776fba28e8628ee153f46f5d338341d318cb7913ed0d1",
+            "853f28cf5b3c87a5eb3e13b0502a0c0b1167ecf6be78a44bc2348afae4bd77d6",
+            "32f686596a4ae7398c6a7a272fcf9b58b457947596821a9b0a9791e9ce6365a0",
+            "5671ec96f0e60fc31ec3ee187d87a196275060046930b169d7c38f8c2a5b5d7a",
+            "0e7e3ae64288aa5e283f8f7b67e22067f8f2a4e78130c6c6ed3e331355dd6db8"
+          ],
+          "sampler": "source-2fps-grid-0-through80-inclusive-v1",
+          "source_indices": [
+            0,
+            8,
+            16,
+            24,
+            32,
+            40,
+            48,
+            56,
+            64,
+            72,
+            80
+          ],
+          "timestamps_seconds": [
+            0.0,
+            0.5,
+            1.0,
+            1.5,
+            2.0,
+            2.5,
+            3.0,
+            3.5,
+            4.0,
+            4.5,
+            5.0
+          ],
+          "video": {
+            "avg_frame_rate": "16/1",
+            "duration": "5.062500",
+            "height": 480,
+            "nb_read_frames": "81",
+            "width": 832
+          },
+          "video_bytes": 255334,
+          "video_path": "scratch-artifact://SolAgent/dag-native/runs/method-search-20261023-six-family-002/workspace/runs/qk_cast_easywindow002/outputs/videos/p4.mp4",
+          "video_sha256": "36f224e4592a87e8a6557de24fddf26961b1ca80f57347dba8b6eff1a09a15d8",
+          "video_structure": {
+            "avg_frame_rate": "16/1",
+            "duration": "5.062500",
+            "height": 480,
+            "nb_read_frames": "81",
+            "width": 832
+          }
+        }
+      ],
+      "artifacts": [
+        "runs/qk_cast_easywindow002/outputs/videos/p0.mp4",
+        "runs/qk_cast_easywindow002/outputs/videos/p1.mp4",
+        "runs/qk_cast_easywindow002/outputs/videos/p2.mp4",
+        "runs/qk_cast_easywindow002/outputs/videos/p3.mp4",
+        "runs/qk_cast_easywindow002/outputs/videos/p4.mp4",
+        "runs/qk_cast_easywindow002/outputs/frames",
+        "runs/qk_cast_easywindow002/outputs/benchmark.json",
+        "runs/qk_cast_easywindow002/outputs/quality.json",
+        "runs/qk_cast_easywindow002/assessment.json",
+        "runs/qk_cast_easywindow002/visual_verdict.json",
+        "runs/qk_cast_easywindow002/assess_verdict.json",
+        "runs/qk_cast_easywindow002/gate.json",
+        "runs/qk_cast_easywindow002/registration.json",
+        "runs/qk_cast_easywindow002/source_delta.json"
+      ]
+    }
+  ],
+  "pareto_assessment": "Of the two independently generated and gated compositions, qk_cast_easywindow002 is the single nondominated point on measured total-request latency and peak device memory, with perceptual quality treated as a gate. It records 492.736303913407 s and 21666 MiB versus qk_cast_tea011 at 492.89514659158885 s and the same 21666 MiB. The 0.15884267818185 s (0.03223%) timing gap is not evidence of statistical superiority; no repeated confirmation was available within the two-integration budget. Both passed complete native visual review. Tea has slightly lower observed LPIPS mean/max (0.020251814562540788/0.03895280882716179 versus 0.0205296006722328/0.04100688174366951), but no calibrated perceptual-quality ordering is inferred from these values. The final point improves frozen-baseline total time by 22.6804% and peak memory by 450 MiB; the standalone EasyCache memory advantage does not survive composition. All speedups use only the frozen baseline and the actual matching-scope benchmark. This is a valid measured latency/memory frontier, not an all-family winner or a 1.5x speed-tier result.",
+  "master_audit": "/workspace/output/orchestrated/sana-20261023-164113/MASTER-AUDIT.json",
+  "component_lineage": "/workspace/output/orchestrated/sana-20261023-164113/INTEGRATION-LINEAGE.json",
+  "objective_verification_receipt": "/workspace/output/orchestrated/sana-20261023-164113/INTEGRATED-DELIVERY-objective-verification.json",
+  "limitations": [
+    "The workload, model, prompts and hardware are frozen; no broader workload claim is established.",
+    "Visual review covers all 55 sampled timestamp pairs in 15 panels per point; no external vision judge is used.",
+    "Full DiT traversal observations remain unavailable; global logical calls are not substituted for full model work.",
+    "No claim that an unreached speed tier was achieved.",
+    "Observed timing differences between the two compositions are not statistically resolved; only two integration attempts were allowed.",
+    "No result reached the lowest 1.5x speed-tier target.",
+    "TaylorSeer and compilation candidates were blocked by service licensing and were not executed; no measured comparison with those methods is claimed."
+  ],
+  "frontier_axes": [
+    "config_total_s",
+    "config_peak_memory_mib"
+  ],
+  "quality_policy": "Original LPIPS selection plus independent Master native artifact gate over all 55 aligned timestamp pairs. Lossless Kernel accepted by actual source/method semantics and unchanged structure, without output-similarity gating. The combined method is deliberately lossy through Cache.",
+  "evaluated_compositions": [
+    {
+      "config_id": "qk_cast_tea011",
+      "selection": "excluded_from_final_frontier_measured_latency_memory_dominance",
+      "gate": "retain",
+      "config_total_s": 492.89514659158885,
+      "config_peak_memory_mib": 21666.0,
+      "speedup": 1.292915671720824,
+      "visual_overall": "pass",
+      "lpips_mean": 0.020251814562540788,
+      "lpips_max": 0.03895280882716179,
+      "assessment": "/workspace/runs/qk_cast_tea011/assessment.json",
+      "archived_master_audit": "/workspace/output/orchestrated/sana-20261023-164113/master.qk_cast_tea011-MASTER-VISUAL.json"
+    },
+    {
+      "config_id": "qk_cast_easywindow002",
+      "selection": "final_frontier",
+      "gate": "retain",
+      "assessment": "/workspace/runs/qk_cast_easywindow002/assessment.json"
+    }
+  ],
+  "search_budget_audit": "/workspace/output/orchestrated/sana-20261023-164113/BUDGET-AUDIT.json",
+  "source_screening": "/workspace/output/orchestrated/sana-20261023-164113/SOURCE-SCREENING.json"
+}

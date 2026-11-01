@@ -1,0 +1,246 @@
+{
+  "schema_version": 2,
+  "status": "complete",
+  "component": "integrator",
+  "model_id": "wan21_t2v_1_3b_a100",
+  "outcome": "NO_VALID_FRONTIER",
+  "baseline": {
+    "path": "/workspace/output/orchestrated/wan21-20261024-164822/BASELINE.json",
+    "sha256": "b45d0970b9987d9bcea046aac7106406c4aa234f879452f4fc1725f7ef3ff963",
+    "total_s": 927.5730791091919,
+    "run_dir": "/workspace/runs/dense",
+    "timing_scope": "five_prompt_sum_synchronized_diffusers_wan_request_wall_clock_excluding_imports_model_load_internal_one_step_warmup_and_video_export",
+    "remeasured": false
+  },
+  "frontier_points": [],
+  "points": [],
+  "pareto_assessment": "No composed point survives the original lossy visual gate. Fusion plus EasyCache0.03 measured2.205285571060176x and fusion plus EasyCache0.02 measured1.7998200318011954x, but both have new doorway patch-texture artifacts. Their isolated component passes do not imply composition quality. Both permitted integration attempts were fully generated across five prompts, evaluated with original LPIPS, independently reviewed in all15 native panels and full-resolution ambiguity checks, and rejected. The independently accepted Kernel and Cache frontiers remain component evidence only. No unmeasured recipe, identity fallback or rejected composition is included.",
+  "components": [
+    {
+      "component": "kernel",
+      "worktree": "/workspace/output/experiments/wan21-kernel_aw-0001/worktree",
+      "delivery": "/workspace/output/experiments/wan21-kernel_aw-0001/worktree/DELIVERY.json",
+      "delivery_sha256": "73daeb5caa6aae9c051d0999e80cf2e6344bb7082530188d353b42b14c03fb53",
+      "executor_status": "complete",
+      "frontier_configs": [
+        "fastvideo_norm_v3"
+      ],
+      "independent_objective_receipt": "/workspace/output/experiments/wan21-kernel_aw-0001/worktree/DELIVERY-objective-verification.json",
+      "verification_request_key": "4723a7f8ade045796133182b356834b12e8d69046af039b966e64bbe7d2cebb0",
+      "independent_objective_ok": true,
+      "native_master_audit": "/workspace/output/orchestrated/wan21-20261024-164822/MASTER-AUDIT.json"
+    },
+    {
+      "component": "cache",
+      "worktree": "/workspace/output/experiments/wan21-cache_ca-0001/worktree",
+      "delivery": "/workspace/output/experiments/wan21-cache_ca-0001/worktree/DELIVERY.json",
+      "delivery_sha256": "ac99420b3bd51749b609008e7a9786fa72e63e536f34104f8761adceaa599df1",
+      "executor_status": "complete",
+      "frontier_configs": [
+        "tea_t005_v2",
+        "easy_t002",
+        "easy_t003",
+        "easy_t0026"
+      ],
+      "independent_objective_receipt": "/workspace/output/experiments/wan21-cache_ca-0001/worktree/DELIVERY-objective-verification.json",
+      "verification_request_key": "bdcf01c79b3bd261594a81c745acb6eb405bcaf00c0697a5828fbf8e4eb0781f",
+      "independent_objective_ok": true,
+      "native_master_audit": "/workspace/output/orchestrated/wan21-20261024-164822/MASTER-AUDIT.json"
+    }
+  ],
+  "evaluated_compositions": [
+    {
+      "config_id": "fusion_easy_t003",
+      "candidate": "master.fusion_easy_t003",
+      "run_dir": "/workspace/runs/fusion_easy_t003",
+      "lineage": {
+        "components": [
+          "kernel.fastvideo_norm_v3",
+          "cache.easy_t003"
+        ],
+        "order": [
+          "kernel.fastvideo_norm_v3",
+          "cache.easy_t003"
+        ]
+      },
+      "source_digest": "8b5b7ffd9d9b33767f1ea0419765be9865c0be0751c6c106d3f9bb53f36174f5",
+      "config_sha256": "c01dec5d8f9381a79d43a0d7af1ab09ef36ead913ee9c2cf658bd5849a2f8538",
+      "performance": {
+        "config_total_s": 420.6135891340673,
+        "baseline_total_s": 927.5730791091919,
+        "speedup": 2.205285571060176,
+        "timing_scope": "five_prompt_sum_synchronized_diffusers_wan_request_wall_clock_excluding_imports_model_load_internal_one_step_warmup_and_video_export",
+        "denoise_s": 386.442965708673,
+        "peak_memory_mib": 22520.77880859375,
+        "native_request_sum_s": 420.6135891340673
+      },
+      "quality": {
+        "mode": "quality_gated",
+        "lpips_mean": 0.08130140456920251,
+        "lpips_max": 0.16180168092250824,
+        "visual_overall": "fail",
+        "max_artifact_severity": "medium",
+        "new_artifacts": [
+          {
+            "category": "mosaic_blocking_patch_artifacts",
+            "severity": "medium",
+            "prompt_id": 2,
+            "frame_indices": [
+              0,
+              8,
+              16
+            ],
+            "evidence": "Foreground gray doorway surfaces in prompt2 develop coarse rectangular cloudy texture patches with horizontal seams at source frames0,8,16. Native panels show the local pattern during the pan, and aligned original-resolution frames0 and8 confirm it against the smoother baseline painted panels. These patches are not the baseline fine pink-wall wallpaper or a low stable framing difference."
+          },
+          {
+            "category": "patch_boundary_discontinuity",
+            "severity": "medium",
+            "prompt_id": 2,
+            "frame_indices": [
+              0,
+              8,
+              16
+            ],
+            "evidence": "Visible horizontal patch seams interrupt the foreground door texture while the baseline has smoother continuous surfaces; source frames0 and8 were checked at full resolution."
+          }
+        ],
+        "assessment": "/workspace/runs/fusion_easy_t003/assessment.json",
+        "native_visual_manifest": "/workspace/output/orchestrated/wan21-20261024-164822/visual/fusion_easy_t003.json"
+      },
+      "authenticity": "pass_independent_master",
+      "source_and_method_review": "pass_with_explicitly_approximate_cache",
+      "decision": "reject",
+      "rejection_reason": "New doorway patch-texture artifacts and horizontal discontinuities in prompt2, confirmed at full resolution against frozen baseline.",
+      "artifacts": {
+        "objective_master_audit": "/workspace/runs/fusion_easy_t003/objective-assessment.json",
+        "benchmark": "/workspace/runs/fusion_easy_t003/outputs/benchmark.json",
+        "quality": "/workspace/runs/fusion_easy_t003/outputs/quality.json",
+        "original_no_gemini_assessment": "/workspace/runs/fusion_easy_t003/assess_verdict.json",
+        "visual_verdict": "/workspace/runs/fusion_easy_t003/visual_verdict.json",
+        "gate": "/workspace/runs/fusion_easy_t003/gate.json",
+        "actual_video_paths": [
+          "/workspace/runs/fusion_easy_t003/outputs/videos/p0.mp4",
+          "/workspace/runs/fusion_easy_t003/outputs/videos/p1.mp4",
+          "/workspace/runs/fusion_easy_t003/outputs/videos/p2.mp4",
+          "/workspace/runs/fusion_easy_t003/outputs/videos/p3.mp4",
+          "/workspace/runs/fusion_easy_t003/outputs/videos/p4.mp4"
+        ]
+      }
+    },
+    {
+      "config_id": "fusion_easy_t002",
+      "candidate": "master.fusion_easy_t002",
+      "run_dir": "/workspace/runs/fusion_easy_t002",
+      "lineage": {
+        "components": [
+          "kernel.fastvideo_norm_v3",
+          "cache.easy_t002"
+        ],
+        "order": [
+          "kernel.fastvideo_norm_v3",
+          "cache.easy_t002"
+        ]
+      },
+      "source_digest": "8b5b7ffd9d9b33767f1ea0419765be9865c0be0751c6c106d3f9bb53f36174f5",
+      "config_sha256": "c260ca5858e922b11c1ff46480934b8af022a19404cbe4cadc48811c02528000",
+      "performance": {
+        "config_total_s": 515.3699051681906,
+        "baseline_total_s": 927.5730791091919,
+        "speedup": 1.7998200318011954,
+        "timing_scope": "five_prompt_sum_synchronized_diffusers_wan_request_wall_clock_excluding_imports_model_load_internal_one_step_warmup_and_video_export",
+        "denoise_s": 481.1259339693934,
+        "peak_memory_mib": 22520.77880859375,
+        "native_request_sum_s": 515.3699051681906
+      },
+      "quality": {
+        "mode": "quality_gated",
+        "lpips_mean": 0.07841312240522641,
+        "lpips_max": 0.16436615586280823,
+        "visual_overall": "fail",
+        "max_artifact_severity": "medium",
+        "new_artifacts": [
+          {
+            "category": "mosaic_blocking_patch_artifacts",
+            "severity": "medium",
+            "prompt_id": 2,
+            "frame_indices": [
+              0,
+              8,
+              16
+            ],
+            "evidence": "Foreground gray doorway surfaces in prompt2 develop coarse rectangular cloudy texture patches with horizontal seams at source frames0,8,16. Native panels show the local pattern during the pan, and aligned original-resolution frames0 and8 confirm it against the smoother baseline painted panels. These patches are not the baseline fine pink-wall wallpaper or a low stable framing difference."
+          },
+          {
+            "category": "patch_boundary_discontinuity",
+            "severity": "medium",
+            "prompt_id": 2,
+            "frame_indices": [
+              0,
+              8,
+              16
+            ],
+            "evidence": "Visible horizontal patch seams interrupt the foreground door texture while the baseline has smoother continuous surfaces; source frames0 and8 were checked at full resolution."
+          }
+        ],
+        "assessment": "/workspace/runs/fusion_easy_t002/assessment.json",
+        "native_visual_manifest": "/workspace/output/orchestrated/wan21-20261024-164822/visual/fusion_easy_t002.json"
+      },
+      "authenticity": "pass_independent_master",
+      "source_and_method_review": "pass_with_explicitly_approximate_cache",
+      "decision": "reject",
+      "rejection_reason": "New doorway patch-texture artifacts and horizontal discontinuities in prompt2, confirmed at full resolution against frozen baseline.",
+      "artifacts": {
+        "objective_master_audit": "/workspace/runs/fusion_easy_t002/objective-assessment.json",
+        "benchmark": "/workspace/runs/fusion_easy_t002/outputs/benchmark.json",
+        "quality": "/workspace/runs/fusion_easy_t002/outputs/quality.json",
+        "original_no_gemini_assessment": "/workspace/runs/fusion_easy_t002/assess_verdict.json",
+        "visual_verdict": "/workspace/runs/fusion_easy_t002/visual_verdict.json",
+        "gate": "/workspace/runs/fusion_easy_t002/gate.json",
+        "actual_video_paths": [
+          "/workspace/runs/fusion_easy_t002/outputs/videos/p0.mp4",
+          "/workspace/runs/fusion_easy_t002/outputs/videos/p1.mp4",
+          "/workspace/runs/fusion_easy_t002/outputs/videos/p2.mp4",
+          "/workspace/runs/fusion_easy_t002/outputs/videos/p3.mp4",
+          "/workspace/runs/fusion_easy_t002/outputs/videos/p4.mp4"
+        ]
+      }
+    }
+  ],
+  "master_audit": "/workspace/output/orchestrated/wan21-20261024-164822/MASTER-AUDIT.json",
+  "composition_source_manifest": "/workspace/output/orchestrated/wan21-20261024-164822/master/ACTIVE-COMPOSITION-SOURCE.json",
+  "probe_limitations": {
+    "receipt": "/workspace/runs/fusion_easy_t003/probe0.json",
+    "independent_interpretation": "/workspace/output/orchestrated/wan21-20261024-164822/master/COMPOSITION-PROBE-INTERPRETATION.json",
+    "status": "failed_diagnostic_reporter",
+    "note": "The source-bound tiny-model probe failed by subtracting a string counter label after its model assertions. It is not represented as a successful probe; later diagnostic reset assertions were unexecuted. Actual composed videos, structure/provenance, source reset argument and all original quality gates were completed.",
+    "causal_attribution": "The visible mixed-composition artifacts are observed failures; this does not infer that the mathematically exact Kernel component is incorrect."
+  },
+  "budgets": {
+    "kernel_attempts": 3,
+    "cache_attempts": 12,
+    "method_candidate_attempts": 15,
+    "master_integration_attempts": 2,
+    "integration_attempt_limit": 2,
+    "total_candidate_attempts_including_integration": 17,
+    "shared_attempt_limit": 20,
+    "new_integration_attempts_available": 0
+  },
+  "completion_scope": "Both bounded real integrations and all applicable source, timing, provenance, LPIPS and native visual checks are complete. Result is NO_VALID_FRONTIER. The original final objective verifier reports no_frontier_points; retained-method ledger admission remains pending native final audit.",
+  "master_audit_sha256": "fac3b743995451f2e77540b26256d74b938c825a80aaa2e2919e0a2de9fc269c",
+  "final_native_verification": {
+    "receipt": "/workspace/output/orchestrated/wan21-20261024-164822/INTEGRATED-DELIVERY-objective-verification.json",
+    "objective_ok": false,
+    "issues": [
+      "no_frontier_points",
+      "native_verifier_process_exit_1"
+    ],
+    "interpretation": "The original native objective verifier rejects an empty frontier. The final call was performed and its negative result is preserved; no composed optimization is claimed to pass. Both actual measured compositions were independently rejected by their required visual gates."
+  },
+  "outcome_admission": {
+    "receipt": "/workspace/output/orchestrated/wan21-20261024-164822/master/OUTCOME-ADMISSION.json",
+    "retained_component_outcomes": "pending_native_final_audit",
+    "admitted_rejected_method_outcomes": 10,
+    "master_compositions": "The method admission API excludes composed Master registrations; terminal native gate receipts and integration verification are preserved.",
+    "limitation": "The native API reports independent final audit not complete; no claim of retained-method admission or successful automated final acceptance is made."
+  }
+}
